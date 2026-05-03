@@ -57,7 +57,7 @@ const config: Configuration = {
             template: path.resolve(__dirname, "public", "index.html"),
         }),
         new DefinePlugin({
-            "process.env.SERVER_URL": JSON.stringify(envConfig.apiServerURL),
+            "process.env.API_SERVER_URL": JSON.stringify(envConfig.apiServerURL),
             "process.env.BUILD_ENV": JSON.stringify(envConfig.buildEnv),
         }),
         new ProgressPlugin(),
