@@ -14,6 +14,11 @@ public class Oauth2UserInfo {
         this.platform = platform;
     }
 
+    public Oauth2UserInfo(String platform, String platformId) {
+        this.platform = platform;
+        this.platformId = platformId;
+    }
+
     public void sync(OAuth2User oAuth2User) throws Exception {
         Oauth2Builder builder = switch (this.platform) {
             case "google" -> new Oauth2GoogleBuilder();
