@@ -1,5 +1,6 @@
 package io.github.hswy.calendar.global.security.oauth2.handler;
 
+import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 import io.github.hswy.calendar.global.security.oauth2.model.CustomUserDetails;
 import io.github.hswy.calendar.global.security.oauth2.model.Oauth2UserInfo;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,8 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    private FrontendProperties frontendProperties;
 //    private final TempTokenStore tempTokenStore.
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -26,7 +29,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String platformId = info.getPlatformId();
         // [TODO] platformId check.
 
-        String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3001/login-success")
+        String targetUrl = UriComponentsBuilder.fromUriString(frontendProperties.getOauth2SuccessUrl())
                 .queryParam("code", "123")
                 .build().toUriString();
 

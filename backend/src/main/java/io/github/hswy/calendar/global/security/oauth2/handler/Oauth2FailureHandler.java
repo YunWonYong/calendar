@@ -1,5 +1,6 @@
 package io.github.hswy.calendar.global.security.oauth2.handler;
 
+import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,13 @@ import java.nio.charset.StandardCharsets;
 @Component
 @RequiredArgsConstructor
 public class Oauth2FailureHandler extends SimpleUrlAuthenticationFailureHandler {
+    private FrontendProperties frontendProperties;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
 
         String errorMessage = URLEncoder.encode(exception.getLocalizedMessage(), StandardCharsets.UTF_8);
-        String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3001/login")
+        String targetUrl = UriComponentsBuilder.fromUriString(frontendProperties.getOauth2FailureUrl())
                 .queryParam("error", errorMessage)
                 .build().toUriString();
 
