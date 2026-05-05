@@ -1,0 +1,7 @@
+front-end:
+    base-url: "http://localhost:3001"
+    paths:
+        oauth2:
+            success: "/"
+            failure: "/login"
+
