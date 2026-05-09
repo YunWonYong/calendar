@@ -24,8 +24,12 @@ const config: Configuration = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                use: "ts-loader",
                 exclude: /node_modules/,
+                loader: 'esbuild-loader',
+                options: {
+                    loader: 'tsx',
+                    target: 'es2015',
+                },
             },
             {
                 test: /\.css$/,
@@ -70,6 +74,7 @@ if (envConfig.webpackBuildMode === "development") {
         port: envConfig.devServerPort,
         hot: true,
         historyApiFallback: true,
+        open: true,
     };
 } else if (envConfig.webpackBuildMode === "production") {
     config.optimization = {
