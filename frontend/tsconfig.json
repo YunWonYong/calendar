@@ -19,7 +19,11 @@
             "@/*": ["./src/*"]
         },
     },
-    "include": ["src", "webpack.config.ts"],
+    "include": [
+        "src", 
+        "src/declares/**/*.d.ts",
+        "webpack.config.ts",
+    ],
     "ts-node": {
         "compilerOptions": {
             "module": "CommonJS"

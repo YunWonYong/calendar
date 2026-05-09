@@ -1,4 +1,4 @@
-import LoginPage from "@/login";
+import LoginPage from "@/login/components";
 
 export const LoginRoutes = {
     path: "/login",
