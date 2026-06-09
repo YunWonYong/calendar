@@ -1,5 +1,6 @@
 package io.github.hswy.calendar.global.security.oauth2.handler;
 
+import io.github.hswy.calendar.global.common.enums.Platform;
 import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 import io.github.hswy.calendar.global.security.oauth2.model.CustomUserDetails;
 import io.github.hswy.calendar.global.security.oauth2.model.Oauth2UserInfo;
@@ -29,29 +30,27 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         Oauth2UserInfo info = userDetails.getUserInfo();
 
-        String platform = info.getPlatform();
+        Platform platform = info.getPlatform();
         String platformId = info.getPlatformId();
         // [TODO] check platform, platformId mapping user.
 
-        UriComponents uri = null;
+        UriComponentsBuilder uriBuilder = null;
         try {
             String authCode = authCodeService.generateAuthCode(info);
-            uri = UriComponentsBuilder
+            uriBuilder = UriComponentsBuilder
                 .fromUriString(
                     frontendProperties.getOauth2SuccessUrl()
                 )
-                .queryParam("code", authCode)
-                .build();
+                .queryParam("code", authCode);
         } catch(Exception e) {
             // [TODO] error logging
-            uri = UriComponentsBuilder
+            uriBuilder = UriComponentsBuilder
                 .fromUriString(
                         frontendProperties.getOauth2FailureUrl()
                 )
-                .queryParam("error", "server_error")
-                .build();
+                .queryParam("error", "server_error");
         }
 
-        getRedirectStrategy().sendRedirect(request, response, uri.toString());
+        getRedirectStrategy().sendRedirect(request, response, uriBuilder.build().toString());
     }
 }
