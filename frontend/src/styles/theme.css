@@ -1,0 +1,9 @@
+#theme--context {
+    --bg-color: #f5f5f5;
+    --text-color: black;
+}
+
+#theme--context[data-theme="dark"] {
+    --bg-color: #111;
+    --text-color: white;
+}

@@ -24,19 +24,51 @@ const config: Configuration = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                use: "ts-loader",
                 exclude: /node_modules/,
+                loader: 'esbuild-loader',
+                options: {
+                    loader: 'tsx',
+                    target: 'es2015',
+                },
             },
             {
                 test: /\.css$/,
-                use: [isProduction? MiniCssExtractPlugin.loader: "style-loader", "css-loader"],
+                exclude: /\.module\.css$/,
+                use: [
+                    isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+                    "css-loader"
+                ],
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: "asset/resource",
+                test: /\.module\.css$/,
+                use: [
+                    isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+                    {
+                        loader: "css-loader",
+                        options: {
+                            importLoaders: 1,
+                            modules: {
+                                namedExport: false,
+                                exportLocalsConvention: "camelCase",
+                                localIdentName: isProduction
+                                    ? "[hash:base64:5]"
+                                    : "[path][name]__[local]--[hash:base64:5]",
+                            },
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|webp)$/i,
+                type: "asset",
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024,
+                    },
+                },
                 generator: {
-                    filename: "assets/[hash][ext][query]"
-                }
+                    filename: "assets/images/[name].[hash:8][ext][query]",
+                },
             },
         ],
     },
@@ -70,6 +102,7 @@ if (envConfig.webpackBuildMode === "development") {
         port: envConfig.devServerPort,
         hot: true,
         historyApiFallback: true,
+        open: true,
     };
 } else if (envConfig.webpackBuildMode === "production") {
     config.optimization = {
