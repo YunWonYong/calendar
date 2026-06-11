@@ -4,7 +4,7 @@ import App from "@/App";
 import { initConfig } from "@/config";
 import ErrorPage from "./error";
 
-import "./global.css";
+import "./styles/global.css";
 
 const container = document.getElementById("root");
 if (!container) {
