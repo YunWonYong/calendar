@@ -2,22 +2,24 @@ import { FC } from "react";
 
 import config from "@/config";
 
+import styles from "./LoginButton.module.css";
+
+import type { AuthProvider } from "@/domains/auth/authTypes";
 
 type LoginButtonProps = { 
-    loginType: "google" | "kakao" | "naver";
+    authProvider: AuthProvider;
     title?: string;
-    styles: Record<string, string>;
 };
 
-export const LoginButton: FC<LoginButtonProps> = ({ loginType, title, styles }) => {
+export const LoginButton: FC<LoginButtonProps> = ({ authProvider, title }) => {
     return (
         <a
-            href={ `${config.apiServerURL}/oauth2/authorization/${loginType}` }
+            href={ `${config.apiServerURL}/oauth2/authorization/${authProvider}` }
             className={ styles.loginButtonLink }
         >
             <span
                 className={ styles.loginButtonIcon }
-                data-login-type={ loginType }
+                data-auth-provider={ authProvider }
             >
             </span>
             <div

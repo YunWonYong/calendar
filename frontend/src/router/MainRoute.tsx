@@ -1,4 +1,4 @@
-import MainLayout from "@/layout/main";
+import MainLayout from "@/layout/MainLayout";
 
 export const MainRouters = {
     path: "/",

@@ -1,8 +1,11 @@
-import { LoginButton } from "./LoginButton";
-
 import logoImage from "@/assets/login/logo.png";
 
-import styles from "../css/login.module.css";
+import styles from "./LoginPage.module.css";
+
+import { AUTH_PROVIDERS } from "@/domains/auth/authConstants";
+
+import { LoginButton } from "./components/LoginButton";
+
 
 const LoginPage = () => {
     return (
@@ -35,21 +38,16 @@ const LoginPage = () => {
                 <div
                     className={ styles.loginButtonBox }
                 >
-                    <LoginButton
-                        loginType="google"
-                        title="Google Login"
-                        styles={ styles }
-                    />
-                    <LoginButton
-                        loginType="kakao"
-                        title="Kakao Login"
-                        styles={ styles }
-                    />
-                    <LoginButton
-                        loginType="naver"
-                        title="Naver Login"
-                        styles={ styles }
-                    />
+                    {
+                        AUTH_PROVIDERS.map(authProvider => {
+                            return (
+                                <LoginButton
+                                    key={ `login-button-${ authProvider }` }
+                                    authProvider={ authProvider }
+                                />
+                            );
+                        })
+                    }
                 </div>
             </article>
         </section>
