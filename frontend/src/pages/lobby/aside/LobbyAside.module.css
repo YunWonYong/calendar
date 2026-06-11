@@ -1,0 +1,38 @@
+.nav {
+    width: 320px;
+    min-height: 100vh;
+    display: flex;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: width 0.2s ease;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.nav[data-display-type="collapsed"] {
+    width: 80px;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.collapsed-wrap {
+    width: 100%;
+    text-align: right;
+}
+
+.collapsed-btn {
+    border: none;
+    background: none;
+    padding: 0;
+
+    box-sizing: border-box;
+    cursor: pointer;
+
+    font-weight: 900;
+    font-size: 1.3rem;
+}
