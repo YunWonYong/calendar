@@ -1,9 +1,11 @@
 #theme--context {
-    --bg-color: #f5f5f5;
-    --text-color: black;
+    --bg-color: var(--white-color);
+    --border-color: var(--black-color);
+    --text-color: var(--black-color);
 }
 
 #theme--context[data-theme="dark"] {
-    --bg-color: #111;
-    --text-color: white;
+    --bg-color: var(--black-color);
+    --border-color: var(--white-color);
+    --text-color: var(--white-color);
 }

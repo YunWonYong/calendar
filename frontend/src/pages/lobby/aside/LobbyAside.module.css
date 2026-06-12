@@ -1,12 +1,18 @@
 .nav {
-    width: 320px;
-    min-height: 100vh;
-    display: flex;
+    width: 220px;
+    min-height: 100dvh;
+    
     background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: width 0.2s ease;
+    display: flex;
     flex-direction: column;
+    
+    border-right: 2px solid var(--border-color);
+    border-radius: 5px;    
+
+    transition: width 0.2s ease;
+    color: var(--text-color);
     overflow: hidden;
+    
 }
 
 .nav[data-display-type="collapsed"] {
@@ -15,9 +21,12 @@
 
 .header {
     width: 100%;
+    min-height: 180px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+
+    border-bottom: 2px solid var(--border-color);
 }
 
 .collapsed-wrap {
@@ -28,11 +37,22 @@
 .collapsed-btn {
     border: none;
     background: none;
-    padding: 0;
+    padding: 5px;
 
     box-sizing: border-box;
     cursor: pointer;
 
+    color: var(--text-color);
     font-weight: 900;
     font-size: 1.3rem;
+}
+
+.group-list {
+    flex: 1;
+}
+
+.footer {
+    min-height: 90px;
+    box-sizing: border-box;
+    border-top: 2px solid var(--border-color);
 }

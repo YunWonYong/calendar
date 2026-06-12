@@ -1,3 +1,5 @@
+import LobbyAsideThemeToggleButton from "./LobbyAsideThemeToggleButton";
+
 import styles from "./LobbyAside.module.css";
 
 import type { LobbyAsideProps } from "../LobbyTypes";
@@ -28,17 +30,23 @@ const LobbyAside = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
                     </button>
                 </div>
                 <div>
-                    테마 변경,
-                </div>
-                <div>
                     사용자 프로필
                 </div>
             </header>
-            <ul>
+            <ul
+                className={ styles.groupList }
+            >
                 <li>
                     group item
                 </li>
             </ul>
+            <footer
+                className={ styles.footer }
+            >
+                <LobbyAsideThemeToggleButton 
+                    asideState={ asideState }
+                />
+            </footer>
         </nav>
     );
 };
