@@ -1,5 +1,5 @@
 import useTheme from "@/hooks/theme/UseTheme";
-import { handleTrackedClick } from "@/analytics/button";
+import { trackClickAndPreventDefault } from "@/analytics/button";
 
 import styles from "./LobbyAsideThemeToggleButton.module.css";
 import type { LobbyAsideState } from "../LobbyTypes";
@@ -10,7 +10,7 @@ const LobbyAsideThemeToggleButton = ({ asideState }: { asideState: LobbyAsideSta
         <div
             className={ styles.wrap }
             onClick={(event) => {
-                handleTrackedClick(
+                trackClickAndPreventDefault(
                     event,
                     "LOBBY-ASIDE-THEME-TOGGLE",
                     toggleTheme,
