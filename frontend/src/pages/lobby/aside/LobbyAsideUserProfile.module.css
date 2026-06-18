@@ -1,0 +1,34 @@
+.wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-box {
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+}
+
+.logo {
+    vertical-align: sub;
+    width: 80px;
+    height: 80px;
+}
+
+.logo-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.button-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

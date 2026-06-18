@@ -1,7 +1,7 @@
 import LobbyAsideThemeToggleButton from "./LobbyAsideThemeToggleButton";
+import LobbyAsideUserProfile from "./LobbyAsideUserProfile";
 
 import styles from "./LobbyAside.module.css";
-
 import type { LobbyAsideProps } from "../LobbyTypes";
 
 const LobbyAside = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
@@ -29,9 +29,9 @@ const LobbyAside = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
                         }
                     </button>
                 </div>
-                <div>
-                    사용자 프로필
-                </div>
+                <LobbyAsideUserProfile 
+                    asideState={ asideState }
+                />
             </header>
             <ul
                 className={ styles.groupList }
