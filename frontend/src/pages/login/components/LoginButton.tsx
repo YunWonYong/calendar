@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import config from "@/config";
+import { getLoginPath } from "@/server/api";
 
 import styles from "./LoginButton.module.css";
 
@@ -14,7 +14,7 @@ type LoginButtonProps = {
 export const LoginButton: FC<LoginButtonProps> = ({ authProvider, title }) => {
     return (
         <a
-            href={ `${config.apiServerURL}/oauth2/authorization/${authProvider}` }
+            href={ getLoginPath(authProvider) }
             className={ styles.loginButtonLink }
         >
             <span
