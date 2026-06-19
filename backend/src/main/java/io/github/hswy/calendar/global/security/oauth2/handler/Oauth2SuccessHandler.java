@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         Platform platform = info.getPlatform();
         String platformId = info.getPlatformId();
-        // [TODO] check platform, platformId mapping user.
+        // TODO check platform, platformId mapping user.
 
         UriComponentsBuilder uriBuilder = null;
         try {
@@ -43,7 +42,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 )
                 .queryParam("code", authCode);
         } catch(Exception e) {
-            // [TODO] error logging
+            // TODO error logging
             uriBuilder = UriComponentsBuilder
                 .fromUriString(
                         frontendProperties.getOauth2FailureUrl()

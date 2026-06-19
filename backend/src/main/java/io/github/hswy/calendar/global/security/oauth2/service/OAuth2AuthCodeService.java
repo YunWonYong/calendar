@@ -33,7 +33,7 @@ public class OAuth2AuthCodeService {
 
         List<Object> results = redisTemplate.execute(new SessionCallback<List<Object>>() {
             @Override
-            @SuppressWarnings("unchecked") // 제네릭 캐스팅 경고 방지
+            @SuppressWarnings({ "unchecked", "rawtypes" }) // 제네릭 캐스팅 경고 방지
             public List<Object> execute(@NonNull RedisOperations operations) {
                 operations.multi();
                 operations.opsForValue().set(platformRedisKey, authCode, expireSeconds);
@@ -58,7 +58,7 @@ public class OAuth2AuthCodeService {
 
         redisTemplate.execute(new SessionCallback<List<Object>>() {
             @Override
-            @SuppressWarnings("unchecked") // 제네릭 캐스팅 경고 방지
+            @SuppressWarnings({ "unchecked", "rawtypes" }) // 제네릭 캐스팅 경고 방지
             public List<Object> execute(@NonNull RedisOperations operations) {
                 operations.multi();
                 operations.delete(getAuthCodeRedisKey(authCode));
@@ -84,7 +84,7 @@ public class OAuth2AuthCodeService {
             Platform platform = Platform.valueOf(values[0]);
             return new Oauth2UserInfo(platform, values[1]);
         } catch (Exception e) {
-            // [TODO] error logging
+            // TODO error logging
             throw new IllegalArgumentException("Invalid platform: " + values[0]);
         }
     }

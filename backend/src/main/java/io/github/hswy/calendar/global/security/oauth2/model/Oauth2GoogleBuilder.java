@@ -13,7 +13,7 @@ public class Oauth2GoogleBuilder implements Oauth2Builder {
 
         userInfo.platformId = sub;
         userInfo.email = email;
-        // [TODO] 추후 nickname 설정.
+        // TODO 추후 nickname 설정.
         userInfo.nickname = "qwdbnoqwdnoqwd";
     }
 }
