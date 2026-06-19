@@ -6,7 +6,6 @@
             "name": "calendar backend (local)",
             "request": "launch",
             "mainClass": "io.github.hswy.calendar.CalendarApplication",
-            "projectName": "backend",
             "preLaunchTask": "start docker services"
         }
     ]
