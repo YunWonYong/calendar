@@ -10,6 +10,11 @@ services:
             - "5432:5432"
         volumes:
             - "../storage/postgres:/var/lib/postgresql/data"
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U calendar -d hswy"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
     redis:
         image: redis:7
         container_name: local-redis
@@ -18,3 +23,8 @@ services:
         volumes:
             - "../storage/redis:/data"
         command: redis-server --appendonly yes
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
