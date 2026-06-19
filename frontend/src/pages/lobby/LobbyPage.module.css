@@ -1,0 +1,12 @@
+.lobby-wrap {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    gap: 1rem;
+}
+
+.lobby-section {
+    flex: 1;
+}
