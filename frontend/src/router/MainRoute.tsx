@@ -1,11 +1,16 @@
-import MainLayout from "@/layout/MainLayout";
+import { RouteObject } from "react-router-dom";
 
-export const MainRouters = {
+import MainLayout from "@/layout/MainLayout";
+import LobbyPage from "@/pages/lobby/LobbyPage";
+
+export const MainRouters: RouteObject = {
     path: "/",
     element: <MainLayout />,
     children: [
         {
             index: true,
+            element: <LobbyPage />,
         },
     ],
+    
 };

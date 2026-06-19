@@ -1,6 +1,6 @@
 # Front-end
 ## 🛠️ 기술 스택 (Tech Spec)
-- Core: React 18
+- Core: React 19
 - Language: TypeScript (Strict)
 - Build Tool: Webpack 5
 - Routing: React Router v6 (createBrowserRouter)
