@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
+        "dev-start": "bash ./scripts/dev-start.sh",
         "start:local": "cross-env BUILD_ENV=local webpack serve --config webpack.config.ts",
         "build:live": "cross-env BUILD_ENV=live webpack --config webpack.config.ts"
     },
@@ -10,6 +11,10 @@
     "author": "",
     "license": "ISC",
     "description": "",
+    "engines": {
+        "node": "24.17.0",
+        "npm": ">=11.13.0"
+    },
     "dependencies": {
         "react": "^19.2.5",
         "react-dom": "^19.2.5",

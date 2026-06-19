@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "calendar frontend (local)",
+            "request": "launch",
+            "url": "http://localhost:3001",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "frontend dev",
+            "sourceMaps": true 
+        }
+    ]
+}

@@ -98,11 +98,12 @@ const config: Configuration = {
 };
 
 if (envConfig.webpackBuildMode === "development") {
+    config.devtool = "eval-source-map";
     config.devServer = {
         port: envConfig.devServerPort,
         hot: true,
         historyApiFallback: true,
-        open: true,
+        // open: true,
     };
 } else if (envConfig.webpackBuildMode === "production") {
     config.optimization = {
