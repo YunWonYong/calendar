@@ -1,10 +1,11 @@
-import logoImage from "@/assets/login/logo.png";
+import logoImage from "@/assets/logo/logo.png";
+
+import Link from "@/components/link";
+import { AUTH_PROVIDERS } from "@/domains/auth/authConstants";
+import { LoginButton } from "./components/LoginButton";
+
 
 import styles from "./LoginPage.module.css";
-
-import { AUTH_PROVIDERS } from "@/domains/auth/authConstants";
-
-import { LoginButton } from "./components/LoginButton";
 
 
 const LoginPage = () => {
@@ -19,15 +20,15 @@ const LoginPage = () => {
                     className={ styles.loginHeader }
                 >
                     <div>
-                        <a
-                            href="/"
+                        <Link
+                            to="/"
                         >
                             <img 
                                 className={ styles.loginLogo }
                                 src={ logoImage }
-                                alt="login page logo image"
+                                alt="아워캘 로고"
                             />
-                        </a>
+                        </Link>
                     </div>
                     <h1
                         className={ styles.loginHeaderText }

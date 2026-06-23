@@ -7,7 +7,7 @@ import ThemeContext from "./ThemeContext";
 
 import type { ThemeType } from "@/domains/theme/themeTypes";
 
-export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
+const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [ theme, setTheme ] = useState<ThemeType>(() => {
         const savedTheme = getThemeFromLocalStorage();
         if (savedTheme !== null) {
@@ -46,3 +46,5 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
         </ThemeContext.Provider>
     );
 };
+
+export default ThemeProvider;

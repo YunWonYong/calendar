@@ -1,4 +1,4 @@
-import { AuthProvider } from "./authTypes";
+import type { AuthProvider } from "./authTypes";
 
 export const AUTH_PROVIDERS: AuthProvider[] = [
     "google",
