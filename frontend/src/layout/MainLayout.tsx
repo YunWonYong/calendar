@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 
+import AuthProvider from "@/contexts/auth/AuthProvider";
+
 const MainLayout = () => {
     return (
-        <section>
-            <article>
-                <Outlet />
-            </article>
-        </section>
+        <AuthProvider>
+            <Outlet />
+        </AuthProvider>
     );
 };
 
