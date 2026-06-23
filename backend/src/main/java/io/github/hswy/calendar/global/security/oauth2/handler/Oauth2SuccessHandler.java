@@ -41,7 +41,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .fromUriString(
                     frontendProperties.getOauth2SuccessUrl()
                 )
-                .queryParam("code", authCode);
+                .queryParam("authCode", authCode);
         } catch(Exception e) {
             // [TODO] error logging
             uriBuilder = UriComponentsBuilder
