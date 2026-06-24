@@ -13,7 +13,7 @@ import java.util.Map;
 @Getter
 @RequiredArgsConstructor
 public class CustomUserDetails implements OAuth2User {
-    private final Oauth2UserInfo userInfo; // 우리가 채운 데이터 바구니
+    private final OAuth2UserInfo userInfo; // 우리가 채운 데이터 바구니
     private final Map<String, Object> attributes;
 
     @Override

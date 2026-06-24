@@ -6,8 +6,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;
 
-public interface Oauth2Builder extends MapCaster {
-    void build(Oauth2UserInfo userInfo, OAuth2User oAuth2User) throws Exception;
+public interface OAuth2Builder extends MapCaster {
+    void build(OAuth2UserInfo userInfo, OAuth2User oAuth2User) throws Exception;
 
     default Map<String, Object> getAsMap(Object obj, Platform platform, String key) throws Exception {
         try {

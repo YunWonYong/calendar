@@ -4,17 +4,16 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;
 
-public class Oauth2NaverBuilder implements Oauth2Builder {
+public class OAuth2NaverBuilder implements OAuth2Builder {
 
     @Override
-    public void build(Oauth2UserInfo userInfo, OAuth2User oAuth2User) throws Exception {
+    public void build(OAuth2UserInfo userInfo, OAuth2User oAuth2User) throws Exception {
         System.out.println(oAuth2User);
         Map<String, Object> response = getAsMap(
             oAuth2User.getAttribute("response"),
             userInfo.platform,
             "response"
         );
-        System.out.println(response);
 
         String platformId = null;
         Object id = response.get("id");
@@ -39,11 +38,19 @@ public class Oauth2NaverBuilder implements Oauth2Builder {
         String name = (String) response.get("name");
 
 
-        // TODO Naver login optional datas
+        // TODO Naver login optional data
         Object phoneNumberObj = response.get("mobile");
+        if (phoneNumberObj != null) {
+            userInfo.tel = String.valueOf(phoneNumberObj);
+        }
+
+        Object profileImageObj = response.get("profile_image");
+        if (profileImageObj != null) {
+            userInfo.profileImageUrl = String.valueOf(profileImageObj);
+        }
+
         Object ageObj = response.get("age");
         Object genderObj = response.get("gender");
-        Object profileImageObj = response.get("profile_image");
         Object birthdayObj = response.get("birthday");
         Object birthyearObj = response.get("birthyear");
         System.out.println("===Naver Login===");
