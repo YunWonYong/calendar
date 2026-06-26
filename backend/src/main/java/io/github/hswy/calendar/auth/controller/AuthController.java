@@ -20,6 +20,6 @@ public class AuthController {
 
     @PostMapping
     public ApiResponseBody<LoginResponseBody> postAuth(@RequestBody LoginRequestBody requestBody) {
-        return ApiResponseBody.success(authService.login(requestBody.authCode()));
+        return ApiResponseBody.success(authService.login(requestBody));
     }
 }

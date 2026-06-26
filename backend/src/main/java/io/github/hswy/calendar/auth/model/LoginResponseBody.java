@@ -9,4 +9,5 @@ import lombok.Getter;
 @Builder( access = AccessLevel.PUBLIC )
 public class LoginResponseBody {
     private final UserInfoDTO user;
+    private final AccessTokenInfoDTO accessToken;
 }
