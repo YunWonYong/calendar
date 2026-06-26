@@ -27,8 +27,12 @@ front-end:
     base-url: "http://localhost:3001"
     paths:
         oauth2:
-            success: "/"
-            failure: "/login"
+            success-path: "/"
+            failure-path: "/login"
+    access-token:
+        jwt-secret: vlzkcbWkdWkdaos!!07AEDWOPakw@!@!
+        jwt-expired-seconds: 900
+        refresh-expired-seconds: 999999
 logging:
     level:
         org.flywaydb: DEBUG

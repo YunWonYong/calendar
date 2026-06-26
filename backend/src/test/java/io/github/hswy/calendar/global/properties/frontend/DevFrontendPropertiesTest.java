@@ -20,4 +20,10 @@ public class DevFrontendPropertiesTest extends FrontendPropertiesTest {
     protected void oauth2UrlsTest() {
         super.oauth2UrlsTest("http://localhost:3000/", "http://localhost:3000/login");
     }
+    
+    @Override
+    @Test
+    protected void accessTokenTest() {
+        super.accessTokenTest(false);
+    }
 }

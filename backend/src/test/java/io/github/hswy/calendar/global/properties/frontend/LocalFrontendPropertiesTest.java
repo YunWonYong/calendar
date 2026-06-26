@@ -20,4 +20,10 @@ public class LocalFrontendPropertiesTest extends FrontendPropertiesTest {
     protected void oauth2UrlsTest() {
         super.oauth2UrlsTest("http://localhost:3001/", "http://localhost:3001/login");
     }
+    
+    @Override
+    @Test
+    protected void accessTokenTest() {
+        super.accessTokenTest(false);
+    }
 }

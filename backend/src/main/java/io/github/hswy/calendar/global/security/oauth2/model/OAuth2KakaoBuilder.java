@@ -4,10 +4,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;
 
-public class Oauth2KakaoBuilder implements Oauth2Builder {
+public class OAuth2KakaoBuilder implements OAuth2Builder {
 
     @Override
-    public void build(Oauth2UserInfo userInfo, OAuth2User oAuth2User) throws Exception {
+    public void build(OAuth2UserInfo userInfo, OAuth2User oAuth2User) throws Exception {
         String platformId = null;
         Object id = oAuth2User.getAttribute("id");
         if (id instanceof Number) {
