@@ -30,7 +30,7 @@ front-end:
             success-path: "/"
             failure-path: "/login"
     access-token:
-        jwt-secret: vlzkcbWkdWkdaos!!07
+        jwt-secret: vlzkcbWkdWkdaos!!07AEDWOPakw@!@!
         jwt-expired-seconds: 900
         refresh-expired-seconds: 999999
 logging:

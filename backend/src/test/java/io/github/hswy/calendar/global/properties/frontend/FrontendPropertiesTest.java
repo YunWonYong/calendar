@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.nio.charset.StandardCharsets;
+
 import org.junit.jupiter.api.Test;
 
 @SpringBootTest(
@@ -45,7 +47,11 @@ public abstract class FrontendPropertiesTest {
         AccessTokenProperties accessTokenProperties = frontendProperties.getAccessToken();
         assertThat(accessTokenProperties).isNotNull();
 
-        assertThat(accessTokenProperties.getJwtSecret()).isNotEmpty();
+        String secret = accessTokenProperties.getJwtSecret();
+        assertThat(secret).isNotEmpty();
+        byte[] bytes = secret.getBytes(StandardCharsets.UTF_8);
+        assertThat(bytes.length).isGreaterThanOrEqualTo(32);
+        
         assertThat(accessTokenProperties.getJwtExpiredSeconds()).isNotZero();
         assertThat(accessTokenProperties.getRefreshExpiredSeconds()).isNotZero();
     }
