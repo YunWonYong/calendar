@@ -2,6 +2,7 @@ package io.github.hswy.calendar.users.service;
 
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,10 @@ public class UserProfileService {
         return userProfileOpt.orElseThrow(() -> new UserProfileNotFoundException(userId));
     }
 
+    @CachePut(
+        value = "user_profiles", 
+        key = "#user.userId"
+    )
     public UserProfileEntity createNewUserProfile(UserEntity user, OAuth2UserInfo info) {
         return userProfileRepository.save(
             makeUserProfileEntity(user, info)
