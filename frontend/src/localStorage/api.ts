@@ -1,4 +1,4 @@
-import { THEME_KEY_LOCAL_STORAGE } from "./constants";
+import { DEIVCE_ID_KEY_LOCAL_STORAGE, THEME_KEY_LOCAL_STORAGE } from "./constants";
 
 import type { ThemeType } from "@/domains/theme/themeTypes";
 import type { LocalStorageKeyType } from "./types";
@@ -13,6 +13,14 @@ export const getThemeFromLocalStorage = () => {
         return value;
     }
     return null;
+};
+
+export const setDeviceIdFromLocalStorage = (deviceId: string) => {
+    return save<string>(DEIVCE_ID_KEY_LOCAL_STORAGE, deviceId);
+};
+
+export const getDeviceIdFromLocalStorage = () => {
+    return get<string>(DEIVCE_ID_KEY_LOCAL_STORAGE);
 };
 
 const save = <T extends string, >(key: LocalStorageKeyType, value: T) => {
