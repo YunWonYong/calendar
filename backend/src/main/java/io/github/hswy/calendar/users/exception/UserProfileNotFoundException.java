@@ -1,7 +1,7 @@
 package io.github.hswy.calendar.users.exception;
 
 import io.github.hswy.calendar.global.common.enums.Platform;
-import io.github.hswy.calendar.global.exception.ApplicationException;
+import io.github.hswy.calendar.global.exception.model.ApplicationException;
 
 public class UserProfileNotFoundException extends ApplicationException {
     public UserProfileNotFoundException(Long userId) {

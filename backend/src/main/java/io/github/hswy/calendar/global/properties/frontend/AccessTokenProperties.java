@@ -13,4 +13,5 @@ public class AccessTokenProperties {
     private String jwtSecret;
     private int jwtExpiredSeconds;
     private int refreshExpiredSeconds;
+    private int refreshRotationSeconds;
 }

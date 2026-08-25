@@ -12,14 +12,19 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.auth.exception.RefreshTokenGenerateException;
+import io.github.hswy.calendar.auth.exception.RefreshTokenExpiredException;
+import io.github.hswy.calendar.auth.exception.RefreshTokenMismatchException;
+import io.github.hswy.calendar.auth.exception.RefreshTokenNotFoundException;
 import io.github.hswy.calendar.auth.exception.RefreshTokenRotateException;
-import io.github.hswy.calendar.global.exception.ApplicationException;
+import io.github.hswy.calendar.auth.model.RefreshTokenInfoDTO;
+import io.github.hswy.calendar.global.exception.model.ApplicationException;
 import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 
 @Component
 public class RefreshTokenProvider {
     private final StringRedisTemplate redisTemplate;
     private final Duration expireSeconds;
+    private final long rotationSeconds;
     private final String REFRESH_TOKEN_REDIS_KEY_PREFIX = "REFRESH:TOKEN:";
     private final DefaultRedisScript<Long> rotateLuaScript;
     private final DefaultRedisScript<Long> deleteAllLuaScript;
@@ -30,6 +35,11 @@ public class RefreshTokenProvider {
             frontendProperties.getAccessToken()
                 .getRefreshExpiredSeconds()
         );
+
+        this.rotationSeconds = Duration.ofSeconds(
+            frontendProperties.getAccessToken()
+                .getRefreshRotationSeconds()
+        ).toSeconds();
 
         this.rotateLuaScript = new DefaultRedisScript<>(
             getRotateLuaScript(), 
@@ -79,24 +89,41 @@ public class RefreshTokenProvider {
         }
     }
 
-    public boolean isValid(String refreshToken, Long userId, String deviceId) {
+    public RefreshTokenInfoDTO getRefreshTokenInfo(Long userId, String refreshToken, String deviceId) {
         String refreshTokenRedisKey = getRefreshRedisKey(refreshToken);
-        Object userIdObj = redisTemplate.opsForValue().get(refreshTokenRedisKey);
-        if (userIdObj == null) {
-            return false;
+        Object checkUserIdObj = redisTemplate.opsForValue().get(refreshTokenRedisKey);
+        if (checkUserIdObj == null) {
+            throw new RefreshTokenNotFoundException(userId);
         }
 
-        if (!userIdObj.toString().equals(userId.toString())) {
-            return false;
+        String checkUserId = checkUserIdObj.toString();
+        if (!checkUserId.equals(userId.toString())) {
+            throw new RefreshTokenMismatchException(
+                userId,
+                deviceId
+            );
+        }
+
+        Long ttl = redisTemplate.getExpire(refreshTokenRedisKey);
+        if (ttl == null || ttl <= 0) {
+            // userId는 읽었지만 ttl 시간이 없는 경우에는 로그아웃 시킴.
+            throw new RefreshTokenExpiredException(userId, ttl);
         }
 
         String refreshTokenRedisKeyByUserId = getUserRefreshRedisKey(userId);
         Object refreshTokenObj = redisTemplate.opsForHash().get(refreshTokenRedisKeyByUserId, deviceId);
-        if (refreshTokenObj == null) {
-            return false;
+        if (refreshTokenObj == null || !refreshTokenObj.equals(refreshToken)) {
+            // refreshTokenObj의 값이 없으면 발급처(브라우저, 폰 등...)가 변경돼 로그아웃 시킴.
+            throw new RefreshTokenMismatchException(
+                userId,
+                deviceId
+            );
         }
 
-        return refreshTokenObj.equals(refreshToken);
+        return new RefreshTokenInfoDTO(
+            checkUserId,
+            ttl <= rotationSeconds
+        );
     }
 
     public String rotate(String refreshToken, Long userId, String deviceId) {
@@ -143,7 +170,6 @@ public class RefreshTokenProvider {
             }
         });
     }
-
 
     public Long deleteAll(Long userId) {
         return redisTemplate.execute(

@@ -1,6 +1,6 @@
 package io.github.hswy.calendar.global.security.oauth2.handler;
 
-import io.github.hswy.calendar.global.exception.ApplicationException;
+import io.github.hswy.calendar.global.exception.model.ApplicationException;
 import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 import io.github.hswy.calendar.global.security.oauth2.model.CustomUserDetails;
 import io.github.hswy.calendar.global.security.oauth2.model.OAuth2UserInfo;

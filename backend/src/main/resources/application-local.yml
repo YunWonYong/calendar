@@ -32,7 +32,8 @@ front-end:
     access-token:
         jwt-secret: vlzkcbWkdWkdaos!!07AEDWOPakw@!@!
         jwt-expired-seconds: 900
-        refresh-expired-seconds: 999999
+        refresh-expired-seconds: 864000 # 10일
+        refresh-rotation-seconds: 86400 # 1일
 logging:
     level:
         org.flywaydb: DEBUG
