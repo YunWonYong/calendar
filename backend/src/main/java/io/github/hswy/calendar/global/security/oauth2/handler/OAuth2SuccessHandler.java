@@ -10,6 +10,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -32,8 +35,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         OAuth2UserInfo info = userDetails.getUserInfo();
         String redirectUrl = "";
         try {
+            boolean isNewUser = oAuth2UserService.checkNewUser(info);
+            Long userId = -1L;
+            if (isNewUser) {
+                userId = oAuth2UserService.createUserId(info);
+            } else {
+                userId = oAuth2UserService.getUserId(info);
+            }
             
-            Long userId = oAuth2UserService.getOrCreateUserId(info);
             String authCode = authCodeService.generateAuthCode(userId);
             redirectUrl = makeRedirectUrl(
                 frontendProperties.getOauth2SuccessUrl(),
@@ -41,10 +50,21 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 authCode
             );
         } catch(ApplicationException e) {
-            // TODO error logging
+            log.error(
+                "Failed to login. platform: {}, platformId: {} errCode: {} errMsg: {}", 
+                info.getPlatform().name(), 
+                info.getPlatformId(), 
+                e.getCode(),
+                e.getMessage()
+            );
             redirectUrl = makeErrorRedirectUrl(e.getCode());
         } catch(Exception e) {
-            // TODO error logging
+            log.error(
+                "Failed to login. platform: {}, platformId: {} errMsg: {}", 
+                info.getPlatform().name(), 
+                info.getPlatformId(), 
+                e.getMessage()
+            );
             redirectUrl = makeErrorRedirectUrl("server_error");
         }
 
