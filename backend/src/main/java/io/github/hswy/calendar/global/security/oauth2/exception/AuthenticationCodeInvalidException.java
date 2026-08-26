@@ -1,6 +1,6 @@
 package io.github.hswy.calendar.global.security.oauth2.exception;
 
-import io.github.hswy.calendar.global.exception.ApplicationException;
+import io.github.hswy.calendar.global.exception.model.ApplicationException;
 
 public class AuthenticationCodeInvalidException extends ApplicationException {
     public AuthenticationCodeInvalidException(String authCode) {

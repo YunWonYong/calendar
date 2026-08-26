@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import io.github.hswy.calendar.auth.model.AccessTokenInfoDTO;
 import io.github.hswy.calendar.auth.model.LoginRequestBody;
 import io.github.hswy.calendar.auth.model.LoginResponseBody;
+import io.github.hswy.calendar.auth.model.RefreshAuthRequestBody;
+import io.github.hswy.calendar.auth.model.RefreshAuthResponseBody;
 import io.github.hswy.calendar.global.security.oauth2.service.OAuth2AuthCodeService;
 import io.github.hswy.calendar.users.model.UserInfoDTO;
 import io.github.hswy.calendar.users.service.UserProfileService;
@@ -21,10 +23,12 @@ public class AuthService {
         Long userId = oAuth2AuthCodeService.getUserIdByAuthenticationCode(body.authCode());
         UserInfoDTO userInfoDTO = userProfileService.getUserInfoDTO(userId);
         AccessTokenInfoDTO accessTokenInfoDTO = accessTokenService.generateAccessTokenInfo(userInfoDTO, body);
-        return LoginResponseBody
-            .builder()
-                .user(userInfoDTO)
-                .accessToken(accessTokenInfoDTO)
-            .build();
+        return new LoginResponseBody(userInfoDTO, accessTokenInfoDTO);
+    }
+
+    public RefreshAuthResponseBody refresh(RefreshAuthRequestBody body) {
+        return new RefreshAuthResponseBody(
+            accessTokenService.refreshAccessToken(body)
+        );
     }
 }
