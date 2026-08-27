@@ -39,7 +39,8 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers(
                         HttpMethod.POST,
-                        "/auth"
+                        "/auth",
+                        "/auth/**"
                     )
                     .permitAll()
                     .anyRequest()
