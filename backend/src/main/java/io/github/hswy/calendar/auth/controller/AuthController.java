@@ -26,7 +26,7 @@ public class AuthController {
         return ApiResponseBody.success(authService.login(requestBody));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auto-login")
     public ApiResponseBody<LoginResponseBody> postAuthLogin(@RequestBody AutoLoginRequestBody requestBody) {
         return ApiResponseBody.success(authService.autoLogin(requestBody));
     }
