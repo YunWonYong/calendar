@@ -1,12 +1,32 @@
 package io.github.hswy.calendar.auth.provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.ArgumentMatchers.any;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.SessionCallback;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import io.github.hswy.calendar.auth.exception.RefreshTokenExpiredException;
+import io.github.hswy.calendar.auth.exception.RefreshTokenGenerateException;
+import io.github.hswy.calendar.auth.exception.RefreshTokenMismatchException;
+import io.github.hswy.calendar.auth.exception.RefreshTokenNotFoundException;
+import io.github.hswy.calendar.auth.model.RefreshTokenInfoDTO;
+import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 
 
 @SpringBootTest()
@@ -14,127 +34,157 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("local")
 public class RefreshTokenProviderTest {
 
-    // @Autowired
-    // private StringRedisTemplate redisTemplate;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     
     @Autowired
     private RefreshTokenProvider refreshTokenProvider;
+
+    @Autowired
+    private FrontendProperties frontendProperties;
+ 
+    private final Long userId = 1L;
+    private final String deviceId = "123";
 
     @Test
     public void testInitRefreshTokenProvider() {
         assertThat(refreshTokenProvider).isNotNull();
     }
 
-    // @Test
-    // public void testGenerateRefreshToken() {
-    //     Long userId = 1L;
-    //     String deviceId = "123";
-    //     String refreshToken = refreshTokenProvider.generate(userId, deviceId);
-    //     assertThat(refreshToken).isNotBlank();
+    @Test
+    public void shouldGenerateRefreshToken() {
+        String refreshToken = refreshTokenProvider.generate(userId, deviceId);
+        assertThat(refreshToken).isNotBlank();
 
-    //     boolean isValid = refreshTokenProvider.isValid(refreshToken, userId, deviceId);
-    //     assertThat(isValid).isTrue();
+        refreshTokenProvider.delete(refreshToken, userId, deviceId);
+    }
 
-    //     refreshTokenProvider.delete(refreshToken, userId, deviceId);
-
-    //     isValid = refreshTokenProvider.isValid(refreshToken, userId, deviceId);
-    //     assertThat(isValid).isFalse();
-    // }
-
-    // @SuppressWarnings("unchecked")
-    // @Test
-    // public void testGenerateRefreshTokenException() {
-    //     StringRedisTemplate spyRedisTemplate = spy(redisTemplate);
-    //     List<Object> mockInvalidResult = List.of(true, true); 
+    @Test
+    public void shouldGenerateAndValidateRefreshToken() {
+        String refreshToken = refreshTokenProvider.generate(userId, deviceId);
+        assertThat(refreshToken).isNotBlank();
         
-    //     doReturn(mockInvalidResult).when(spyRedisTemplate).execute(any(SessionCallback.class));
+        RefreshTokenInfoDTO dto = refreshTokenProvider.getUserIdByRefreshTokenInfo(refreshToken, deviceId);
+        assertEquals(userId, dto.userId());
+        assertFalse(dto.shouldRotate());
 
-    //     ReflectionTestUtils.setField(refreshTokenProvider, "redisTemplate", spyRedisTemplate);
+        refreshTokenProvider.delete(refreshToken, userId, deviceId);
+    }
+
+    @Test
+    public void shouldThrowRefreshTokenGenerateException() {
+        StringRedisTemplate spyRedisTemplate = spy(redisTemplate);
+        List<Object> mockInvalidResult = List.of(true, true); 
         
-    //     assertThatThrownBy(() -> {
-    //         refreshTokenProvider.generate(1L, "123");
-    //     }).isInstanceOf(RefreshTokenGenerateException.class)
-    //     .hasMessageContaining(
-    //         String.format("Failed to refresh token generate. key[userId = %d, deviceId = %s] hint[redisTxResult = %d]", 1L, "123", mockInvalidResult.size())
-    //     );
+        doReturn(mockInvalidResult).when(spyRedisTemplate).execute(any(SessionCallback.class));
 
-    //     ReflectionTestUtils.setField(refreshTokenProvider, "redisTemplate", redisTemplate);
-    // }
-
-    // @Test
-    // public void testRotateRefreshToken() {
-    //     Long userId = 1L;
-    //     String deviceId = "123";
-
-    //     String firstRefreshToken = refreshTokenProvider.generate(userId, deviceId);
-    //     assertThat(firstRefreshToken).isNotBlank();
-
-    //     boolean isValidFirstRefreshToken = refreshTokenProvider.isValid(firstRefreshToken, userId, deviceId);
-    //     assertThat(isValidFirstRefreshToken).isTrue();
+        ReflectionTestUtils.setField(refreshTokenProvider, "redisTemplate", spyRedisTemplate);
         
-    //     String secondRefreshToken = refreshTokenProvider.rotate(firstRefreshToken, userId, deviceId);
-    //     assertThat(secondRefreshToken).isNotBlank();
+        assertThatThrownBy(() -> {
+            refreshTokenProvider.generate(userId, deviceId);
+        }).isInstanceOf(RefreshTokenGenerateException.class)
+        .hasMessageContaining(
+            String.format("Failed to refresh token generate. key[userId = %d, deviceId = %s] hint[redisTxResult = %d]", userId, deviceId, mockInvalidResult.size())
+        );
 
-    //     boolean isValidSecondRefreshToken = refreshTokenProvider.isValid(secondRefreshToken, userId, deviceId);
-    //     assertThat(isValidSecondRefreshToken).isTrue();
+        ReflectionTestUtils.setField(refreshTokenProvider, "redisTemplate", redisTemplate);
+    }
+    
+    @Test()
+    public void shouldThrowRefreshTokenNotFoundException() {
+        String refreshToken = UUID.randomUUID().toString();
+        assertThatThrownBy(() -> {
+            refreshTokenProvider.getUserIdByRefreshTokenInfo(refreshToken, deviceId);
+        }).isInstanceOf(RefreshTokenNotFoundException.class);
+    }
+    
+    @Test()
+    public void shouldThrowRefreshTokenMismatchException() {
+        String refreshToken = refreshTokenProvider.generate(userId, deviceId);
+        assertThat(refreshToken).isNotBlank();
+        try {  
+            assertThatThrownBy(() -> {
+                refreshTokenProvider.getUserIdByRefreshTokenInfo(
+                    refreshToken, 
+                    "device-id"
+                );
+            }).isInstanceOf(RefreshTokenMismatchException.class);
+        } finally {
+            refreshTokenProvider.delete(refreshToken, userId, deviceId);
+        }
+    }
+    
+    @Test()
+    public void shouldThrowRefreshTokenExpiredException() {
+        String refreshToken = refreshTokenProvider.generate(userId, deviceId);
+        assertThat(refreshToken).isNotBlank();
+        try {
+            String refreshTokenRedisKey = "REFRESH:TOKEN:" + refreshToken;
+            redisTemplate.persist(refreshTokenRedisKey);
+            assertThatThrownBy(() -> {
+                refreshTokenProvider.getUserIdByRefreshTokenInfo(
+                    refreshToken,
+                    deviceId
+                );
+            }).isInstanceOf(RefreshTokenExpiredException.class);
+        } finally {
+            refreshTokenProvider.delete(refreshToken, userId, deviceId);
+        }
+    }
 
-    //     isValidFirstRefreshToken = refreshTokenProvider.isValid(firstRefreshToken, userId, deviceId);
-    //     assertThat(isValidFirstRefreshToken).isFalse();
+    @Test()
+    public void shouldRotateRefreshToken() {
+        try {
+            String refreshToken = refreshTokenProvider.generate(userId, deviceId);
+            assertThat(refreshToken).isNotBlank();
+            String rotateRefreshToken = refreshTokenProvider.rotate(refreshToken, userId, deviceId);
+            assertThat(rotateRefreshToken).isNotBlank();
+            assertThat(refreshToken).isNotEqualTo(rotateRefreshToken);
+        } finally {
+            refreshTokenProvider.deleteAll(userId);
+        }
+    }
 
-    //     refreshTokenProvider.delete(secondRefreshToken, userId, deviceId);
-    // }
-
-    // @Test
-    // public void testRotateRefreshTokenException() {
-    //     Long userId = 1L;
-    //     String deviceId = "123";
-    //     String failedDeviceId = "456";
-
-    //     String firstRefreshToken = refreshTokenProvider.generate(userId, deviceId);
-    //     assertThat(firstRefreshToken).isNotBlank();
-
-    //     boolean isValidFirstRefreshToken = refreshTokenProvider.isValid(firstRefreshToken, userId, deviceId);
-    //     assertThat(isValidFirstRefreshToken).isTrue();
-    //     assertThatThrownBy(() -> {
-    //         refreshTokenProvider.rotate(firstRefreshToken, userId, failedDeviceId);
-    //     })
-    //     .isInstanceOf(RefreshTokenRotateException.class)
-    //     .hasMessageContaining(
-    //         String.format("Failed to refresh token rotate. key[userId = %d, deviceId = %s]", userId, failedDeviceId)
-    //     );
-    // }
-
-    // @Test
-    // public void testDeleteALL() {
-    //     Long userId = 1L;
-    //     String deviceId_1 = "123";
-    //     String deviceId_2 = "456";
-    //     String deviceId_3 = "789";
-
-    //     String refreshToken_1 = refreshTokenProvider.generate(userId, deviceId_1);
-    //     assertThat(refreshToken_1).isNotBlank();
-
-    //     String refreshToken_2 = refreshTokenProvider.generate(userId, deviceId_2);
-    //     assertThat(refreshToken_2).isNotBlank();
-
-    //     String refreshToken_3 = refreshTokenProvider.generate(userId, deviceId_3);
-    //     assertThat(refreshToken_3).isNotBlank();
-
-    //     boolean isValidRefreshToken_1 = refreshTokenProvider.isValid(refreshToken_1, userId, deviceId_1);
-    //     boolean isValidRefreshToken_2 = refreshTokenProvider.isValid(refreshToken_2, userId, deviceId_2);
-    //     boolean isValidRefreshToken_3 = refreshTokenProvider.isValid(refreshToken_3, userId, deviceId_3);
-    //     assertThat(isValidRefreshToken_1).isTrue();
-    //     assertThat(isValidRefreshToken_2).isTrue();
-    //     assertThat(isValidRefreshToken_3).isTrue();
-
-    //     Long deleteRefreshTokenCount = refreshTokenProvider.deleteAll(userId);
-    //     assertThat(deleteRefreshTokenCount).isEqualByComparingTo(3L);
-
-    //     isValidRefreshToken_1 = refreshTokenProvider.isValid(refreshToken_1, userId, deviceId_1);
-    //     isValidRefreshToken_2 = refreshTokenProvider.isValid(refreshToken_2, userId, deviceId_2);
-    //     isValidRefreshToken_3 = refreshTokenProvider.isValid(refreshToken_3, userId, deviceId_3);
-    //     assertThat(isValidRefreshToken_1).isFalse();
-    //     assertThat(isValidRefreshToken_2).isFalse();
-    //     assertThat(isValidRefreshToken_3).isFalse();
-    // }
+    @Test()
+    public void shouldRotateRefreshTokenWhenNearExpiration() {
+        try {
+            String refreshToken = refreshTokenProvider.generate(userId, deviceId);
+            assertThat(refreshToken).isNotBlank();
+            String refreshTokenRedisKey = "REFRESH:TOKEN:" + refreshToken;
+    
+            int rotationSeconds = frontendProperties.getAccessToken().getRefreshRotationSeconds();
+            redisTemplate.expire(
+                refreshTokenRedisKey,
+                Duration.ofSeconds(rotationSeconds - 1)
+            );
+    
+            RefreshTokenInfoDTO dto = refreshTokenProvider.getUserIdByRefreshTokenInfo(
+                refreshToken, 
+                deviceId
+            );
+            assertThat(dto.userId()).isEqualTo(userId);
+            assertThat(dto.shouldRotate()).isTrue();
+    
+            String rotateRefreshToken = refreshTokenProvider.rotate(
+                refreshToken,
+                userId, 
+                deviceId
+            );
+            assertThat(rotateRefreshToken).isNotEqualTo(refreshToken);
+            assertThatThrownBy(() -> {
+                refreshTokenProvider.getUserIdByRefreshTokenInfo(
+                    refreshToken,
+                    deviceId
+                );
+            }).isInstanceOf(RefreshTokenNotFoundException.class);
+    
+            dto = refreshTokenProvider.getUserIdByRefreshTokenInfo(
+                rotateRefreshToken, 
+                deviceId
+            );
+            assertThat(dto.userId()).isEqualTo(userId);
+        } finally {
+            refreshTokenProvider.deleteAll(userId);
+        }
+    }
 }
