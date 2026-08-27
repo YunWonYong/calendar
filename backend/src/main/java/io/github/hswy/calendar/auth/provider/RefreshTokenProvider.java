@@ -121,7 +121,40 @@ public class RefreshTokenProvider {
         }
 
         return new RefreshTokenInfoDTO(
+            userId,
             checkUserId,
+            ttl <= rotationSeconds
+        );
+    }
+
+    public RefreshTokenInfoDTO getUserIdByRefreshTokenInfo(String refreshToken, String deviceId) {
+        String refreshTokenRedisKey = getRefreshRedisKey(refreshToken);
+        Object checkUserIdObj = redisTemplate.opsForValue().get(refreshTokenRedisKey);
+        if (checkUserIdObj == null) {
+            throw new RefreshTokenNotFoundException(null);
+        }
+
+        String userIdStr = checkUserIdObj.toString();
+        Long userId = Long.parseLong(userIdStr);
+        String refreshTokenRedisKeyByUserId = getUserRefreshRedisKey(userId);
+        Object refreshTokenObj = redisTemplate.opsForHash().get(refreshTokenRedisKeyByUserId, deviceId);
+        if (refreshTokenObj == null || !refreshTokenObj.equals(refreshToken)) {
+            // refreshTokenObj의 값이 없으면 발급처(브라우저, 폰 등...)가 변경돼 로그아웃 시킴.
+            throw new RefreshTokenMismatchException(
+                userId,
+                deviceId
+            );
+        }
+
+        Long ttl = redisTemplate.getExpire(refreshTokenRedisKey);
+        if (ttl == null || ttl <= 0) {
+            // userId는 읽었지만 ttl 시간이 없는 경우에는 로그아웃 시킴.
+            throw new RefreshTokenExpiredException(userId, ttl);
+        }
+
+        return new RefreshTokenInfoDTO(
+            userId,
+            userIdStr,
             ttl <= rotationSeconds
         );
     }

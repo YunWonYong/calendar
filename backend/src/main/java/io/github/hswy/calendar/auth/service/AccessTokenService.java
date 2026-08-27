@@ -4,7 +4,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import io.github.hswy.calendar.auth.model.AccessTokenInfoDTO;
+import io.github.hswy.calendar.auth.model.AuthTokenInfoDTO;
+import io.github.hswy.calendar.auth.model.AutoLoginAuthDTO;
 import io.github.hswy.calendar.auth.model.LoginRequestBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthRequestBody;
 import io.github.hswy.calendar.auth.model.RefreshTokenInfoDTO;
@@ -19,26 +20,23 @@ public class AccessTokenService {
     private final JWTProvider jwtProvider;
     private final RefreshTokenProvider refreshTokenProvider;
 
-    public AccessTokenInfoDTO generateAccessTokenInfo(UserInfoDTO dto, LoginRequestBody body) {
+    public AuthTokenInfoDTO generateAuthTokenInfo(UserInfoDTO dto, LoginRequestBody body) {
         Long userId = dto.getId();
         String deviceId = body.deviceId();
         String refreshToken = refreshTokenProvider.generate(userId, deviceId);
-        
-        String jwt = jwtProvider.generate(
-            userId.toString(),
-            Map.of(
-                "deviceId", deviceId,
-                "deviceType", body.deviceType()
-            )
-        );
-        return AccessTokenInfoDTO
+        return AuthTokenInfoDTO
             .builder()
-                .jwt(jwt)
+                .accessToken(
+                    generateJWT(
+                        userId.toString(),
+                        deviceId,
+                        body.deviceType()
+                    ))
                 .refreshToken(refreshToken)
             .build();
     }
 
-    public AccessTokenInfoDTO refreshAccessToken(RefreshAuthRequestBody body) {
+    public AuthTokenInfoDTO refreshAccessToken(RefreshAuthRequestBody body) {
         Long userId = body.id();
         String refreshToken = body.refreshToken();
         String deviceId = body.deviceId();
@@ -47,17 +45,53 @@ public class AccessTokenService {
             refreshToken = refreshTokenProvider.rotate(refreshToken, userId, deviceId);
         }
 
-        String jwt = jwtProvider.generate(
-            dto.userIdStr(),
-            Map.of(
-                "deviceId", deviceId,
-                "deviceType", body.deviceType()
-            )
-        );
-        return AccessTokenInfoDTO
+        return AuthTokenInfoDTO
             .builder()
-                .jwt(jwt)
+                .accessToken(
+                    generateJWT(
+                        dto.userIdStr(),
+                        deviceId,
+                        body.deviceType()
+                    )
+                )
                 .refreshToken(refreshToken)
             .build();
+    }
+
+    public AutoLoginAuthDTO authenticateWithRefreshToken(String refreshToken, String deviceId, String deviceType) {
+        RefreshTokenInfoDTO dto = refreshTokenProvider.getUserIdByRefreshTokenInfo(
+            refreshToken,
+            deviceId
+        );
+        
+        Long userId = dto.userId();
+        if (dto.shouldRotate()) {
+            refreshToken = refreshTokenProvider.rotate(refreshToken, userId, deviceId);
+        }
+        return new AutoLoginAuthDTO(
+            userId,
+            AuthTokenInfoDTO
+                .builder()
+                    .accessToken(
+                        generateJWT(
+                            dto.userIdStr(),
+                            deviceId,
+                            deviceType
+                        )
+                    )
+                    .refreshToken(refreshToken)
+                .build()
+        );
+    }
+
+
+    private String generateJWT(String userId, String deviceId, String deviceType) {
+        return jwtProvider.generate(
+            userId,
+            Map.of(
+                "deviceId", deviceId,
+                "deviceType", deviceType
+            )
+        );
     }
 }
