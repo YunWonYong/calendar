@@ -1,7 +1,12 @@
-import type { UserData } from "../user/userType";
+import type { UserInfo } from "../user/userType";
 
 export type AuthProvider = "google" | "kakao" | "naver";
 
 export type AuthContextType = {
-    userData: UserData;
+    userInfo: UserInfo;
+};
+
+export type AuthTokenInfo = {
+    accessToken: string;
+    refreshToken: string;
 };
