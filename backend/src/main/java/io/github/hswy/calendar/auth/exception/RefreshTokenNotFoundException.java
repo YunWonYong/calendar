@@ -12,8 +12,8 @@ public class RefreshTokenNotFoundException extends UnauthorizedException {
         super(
             "NOT_FOUND_REFRESH_TOKEN", 
             String.format(
-                "refresh token not found. key[userId = %s]",
-                userId.toString()
+                "refresh token not found. key[userId = %d]",
+                userId
             ), 
             e
         );

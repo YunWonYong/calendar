@@ -12,7 +12,7 @@ public class RefreshTokenExpiredException extends UnauthorizedException {
             String.format(
                 "invalid refresh token. key[userId = %d, ttl = %s]",
                 userId,
-                ttl == null? "null": ttl.toString()
+                ttl
             ),
             e
         );

@@ -14,9 +14,7 @@ public class RefreshTokenRotateException extends ApplicationException {
                 "Failed to refresh token rotate. key[userId = %d, deviceId = %s] hint[luaScriptResult = %s]",
                 userId,
                 deviceId,
-                result == null
-                    ? "null"
-                    : result.toString()
+                result
             ),
             e
         );
