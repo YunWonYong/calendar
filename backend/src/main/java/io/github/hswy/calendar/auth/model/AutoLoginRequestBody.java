@@ -1,7 +1,9 @@
 package io.github.hswy.calendar.auth.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record AutoLoginRequestBody(
-    String refreshToken, 
-    String deviceId, 
-    String deviceType
+    @NotBlank String refreshToken, 
+    @NotBlank String deviceId, 
+    @NotBlank String deviceType
 ) {}

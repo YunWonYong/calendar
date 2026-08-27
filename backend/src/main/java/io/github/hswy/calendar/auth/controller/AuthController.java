@@ -12,6 +12,7 @@ import io.github.hswy.calendar.auth.model.RefreshAuthRequestBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthResponseBody;
 import io.github.hswy.calendar.auth.service.AuthService;
 import io.github.hswy.calendar.global.common.model.ApiResponseBody;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -22,17 +23,17 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public ApiResponseBody<LoginResponseBody> postAuth(@RequestBody LoginRequestBody requestBody) {
+    public ApiResponseBody<LoginResponseBody> postAuth(@Valid @RequestBody LoginRequestBody requestBody) {
         return ApiResponseBody.success(authService.login(requestBody));
     }
 
     @PostMapping("/auto-login")
-    public ApiResponseBody<LoginResponseBody> postAuthLogin(@RequestBody AutoLoginRequestBody requestBody) {
+    public ApiResponseBody<LoginResponseBody> postAuthLogin(@Valid @RequestBody AutoLoginRequestBody requestBody) {
         return ApiResponseBody.success(authService.autoLogin(requestBody));
     }
 
     @PostMapping("/refresh")
-    public ApiResponseBody<RefreshAuthResponseBody> postAuthRefresh(@RequestBody RefreshAuthRequestBody requestBody) {
+    public ApiResponseBody<RefreshAuthResponseBody> postAuthRefresh(@Valid @RequestBody RefreshAuthRequestBody requestBody) {
         return ApiResponseBody.success(authService.refresh(requestBody));
     }
 }

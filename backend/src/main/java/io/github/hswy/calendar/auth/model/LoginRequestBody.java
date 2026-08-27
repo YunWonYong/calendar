@@ -1,3 +1,9 @@
 package io.github.hswy.calendar.auth.model;
 
-public record LoginRequestBody(String authCode, String deviceId, String deviceType) {}
+import jakarta.validation.constraints.NotBlank;
+
+public record LoginRequestBody(
+    @NotBlank String authCode,
+    @NotBlank String deviceId,
+    @NotBlank String deviceType
+) {}

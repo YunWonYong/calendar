@@ -2,6 +2,7 @@ package io.github.hswy.calendar.global.exception.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -45,5 +46,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ApiResponseBody.fail("INTERNAL_SERVER_ERROR"));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponseBody<Void>> handleValidationException(MethodArgumentNotValidException e, HttpServletRequest request) {
+        log.error(
+            "GlobalExceptionHandler type: {}, method: {}, url: {}, errorMessage: {}",
+            "validation",
+            request.getMethod(),
+            request.getRequestURI(),
+            e.getMessage()
+        );
+
+        return ResponseEntity
+            .badRequest()
+            .body(ApiResponseBody.fail("INVALID_REQUEST"));
     }
 }
