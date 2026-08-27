@@ -1,10 +1,10 @@
-import { DEIVCE_ID_KEY_LOCAL_STORAGE, THEME_KEY_LOCAL_STORAGE } from "./constants";
+import { ACCESS_TOKEN_KEY_LOCAL_STORAGE, DEIVCE_ID_KEY_LOCAL_STORAGE, REFRESH_TOKEN_KEY_LOCAL_STORAGE, THEME_KEY_LOCAL_STORAGE } from "./constants";
 
 import type { ThemeType } from "@/domains/theme/themeTypes";
 import type { LocalStorageKeyType } from "./types";
 
 export const saveThemeFromLocalStorage = (theme: ThemeType) => {
-    return save<ThemeType>(THEME_KEY_LOCAL_STORAGE, theme);
+    save<ThemeType>(THEME_KEY_LOCAL_STORAGE, theme);
 };
 
 export const getThemeFromLocalStorage = () => {
@@ -16,11 +16,32 @@ export const getThemeFromLocalStorage = () => {
 };
 
 export const setDeviceIdFromLocalStorage = (deviceId: string) => {
-    return save<string>(DEIVCE_ID_KEY_LOCAL_STORAGE, deviceId);
+    save<string>(DEIVCE_ID_KEY_LOCAL_STORAGE, deviceId);
 };
 
 export const getDeviceIdFromLocalStorage = () => {
     return get<string>(DEIVCE_ID_KEY_LOCAL_STORAGE);
+};
+
+export const setAccessTokenFromLocalStorage = (accessToken: string) => {
+    save<string>(ACCESS_TOKEN_KEY_LOCAL_STORAGE, accessToken);
+};
+
+export const setRefreshTokenFromLocalStorage = (refreshToken: string) => {
+    save<string>(REFRESH_TOKEN_KEY_LOCAL_STORAGE, refreshToken);
+};
+
+export const saveAuthInfoFromLocalStorage = (accessToken: string, refreshToken: string) => {
+    save<string>(ACCESS_TOKEN_KEY_LOCAL_STORAGE, accessToken);
+    save<string>(REFRESH_TOKEN_KEY_LOCAL_STORAGE, refreshToken);
+};
+
+export const getAccessTokenFromLocalStorage = () => {
+    return get<string>(ACCESS_TOKEN_KEY_LOCAL_STORAGE);
+};
+
+export const getRefreshTokenFromLocalStorage = () => {
+    return get<string>(REFRESH_TOKEN_KEY_LOCAL_STORAGE);
 };
 
 const save = <T extends string, >(key: LocalStorageKeyType, value: T) => {

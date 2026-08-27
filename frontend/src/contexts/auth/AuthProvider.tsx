@@ -3,8 +3,9 @@ import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import AuthContext from "./AuthContext";
 import useDevice from "@/hooks/device/UseDevice";
 
-import type { UserData } from "@/domains/user/userType";
+import type { UserInfo } from "@/domains/user/userType";
 import { login } from "@/server/loginApi";
+import { saveAuthInfoFromLocalStorage, saveThemeFromLocalStorage } from "@/localStorage/api";
 
 const parameterNames = {
     AUTH_CODE: "code",    
@@ -20,11 +21,16 @@ const getAuthCode = () => {
     url.searchParams.delete("code");
     window.history.replaceState({}, "", url);
     return authCode;
-    
 };
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [ userData, setUserData ] = useState<UserData>({});
+    const [ userData, setUserData ] = useState<UserInfo>({
+        id: NaN,
+        email: "",
+        nickname: "",
+        tel: "",
+        profileImageUrl: ""
+    });
     const [ fetchState, setFetchState ] = useState<boolean>(false);
     const { deviceId, deviceType } = useDevice();
     const lockRef = useRef<boolean>(false);
@@ -41,6 +47,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 if (authCode.length === 0) {
                     return;
                 }
+
                 const response = await login({
                     authCode,
                     deviceId,
@@ -50,7 +57,14 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
                     throw new Error(response.errorMessage);
                 }
 
-                setUserData(response.data);
+                const { data } = response;
+                const { authTokenInfo, userInfo } = data;
+
+                saveAuthInfoFromLocalStorage(
+                    authTokenInfo.accessToken,
+                    authTokenInfo.refreshToken
+                );
+                setUserData(userInfo);
             } catch(e) {
                 // [TODO] error logging
             } finally {
@@ -61,7 +75,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         authenticate();
     }, [fetchState]);
     return (
-        <AuthContext.Provider value={{ userData }}>
+        <AuthContext.Provider value={{ userInfo: userData }}>
             {
                 children
             }

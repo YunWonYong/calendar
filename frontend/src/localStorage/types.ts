@@ -1,1 +1,1 @@
-export type LocalStorageKeyType = "theme" | "deviceId";
+export type LocalStorageKeyType = "theme" | "deviceId" | "accessToken" | "refreshToken";
