@@ -32,7 +32,7 @@ const request = async <T, >(url: string, method: HttpMethod, body?: object, head
         const data = await response.json();
         return {
             ok: true,
-            data,
+            ...data,
         };
     } catch(e) {
         // [TODO] error logging
