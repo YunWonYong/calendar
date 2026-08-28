@@ -44,6 +44,11 @@ export const getRefreshTokenFromLocalStorage = () => {
     return get<string>(REFRESH_TOKEN_KEY_LOCAL_STORAGE);
 };
 
+export const removeAuthInfoFromLocalStorage = () => {
+    localStorage.removeItem(ACCESS_TOKEN_KEY_LOCAL_STORAGE);
+    localStorage.removeItem(REFRESH_TOKEN_KEY_LOCAL_STORAGE);
+};
+
 const save = <T extends string, >(key: LocalStorageKeyType, value: T) => {
     localStorage.setItem(key, value);
 };

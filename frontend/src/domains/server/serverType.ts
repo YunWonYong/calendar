@@ -12,3 +12,9 @@ export type LoginResponseBody = {
     authTokenInfo: AuthTokenInfo;
     userInfo: UserInfo;
 };
+
+export type AutoLoginRequestBody = {
+    refreshToken: string;
+    deviceId: string;
+    deviceType: DeviceType;
+};

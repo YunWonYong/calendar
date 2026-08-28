@@ -3,9 +3,11 @@ import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import AuthContext from "./AuthContext";
 import useDevice from "@/hooks/device/UseDevice";
 
+import { autoLogin, login } from "@/server/loginApi";
+import { getRefreshTokenFromLocalStorage, removeAuthInfoFromLocalStorage, saveAuthInfoFromLocalStorage } from "@/localStorage/api";
+
+import type { LoginResponseBody } from "@/domains/server/serverType";
 import type { UserInfo } from "@/domains/user/userType";
-import { login } from "@/server/loginApi";
-import { saveAuthInfoFromLocalStorage, saveThemeFromLocalStorage } from "@/localStorage/api";
 
 const parameterNames = {
     AUTH_CODE: "code",    
@@ -24,58 +26,59 @@ const getAuthCode = () => {
 };
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [ userData, setUserData ] = useState<UserInfo>({
-        id: NaN,
-        email: "",
-        nickname: "",
-        tel: "",
-        profileImageUrl: ""
-    });
+    const [ userInfo, setUserInfo ] = useState<UserInfo | null>(null);
     const [ fetchState, setFetchState ] = useState<boolean>(false);
     const { deviceId, deviceType } = useDevice();
     const lockRef = useRef<boolean>(false);
     useEffect(() => {
+        if (userInfo) {
+            return;
+        }
+
+        if (lockRef.current || fetchState) {
+            return;
+        }
+
+        const setAuthenticateApiResult = ({ authTokenInfo, userInfo }: LoginResponseBody) => {
+            saveAuthInfoFromLocalStorage(
+                authTokenInfo.accessToken,
+                authTokenInfo.refreshToken
+            );
+            setUserInfo(userInfo);
+        };
+
+        const authCode = getAuthCode();
+        const refreshToken = getRefreshTokenFromLocalStorage();
         const authenticate = async () => {
-            if (lockRef.current) {
+            if ((!authCode || authCode.length === 0) && (!refreshToken || refreshToken.length === 0)) {
                 return;
             }
-
+            lockRef.current = true;
+            setFetchState(true);
             try {
-                const authCode = getAuthCode();
-                setFetchState(true);
-                lockRef.current = true;
-                if (authCode.length === 0) {
-                    return;
-                }
-
-                const response = await login({
-                    authCode,
-                    deviceId,
-                    deviceType,
-                });
+                const response = refreshToken && refreshToken.length > 0
+                    ? await autoLogin({ refreshToken, deviceId, deviceType })
+                    : await login({ authCode, deviceId, deviceType });
+                
                 if (!response.ok) {
                     throw new Error(response.errorMessage);
                 }
-
                 const { data } = response;
-                const { authTokenInfo, userInfo } = data;
-
-                saveAuthInfoFromLocalStorage(
-                    authTokenInfo.accessToken,
-                    authTokenInfo.refreshToken
-                );
-                setUserData(userInfo);
+                setAuthenticateApiResult(data);
+                
             } catch(e) {
                 // [TODO] error logging
+                removeAuthInfoFromLocalStorage();
+                console.error(e);
             } finally {
-                setFetchState(false);
                 lockRef.current = false;
+                setFetchState(false);
             }
         };
         authenticate();
-    }, [fetchState]);
+    }, [userInfo, deviceId, deviceType]);
     return (
-        <AuthContext.Provider value={{ userInfo: userData }}>
+        <AuthContext.Provider value={{ isLogin: userInfo !== null, userInfo, isLoading: fetchState }}>
             {
                 children
             }
