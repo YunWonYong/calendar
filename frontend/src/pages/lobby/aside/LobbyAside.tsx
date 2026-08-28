@@ -1,38 +1,20 @@
-import LobbyAsideThemeToggleButton from "./LobbyAsideThemeToggleButton";
-import LobbyAsideUserProfile from "./LobbyAsideUserProfile";
+import LobbyAsideHeader from "./header/LobbyAsideHeader";
+import LobbyAsideFooter from "./footer/LobbyAsideFooter";
 
 import styles from "./LobbyAside.module.css";
+
 import type { LobbyAsideProps } from "../LobbyTypes";
 
 const LobbyAside = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
-    const isAsideCollapsed = asideState === "collapsed";
     return (
         <nav
             className={ styles.nav }
             data-display-type={ asideState }
         >
-            <header
-                className={ styles.header }
-            >
-                <div
-                    className={ styles.collapsedWrap }
-                >
-                    <button
-                        type="button"
-                        className={ styles.collapsedBtn }
-                        onClick={ toggleAsideState }
-                    > 
-                        {
-                            isAsideCollapsed
-                                ?   ">>"
-                                :   "<<"
-                        }
-                    </button>
-                </div>
-                <LobbyAsideUserProfile 
-                    asideState={ asideState }
-                />
-            </header>
+            <LobbyAsideHeader 
+                asideState={ asideState }
+                toggleAsideState={ toggleAsideState }
+            />
             <ul
                 className={ styles.groupList }
             >
@@ -40,13 +22,9 @@ const LobbyAside = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
                     group item
                 </li>
             </ul>
-            <footer
-                className={ styles.footer }
-            >
-                <LobbyAsideThemeToggleButton 
-                    asideState={ asideState }
-                />
-            </footer>
+            <LobbyAsideFooter
+                asideState={ asideState }
+            />
         </nav>
     );
 };
