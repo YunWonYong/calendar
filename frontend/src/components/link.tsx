@@ -24,7 +24,7 @@ const Link = ({ to, className, children }: LinkProps) => {
             className={ className }
             onClick={(() => {
                 trackClick(
-                    `PAGE_MOVE${location.pathname}=>${to.pathname}`,
+                    `PAGE_MOVE@${location.pathname}=>${to.pathname}`,
                 )
             })}
         >

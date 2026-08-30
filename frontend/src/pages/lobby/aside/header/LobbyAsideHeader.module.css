@@ -31,10 +31,21 @@
     text-align: center;
 }
 
+.logo-box[data-display-type="collapsed"] {
+    width: 90%;
+    overflow: hidden;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
 .logo {
-    vertical-align: sub;
-    width: 45px;
-    height: 45px;
+    object-fit: cover;
+    object-position: center;
+    width: 64px;
+    height: 64px;
 }
 
 .logo-link {

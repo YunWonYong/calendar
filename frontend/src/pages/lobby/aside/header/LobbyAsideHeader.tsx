@@ -1,13 +1,14 @@
 import Link from "@/components/link";
 import logoImage from "@/assets/logo/logo.png";
 import useAuth from "@/hooks/auth/useAuth";
+import Image from "@/components/Image";
 
 import LobbyAsideHeaderLoginButton from "./LobbyAsideHeaderLoginButton";
+import LobbyAsideUserProfile from "./LobbyAsideUserProfile";
 
 import styles from "./LobbyAsideHeader.module.css";
 
 import type { LobbyAsideProps } from "../../LobbyTypes";
-import LobbyAsideUserProfile from "./LobbyAsideUserProfile";
 
 const LobbyAsideHeader = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
     const { isLogin } = useAuth();
@@ -50,21 +51,26 @@ const LogoAndCollapsedButton = ({ asideState, toggleAsideState }: LobbyAsideProp
 
             <div
                 className={ styles.logoBox }
+                data-display-type={ asideState }
             >
                 <Link
                     className={ styles.logoLink }
                     to="/"
                 >
-                    <img 
+                    {
+                        asideState === "expanded" &&
+                            <span
+                                className={ styles.logoText }
+                            >
+                                아워캘
+                            </span>
+                    }
+                    <Image
                         className={ styles.logo }
                         src={ logoImage }
                         alt="아워캘 로고"
+                        data-display-type={ asideState }
                     />
-                    <h1
-                        className={ styles.logoText }
-                    >
-                        아워캘
-                    </h1>
                 </Link>
             </div>
         </>
