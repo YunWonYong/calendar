@@ -6,8 +6,18 @@ import useDevice from "@/hooks/device/UseDevice";
 import { autoLogin, login } from "@/server/loginApi";
 import { getRefreshTokenFromLocalStorage, removeAuthInfoFromLocalStorage, saveAuthInfoFromLocalStorage } from "@/localStorage/api";
 
+
+import defaultUserProfileImage from "@/assets/user/default_profile.png";
 import type { LoginResponseBody } from "@/domains/server/serverType";
 import type { UserInfo } from "@/domains/user/userType";
+
+const dummyUserInfo: UserInfo = {
+    id: 1,
+    email: "y@gmail.com",
+    nickname: "tester",
+    tel: "112",
+    profileImageUrl: defaultUserProfileImage
+};
 
 const parameterNames = {
     AUTH_CODE: "code",    
@@ -77,8 +87,12 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         };
         authenticate();
     }, [userInfo, deviceId, deviceType]);
+
+    const dummyLogin = async () => {
+        setUserInfo(dummyUserInfo);
+    };
     return (
-        <AuthContext.Provider value={{ isLogin: userInfo !== null, userInfo, isLoading: fetchState }}>
+        <AuthContext.Provider value={{ isLogin: userInfo !== null, userInfo, isLoading: fetchState, dummyLogin }}>
             {
                 children
             }

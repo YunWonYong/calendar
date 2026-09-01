@@ -6,6 +6,7 @@ export type AuthContextType = {
     isLogin: boolean;
     userInfo: UserInfo | null;
     isLoading: boolean;
+    dummyLogin: () => Promise<void>;
 };
 
 export type AuthTokenInfo = {
