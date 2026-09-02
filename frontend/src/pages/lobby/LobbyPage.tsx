@@ -5,6 +5,7 @@ import LobbyAside from "./aside/LobbyAside";
 
 import styles from "./LobbyPage.module.css";
 import type { LobbyAsideState } from "./LobbyTypes";
+import Calendar from "../calendar/Calendar";
 
 const LobbyPage = () => {
     const [ asideState, setAsideState ] = useState<LobbyAsideState>("expanded");
@@ -33,7 +34,7 @@ const LobbyPage = () => {
             <section
                 className={ styles.lobbySection }
             >
-                main
+                <Calendar />
             </section>
         </div>
     );

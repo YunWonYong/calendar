@@ -1,0 +1,23 @@
+export type CalendarMonth = {
+    year: number;
+    yearText: string;
+    month: number;
+    monthText: string;
+};
+
+export type CalendarDate = {
+    date: number;
+    dateText: string;
+    dayOfWeek: string;
+    isCurrentMonth: boolean; // 현재 달과 다른 달의 날짜가 포함될 수 있음.
+} & CalendarMonth;
+
+export type CalendarCurrentDate = {
+    month: CalendarMonth;
+    weeks: CalendarWeek[];
+};
+
+export type CalendarWeek = {
+    weekNo: number; // 현재 달력에서의 주차
+    dateList: CalendarDate[]; // size 7
+};
