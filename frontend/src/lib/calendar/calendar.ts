@@ -1,7 +1,9 @@
 import { getDateList } from "../date/date";
 
-import { CALENDAR_MONTH_SUFFIXES, CALENDAR_FULL_MONTH_TEXTS, CALENDAR_YEAR_SUFFIXES, CalendarLocaleType, MonthKey, CALENDAR_WEEKDAY_TEXTS } from "@/domains/calendar/calendarLocale";
+import { CALENDAR_MONTH_SUFFIXES, CALENDAR_FULL_MONTH_TEXTS, CALENDAR_YEAR_SUFFIXES, CALENDAR_WEEKDAY_TEXTS } from "@/domains/calendar/calendarLocale";
+import { MAX_CALENDAR_DATE_LIST_SIZE, MAX_CALENDAR_WEEK_NO, MIN_CALENDAR_DATE_LIST_SIZE } from "@/domains/calendar/calendarType";
 
+import type { CalendarLocaleType, MonthKey } from "@/domains/calendar/calendarLocale";
 import type { CalendarDate, CalendarMonth, CalendarWeek } from "@/domains/calendar/calendarType";
 import type { CalendarContextMonths } from "@/domains/calendar/calendarContext";
 import type { DateType } from "@/domains/lib/date";
@@ -11,19 +13,19 @@ export const nextMonth = (currentMonth: CalendarMonth, locale: CalendarLocaleTyp
         currentMonth.year,
         currentMonth.month + 1
     );
-    return getMonths(year, month, locale);
+    return getCalendarMonths(year, month, locale);
 };
 
-export const prevMonth = (currentMonth: CalendarMonth, locale: CalendarLocaleType) => {
+export const previousMonth = (currentMonth: CalendarMonth, locale: CalendarLocaleType) => {
     const { year, month } = calcMonth(
         currentMonth.year,
         currentMonth.month - 1
     );
-    return getMonths(year, month, locale);
+    return getCalendarMonths(year, month, locale);
 };
 
 export const jumpMonth = (month: CalendarMonth, locale: CalendarLocaleType) => {
-    return getMonths(
+    return getCalendarMonths(
         month.year,
         month.month,
         locale,
@@ -42,8 +44,8 @@ const calcMonth = (year: number, month: number) => {
     return { year, month };
 };
 
-export const getMonths = (year: number, month: number, locale: CalendarLocaleType): CalendarContextMonths => {
-    const weeks = getWeeks(year, month, locale);
+const getCalendarMonths = (year: number, month: number, locale: CalendarLocaleType): CalendarContextMonths => {
+    const weeks = getCalendarWeeks(year, month, locale);
     const calcPrevMonth = calcMonth(year, month - 1);
     const previousMonth = formatCalendarMonth(
         calcPrevMonth.year,
@@ -71,71 +73,102 @@ export const getMonths = (year: number, month: number, locale: CalendarLocaleTyp
     };
 };
 
-export const getWeeks = (year: number, month: number, locale: CalendarLocaleType): CalendarWeek[] => {
+export const getCalendarWeeks = (year: number, month: number, locale: CalendarLocaleType): CalendarWeek[] => {
     if (month < 1 || month > 12) {
         throw new Error("invalid month.");
     }
 
     const dateList = getDateList(year, month -1);
-    if (dateList.length < 42) {
-        const lastEl = dateList[dateList.length - 1];
-        if (lastEl.isCurrentMonthDate) {
-            const nextMonthDateList = getDateList(year, month);
-            let i = dateList.length;
-            let j = 0;
-            let weekNo = lastEl.weekNo + 1;
-            while(i < 42) {
-                dateList.push({
-                    ...nextMonthDateList[j],
-                    weekNo,
-                    isCurrentMonthDate: false,
-                });
-                ++j;
-                if (j % 7 === 0) {
-                    weekNo += 1;
-                }
-                ++i;
-            }
-        } else {
-            let i = dateList.length;
-            let j = 0;
-            let weekNo = lastEl.weekNo + 1;
-            while(i < 42) {
-                dateList.push({
-                    year: lastEl.year,
-                    month: lastEl.month,
-                    date: lastEl.date + 1 + j,
-                    dayIndex: j,
-                    isCurrentMonthDate: false,
-                    weekNo
-                });
-                ++j;
-                ++i;
-                if (j === 7) {
-                    j = 0;
-                    ++weekNo;
-                }
-            }
-        }
-    }
+    validateDateList(dateList);
 
-    return makeWeeks(dateList, locale);
+    if (dateList.length < MAX_CALENDAR_DATE_LIST_SIZE) {
+        fillWeeks(year, month, dateList);
+    }
+    return createCalendarWeeks(dateList, locale);
 };
 
-const makeWeeks = (dateList: DateType[], locale: CalendarLocaleType): CalendarWeek[] => {
+const validateDateList = (dateList: DateType[]) => {
+    if (!Array.isArray(dateList)) {
+        throw new Error("invalid date list.");
+    }
+
+    const size = dateList.length;
+
+    if (
+        size < MIN_CALENDAR_DATE_LIST_SIZE ||
+        size > MAX_CALENDAR_DATE_LIST_SIZE ||
+        size % 7 !== 0
+    ) {
+        throw new Error(`invalid date list size[${size}].`);
+    }
+
+    if (!dateList[0] || !dateList[size - 1]) {
+        throw new Error("invalid date list data.");
+    }
+};
+
+const fillWeeks = (year: number, month: number, dateList: DateType[]) => {
+    const lastDate = dateList[dateList.length - 1];
+    if (lastDate.isCurrentMonthDate) {
+        fillWeeksByNextMonth(year, month, lastDate, dateList);
+        return;
+    }
+
+    let weekNo = lastDate.weekNo + 1;
+    let date = lastDate.date + 1;
+    let dayIndex = 0;
+    while (weekNo <= MAX_CALENDAR_WEEK_NO) {
+        dateList.push({
+            ...lastDate,
+            date,
+            dayIndex,
+            weekNo,
+            isCurrentMonthDate: false,
+        });
+        ++dayIndex;
+        ++date;
+        if (dayIndex === 7) {
+            ++weekNo;
+            dayIndex = 0;
+        }
+    }
+};
+
+const fillWeeksByNextMonth = (year: number, month: number, lastDate: DateType, dateList: DateType[]) => {
+    const nextDateList = getDateList(year, month);
+    let weekNo = lastDate.weekNo + 1;
+    let i = 0;
+    let dayIndex = 0;
+    while (weekNo <= MAX_CALENDAR_WEEK_NO) {
+        dateList.push({
+            ...nextDateList[i],
+            weekNo,
+            dayIndex,
+            isCurrentMonthDate: false,
+        });
+        ++i;
+        ++dayIndex;
+        if (dayIndex === 7) {
+            ++weekNo;
+            dayIndex = 0;
+        }
+    }
+};
+
+const createCalendarWeeks = (dateList: DateType[], locale: CalendarLocaleType): CalendarWeek[] => {
     const weeks: CalendarWeek[] = [];
-    let week = newWeek(1);
+    let week = createCalendarWeek(1);
     let i = 0;
     const size = dateList.length;
     while (i < size) {
         const data = dateList[i];
         if (data.weekNo > week.weekNo) {
             weeks.push(week);
-            week = newWeek(data.weekNo);
+            week = createCalendarWeek(data.weekNo);
         }
 
         week.dateList.push(
-            newCalendarDate(data, locale),
+            createCalendarDate(data, locale),
         );
         ++i;
     }
@@ -144,14 +177,14 @@ const makeWeeks = (dateList: DateType[], locale: CalendarLocaleType): CalendarWe
     return weeks;
 };
 
-const newWeek = (weekNo: number): CalendarWeek => {
+const createCalendarWeek = (weekNo: number): CalendarWeek => {
     return {
         weekNo,
         dateList: [],
     };
 };
 
-const newCalendarDate = (date: DateType, locale: CalendarLocaleType): CalendarDate => {
+const createCalendarDate = (date: DateType, locale: CalendarLocaleType): CalendarDate => {
     const calendarMonth = formatCalendarMonth(
         date.year,
         date.month + 1,

@@ -21,3 +21,7 @@ export type CalendarWeek = {
     weekNo: number; // 현재 달력에서의 주차
     dateList: CalendarDate[]; // size 7
 };
+
+export const MIN_CALENDAR_DATE_LIST_SIZE = 28;
+export const MAX_CALENDAR_DATE_LIST_SIZE = 42;
+export const MAX_CALENDAR_WEEK_NO = 6; // 6주
