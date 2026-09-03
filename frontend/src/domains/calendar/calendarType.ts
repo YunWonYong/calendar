@@ -1,7 +1,9 @@
+import type { Month_1_To_12 } from "../lib/date";
+
 export type CalendarMonth = {
     year: number;
     yearText: string;
-    month: number;
+    month: Month_1_To_12;
     monthText: string;
 };
 

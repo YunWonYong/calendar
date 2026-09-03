@@ -1,6 +1,7 @@
 import { CalendarLocale } from "@/domains/calendar/calendarLocale";
 import { getCalendarWeeks } from "./calendar";
 import type { CalendarWeek } from "@/domains/calendar/calendarType";
+import type { Month_1_To_12 } from "@/domains/lib/date";
 
 const expectValidCalendarWeeks = (weeks: CalendarWeek[]) => {
     expect(weeks).toHaveLength(6);
@@ -14,7 +15,7 @@ const expectValidCalendarWeeks = (weeks: CalendarWeek[]) => {
 describe("getWeeks 함수 테스트. KR locale", () => {
     test("case 1: 2026.09", () => {
         const year = 2026;
-        const month = 9;
+        const month = 9 as Month_1_To_12;
         const weeks = getCalendarWeeks(year, month, CalendarLocale.KR);
         expectValidCalendarWeeks(weeks);
         expect(weeks[0].dateList[0]).toMatchObject({
@@ -50,7 +51,7 @@ describe("getWeeks 함수 테스트. KR locale", () => {
     });
     test("case 2: 2026.02", () => {
         const year = 2026;
-        const month = 2;
+        const month = 2 as Month_1_To_12;
         const weeks = getCalendarWeeks(year, month, CalendarLocale.KR);
         expectValidCalendarWeeks(weeks);
 
@@ -87,7 +88,7 @@ describe("getWeeks 함수 테스트. KR locale", () => {
     });
     test("case 3: 2026.03", () => {
         const year = 2026;
-        const month = 3;
+        const month = 3 as Month_1_To_12;
         const weeks = getCalendarWeeks(year, month, CalendarLocale.KR);
         expectValidCalendarWeeks(weeks);
 
@@ -124,7 +125,7 @@ describe("getWeeks 함수 테스트. KR locale", () => {
     });
     test("case 4: 2026.12", () => {
         const year = 2026;
-        const month = 12;
+        const month = 12 as Month_1_To_12;
         const weeks = getCalendarWeeks(year, month, CalendarLocale.KR);
         expectValidCalendarWeeks(weeks);
 
@@ -161,7 +162,7 @@ describe("getWeeks 함수 테스트. KR locale", () => {
     });
     test("case 5: 2028.02 윤달(Leap year)", () => {
         const year = 2028;
-        const month = 2;
+        const month = 2 as Month_1_To_12;
         const weeks = getCalendarWeeks(year, month, CalendarLocale.KR);
         expectValidCalendarWeeks(weeks);
 

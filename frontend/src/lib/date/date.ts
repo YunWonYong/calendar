@@ -1,7 +1,11 @@
-import type { DateType, MonthType } from "@/domains/lib/date";
+import type { DateType, Month_0_To_11, Month_1_To_12, MonthType } from "@/domains/lib/date";
+
+export const getDateListByMonth_1_To_12 = (year: number, month: Month_1_To_12) => {
+    return getDateList(year, convertMonthType(month));
+};
 
 // 년도와 월에 따라 반환되는 배열의 사이즈가 유동적임. size: 28, 35, 42
-export const getDateList = (year: number, month: number): DateType[] => {
+export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
     const dateList: DateType[] = [];
     const currentDate = getCurrentMonth(year, month);
     const currentFirstDayIndex = currentDate.firstDayIndex;
@@ -69,36 +73,36 @@ export const getDateList = (year: number, month: number): DateType[] => {
     return dateList;
 };
 
-export const getCurrentMonth = (year: number, month: number): MonthType => {
+export const getCurrentMonth = (year: number, month: Month_0_To_11): MonthType => {
     const d = newUTCDate(year, month, 1);
     const d2 = newUTCDate(year, month + 1, 0);
     return {
         year,
-        month,
+        month: toMonth_0_To_11(month),
         lastDate: d2.getUTCDate(),
         firstDayIndex: d.getUTCDay(),
         lastDayIndex: d2.getUTCDay(),
     };
 };
 
-export const getPrevMonth = (year: number, month: number): MonthType => {
+export const getPrevMonth = (year: number, month: Month_0_To_11): MonthType => {
     const d = newUTCDate(year, month, 0);
     const d2 = newUTCDate(year, month - 1, 1);
     return { 
         year: d.getUTCFullYear(), 
-        month: d.getUTCMonth(), 
+        month: toMonth_0_To_11(d.getUTCMonth()), 
         lastDate: d.getUTCDate(),
         firstDayIndex: d2.getUTCDay(), 
         lastDayIndex: d.getUTCDay(), 
     };
 };
 
-export const getNextMonth = (year: number, month: number): MonthType => {
+export const getNextMonth = (year: number, month: Month_0_To_11): MonthType => {
     const d = newUTCDate(year, month + 1, 1);
     const d2 = newUTCDate(year, month + 2, 0);
     return { 
         year: d.getUTCFullYear(), 
-        month: d.getUTCMonth(), 
+        month: toMonth_0_To_11(d.getUTCMonth()), 
         lastDate: d2.getUTCDate(),
         firstDayIndex: d.getUTCDay(), 
         lastDayIndex: d2.getUTCDay(), 
@@ -107,4 +111,16 @@ export const getNextMonth = (year: number, month: number): MonthType => {
 
 const newUTCDate = (year: number, month: number, date: number = 1) => {
     return new Date(Date.UTC(year, month, date));
+};
+
+const toMonth_0_To_11 = (month: number) => {
+    if (month < 0 || month > 11) {
+        throw new Error(`invalid month value. [${month}]`);
+    }
+
+    return month as Month_0_To_11;
+};
+
+const convertMonthType = (month: Month_1_To_12): Month_0_To_11 => {
+    return toMonth_0_To_11(month - 1);
 };

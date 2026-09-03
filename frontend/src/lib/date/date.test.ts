@@ -1,9 +1,10 @@
 import { getCurrentMonth, getDateList, getNextMonth, getPrevMonth } from "./date";
+import type { Month_0_To_11 } from "@/domains/lib/date";
 
 describe("getCurrentMonth 함수 테스트.", () => {
     test("case 1: 2026.09", () => {
         const year = 2026;
-        const month = 8;
+        const month = 8 as Month_0_To_11;
         const currentDate = getCurrentMonth(year, month);
         expect(currentDate)
             .toMatchObject({
@@ -16,7 +17,7 @@ describe("getCurrentMonth 함수 테스트.", () => {
     });
     test("case 2: 2026.02", () => {
         const year = 2026;
-        const month = 1;
+        const month = 1 as Month_0_To_11;
         const currentDate = getCurrentMonth(year, month);
         expect(currentDate)
             .toMatchObject({
@@ -29,7 +30,7 @@ describe("getCurrentMonth 함수 테스트.", () => {
     });
     test("case 3: 2026.10", () => {
         const year = 2026;
-        const month = 9;
+        const month = 9 as Month_0_To_11;
         const currentDate = getCurrentMonth(year, month);
         expect(currentDate)
             .toMatchObject({
@@ -42,7 +43,7 @@ describe("getCurrentMonth 함수 테스트.", () => {
     });
     test("case 4: Leap year", () => {
         const year = 2024;
-        const month = 1;
+        const month = 1 as Month_0_To_11;
         const currentDate = getCurrentMonth(year, month);
         expect(currentDate)
             .toMatchObject({
@@ -58,7 +59,7 @@ describe("getCurrentMonth 함수 테스트.", () => {
 describe("getPrevMonth 함수 테스트.", () => {
     test("case 1: normal", () => {
         const year = 2026;
-        const month = 8;
+        const month = 8 as Month_0_To_11;
         const prevDate = getPrevMonth(year, month);
         expect(prevDate)
             .toMatchObject({
@@ -71,7 +72,7 @@ describe("getPrevMonth 함수 테스트.", () => {
     });
     test("case 2: overflow year", () => {
         const year = 2026;
-        const month = 0;
+        const month = 0 as Month_0_To_11;
         const prevDate = getPrevMonth(year, month);
         expect(prevDate)
             .toMatchObject({
@@ -84,7 +85,7 @@ describe("getPrevMonth 함수 테스트.", () => {
     });
     test("case 3: Leap year", () => {
         const year = 2024;
-        const month = 2;
+        const month = 2 as Month_0_To_11;
         const prevDate = getPrevMonth(year, month);
         expect(prevDate)
             .toMatchObject({
@@ -100,7 +101,7 @@ describe("getPrevMonth 함수 테스트.", () => {
 describe("getNextDate 함수 테스트.", () => {
     test("case 1: normal", () => {
         const year = 2026;
-        const month = 8;
+        const month = 8 as Month_0_To_11;
         const prevDate = getNextMonth(year, month);
         expect(prevDate)
             .toMatchObject({
@@ -113,7 +114,7 @@ describe("getNextDate 함수 테스트.", () => {
     });
     test("case 2: overflow year", () => {
         const year = 2026;
-        const month = 11;
+        const month = 11 as Month_0_To_11;
         const prevDate = getNextMonth(year, month);
         expect(prevDate)
             .toMatchObject({
@@ -126,7 +127,7 @@ describe("getNextDate 함수 테스트.", () => {
     });
     test("case 3: Leap year", () => {
         const year = 2024;
-        const month = 0;
+        const month = 0 as Month_0_To_11;
         const prevDate = getNextMonth(year, month);
         expect(prevDate)
             .toMatchObject({
@@ -142,7 +143,7 @@ describe("getNextDate 함수 테스트.", () => {
 describe("getDateList 함수 테스트.", () => {
     test("case 1: 2026.09", () => {
         const year = 2026;
-        const month = 8;
+        const month = 8 as Month_0_To_11;
         const dateList = getDateList(year, month);
         expect(Array.isArray(dateList)).toBeTruthy();
         expect(dateList.length).toBe(35);
@@ -194,7 +195,7 @@ describe("getDateList 함수 테스트.", () => {
     });
     test("case 2: 2026.12", () => {
         const year = 2026;
-        const month = 11;
+        const month = 11 as Month_0_To_11;
         const dateList = getDateList(year, month);
         expect(Array.isArray(dateList)).toBeTruthy();
         expect(dateList.length).toBe(35);
@@ -246,7 +247,7 @@ describe("getDateList 함수 테스트.", () => {
     });
     test("case 3: 2024.02 Leap year", () => {
         const year = 2024;
-        const month = 1;
+        const month = 1 as Month_0_To_11;
         const dateList = getDateList(year, month);
         expect(Array.isArray(dateList)).toBeTruthy();
         expect(dateList.length).toBe(35);
@@ -298,7 +299,7 @@ describe("getDateList 함수 테스트.", () => {
     });
     test("case 4: 2027.01 size 42", () => {
         const year = 2027;
-        const month = 0;
+        const month = 0 as Month_0_To_11;
         const dateList = getDateList(year, month);
         expect(Array.isArray(dateList)).toBeTruthy();
         expect(dateList.length).toBe(42);
@@ -350,7 +351,7 @@ describe("getDateList 함수 테스트.", () => {
     });
     test("case 5: 2026.02 size 28", () => {
         const year = 2026;
-        const month = 1;
+        const month = 1 as Month_0_To_11;
         const dateList = getDateList(year, month);
         expect(Array.isArray(dateList)).toBeTruthy();
         expect(dateList.length).toBe(28);

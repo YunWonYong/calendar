@@ -1,4 +1,4 @@
-import { getDateList } from "../date/date";
+import { getDateListByMonth_1_To_12 } from "../date/date";
 
 import { CALENDAR_MONTH_SUFFIXES, CALENDAR_FULL_MONTH_TEXTS, CALENDAR_YEAR_SUFFIXES, CALENDAR_WEEKDAY_TEXTS } from "@/domains/calendar/calendarLocale";
 import { MAX_CALENDAR_DATE_LIST_SIZE, MAX_CALENDAR_WEEK_NO, MIN_CALENDAR_DATE_LIST_SIZE } from "@/domains/calendar/calendarType";
@@ -6,12 +6,12 @@ import { MAX_CALENDAR_DATE_LIST_SIZE, MAX_CALENDAR_WEEK_NO, MIN_CALENDAR_DATE_LI
 import type { CalendarLocaleType, MonthKey } from "@/domains/calendar/calendarLocale";
 import type { CalendarDate, CalendarMonth, CalendarWeek } from "@/domains/calendar/calendarType";
 import type { CalendarContextMonths } from "@/domains/calendar/calendarContext";
-import type { DateType } from "@/domains/lib/date";
+import type { DateType, Month_1_To_12 } from "@/domains/lib/date";
 
 export const nextMonth = (currentMonth: CalendarMonth, locale: CalendarLocaleType) => {
     const { year, month } = calcMonth(
         currentMonth.year,
-        currentMonth.month + 1
+        currentMonth.month + 1,
     );
     return getCalendarMonths(year, month, locale);
 };
@@ -19,7 +19,7 @@ export const nextMonth = (currentMonth: CalendarMonth, locale: CalendarLocaleTyp
 export const previousMonth = (currentMonth: CalendarMonth, locale: CalendarLocaleType) => {
     const { year, month } = calcMonth(
         currentMonth.year,
-        currentMonth.month - 1
+        currentMonth.month - 1,
     );
     return getCalendarMonths(year, month, locale);
 };
@@ -34,17 +34,17 @@ export const jumpMonth = (month: CalendarMonth, locale: CalendarLocaleType) => {
 
 const calcMonth = (year: number, month: number) => {
     if (month < 1) {
-        return { year: year -1, month: 12 };
+        return { year: year -1, month: toMonth_1_To_12(12)};
     }
 
     if (month > 12) {
-        return { year: year + 1, month: 1 };
+        return { year: year + 1, month: toMonth_1_To_12(1)};
     }
 
-    return { year, month };
+    return { year, month: toMonth_1_To_12(month) };
 };
 
-const getCalendarMonths = (year: number, month: number, locale: CalendarLocaleType): CalendarContextMonths => {
+const getCalendarMonths = (year: number, month: Month_1_To_12, locale: CalendarLocaleType): CalendarContextMonths => {
     const weeks = getCalendarWeeks(year, month, locale);
     const calcPrevMonth = calcMonth(year, month - 1);
     const previousMonth = formatCalendarMonth(
@@ -73,12 +73,8 @@ const getCalendarMonths = (year: number, month: number, locale: CalendarLocaleTy
     };
 };
 
-export const getCalendarWeeks = (year: number, month: number, locale: CalendarLocaleType): CalendarWeek[] => {
-    if (month < 1 || month > 12) {
-        throw new Error("invalid month.");
-    }
-
-    const dateList = getDateList(year, month -1);
+export const getCalendarWeeks = (year: number, month: Month_1_To_12, locale: CalendarLocaleType): CalendarWeek[] => {
+    const dateList = getDateListByMonth_1_To_12(year, month);
     validateDateList(dateList);
 
     if (dateList.length < MAX_CALENDAR_DATE_LIST_SIZE) {
@@ -135,7 +131,11 @@ const fillWeeks = (year: number, month: number, dateList: DateType[]) => {
 };
 
 const fillWeeksByNextMonth = (year: number, month: number, lastDate: DateType, dateList: DateType[]) => {
-    const nextDateList = getDateList(year, month);
+    const calcedMonth = calcMonth(year, month + 1);
+    const nextDateList = getDateListByMonth_1_To_12(
+        calcedMonth.year,
+        calcedMonth.month,
+    );
     let weekNo = lastDate.weekNo + 1;
     let i = 0;
     let dayIndex = 0;
@@ -187,7 +187,7 @@ const createCalendarWeek = (weekNo: number): CalendarWeek => {
 const createCalendarDate = (date: DateType, locale: CalendarLocaleType): CalendarDate => {
     const calendarMonth = formatCalendarMonth(
         date.year,
-        date.month + 1,
+        toMonth_1_To_12(date.month + 1),
         locale,
     );
     return {
@@ -199,7 +199,7 @@ const createCalendarDate = (date: DateType, locale: CalendarLocaleType): Calenda
     };
 };
 
-const formatCalendarMonth = (year: number, month: number, locale: CalendarLocaleType): CalendarMonth => {
+const formatCalendarMonth = (year: number, month: Month_1_To_12, locale: CalendarLocaleType): CalendarMonth => {
     return {
         year,
         yearText: formatYear(year, locale),
@@ -212,7 +212,7 @@ const formatYear = (year: number, locale: CalendarLocaleType) => {
     return `${year}${CALENDAR_YEAR_SUFFIXES[locale] || ""}`;
 };
 
-const formatMonth = (month: number, locale: CalendarLocaleType) => {
+const formatMonth = (month: Month_1_To_12, locale: CalendarLocaleType) => {
     const monthTexts = CALENDAR_FULL_MONTH_TEXTS[locale];
     if (!monthTexts) {
         throw new Error(`${locale} not supported locale. [formatMonth]`);
@@ -239,4 +239,12 @@ const formatDay = (day: number, locale: CalendarLocaleType) => {
     }
 
     return weekdayText;
+};
+
+const toMonth_1_To_12 = (month: number) => {
+    if (month < 1 || month > 12) {
+        throw new Error(`invalid month value. [${month}]`);
+    }
+
+    return month as Month_1_To_12;
 };
