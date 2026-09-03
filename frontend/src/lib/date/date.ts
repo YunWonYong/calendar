@@ -1,6 +1,8 @@
+import type { DateType, MonthType } from "@/domains/lib/date";
+
 // 년도와 월에 따라 반환되는 배열의 사이즈가 유동적임. size: 28, 35, 42
-export const getDateList = (year: number, month: number) => {
-    const dateList = [];
+export const getDateList = (year: number, month: number): DateType[] => {
+    const dateList: DateType[] = [];
     const currentDate = getCurrentMonth(year, month);
     const currentFirstDayIndex = currentDate.firstDayIndex;
     let weekNo = 1;
@@ -67,7 +69,7 @@ export const getDateList = (year: number, month: number) => {
     return dateList;
 };
 
-export const getCurrentMonth = (year: number, month: number) => {
+export const getCurrentMonth = (year: number, month: number): MonthType => {
     const d = newUTCDate(year, month, 1);
     const d2 = newUTCDate(year, month + 1, 0);
     return {
@@ -79,7 +81,7 @@ export const getCurrentMonth = (year: number, month: number) => {
     };
 };
 
-export const getPrevMonth = (year: number, month: number) => {
+export const getPrevMonth = (year: number, month: number): MonthType => {
     const d = newUTCDate(year, month, 0);
     const d2 = newUTCDate(year, month - 1, 1);
     return { 
@@ -91,7 +93,7 @@ export const getPrevMonth = (year: number, month: number) => {
     };
 };
 
-export const getNextMonth = (year: number, month: number) => {
+export const getNextMonth = (year: number, month: number): MonthType => {
     const d = newUTCDate(year, month + 1, 1);
     const d2 = newUTCDate(year, month + 2, 0);
     return { 
