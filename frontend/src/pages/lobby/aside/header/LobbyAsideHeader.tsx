@@ -1,7 +1,6 @@
 import Link from "@/components/link";
-import logoImage from "@/assets/logo/logo.png";
+import LogoImage from "@/components/LogoImage";
 import useAuth from "@/hooks/auth/useAuth";
-import Image from "@/components/Image";
 
 import LobbyAsideHeaderLoginButton from "./LobbyAsideHeaderLoginButton";
 import LobbyAsideUserProfile from "./LobbyAsideUserProfile";
@@ -65,10 +64,8 @@ const LogoAndCollapsedButton = ({ asideState, toggleAsideState }: LobbyAsideProp
                                 아워캘
                             </span>
                     }
-                    <Image
+                    <LogoImage 
                         className={ styles.logo }
-                        src={ logoImage }
-                        alt="아워캘 로고"
                         data-display-type={ asideState }
                     />
                 </Link>
