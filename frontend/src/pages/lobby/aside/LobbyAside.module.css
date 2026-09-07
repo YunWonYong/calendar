@@ -1,7 +1,6 @@
 .nav {
-    width: 220px;
+    width: var(--aside-width, 220px);
     min-height: 100dvh;
-    
     background-color: var(--bg-color);
     display: flex;
     flex-direction: column;
@@ -12,11 +11,6 @@
     transition: width 0.2s ease;
     color: var(--text-color);
     overflow: hidden;
-    
-}
-
-.nav[data-display-type="collapsed"] {
-    width: 80px;
 }
 
 .group-list {
