@@ -42,6 +42,13 @@ const LogoBox = ({ asideState }: { asideState: LobbyAsideState }) => {
                 className={ styles.logoLink }
                 to="/"
             >
+                <LogoImage 
+                    className={ 
+                        asideState === "expanded"
+                            ?   styles.logo
+                            :   styles.logoCollapsed   
+                    }
+                />
                 {
                     asideState === "expanded" &&
                         <span
@@ -50,10 +57,6 @@ const LogoBox = ({ asideState }: { asideState: LobbyAsideState }) => {
                             아워캘
                         </span>
                 }
-                <LogoImage 
-                    className={ styles.logo }
-                    data-display-type={ asideState }
-                />
             </Link>
         </div>
     );

@@ -36,11 +36,11 @@
     width: 100%;
     cursor: pointer;
     text-align: center;
+    overflow: hidden;
 }
 
 .logo-box[data-display-type="collapsed"] {
     width: 90%;
-    overflow: hidden;
     border: 1px solid #fff;
     border-radius: 50%;
     box-shadow:
@@ -51,6 +51,12 @@
 .logo {
     object-fit: cover;
     object-position: center;
+    vertical-align: sub;
+    width: 86px;
+    height: 86px;
+}
+
+.logo-collapsed {
     width: 64px;
     height: 64px;
 }
@@ -62,6 +68,7 @@
 }
 
 .logo-text {
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
 }
