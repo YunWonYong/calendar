@@ -11,6 +11,15 @@
             "sourceMaps": true 
         },
         {
+            "type": "chrome",
+            "name": "calendar frontend (local) force",
+            "request": "launch",
+            "url": "http://localhost:3001",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "frontend dev force",
+            "sourceMaps": true,
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "현재 Jest 파일 디버깅",
