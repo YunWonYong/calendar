@@ -1,11 +1,19 @@
-.button-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .login-button {
-    padding-top: 15px;
     font-size: 1rem;
     font-weight: 700;
+}
+
+.login-button-icon {
+    width: 24px;
+    width: 24px;
+    overflow: hidden;
+}
+
+.login-button-icon[data-display-type="collapsed"] {
+    width: 64px;
+    height: 64px;
+    box-sizing: border-box;
+    padding: 10px;
+    object-fit: cover;
+    object-position: center;
 }

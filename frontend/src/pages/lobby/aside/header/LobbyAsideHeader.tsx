@@ -5,6 +5,8 @@ import useAuth from "@/hooks/auth/useAuth";
 import LobbyAsideHeaderLoginButton from "./LobbyAsideHeaderLoginButton";
 import LobbyAsideUserProfile from "./LobbyAsideUserProfile";
 
+import AsideImageBox from "../components/AsideImageBox";
+
 import styles from "./LobbyAsideHeader.module.css";
 
 import type { LobbyAsideProps, LobbyAsideState } from "../../LobbyTypes";
@@ -34,9 +36,8 @@ const LobbyAsideHeader = ({ asideState, toggleAsideState }: LobbyAsideProps) => 
 
 const LogoBox = ({ asideState }: { asideState: LobbyAsideState }) => {
     return (
-        <div
-            className={ styles.logoBox }
-            data-display-type={ asideState }
+        <AsideImageBox
+            asideState={ asideState }
         >
             <Link
                 className={ styles.logoLink }
@@ -58,7 +59,7 @@ const LogoBox = ({ asideState }: { asideState: LobbyAsideState }) => {
                         </span>
                 }
             </Link>
-        </div>
+        </AsideImageBox>
     );
 };
 
@@ -77,7 +78,6 @@ const AsideToggleButton = ({ asideState, toggleAsideState }: LobbyAsideProps) =>
         </div>
     );
 };
-
 
 const AsideToggleButtonSVG = ({ asideState }: { asideState: LobbyAsideState }) => {
     return (
