@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 import ThemeContext from "@/contexts/theme/ThemeContext";
 
-import type { ThemeContextType } from "@/domains/theme/themeTypes";
+import { THEME_TYPES, type ThemeContextType } from "@/domains/theme/themeTypes";
 
 
 const useTheme = () => {
@@ -10,14 +10,15 @@ const useTheme = () => {
         throw new Error("useTheme must be used within ThemeProvider");
     }
 
-    const { currentTheme, onChangeTheme } = ctx;
+    const { currentTheme, onChangeTheme, isDarkTheme } = ctx;
     const toggleTheme = useCallback(() => {
-        const changeTheme = currentTheme === "dark"? "light": "dark";
+        const changeTheme = currentTheme === THEME_TYPES.DARK? THEME_TYPES.LIGHT: THEME_TYPES.DARK;
         onChangeTheme(changeTheme);
     }, [ currentTheme ]);
     return { 
         theme: currentTheme,
         toggleTheme,
+        isDarkTheme, 
     };
 };
 
