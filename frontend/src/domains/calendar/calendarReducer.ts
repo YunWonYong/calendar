@@ -1,4 +1,5 @@
 import type { CalendarContextMonths } from "./calendarContext";
+import type { CalendarLocaleType } from "./calendarLocale";
 import type { CalendarDate, CalendarMonth } from "./calendarType";
 
 export const ActionTypes = {
@@ -11,24 +12,25 @@ export const ActionTypes = {
 
 export type ActionType = typeof ActionTypes[keyof typeof ActionTypes];
 
-export type Action = 
-    {
-        type: ActionType; 
-    } |
-    {
-        type: Extract<ActionType, "INIT_CALENDAR">;
-        payload: CalendarContextMonths,
-    } |
-    {
-        type: Extract<ActionType, "JUMP_MONTH">;
-        payload: CalendarMonth;
-    } |
-    {
-        type: Extract<ActionType, "SELECT_DATE">;
-        payload: CalendarDate;
-    };
+export type Action = { type: typeof ActionTypes.INIT_CALENDAR; payload: CalendarLocaleType } | 
+    { type: typeof ActionTypes.PREV_MONTH } | 
+    { type: typeof ActionTypes.NEXT_MONTH } | 
+    { type: typeof ActionTypes.SELECT_DATE; payload: CalendarDate } | 
+    { type: typeof ActionTypes.JUMP_MONTH; payload: CalendarMonth };
 
-export type State = {
-    hasInit: boolean;
-    months: CalendarContextMonths;
+export type UninitializedState = {
+    isInitialized: false;
+    locale: null;
+    months: null;
+    selectedDate: null;
 };
+
+// 2. 초기화 후 상태
+export type InitializedState = {
+    isInitialized: true;
+    locale: CalendarLocaleType;
+    months: CalendarContextMonths;
+    selectedDate: CalendarDate | null;
+};
+
+export type State = UninitializedState | InitializedState;

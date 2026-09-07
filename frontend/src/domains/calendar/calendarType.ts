@@ -16,6 +16,7 @@ export type CalendarDate = {
 
 export type CalendarCurrentDate = {
     month: CalendarMonth;
+    today: number;
     weeks: CalendarWeek[];
 };
 

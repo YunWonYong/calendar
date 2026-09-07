@@ -44,6 +44,16 @@ const calcMonth = (year: number, month: number) => {
     return { year, month: toMonth_1_To_12(month) };
 };
 
+export const getCurrentCalendarMonths = (locale: CalendarLocaleType): CalendarContextMonths => {
+    const d = new Date();
+    const year = d.getUTCFullYear();
+    const month = d.getUTCMonth();
+    const date = d.getUTCDate();
+    const months = getCalendarMonths(year, toMonth_1_To_12(month + 1), locale);
+    months.current.today = date;
+    return months;
+};
+
 const getCalendarMonths = (year: number, month: Month_1_To_12, locale: CalendarLocaleType): CalendarContextMonths => {
     const weeks = getCalendarWeeks(year, month, locale);
     const calcPrevMonth = calcMonth(year, month - 1);
@@ -67,6 +77,7 @@ const getCalendarMonths = (year: number, month: Month_1_To_12, locale: CalendarL
                 month,
                 locale,
             ),
+            today: 0,
             weeks,
         },
         next: nextMonth,
