@@ -7,12 +7,12 @@
     border-bottom: 2px solid var(--border-color);
 }
 
-.collapsed-wrap {
+.toggle-wrap {
     width: 100%;
     text-align: right;
 }
 
-.collapsed-btn {
+.toggle-btn {
     border: none;
     background: none;
     padding: 5px;
@@ -23,6 +23,13 @@
     color: var(--text-color);
     font-weight: 900;
     font-size: 11px;
+}
+
+.toggle-img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .logo-box {
