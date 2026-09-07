@@ -16,7 +16,11 @@ const Image: FC<ImageProps> = (props) => {
     return (
         <div
             style={{
-                position: "relative"
+                position: "relative",
+                userSelect: "none",
+                msUserSelect: "none",
+                MozUserSelect: "none",
+                WebkitUserSelect: "none",
             }}
         >
             {
@@ -33,10 +37,18 @@ const Image: FC<ImageProps> = (props) => {
                             onLoadingHandler={ onLoadingHandler }
                         />
                     :   <img
+                            style={{
+                                userSelect: "none",
+                                msUserSelect: "none",
+                                MozUserSelect: "none",
+                                WebkitUserSelect: "none",
+                            }}
                             className={ className }
                             src={ src }
                             alt={ alt }
                             onLoad={ onLoadingHandler }
+                            draggable={ false }
+                            onDragStart={(e) => e.preventDefault()}
                         />
             }
         </div>
@@ -50,9 +62,16 @@ const DefaultImage = ({ className, src, defaultSrc, alt, onLoadingHandler }: Def
     }, [src, defaultSrc]);
     return (
         <img
+            style={{
+                userSelect: "none",
+                msUserSelect: "none",
+                MozUserSelect: "none",
+                WebkitUserSelect: "none",
+            }}
             className={ className }
             src={ imageSrc }
             alt={ alt }
+            draggable={ false }
             onLoad={ onLoadingHandler }
             onError={() => {
                 if (imageSrc === defaultSrc) {
@@ -60,6 +79,7 @@ const DefaultImage = ({ className, src, defaultSrc, alt, onLoadingHandler }: Def
                 }
                 setImageSrc(defaultSrc);
             }}
+            onDragStart={(e) => e.preventDefault()}
         />
     );
 };
