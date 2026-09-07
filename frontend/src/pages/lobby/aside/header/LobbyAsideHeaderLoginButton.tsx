@@ -15,15 +15,22 @@ const LobbyAsideHeaderLoginButton = ({ asideState }: { asideState: LobbyAsideSta
                 className={ styles.loginButton }
                 to="/login"
             >
-                {
-                    asideState === "expanded" &&
-                        <span>
-                            로그인
-                        </span>
-                }
-                <LoginButtonSVG 
-                    asideState={ asideState }
-                />
+                <div
+                    className={ styles.loginButtonInlineBox }
+                    data-display-type={ asideState }
+                >
+                    {
+                        asideState === "expanded" &&
+                            <span
+                                className={ styles.loginButtonText }
+                            >
+                                로그인
+                            </span>
+                    }
+                    <LoginButtonSVG 
+                        asideState={ asideState }
+                    />
+                </div>
             </Link>
         </AsideImageBox>
     );
