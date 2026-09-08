@@ -1,37 +1,53 @@
-import { getCurrentCalendarMonths, jumpMonth, nextMonth, previousMonth } from "@/lib/calendar/calendar";
+import { getCalendarMonths, getCalendarWeekdayTexts, getCurrentCalendarMonths, jumpMonth, nextMonth, previousMonth } from "@/lib/calendar/calendar";
 import { ActionTypes } from "@/domains/calendar/calendarReducer";
 
-import type { Action, ActionType, InitializedState, State } from "@/domains/calendar/calendarReducer";
+import type { Action, State } from "@/domains/calendar/calendarReducer";
+import type { CalendarLocaleType } from "@/domains/calendar/calendarLocale";
 
-type AssertInitialized = (state: State, type: ActionType) => asserts state is InitializedState;
+// type AssertInitialized = (state: State, type: ActionType) => asserts state is InitializedState;
 
-const assertInitialized: AssertInitialized = (state: State, type: ActionType) => {
-    if (!state.isInitialized && type !== ActionTypes.INIT_CALENDAR) {
-        throw new Error("Calendar state is not initialized.");
-    }
-}
+// const assertInitialized: AssertInitialized = (state: State, type: ActionType) => {
+//     if (!state.isInitialized && type !== ActionTypes.INIT_CALENDAR) {
+//         throw new Error("Calendar state is not initialized.");
+//     }
+// }
+
+export const initCalendarState = (locale: CalendarLocaleType) => {
+    const weekdayTexts = getCalendarWeekdayTexts(locale);
+    return {
+        weekdayTexts,
+        info: getCurrentCalendarMonths(locale),
+        selectedDate: null,
+        locale,
+    };
+};
 
 export const reducer = (state: State, action: Action): State => {
-    assertInitialized(state, action.type);
     switch(action.type) {
-        case ActionTypes.INIT_CALENDAR:
-            if (state.isInitialized) {
-                throw new Error("already calendar state.");
+        case ActionTypes.CHANGE_LOCALE:
+            const locale = action.payload;
+            if (locale === state.locale) {
+                return state;
             }
             
-            const locale = action.payload;
+            const weekdayTexts = getCalendarWeekdayTexts(locale);
+            const { current } = state.info;
             return {
-                isInitialized: true,
-                selectedDate: null,
+                ...state,
+                weekdayTexts,
+                info: getCalendarMonths(
+                    current.year,
+                    current.month,
+                    locale
+                ),
                 locale,
-                months: getCurrentCalendarMonths(locale),
             };
         case ActionTypes.PREV_MONTH:
             return { 
                 ...state, 
                 selectedDate: null,
-                months: previousMonth(
-                    state.months.previous,
+                info: previousMonth(
+                    state.info.previous,
                     state.locale,
                 ) 
             };
@@ -39,8 +55,8 @@ export const reducer = (state: State, action: Action): State => {
             return { 
                 ...state,
                 selectedDate: null,
-                months: nextMonth(
-                    state.months.next,
+                info: nextMonth(
+                    state.info.next,
                     state.locale,
                 )
             };
@@ -48,7 +64,7 @@ export const reducer = (state: State, action: Action): State => {
             return { 
                 ...state,
                 selectedDate: null,
-                months: jumpMonth(
+                info: jumpMonth(
                     action.payload,
                     state.locale,
                 ),

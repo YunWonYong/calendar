@@ -10,15 +10,15 @@ export type CalendarMonth = {
 export type CalendarDate = {
     date: number;
     dateText: string;
+    dayIndex: number;
     dayOfWeek: string;
     isCurrentMonth: boolean; // 현재 달과 다른 달의 날짜가 포함될 수 있음.
 } & CalendarMonth;
 
 export type CalendarCurrentDate = {
-    month: CalendarMonth;
-    today: number;
+    today: string;
     weeks: CalendarWeek[];
-};
+} & CalendarMonth;
 
 export type CalendarWeek = {
     weekNo: number; // 현재 달력에서의 주차

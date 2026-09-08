@@ -1,13 +1,14 @@
 import { useCallback, useState } from "react";
+
 import { trackClickAndPreventDefault } from "@/analytics/button";
+import useAuth from "@/hooks/auth/useAuth";
 
 import LobbyAside from "./aside/LobbyAside";
+import CalendarPage from "../calendar/CalendarPage";
 
 import styles from "./LobbyPage.module.css";
+
 import type { LobbyAsideState } from "./LobbyTypes";
-import Calendar from "../calendar/Calendar";
-import useAuth from "@/hooks/auth/useAuth";
-import LandingPage from "./landing/LandingPage";
 
 const LobbyPage = () => {
     const { isLogin } = useAuth();
@@ -41,9 +42,7 @@ const LobbyPage = () => {
                 className={ styles.lobbySection }
             >
                 {
-                    isLogin
-                        ?   <Calendar />
-                        :   <LandingPage />
+                    isLogin && <CalendarPage />
                 }
                 
             </section>
