@@ -12,11 +12,14 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import ReactRefreshTypeScript from "react-refresh-typescript";
 
 import envConfig from "./config";
 
 const isProduction = envConfig.webpackBuildMode === "production";
 
+console.log("isProduction: ", isProduction);
 const config: Configuration = {
     mode: envConfig.webpackBuildMode,
     entry: "./src/index.tsx",
@@ -25,11 +28,26 @@ const config: Configuration = {
             {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
-                loader: 'esbuild-loader',
-                options: {
-                    loader: 'tsx',
-                    target: 'es2015',
-                },
+
+                use: isProduction
+                    ? {
+                          loader: "esbuild-loader",
+                          options: {
+                              loader: "tsx",
+                              target: "es2015",
+                          },
+                      }
+                    : {
+                          loader: "ts-loader",
+                          options: {
+                              transpileOnly: true,
+                              getCustomTransformers: () => ({
+                                  before: [
+                                      ReactRefreshTypeScript(),
+                                  ],
+                              }),
+                          },
+                      },
             },
             {
                 test: /\.css$/,
@@ -97,7 +115,7 @@ const config: Configuration = {
     ]
 };
 
-if (envConfig.webpackBuildMode === "development") {
+if (envConfig.webpackBuildMode === "development" && !isProduction) {
     config.devtool = "eval-source-map";
     config.devServer = {
         port: envConfig.devServerPort,
@@ -105,7 +123,9 @@ if (envConfig.webpackBuildMode === "development") {
         historyApiFallback: true,
         // open: true,
     };
-} else if (envConfig.webpackBuildMode === "production") {
+
+    config.plugins?.push(new ReactRefreshWebpackPlugin());
+} else if (isProduction) {
     config.optimization = {
         minimize: true,
         minimizer: [
