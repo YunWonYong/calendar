@@ -4,6 +4,8 @@ import { trackClickAndPreventDefault } from "@/analytics/button";
 import useAuth from "@/hooks/auth/useAuth";
 
 import LobbyAside from "./aside/LobbyAside";
+import LandingPage from "./landing/LandingPage";
+
 import CalendarPage from "../calendar/CalendarPage";
 
 import styles from "./LobbyPage.module.css";
@@ -42,7 +44,9 @@ const LobbyPage = () => {
                 className={ styles.lobbySection }
             >
                 {
-                    isLogin && <CalendarPage />
+                    isLogin
+                        ?   <CalendarPage />
+                        :   <LandingPage />
                 }
                 
             </section>
