@@ -1,12 +1,16 @@
-import styles from "./Calendar.module.css";
+import useCalendar from "@/hooks/calendar/UseCalendar";
+import CalendarViewer from "./components/CalendarViewer";
 
 const Calendar = () => {
+    const { info, selectedDate, weekdayTexts, handles } = useCalendar();
     return (
-        <div
-            className={ styles.wrap }
-        >
-            main
-        </div>
+        <CalendarViewer 
+            info={ info }
+            weekdayTexts={ weekdayTexts }
+            isActive={ true }
+            selectedDate={ selectedDate }
+            handles={ handles }
+        />
     );
 };
 

@@ -1,0 +1,58 @@
+.calendar-body {
+    width: 100%;
+    margin-top: 10px;
+    display: grid;
+    grid-template-rows: repeat(7, 1fr);
+}
+
+.day-text-box {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.weeks {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.date-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+}
+
+.date-box[data-is-active="true"] {
+    cursor: pointer;
+}
+
+.date-box[data-is-today="true"] {
+    background-color: #4f46e5;
+    color: white;
+}
+
+.date-box[data-current-month="false"] {
+    opacity: 0.2;
+} 
+
+@keyframes dateScaleup {
+    
+}
+
+.day {
+    color: black;
+}
+
+.day[data-weekday-index="0"] {
+    color: red;
+}
+
+.day[data-weekday-index="6"] {
+    color: blue;
+}
+
+.day[data-is-today="true"] {
+    color: white;
+    font-weight: 600;
+}
