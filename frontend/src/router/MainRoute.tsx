@@ -3,7 +3,7 @@ import { RouteObject } from "react-router-dom";
 import MainLayout from "@/layout/MainLayout";
 import LobbyPage from "@/pages/lobby/LobbyPage";
 
-export const MainRouters: RouteObject = {
+const MainRouters: RouteObject = {
     path: "/",
     element: <MainLayout />,
     children: [
@@ -14,3 +14,6 @@ export const MainRouters: RouteObject = {
     ],
     
 };
+
+
+export default MainRouters;

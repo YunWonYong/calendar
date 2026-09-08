@@ -1,6 +1,8 @@
 import LoginPage from "@/pages/login/LoginPage";
 
-export const LoginRoutes = {
+const LoginRoutes = {
     path: "/login",
     element: <LoginPage />,
 };
+
+export default LoginRoutes;
