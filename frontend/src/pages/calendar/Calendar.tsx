@@ -10,6 +10,7 @@ const Calendar = () => {
             isActive={ true }
             selectedDate={ selectedDate }
             handles={ handles }
+            eventCounts={ {} }
         />
     );
 };

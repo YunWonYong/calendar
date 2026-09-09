@@ -2,8 +2,11 @@ import type { FC } from "react";
 
 import LogoImage from "@/components/LogoImage";
 
-import styles from "./LandingPage.module.css";
 import LandingHeroSection from "./components/LandingHeroSection";
+
+import LandingPageV2 from "../landingV2/LandingPageV2";
+
+import styles from "./LandingPage.module.css";
 
 type Feature = {
     title: string;
@@ -65,7 +68,10 @@ const STEPS: Step[] = [
     },
 ];
 
-const LandingPage: FC = () => {
+const LandingPage: FC<{ version: 1 | 2 }> = ({ version }) => {
+    if (version === 2) {
+        return <LandingPageV2 />
+    }
     return (
         <article className={styles.page}>
             <LandingHeroSection />

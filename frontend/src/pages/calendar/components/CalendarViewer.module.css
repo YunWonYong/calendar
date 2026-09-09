@@ -7,4 +7,8 @@
     border: 1px solid white;
     border-radius: 5px;
     padding: 20px;
+
+    box-shadow: 
+        0 20px 40px rgba(16, 24, 40, 0.08),
+        0 4px 12px rgba(16, 24, 40, 0.04);
 }

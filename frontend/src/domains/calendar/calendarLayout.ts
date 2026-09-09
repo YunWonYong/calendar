@@ -1,5 +1,5 @@
 import type { CalendarContextMonths, CalendarHandles, CalendarSelectDateHandleType } from "./calendarContext";
-import type { CalendarCurrentDate, CalendarDate, CalendarWeek } from "./calendarType";
+import type { CalendarCurrentDate, CalendarDate, CalendarEventCount, CalendarEventCounts, CalendarWeek } from "./calendarType";
 
 export type CalendarInteractionType = 
         ({ isActive: true; handles: CalendarHandles; } | 
@@ -14,6 +14,7 @@ export type CalendarBodyProps = {
     isActive?: boolean;
     weekdayTexts: string[];
     selectDateHandle: CalendarSelectDateHandleType | null;
+    eventCounts: CalendarEventCounts;
 };
 
 export type WeekProps = {
@@ -21,6 +22,7 @@ export type WeekProps = {
     week: CalendarWeek;
     isActive?: boolean;
     selectDateHandle: CalendarSelectDateHandleType | null;
+    eventCounts: CalendarEventCounts;
 };
 
 export type DateProps = {
@@ -28,6 +30,7 @@ export type DateProps = {
     date: CalendarDate;
     isActive?: boolean;
     selectDateHandle: CalendarSelectDateHandleType | null;
+    eventCount?: CalendarEventCount;
 };
 
 export type DayProps = {
