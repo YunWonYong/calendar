@@ -96,11 +96,11 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 1px;
 }
 
 .dot-box.hidden {
-    display: none;
+    visibility: hidden;
 }
 
 .dot {
@@ -112,19 +112,19 @@
 }
 
 .dot[data-event-type="schedule"] {
-    background-color: #4f46e5;
+    background-color: var(--calendar-schedule-dot-color);
 }
 
 .dot[data-event-type="transaction"] {
-    background-color: #10b981;
+    background-color: var(--calendar-transaction-dot-color);
 }
 
 .dot[data-event-type="mission"] {
-    background-color: #f59e0b;
+    background-color: var(--calendar-mission-dot-color);
 }
 
 .dot.hidden {
-    display: none;
+    visibility: hidden;
 }
 
 .date-box[data-is-today="true"] .dot {

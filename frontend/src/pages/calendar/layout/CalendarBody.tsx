@@ -125,19 +125,26 @@ const Day: FC<DayProps> = ({ text, weekdayIndex, isToday, className }) => {
 };
 
 const orderedTypes: CalendarEventMainType[] = [
-    CalendarEventMainTypes.SCHEDULE,
-    CalendarEventMainTypes.TRANSACTION,
     CalendarEventMainTypes.MISSION,
+    CalendarEventMainTypes.TRANSACTION,
+    CalendarEventMainTypes.SCHEDULE,
 ];
-const DayEventDotBox: FC<{ ymd: string; eventCount: CalendarEventCount }> = ({ ymd, eventCount }) => {
-    // const displayEvents = events.slice(0, 3);
 
+const orderedTypeIndexs: Record<CalendarEventMainType, number> = {
+    [CalendarEventMainTypes.SCHEDULE]: 1,
+    [CalendarEventMainTypes.TRANSACTION]: 2,
+    [CalendarEventMainTypes.MISSION]: 3,
+};
+
+const DayEventDotBox: FC<{ ymd: string; eventCount: CalendarEventCount }> = ({ ymd, eventCount }) => {
+    const zeroCountEvents = orderedTypes.filter(orderedType => eventCount[orderedType] === 0);
+    const notZeroCountEvents = orderedTypes.filter(orderedType => eventCount[orderedType] !== 0);
     return (
         <div 
             className={ styles.dotWrap }
         >
             {
-                orderedTypes.map((eventType) => {
+                [...notZeroCountEvents, ...zeroCountEvents].map((eventType) => {
                     const count = eventCount[eventType];
                     return (
                         <div 

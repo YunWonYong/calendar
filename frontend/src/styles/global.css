@@ -1,6 +1,10 @@
 :root {
     --white-color: #f5f5f5;
     --black-color: #111;
+
+    --calendar-schedule-dot-color: #4f46e5;
+    --calendar-transaction-dot-color: #10b981;
+    --calendar-mission-dot-color: #f59e0b;
 }
 
 body {
