@@ -14,24 +14,31 @@ const LandingPageV2 = () => {
 };
 
 const Header = () => {
-  return (
-    <header className={styles.header}>
-      <div className={styles.inner}>
-        {/* 좌측 로고 */}
-        <Link to="/" className={styles.logoLink}>
-          <LogoImage className={styles.logoImage} />
-          <span className={styles.brandName}>Our Calendar</span>
-        </Link>
-
-        {/* 우측 액션 버튼 */}
-        <div className={styles.navActions}>
-          <Link to="/login" className={styles.loginBtn}>
-            로그인
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
+    return (
+        <header className={styles.header}>
+            <div className={styles.inner}>
+                <Link 
+                    to="/" 
+                    className={styles.logoLink}
+                    clickEventName="LOBBY_HEADER_LOGO"
+                >
+                    <LogoImage 
+                        className={styles.logoImage} 
+                    />
+                    <span className={styles.brandName}>Our Calendar</span>
+                </Link>
+                <div className={styles.navActions}>
+                    <Link 
+                        to="/login" 
+                        className={styles.loginBtn}
+                        clickEventName="LOBBY_HEADER_LOGIN_BTN"
+                    >
+                        로그인
+                    </Link>
+                </div>
+            </div>
+        </header>
+    );
 };
 
 export default LandingPageV2;
