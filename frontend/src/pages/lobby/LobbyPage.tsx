@@ -3,7 +3,6 @@ import { useCallback, useState } from "react";
 import { trackClickAndPreventDefault } from "@/analytics/button";
 import useAuth from "@/hooks/auth/useAuth";
 
-import LandingPage from "./landing/LandingPage";
 import LobbyAside from "./aside/LobbyAside";
 
 import CalendarPage from "../calendar/CalendarPage";
@@ -26,9 +25,7 @@ const LobbyPage = () => {
             },
         );
     }, [asideState]);
-    if (!isLogin) {
-        return (<LandingPage version={ 2 }/>);
-    }
+    
     return (
         <div
             className={ styles.lobbyWrap }
