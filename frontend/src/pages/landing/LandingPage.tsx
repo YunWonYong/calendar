@@ -1,5 +1,10 @@
+import { useEffect } from "react";
+
 import Link from "@/components/link";
 import LogoImage from "@/components/LogoImage";
+
+import useScroll from "@/hooks/landing/UseScroll";
+import useViewport from "@/hooks/viewport/UseViewport";
 
 import LandingHeroSection from "./components/LandingHeroSection";
 import LandingProblemSection from "./components/LandingProblemSection";
@@ -8,6 +13,17 @@ import LandingFeatureSection from "./components/LandingFeatureSection";
 import styles from "./LandingPage.module.css";
 
 const LandingPage = () => {
+    const { isVerticalUI, height } = useViewport();
+    const { step, isWheelable, direction } = useScroll({ isActive: !isVerticalUI });
+    useEffect(() => {
+        if (isWheelable) {
+            return;
+        }
+        console.log(step * height);
+        window.scrollTo({
+            top: step * height
+        });
+    }, [step, isWheelable, direction, height]);
     return (
         <section className={ styles.wrap }>
             <Header />
