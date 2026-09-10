@@ -1,6 +1,10 @@
 import Link from "@/components/link";
 import LogoImage from "@/components/LogoImage";
 
+import LandingHeroSection from "./components/LandingHeroSection";
+import LandingProblemSection from "./components/LandingProblemSection";
+import LandingFeatureSection from "./components/LandingFeatureSection";
+
 import styles from "./LandingPage.module.css";
 
 const LandingPage = () => {
@@ -8,6 +12,9 @@ const LandingPage = () => {
         <section className={ styles.wrap }>
             <Header />
             <article>
+                <LandingHeroSection />
+                <LandingProblemSection />
+                <LandingFeatureSection />
             </article>
         </section>
     );

@@ -1,0 +1,381 @@
+.features {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100vh;
+
+    box-sizing: border-box;
+    padding: 64px 24px;
+
+    background: #ffffff;
+    color: #202124;
+
+    overflow: hidden;
+}
+
+.featuresHeading {
+    flex-shrink: 0;
+    text-align: center;
+    opacity: 0;
+}
+
+.featuresLabel {
+    display: block;
+    margin-bottom: 12px;
+
+    color: #667085;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+
+.featuresHeading h2 {
+    margin: 0;
+
+    font-size: clamp(30px, 3.5vw, 42px);
+    line-height: 1.2;
+    letter-spacing: -0.055em;
+}
+
+.featuresHeading p {
+    margin: 16px 0 0;
+
+    color: #667085;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.featureList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    width: min(960px, 100%);
+
+    margin-top: 36px;
+}
+
+.featureCard {
+    display: grid;
+    grid-template-columns: 0.8fr 1fr;
+    align-items: center;
+
+    min-height: 0;
+    height: 130px;
+
+    box-sizing: border-box;
+    padding: 20px 24px;
+
+    border: 1px solid #eaecf0;
+    border-radius: 16px;
+
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(16, 24, 40, 0.03);
+
+    opacity: 0;
+}
+
+.featureCardContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.featureNumber {
+    margin-bottom: 5px;
+
+    color: #98a2b3;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.featureCard h3 {
+    margin: 0 0 6px;
+
+    font-size: 18px;
+    letter-spacing: -0.04em;
+}
+
+.featureCard p {
+    margin: 0;
+
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.featureVisual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    min-height: 0;
+
+    border-radius: 12px;
+    background: #f8f9fb;
+}
+
+/* 일정 */
+
+.schedulePreview {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    width: min(260px, 80%);
+    padding: 12px 16px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #eaecf0;
+    border-radius: 10px;
+
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(16, 24, 40, 0.04);
+}
+
+.previewDate {
+    color: var(--calendar-schedule-dot-color);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.schedulePreview strong {
+    font-size: 12px;
+}
+
+.previewTime {
+    color: #98a2b3;
+    font-size: 9px;
+}
+
+/* 가계부 */
+
+.transactionPreview {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    width: min(260px, 80%);
+}
+
+.transactionPreview div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 8px 12px;
+
+    border: 1px solid #eaecf0;
+    border-radius: 8px;
+
+    background: #ffffff;
+}
+
+.transactionPreview span {
+    color: #667085;
+    font-size: 10px;
+}
+
+.transactionPreview strong {
+    font-size: 11px;
+}
+
+.transactionPreview div:first-child strong {
+    color: #ef4444;
+}
+
+.transactionPreview div:last-child strong {
+    color: var(--calendar-transaction-dot-color);
+}
+
+/* 미션 */
+
+.missionPreview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    width: min(260px, 80%);
+    padding: 12px 16px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #eaecf0;
+    border-radius: 10px;
+
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(16, 24, 40, 0.04);
+}
+
+.missionTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.missionTitle span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 6px;
+
+    background: #fef3c7;
+    color: var(--calendar-mission-dot-color);
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.missionTitle strong {
+    font-size: 11px;
+}
+
+.rewardList {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.rewardList span {
+    padding: 4px 6px;
+
+    border-radius: 5px;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.pointReward {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.ticketReward {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+/* 결과 */
+
+.featuresResult {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    margin-top: 28px;
+
+    color: #667085;
+    font-size: 12px;
+    text-align: center;
+
+    opacity: 0;
+}
+
+.featuresResult strong {
+    color: #202124;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+/* animation */
+
+.features[data-active="true"] .featuresHeading {
+    animation: featureHeadingIn 0.7s 0.1s ease-out forwards;
+}
+
+.features[data-active="true"] .featureCard:nth-child(1) {
+    animation: featureCardLeftIn 0.7s 0.35s ease-out forwards;
+}
+
+.features[data-active="true"] .featureCard:nth-child(2) {
+    animation: featureCardCenterIn 0.7s 0.55s ease-out forwards;
+}
+
+.features[data-active="true"] .featureCard:nth-child(3) {
+    animation: featureCardRightIn 0.7s 0.75s ease-out forwards;
+}
+
+.features[data-active="true"] .featuresResult {
+    animation: featureResultIn 0.7s 1.15s ease-out forwards;
+}
+
+@keyframes featureHeadingIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes featureCardLeftIn {
+    from {
+        opacity: 0;
+        transform: translate(-35px, 25px) rotate(-1deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0);
+    }
+}
+
+@keyframes featureCardCenterIn {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes featureCardRightIn {
+    from {
+        opacity: 0;
+        transform: translate(35px, 25px) rotate(1deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0);
+    }
+}
+
+@keyframes featureResultIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .featuresHeading,
+    .featureCard,
+    .featuresResult {
+        opacity: 1;
+        animation: none;
+    }
+}
