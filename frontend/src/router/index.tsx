@@ -5,6 +5,7 @@ import NotFoundPage from "@/not-found/NotFoundPage";
 
 import LobbyRouters from "./LobbyRoute";
 import LoginRoutes from "./LoginRoute";
+import LandingRoutes from "./LandingRoute";
 
 const routes: RouteObject[] = [
     {
@@ -13,6 +14,7 @@ const routes: RouteObject[] = [
     },
     ...LobbyRouters,
     ...LoginRoutes,
+    ...LandingRoutes,
     {
         path: "*",
         element: <NotFoundPage />,

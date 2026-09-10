@@ -1,14 +1,14 @@
 import Link from "@/components/link";
-import LandingHeroSection from "../landing/components/LandingHeroSection";
 import LogoImage from "@/components/LogoImage";
 
-import styles from "./LandingPageV2.module.css";
+import styles from "./LandingPage.module.css";
 
-const LandingPageV2 = () => {
+const LandingPage = () => {
     return (
         <section className={ styles.wrap }>
             <Header />
-            <LandingHeroSection />
+            <article>
+            </article>
         </section>
     );
 };
@@ -41,4 +41,4 @@ const Header = () => {
     );
 };
 
-export default LandingPageV2;
+export default LandingPage;
