@@ -1,12 +1,12 @@
 import { RouteObject } from "react-router-dom";
 
-import AuthLayout from "@/layout/AuthLayout";
+import RequiredAuthGuard from "@/guards/RequiredAuthGuard";
 import LobbyPage from "@/pages/lobby/LobbyPage";
 
 const LobbyRouters: RouteObject[] = [
     {
         path: "/lobby",
-        element: <AuthLayout />,
+        element: <RequiredAuthGuard />,
         children: [
             {
                 index: true,
