@@ -28,9 +28,15 @@ const LandingPage = () => {
         <section className={ styles.wrap }>
             <Header />
             <article>
-                <LandingHeroSection />
-                <LandingProblemSection />
-                <LandingFeatureSection />
+                <LandingHeroSection 
+                    isAnimationPlay={ step === 0 }
+                />
+                <LandingProblemSection 
+                    isAnimationPlay={ step === 1 }
+                />
+                <LandingFeatureSection 
+                    isAnimationPlay={ step === 2 }
+                />
             </article>
         </section>
     );

@@ -1,8 +1,15 @@
+import { FC } from "react";
+
 import styles from "./LandingFeatureSection.module.css";
 
-const LandingFeatureSection = () => {
+import type { LandingPageSectionProps } from "@/domains/landing/landingPageType";
+
+const LandingFeatureSection: FC<LandingPageSectionProps> = ({ isAnimationPlay }) => {
     return (
-        <section className={styles.features} data-active="true">
+        <section 
+            className={styles.features}
+            data-animation-play={ isAnimationPlay }
+        >
             <div className={styles.featuresHeading}>
                 <span className={styles.featuresLabel}>
                     WHAT OUR CALENDAR DOES

@@ -291,23 +291,23 @@
 
 /* animation */
 
-.features[data-active="true"] .featuresHeading {
+.features[data-animation-play="true"] .featuresHeading {
     animation: featureHeadingIn 0.7s 0.1s ease-out forwards;
 }
 
-.features[data-active="true"] .featureCard:nth-child(1) {
+.features[data-animation-play="true"] .featureCard:nth-child(1) {
     animation: featureCardLeftIn 0.7s 0.35s ease-out forwards;
 }
 
-.features[data-active="true"] .featureCard:nth-child(2) {
+.features[data-animation-play="true"] .featureCard:nth-child(2) {
     animation: featureCardCenterIn 0.7s 0.55s ease-out forwards;
 }
 
-.features[data-active="true"] .featureCard:nth-child(3) {
+.features[data-animation-play="true"] .featureCard:nth-child(3) {
     animation: featureCardRightIn 0.7s 0.75s ease-out forwards;
 }
 
-.features[data-active="true"] .featuresResult {
+.features[data-animation-play="true"] .featuresResult {
     animation: featureResultIn 0.7s 1.15s ease-out forwards;
 }
 

@@ -1,9 +1,15 @@
+import { FC } from "react";
 
 import styles from "./LandingProblemSection.module.css";
 
-const LandingProblemSection = () => {
+import type { LandingPageSectionProps } from "@/domains/landing/landingPageType";
+
+const LandingProblemSection: FC<LandingPageSectionProps> = ({ isAnimationPlay }) => {
     return (
-        <section className={styles.problem}>
+        <section 
+            className={styles.problem}
+            data-animation-play={ isAnimationPlay }
+        >
             <div className={styles.problemHeading}>
                 <span className={styles.problemLabel}>
                     WHY OUR CALENDAR

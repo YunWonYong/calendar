@@ -20,6 +20,9 @@
     align-items: center;
 
     opacity: 0;
+}
+
+.hero[data-animation-play="true"] .hero-content { 
     animation: heroFadeUp 0.7s 0.1s ease-out forwards;
 }
 
@@ -124,6 +127,9 @@
     justify-content: center;
 
     opacity: 0;
+}
+
+.hero[data-animation-play="true"] .hero-visual {
     animation: heroFadeUp 0.7s 0.25s ease-out forwards;
 }
 
