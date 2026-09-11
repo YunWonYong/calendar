@@ -1,16 +1,10 @@
 .hero {
+    height: 100%;
+    padding-top: 24px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(460px, 560px);
     align-items: center;
     gap: 48px;
-
-    width: min(1200px, calc(100% - 48px));
-    height: 100vh;
-    margin: 0 auto;
-
-    box-sizing: border-box;
-    padding-top: 10px;
-
     color: var(--text-color);
 }
 

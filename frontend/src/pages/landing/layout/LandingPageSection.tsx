@@ -43,11 +43,15 @@ const LandingPageSection: FC<{ step: number; previousStep: number }> = ({ step, 
                         <section
                             key={ id }
                             id={ id }
-                            className={ styles.section }
+                            className={ `${styles.section} ${styles[id] || ""}` }
                         >
-                            <Article 
-                                isAnimationPlay={ sectionStep === step || sectionStep === previousStep }
-                            />
+                            <div
+                                className={ `${styles.sectionInner} ${styles[id] || ""}` }
+                            >
+                                <Article 
+                                    isAnimationPlay={ sectionStep === step || sectionStep === previousStep }
+                                />
+                            </div>
                         </section>
                     );
                 })
