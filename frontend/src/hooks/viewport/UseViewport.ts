@@ -26,7 +26,6 @@ const useViewport = () => {
 
     useEffect(() => {
         const resizingHandler = () => {
-            console.log("resize");
             setState({
                 isVerticalUI: isVerticalUI(),
                 ...getCurrentViewportSize()

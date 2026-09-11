@@ -4,9 +4,10 @@ import styles from "./LandingFeatureSection.module.css";
 
 import type { LandingPageSectionProps } from "@/domains/landing/landingPageType";
 
-const LandingFeatureSection: FC<LandingPageSectionProps> = ({ isAnimationPlay }) => {
+const LandingFeatureSection: FC<LandingPageSectionProps> = ({ isAnimationPlay, id }) => {
     return (
         <section 
+            id={ id }
             className={styles.features}
             data-animation-play={ isAnimationPlay }
         >

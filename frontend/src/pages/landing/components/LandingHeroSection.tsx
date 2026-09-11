@@ -11,9 +11,10 @@ import styles from "./LandingHeroSection.module.css";
 import type { CalendarEventMainType } from "@/domains/calendar/calendarType";
 import type { LandingPageSectionProps } from "@/domains/landing/landingPageType";
 
-const LandingHeroSection: FC<LandingPageSectionProps> = ({ isAnimationPlay }) => {
+const LandingHeroSection: FC<LandingPageSectionProps> = ({ isAnimationPlay, id }) => {
     return (
         <section 
+            id={ id }
             className={ styles.hero }
             data-animation-play={ isAnimationPlay }
         >

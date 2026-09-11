@@ -1,10 +1,7 @@
-import { useEffect } from "react";
-
 import Link from "@/components/link";
 import LogoImage from "@/components/LogoImage";
-
-import useScroll from "@/hooks/landing/UseScroll";
-import useViewport from "@/hooks/viewport/UseViewport";
+import { LANDING_PAGE_SECTION_IDS } from "@/domains/landing/landingPageType";
+import useLandingPageSectionScroll from "@/hooks/landing/UseLandingPageSectionScroll";
 
 import LandingHeroSection from "./components/LandingHeroSection";
 import LandingProblemSection from "./components/LandingProblemSection";
@@ -12,30 +9,25 @@ import LandingFeatureSection from "./components/LandingFeatureSection";
 
 import styles from "./LandingPage.module.css";
 
+const SECTION_MIN_HIGHT = 765;
+
 const LandingPage = () => {
-    const { isVerticalUI, height } = useViewport();
-    const { step, isWheelable, direction } = useScroll({ isActive: !isVerticalUI });
-    useEffect(() => {
-        if (isWheelable) {
-            return;
-        }
-        console.log(step * height);
-        window.scrollTo({
-            top: step * height
-        });
-    }, [step, isWheelable, direction, height]);
+    const { step, previousStep } = useLandingPageSectionScroll(SECTION_MIN_HIGHT);
     return (
         <section className={ styles.wrap }>
             <Header />
             <article>
-                <LandingHeroSection 
-                    isAnimationPlay={ step === 0 }
+                <LandingHeroSection
+                    id={ LANDING_PAGE_SECTION_IDS.HERO }
+                    isAnimationPlay={ step === 0 || previousStep === 0 }
                 />
-                <LandingProblemSection 
-                    isAnimationPlay={ step === 1 }
+                <LandingProblemSection
+                    id={ LANDING_PAGE_SECTION_IDS.PROBLEM }
+                    isAnimationPlay={ step === 1 || previousStep === 1}
                 />
-                <LandingFeatureSection 
-                    isAnimationPlay={ step === 2 }
+                <LandingFeatureSection
+                    id={ LANDING_PAGE_SECTION_IDS.FEATURE }
+                    isAnimationPlay={ step === 2 || previousStep === 2}
                 />
             </article>
         </section>
