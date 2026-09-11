@@ -257,20 +257,20 @@ const useLandingPageSectionScroll = (minHeight: number) => {
         }
         
         // console.log("scrollY: ", window.scrollY, ", innerHeight: ", window.innerHeight);
-        const stepV1 = getVisibleSection(sectionss, 1, minHeight);
+        // const stepV1 = getVisibleSection(sectionss, 1, minHeight);
         // console.log("stepV1: ", stepV1);
         // const stepV2 = getVisibleSection(sectionss, 2, minHeight);
         // console.log("stepV2: ", stepV2);
-        // const stepV3 = getVisibleSection(sectionss, 3, minHeight);
-        // console.log("stepV3: ", stepV3);
+        const stepV3 = getVisibleSection(sectionss, 3, minHeight);
+        console.log("stepV3: ", stepV3);
         // const step = getCurrentSection(sections.current);
         
-        const previousStep = direction === "down"? stepV1 -1: stepV1 + 1;
+        const previousStep = direction === "down"? stepV3 -1: stepV3 + 1;
         setStepState({
             previousStep,
-            step: stepV1,
+            step: stepV3,
         });
-        stepRef.current = stepV1;
+        stepRef.current = stepV3;
     }, [isActive, minHeight]);
 
     const scrollArgs = useMemo(() => {
