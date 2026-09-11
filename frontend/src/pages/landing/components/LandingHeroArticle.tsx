@@ -6,15 +6,14 @@ import { CalendarEventMainTypes } from "@/domains/calendar/calendarType";
 
 import LandingHeroCalendarPreview from "./LandingHeroCalendarPreView";
 
-import styles from "./LandingHeroSection.module.css";
+import styles from "./LandingHeroArticle.module.css";
 
 import type { CalendarEventMainType } from "@/domains/calendar/calendarType";
 import type { LandingPageSectionProps } from "@/domains/landing/landingPageType";
 
-const LandingHeroSection: FC<LandingPageSectionProps> = ({ isAnimationPlay, id }) => {
+const LandingHeroArticle: FC<LandingPageSectionProps> = ({ isAnimationPlay }) => {
     return (
-        <section 
-            id={ id }
+        <article 
             className={ styles.hero }
             data-animation-play={ isAnimationPlay }
         >
@@ -66,7 +65,7 @@ const LandingHeroSection: FC<LandingPageSectionProps> = ({ isAnimationPlay, id }
             <div className={ styles.heroVisual }>
                 <LandingHeroCalendarPreview />
             </div>
-        </section>
+        </article>
     );
 };
 
@@ -88,4 +87,4 @@ const CalendarDotLegendText: FC<{ eventType: CalendarEventMainType }> = ({ event
         </span>
     );
 };
-export default LandingHeroSection;
+export default LandingHeroArticle;

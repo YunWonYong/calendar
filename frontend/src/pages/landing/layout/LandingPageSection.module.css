@@ -1,0 +1,17 @@
+.section {
+    height: 100vh;
+    min-height: 765px;
+    margin: 0 auto;
+    
+    box-sizing: border-box;
+
+    position: relative;
+    z-index: 10;
+
+    overflow: hidden;
+}
+
+
+.section-inner {
+    width: min(1200px, calc(100% - 48px));
+}

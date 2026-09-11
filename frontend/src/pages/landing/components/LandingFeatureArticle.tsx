@@ -1,14 +1,13 @@
 import { FC } from "react";
 
-import styles from "./LandingFeatureSection.module.css";
+import styles from "./LandingFeatureArticle.module.css";
 
 import type { LandingPageSectionProps } from "@/domains/landing/landingPageType";
 
-const LandingFeatureSection: FC<LandingPageSectionProps> = ({ isAnimationPlay, id }) => {
+const LandingFeatureArticle: FC<LandingPageSectionProps> = ({ isAnimationPlay }) => {
     return (
-        <section 
-            id={ id }
-            className={styles.features}
+        <article
+            className={ styles.features }
             data-animation-play={ isAnimationPlay }
         >
             <div className={styles.featuresHeading}>
@@ -147,8 +146,8 @@ const LandingFeatureSection: FC<LandingPageSectionProps> = ({ isAnimationPlay, i
                     모두 우리의 캘린더 안에서.
                 </strong>
             </div>
-        </section>
+        </article>
     );
 };
 
-export default LandingFeatureSection;
+export default LandingFeatureArticle;

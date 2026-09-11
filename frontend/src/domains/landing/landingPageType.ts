@@ -13,6 +13,5 @@ export const landingPageSectionIdByStep: Record<LandingPageSectionIdType, number
 
 export type LandingPageSectionIdType = typeof LANDING_PAGE_SECTION_IDS[keyof typeof LANDING_PAGE_SECTION_IDS];
 export type LandingPageSectionProps = {
-    id: LandingPageSectionIdType;
     isAnimationPlay: boolean;
 };

@@ -3,15 +3,10 @@
     flex-direction: column;
     align-items: center;
 
-    height: 100vh;
-    box-sizing: border-box;
-
     padding: 80px 24px;
 
     background: #f8f9fb;
     color: #202124;
-
-    overflow: hidden;
 }
 
 

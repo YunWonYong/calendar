@@ -1,14 +1,13 @@
 import { FC } from "react";
 
-import styles from "./LandingProblemSection.module.css";
+import styles from "./LandingProblemArticle.module.css";
 
 import type { LandingPageSectionProps } from "@/domains/landing/landingPageType";
 
-const LandingProblemSection: FC<LandingPageSectionProps> = ({ isAnimationPlay, id }) => {
+const LandingProblemArticle: FC<LandingPageSectionProps> = ({ isAnimationPlay }) => {
     return (
-        <section 
-            id={ id }
-            className={styles.problem}
+        <article
+            className={ styles.problem }
             data-animation-play={ isAnimationPlay }
         >
             <div className={styles.problemHeading}>
@@ -54,8 +53,8 @@ const LandingProblemSection: FC<LandingPageSectionProps> = ({ isAnimationPlay, i
                     함께하는 계획과 기록을 한곳에 모아요.
                 </strong>
             </div>
-        </section>
+        </article>
     );
 };
 
-export default LandingProblemSection;
+export default LandingProblemArticle;
