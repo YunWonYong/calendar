@@ -40,3 +40,13 @@ a:visited {
   -moz-user-drag: none;
   -o-user-drag: none;
 }
+
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+p {
+    margin: 0;
+}
