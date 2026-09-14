@@ -16,13 +16,13 @@ type WebpackBuildProdMode = {
 
 type BuildEnv = "local"| "dev"| "qa"| "live";
 
-type BaseEnvFileConfg = {
+type BaseEnvFileConfig = {
     apiServerURL: string;
     buildEnv: BuildEnv;
     logLevel: number;
 };
 
-type EnvFileConfig = BaseEnvFileConfg  & (WebpackBuildDevMode | WebpackBuildProdMode);
+type EnvFileConfig = BaseEnvFileConfig  & (WebpackBuildDevMode | WebpackBuildProdMode);
 
 const buildEnv = process.env.BUILD_ENV || "";
 
@@ -54,7 +54,7 @@ if (!webpackBuildMode || (webpackBuildMode !== "development" && webpackBuildMode
     throw new Error(`WEBPACK_BUILD_MODE invalid. file: ${configPath}`);
 }
 
-const baseConfig: BaseEnvFileConfg = {
+const baseConfig: BaseEnvFileConfig = {
     buildEnv: buildEnv as BuildEnv,
     apiServerURL: envFileConfig["SERVER_URL"],
     logLevel: 5,
@@ -68,7 +68,7 @@ if (envFileConfig["LOG_LEVEL"]) {
     }
 }
 
-const makeConfig = (baseConfig: BaseEnvFileConfg, webpackBuildMode: "development" | "production"): EnvFileConfig => {
+const makeConfig = (baseConfig: BaseEnvFileConfig, webpackBuildMode: "development" | "production"): EnvFileConfig => {
     if (webpackBuildMode === "development") {
         let port = 3000;
         if (envFileConfig["WEBPACK_DEV_SERVER_PORT"]) {
