@@ -20,6 +20,7 @@ import envConfig from "./config";
 const isProduction = envConfig.webpackBuildMode === "production";
 
 console.log("isProduction: ", isProduction);
+console.log("envConfig: ", envConfig);
 const config: Configuration = {
     mode: envConfig.webpackBuildMode,
     entry: "./src/index.tsx",
@@ -109,6 +110,7 @@ const config: Configuration = {
         new DefinePlugin({
             "process.env.API_SERVER_URL": JSON.stringify(envConfig.apiServerURL),
             "process.env.BUILD_ENV": JSON.stringify(envConfig.buildEnv),
+            "process.env.LOG_LEVEL": JSON.stringify(envConfig.logLevel),
         }),
         new ProgressPlugin(),
         new ForkTsCheckerWebpackPlugin(),

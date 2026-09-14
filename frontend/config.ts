@@ -19,6 +19,7 @@ type BuildEnv = "local"| "dev"| "qa"| "live";
 type BaseEnvFileConfg = {
     apiServerURL: string;
     buildEnv: BuildEnv;
+    logLevel: number;
 };
 
 type EnvFileConfig = BaseEnvFileConfg  & (WebpackBuildDevMode | WebpackBuildProdMode);
@@ -56,8 +57,16 @@ if (!webpackBuildMode || (webpackBuildMode !== "development" && webpackBuildMode
 const baseConfig: BaseEnvFileConfg = {
     buildEnv: buildEnv as BuildEnv,
     apiServerURL: envFileConfig["SERVER_URL"],
+    logLevel: 5,
 };
 
+
+if (envFileConfig["LOG_LEVEL"]) {
+    const logLevel = parseInt(envFileConfig["LOG_LEVEL"]);
+    if (!Number.isNaN(logLevel) && (logLevel > 0 && logLevel < 6)) {
+        baseConfig.logLevel = logLevel;
+    }
+}
 
 const makeConfig = (baseConfig: BaseEnvFileConfg, webpackBuildMode: "development" | "production"): EnvFileConfig => {
     if (webpackBuildMode === "development") {
