@@ -1,27 +1,16 @@
-import config from "@/config";
-import { post } from "@/lib/fetch";
+import serverApiClient from "./client";
 
-import { METHODS } from "@/domains/fetch/fetchConstants";
+import type { AuthenticateApiParameterType } from "@/domains/server/serverType";
 
-import type { HttpMethod } from "@/domains/fetch/fetchType";
+export const getLoginPath = (authProvider: string) => 
+    serverApiClient.getApiUrl(`/oauth2/authorization/${authProvider}`);
 
-const DEFAULT_HEADER = {
-    "Content-Type": "application/json",
+
+type AuthenticateParams = { logoutCallback: () => void, data: AuthenticateApiParameterType; };
+
+export const authenticate = async ({ data, logoutCallback }: AuthenticateParams) => {
+    return serverApiClient.login(
+        data,
+        logoutCallback,
+    );
 };
-
-export const api = async <T,>(path: string, method: HttpMethod, body?: object, header?: Record<string, string>) => {
-    if (!header) {
-        header = DEFAULT_HEADER;
-    }
-
-    const url = getServerApiUrl(path);
-
-    switch(method) {
-        case METHODS.POST:
-            return post<T>(url, body, header);
-    }
-
-    throw new Error(`not supported method[${method}]`);
-};
-
-export const getServerApiUrl = (path: string) => `${config.apiServerURL}${path}`;

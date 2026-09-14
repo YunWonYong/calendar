@@ -8,6 +8,7 @@ type SuccessResponse<T> = {
 type FailedResponse = {
     ok: false;
     errorMessage: string;
+    isRefresh?: boolean;
 };
 
 export type ApiResponse<T> = SuccessResponse<T> | FailedResponse;
