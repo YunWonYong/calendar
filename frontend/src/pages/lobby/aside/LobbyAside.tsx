@@ -1,3 +1,5 @@
+import CreateGroupButton from "@/components/group/CreateGroupButton";
+
 import LobbyAsideHeader from "./header/LobbyAsideHeader";
 import LobbyAsideFooter from "./footer/LobbyAsideFooter";
 
@@ -15,13 +17,17 @@ const LobbyAside = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
                 asideState={ asideState }
                 toggleAsideState={ toggleAsideState }
             />
-            <ul
-                className={ styles.groupList }
-            >
-                <li>
-                    group item
-                </li>
-            </ul>
+            <div className={styles.groupSection}>
+                <div className={styles.actionWrap}>
+                    <CreateGroupButton 
+                        showLabel={ asideState === "expanded" }
+                        className={styles.asideCreateBtn}
+                    />
+                </div>
+
+                <ul className={styles.groupList}>
+                </ul>
+            </div>
             <LobbyAsideFooter
                 asideState={ asideState }
             />

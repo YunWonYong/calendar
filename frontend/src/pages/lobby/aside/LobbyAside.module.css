@@ -16,3 +16,31 @@
 .group-list {
     flex: 1;
 }
+
+.groupSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 8px;
+    gap: 12px;
+}
+
+.actionWrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* 💡 축소 상태일 때 부모 셀렉터에서 버튼의 크기와 배치를 제어 */
+.nav[data-display-type="collapsed"] .asideCreateBtn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.nav[data-display-type="collapsed"] .asideCreateBtn :global(.iconEmblem) {
+    width: 100%;
+    height: 100%;
+}

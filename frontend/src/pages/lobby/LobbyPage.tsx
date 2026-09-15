@@ -6,6 +6,7 @@ import useAuth from "@/hooks/auth/useAuth";
 import LobbyAside from "./aside/LobbyAside";
 
 import CalendarPage from "../calendar/CalendarPage";
+import EmptyGroupPage from "../group/lobby/EmptyGroupPage";
 
 import styles from "./LobbyPage.module.css";
 
@@ -43,7 +44,8 @@ const LobbyPage = () => {
             <section
                 className={ styles.lobbySection }
             >
-                <CalendarPage />
+                {/* <CalendarPage /> */}
+                <EmptyGroupPage />
             </section>
         </div>
     );
