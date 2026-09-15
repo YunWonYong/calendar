@@ -175,9 +175,9 @@ const serverApiClient = (() => {
             throw new Error("already login.");    
         }
 
-        let path = "/auto-login";
-        if (params.type === "login") {
-            path = "/auth";
+        let path = "/auth";
+        if (params.type === "auto-login") {
+            path = "/auth/auto-login";
         }
         
         const response = await apiClient.call<LoginRequestBody | AutoLoginRequestBody, LoginResponseBody>(
