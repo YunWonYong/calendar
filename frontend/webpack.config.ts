@@ -102,6 +102,7 @@ const config: Configuration = {
         path: path.resolve(__dirname, "dist"),
         filename: isProduction? "[name].[contenthash].js":"[name].bundle.js",
         clean: true,
+        publicPath: "/",
     },
     plugins: [
         new HtmlWebpackPlugin({
