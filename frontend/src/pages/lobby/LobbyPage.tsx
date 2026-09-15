@@ -11,6 +11,7 @@ import EmptyGroupPage from "../group/lobby/EmptyGroupPage";
 import styles from "./LobbyPage.module.css";
 
 import type { LobbyAsideState } from "./LobbyTypes";
+import GroupEmblemTestPage from "../group/test/GroupEmblemTestPage";
 
 const LobbyPage = () => {
     const { isLogin } = useAuth();
@@ -44,6 +45,7 @@ const LobbyPage = () => {
             <section
                 className={ styles.lobbySection }
             >
+                <GroupEmblemTestPage />
                 {/* <CalendarPage /> */}
                 <EmptyGroupPage />
             </section>
