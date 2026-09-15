@@ -3,8 +3,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "calendar backend (local)",
+            "name": "calendar backend api (local)",
             "request": "launch",
+            "projectName": "api",
             "mainClass": "io.github.hswy.calendar.CalendarApplication",
             "preLaunchTask": "start docker services"
         }
