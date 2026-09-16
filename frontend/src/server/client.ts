@@ -3,8 +3,9 @@ import { METHODS } from "@/domains/fetch/fetchConstants";
 import { post } from "@/lib/fetch";
 
 import type { AuthTokenInfo } from "@/domains/auth/authTypes";
-import type { AutoLoginRequestBody, LoginApiType, LoginRequestBody, LoginResponseBody, LogoutRequestBody, RefreshAuthTokenRequestBody, ServerApiClientAuthTokenRefreshFailResult, ServerApiClientAuthUserInfo } from "@/domains/server/serverType";
 import type { ApiResponse, HttpMethod } from "@/domains/fetch/fetchType";
+import type { AutoLoginRequestBody, LoginApiType, LoginRequestBody, LoginResponseBody, LogoutRequestBody, RefreshAuthTokenRequestBody, ServerApiClientAuthTokenRefreshFailResult, ServerApiClientAuthUserInfo } from "@/domains/server/serverType";
+
 const DEFAULT_HEADER = {
     "Content-Type": "application/json",
 };

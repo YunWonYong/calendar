@@ -1,8 +1,10 @@
 import { FC, HTMLAttributes } from "react";
 
 import Image from "../Image";
-import styles from "./GroupCard.module.css";
+
 import GroupEmblem from "./GroupEmblem";
+
+import styles from "./GroupCard.module.css";
 
 export type GroupCardDisplayType = "compact" | "full";
 

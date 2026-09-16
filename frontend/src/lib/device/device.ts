@@ -1,4 +1,5 @@
 import { getDeviceIdFromLocalStorage, setDeviceIdFromLocalStorage } from "@/localStorage/api";
+
 import type { Browser, DeviceInfo, DeviceType, OS } from "@/domains/device/deviceTypes";
 
 export const createDeviceInfo = (): DeviceInfo => {

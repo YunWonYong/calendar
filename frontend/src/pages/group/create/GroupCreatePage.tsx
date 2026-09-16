@@ -1,8 +1,11 @@
 import { useState } from "react";
+
+import { DEFAULT_GROUP_BASIC_INFO_STEP_LIMITS } from "@/domains/group/groupCreate";
+
+import GroupBasicInfoStep from "./components/GroupBasicInfoStep";
+
 // import GroupEmblemTestPage from "./GroupEmblemTestPage"; // 이전 엠블럼 테스트/선택 컴포넌트
 import styles from "./GroupCreatePage.module.css";
-import GroupBasicInfoStep from "./components/GroupBasicInfoStep";
-import { DEFAULT_GROUP_BASIC_INFO_STEP_LIMITS } from "@/domains/group/groupCreate";
 
 
 const CreateGroupPage = () => {

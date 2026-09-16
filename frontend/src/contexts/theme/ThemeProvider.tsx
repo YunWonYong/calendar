@@ -1,11 +1,10 @@
 
 import { FC, ReactNode, useCallback, useState } from "react";
 
+import { THEME_TYPES, type ThemeType } from "@/domains/theme/themeTypes";
 import { getThemeFromLocalStorage, saveThemeFromLocalStorage } from "@/localStorage/api";
 
 import ThemeContext from "./ThemeContext";
-
-import { THEME_TYPES, type ThemeType } from "@/domains/theme/themeTypes";
 
 const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [ theme, setTheme ] = useState<ThemeType>(() => {

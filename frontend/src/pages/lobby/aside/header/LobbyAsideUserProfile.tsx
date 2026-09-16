@@ -1,6 +1,6 @@
-import useAuth from "@/hooks/auth/useAuth";
-import Link from "@/components/link";
 import Image from "@/components/Image";
+import Link from "@/components/link";
+import useAuth from "@/hooks/auth/useAuth";
 
 import styles from "./LobbyAsideUserProfile.module.css";
 

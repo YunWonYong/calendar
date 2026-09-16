@@ -1,7 +1,7 @@
 import { FC } from "react";
 
-import LogoImage from "@/components/LogoImage";
 import Link from "@/components/link";
+import LogoImage from "@/components/LogoImage";
 import { CalendarEventMainTypes } from "@/domains/calendar/calendarType";
 
 import LandingHeroCalendarPreview from "./LandingHeroCalendarPreView";

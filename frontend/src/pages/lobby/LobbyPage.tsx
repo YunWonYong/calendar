@@ -3,15 +3,15 @@ import { useCallback, useState } from "react";
 import { trackClickAndPreventDefault } from "@/analytics/button";
 import useAuth from "@/hooks/auth/useAuth";
 
-import LobbyAside from "./aside/LobbyAside";
-
 import CalendarPage from "../calendar/CalendarPage";
 import EmptyGroupPage from "../group/lobby/EmptyGroupPage";
+import GroupEmblemTestPage from "../group/test/GroupEmblemTestPage";
+
+import LobbyAside from "./aside/LobbyAside";
 
 import styles from "./LobbyPage.module.css";
 
 import type { LobbyAsideState } from "./LobbyTypes";
-import GroupEmblemTestPage from "../group/test/GroupEmblemTestPage";
 
 const LobbyPage = () => {
     const { isLogin } = useAuth();

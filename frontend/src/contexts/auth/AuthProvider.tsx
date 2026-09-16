@@ -6,9 +6,9 @@ import { authenticate } from "@/server/api";
 
 import AuthContext from "./AuthContext";
 
+import type { DeviceInfo } from "@/domains/device/deviceTypes";
 import type { AuthenticateApiParameterType, LoginResponseBody } from "@/domains/server/serverType";
 import type { UserInfo } from "@/domains/user/userType";
-import type { DeviceInfo } from "@/domains/device/deviceTypes";
 
 const parameterNames = {
     AUTH_CODE: "code",    

@@ -4,13 +4,11 @@
     box-sizing: border-box;
 }
 
-/* 수직 배치 (기본) */
 .fieldGroup.vertical {
     flex-direction: column;
     gap: 6px;
 }
 
-/* 수평 배치 */
 .fieldGroup.horizontal {
     flex-direction: row;
     align-items: flex-start;
@@ -22,7 +20,6 @@
     padding-top: 10px;
 }
 
-/* 라벨 영역 */
 .labelWrapper {
     display: flex;
     align-items: center;
@@ -35,7 +32,6 @@
     color: #334155;
 }
 
-/* Input Control 영역 */
 .inputControlGroup {
     flex: 1;
     display: flex;
@@ -59,7 +55,6 @@
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
-/* 에러 상태 스타일 */
 .fieldGroup.hasError input {
     border-color: #ef4444;
 }
@@ -68,22 +63,17 @@
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-/* ==========================================
-   에러 메시지 영역 및 텍스트 슬라이딩 애니메이션
-   ========================================== */
-
-/* 한 줄 고정 영역 (20px) */
 .errorContainer {
     height: 20px;
     margin-top: 4px;
-    overflow: hidden; /* 영역을 벗어나는 긴 텍스트 숨김 */
+    overflow: hidden;
     position: relative;
     width: 100%;
 }
 
 .errorTrack {
     display: inline-block;
-    white-space: nowrap; /* 줄바꿈 방지 */
+    white-space: nowrap;
     animation: marquee 6s linear infinite;
 }
 
@@ -93,20 +83,18 @@
     line-height: 20px;
 }
 
-/* 텍스트 우측에서 좌측으로 흘러가는 애니메이션 */
 @keyframes marquee {
     0% {
         transform: translateX(0%);
     }
     30% {
-        transform: translateX(0%); /* 긴 문장을 읽을 수 있도록 시작 지점에서 잠시 대기 */
+        transform: translateX(0%);
     }
     100% {
         transform: translateX(-100%);
     }
 }
 
-/* Disabled 상태 */
 .fieldGroup.disabled input {
     background-color: #f1f5f9;
     color: #94a3b8;

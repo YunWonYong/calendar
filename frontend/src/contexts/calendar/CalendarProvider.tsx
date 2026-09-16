@@ -5,7 +5,6 @@ import { ActionTypes } from "@/domains/calendar/calendarReducer";
 import CalendarContext from "./CalendarContext";
 import { initCalendarState, reducer } from "./CalendarReducer";
 
-
 import type { CalendarHandles } from "@/domains/calendar/calendarContext";
 import type { CalendarLocaleType } from "@/domains/calendar/calendarLocale";
 

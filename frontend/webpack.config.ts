@@ -1,19 +1,17 @@
-import { Configuration, DefinePlugin, ProgressPlugin } from "webpack";
 import "webpack-dev-server";
 
-import path from "path";
-
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import TerserPlugin from "terser-webpack-plugin";
-import WebpackObfuscator from "webpack-obfuscator";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import CompressionPlugin from "compression-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import CompressionPlugin from "compression-webpack-plugin";
-
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
 import ReactRefreshTypeScript from "react-refresh-typescript";
+import TerserPlugin from "terser-webpack-plugin";
+import { Configuration, DefinePlugin, ProgressPlugin } from "webpack";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import WebpackObfuscator from "webpack-obfuscator";
 
 import envConfig from "./config";
 

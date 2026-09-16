@@ -2,10 +2,10 @@ import Link from "@/components/link";
 import LogoImage from "@/components/LogoImage";
 import useAuth from "@/hooks/auth/useAuth";
 
+import AsideImageBox from "../components/AsideImageBox";
+
 import LobbyAsideHeaderLoginButton from "./LobbyAsideHeaderLoginButton";
 import LobbyAsideUserProfile from "./LobbyAsideUserProfile";
-
-import AsideImageBox from "../components/AsideImageBox";
 
 import styles from "./LobbyAsideHeader.module.css";
 

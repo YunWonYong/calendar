@@ -1,11 +1,11 @@
-import { getDateListByMonth_1_To_12 } from "../date/date";
-
-import { CALENDAR_MONTH_SUFFIXES, CALENDAR_YEAR_SUFFIXES, CALENDAR_WEEKDAY_TEXTS, CALENDAR_SHORT_MONTH_TEXTS } from "@/domains/calendar/calendarLocale";
+import { CALENDAR_MONTH_SUFFIXES, CALENDAR_SHORT_MONTH_TEXTS, CALENDAR_WEEKDAY_TEXTS, CALENDAR_YEAR_SUFFIXES, } from "@/domains/calendar/calendarLocale";
 import { MAX_CALENDAR_DATE_LIST_SIZE, MAX_CALENDAR_WEEK_NO, MIN_CALENDAR_DATE_LIST_SIZE } from "@/domains/calendar/calendarType";
 
-import type { CalendarLocaleType, MonthKey } from "@/domains/calendar/calendarLocale";
-import type { CalendarDate, CalendarMonth, CalendarWeek } from "@/domains/calendar/calendarType";
+import { getDateListByMonth_1_To_12 } from "../date/date";
+
 import type { CalendarContextMonths } from "@/domains/calendar/calendarContext";
+import type { CalendarLocaleType, MonthKey } from "@/domains/calendar/calendarLocale";
+import type { CalendarDate, CalendarMonth, CalendarWeek, } from "@/domains/calendar/calendarType";
 import type { DateType, Month_1_To_12 } from "@/domains/lib/date";
 
 export const getCalendarWeekdayTexts = (locale: CalendarLocaleType): string[] => {
@@ -13,7 +13,7 @@ export const getCalendarWeekdayTexts = (locale: CalendarLocaleType): string[] =>
     if (!weekdayTexts) {
         throw new Error(`${locale} not supported locale. [getCalendarMetadate]`);
     }
-    
+
     return Array.from(
         { length: 7 },
         (_, index) => weekdayTexts[index],
@@ -46,11 +46,11 @@ export const jumpMonth = (month: CalendarMonth, locale: CalendarLocaleType) => {
 
 const calcMonth = (year: number, month: number) => {
     if (month < 1) {
-        return { year: year -1, month: toMonth_1_To_12(12)};
+        return { year: year - 1, month: toMonth_1_To_12(12) };
     }
 
     if (month > 12) {
-        return { year: year + 1, month: toMonth_1_To_12(1)};
+        return { year: year + 1, month: toMonth_1_To_12(1) };
     }
 
     return { year, month: toMonth_1_To_12(month) };
@@ -78,7 +78,7 @@ export const getCalendarMonths = (year: number, month: Month_1_To_12, locale: Ca
         calcNextMonth.month,
         locale,
     );
-    
+
     return {
         previous: previousMonth,
         current: {
@@ -246,7 +246,7 @@ const formatMonth = (month: Month_1_To_12, locale: CalendarLocaleType) => {
 };
 
 const formatDate = (date: number) => {
-    return date > 9? date.toString(): `0${date}`;
+    return date > 9 ? date.toString() : `0${date}`;
 };
 
 const formatDay = (day: number, locale: CalendarLocaleType) => {

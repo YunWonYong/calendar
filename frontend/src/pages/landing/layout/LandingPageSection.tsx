@@ -1,9 +1,10 @@
 import { FC } from "react";
+
 import { LANDING_PAGE_SECTION_IDS, landingPageSectionIdByStep } from "@/domains/landing/landingPageType";
-    
+
+import LandingFeatureArticle from "../components/LandingFeatureArticle";
 import LandingHeroArticle from "../components/LandingHeroArticle";
 import LandingProblemArticle from "../components/LandingProblemArticle";
-import LandingFeatureArticle from "../components/LandingFeatureArticle";
 
 import styles from "./LandingPageSection.module.css";
 

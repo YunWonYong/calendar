@@ -1,8 +1,8 @@
 import { RouteObject } from "react-router-dom";
 
 import RequiredAuthGuard from "@/guards/RequiredAuthGuard";
-import LobbyPage from "@/pages/lobby/LobbyPage";
 import CreateGroupPage from "@/pages/group/create/GroupCreatePage";
+import LobbyPage from "@/pages/lobby/LobbyPage";
 
 const ProtectedRoutes: RouteObject[] = [
     {

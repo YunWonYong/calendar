@@ -1,7 +1,8 @@
 import type { FC, ReactNode } from "react";
-import type { LobbyAsideState } from "../../LobbyTypes";
 
 import styles from "./AsideImageBox.module.css";
+
+import type { LobbyAsideState } from "../../LobbyTypes";
 
 const AsideImageBox: FC<{ children: ReactNode; asideState: LobbyAsideState; }> = ({ asideState, children }) => {
     return (

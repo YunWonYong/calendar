@@ -1,6 +1,6 @@
+import { ReactNode } from "react";
 import { Link as L, useLocation } from "react-router-dom";
 
-import { ReactNode } from "react";
 import { trackClick } from "@/analytics/button";
 
 type LinkProps = {

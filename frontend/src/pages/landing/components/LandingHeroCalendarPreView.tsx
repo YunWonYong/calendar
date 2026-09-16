@@ -1,5 +1,5 @@
-import { CalendarEventMainTypes } from "@/domains/calendar/calendarType";
 import { CalendarLocale } from "@/domains/calendar/calendarLocale";
+import { CalendarEventMainTypes } from "@/domains/calendar/calendarType";
 import { getCalendarMonths, getCalendarWeekdayTexts } from "@/lib/calendar/calendar";
 import CalendarViewer from "@/pages/calendar/components/CalendarViewer";
 

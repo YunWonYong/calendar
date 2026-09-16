@@ -1,6 +1,6 @@
 
-import LogoImage from "@/components/LogoImage";
 import Link from "@/components/link";
+import LogoImage from "@/components/LogoImage";
 
 import styles from "./NotFoundPage.module.css";
 

@@ -1,10 +1,11 @@
 import { createRoot } from "react-dom/client";
 
 import { initConfig } from "@/config";
+
+import { initConsoleLogger } from "./analytics/logger/console";
 import ErrorPage from "./error";
 
 import "./styles/global.css";
-import { initConsoleLogger } from "./analytics/logger/console";
 
 const container = document.getElementById("root");
 if (!container) {

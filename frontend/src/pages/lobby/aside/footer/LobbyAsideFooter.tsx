@@ -1,5 +1,5 @@
-import useTheme from "@/hooks/theme/UseTheme";
 import { trackClickAndPreventDefault } from "@/analytics/button";
+import useTheme from "@/hooks/theme/UseTheme";
 
 import styles from "./LobbyAsideFooter.module.css";
 

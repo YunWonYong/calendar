@@ -1,13 +1,13 @@
 import { FC } from "react";
 
-import CalendarHeader from "../layout/CalendarHeader";
 import CalendarBody from "../layout/CalendarBody";
+import CalendarHeader from "../layout/CalendarHeader";
 
 import styles from "./CalendarViewer.module.css";
 
-import type { CalendarDate, CalendarEventCounts } from "@/domains/calendar/calendarType";
-import type { CalendarInteractionType } from "@/domains/calendar/calendarLayout";
 import type { CalendarContextMonths } from "@/domains/calendar/calendarContext";
+import type { CalendarInteractionType } from "@/domains/calendar/calendarLayout";
+import type { CalendarDate, CalendarEventCounts } from "@/domains/calendar/calendarType";
 
 type CalendarViewerProps = {
     info: CalendarContextMonths;

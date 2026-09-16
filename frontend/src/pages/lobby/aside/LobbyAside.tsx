@@ -1,7 +1,7 @@
 import CreateGroupButton from "@/components/group/CreateGroupButton";
 
-import LobbyAsideHeader from "./header/LobbyAsideHeader";
 import LobbyAsideFooter from "./footer/LobbyAsideFooter";
+import LobbyAsideHeader from "./header/LobbyAsideHeader";
 
 import styles from "./LobbyAside.module.css";
 

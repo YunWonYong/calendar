@@ -1,7 +1,7 @@
 import { FC } from "react";
 
-import { CalendarEventMainTypes } from "@/domains/calendar/calendarType";
 import { trackClickAndPreventDefault } from "@/analytics/button";
+import { CalendarEventMainTypes } from "@/domains/calendar/calendarType";
 
 import styles from "./CalendarBody.module.css";
 

@@ -1,6 +1,7 @@
 import { ACCESS_TOKEN_KEY_LOCAL_STORAGE, DEIVCE_ID_KEY_LOCAL_STORAGE, REFRESH_TOKEN_KEY_LOCAL_STORAGE, THEME_KEY_LOCAL_STORAGE } from "./constants";
 
 import type { ThemeType } from "@/domains/theme/themeTypes";
+
 import type { LocalStorageKeyType } from "./types";
 
 export const saveThemeFromLocalStorage = (theme: ThemeType) => {

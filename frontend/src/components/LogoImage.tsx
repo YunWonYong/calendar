@@ -1,10 +1,11 @@
 import type { FC } from "react";
 
 import useTheme from "@/hooks/theme/UseTheme";
-import logoLightImage from "@/assets/logo/logo_light.png";
-import logoDarkImage from "@/assets/logo/logo_dark.png";
 
 import Image from "./Image";
+
+import logoDarkImage from "@/assets/logo/logo_dark.png";
+import logoLightImage from "@/assets/logo/logo_light.png";
 
 
 const LogoImage: FC<{ className?: string }> = ({ className }) => {
