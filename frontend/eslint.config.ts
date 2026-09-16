@@ -1,5 +1,7 @@
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import importX from "eslint-plugin-import-x";
 import perfectionist from "eslint-plugin-perfectionist";
 
 export default [
@@ -8,9 +10,23 @@ export default [
         languageOptions: {
             parser: tsParser,
         },
+        settings: {
+            "import-x/extensions": [
+                ".js",
+                ".jsx",
+                ".ts",
+                ".tsx",
+            ],
+            "import-x/resolver-next": [
+                createTypeScriptImportResolver({
+                    project: "./tsconfig.json",
+                }),
+            ],
+        },
         plugins: {
             "@typescript-eslint": tseslint,
             perfectionist,
+            "import-x": importX,
         },
         rules: {
             "perfectionist/sort-imports": [
@@ -214,6 +230,9 @@ export default [
             "prefer-const": "error",
             "no-var": "error",
             "eqeqeq": ["error", "always", { null: "ignore" }],
+            "import-x/no-unresolved": "error",
+            "import-x/no-cycle": ["error", { maxDepth: Infinity, ignoreExternal: true }],
+            "import-x/no-self-import": "error",
         },
     },
 ];
