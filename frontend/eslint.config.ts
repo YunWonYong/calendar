@@ -1,3 +1,4 @@
+import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import perfectionist from "eslint-plugin-perfectionist";
 
@@ -8,6 +9,7 @@ export default [
             parser: tsParser,
         },
         plugins: {
+            "@typescript-eslint": tseslint,
             perfectionist,
         },
         rules: {
@@ -138,6 +140,19 @@ export default [
                 "error",
                 { blankLine: "always", prev: "import", next: "*" },
                 { blankLine: "any", prev: "import", next: "import" }, // import 끼리는 perfectionist가 관리하도록 허용
+            ],
+            "no-unused-vars": "off",
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                {
+                    args: "all",
+                    argsIgnorePattern: "^_",
+                    caughtErrors: "all",
+                    caughtErrorsIgnorePattern: "^_",
+                    varsIgnorePattern: "^_",
+                    destructuredArrayIgnorePattern: "^_",
+                    ignoreRestSiblings: true
+                },
             ],
         },
     },

@@ -1,9 +1,7 @@
 import { useCallback, useState } from "react";
 
 import { trackClickAndPreventDefault } from "@/analytics/button";
-import useAuth from "@/hooks/auth/useAuth";
 
-import CalendarPage from "../calendar/CalendarPage";
 import EmptyGroupPage from "../group/lobby/EmptyGroupPage";
 import GroupEmblemTestPage from "../group/test/GroupEmblemTestPage";
 
@@ -14,7 +12,6 @@ import styles from "./LobbyPage.module.css";
 import type { LobbyAsideState } from "./LobbyTypes";
 
 const LobbyPage = () => {
-    const { isLogin } = useAuth();
     const [ asideState, setAsideState ] = useState<LobbyAsideState>("collapsed");
     const toggleAsideState = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         trackClickAndPreventDefault(

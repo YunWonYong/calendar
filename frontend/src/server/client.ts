@@ -226,7 +226,7 @@ const serverApiClient = (() => {
                     throw new Error("refresh token api error.");
                 }
                 return response;
-            } catch(e) {
+            } catch(_e) {
                 await logout();
                 return {
                     errorCode: "AUTH_API_FAILED",

@@ -4,7 +4,7 @@ import styles from "./CalendarHeader.module.css";
 
 import type { CalendarHeaderProps } from "@/domains/calendar/calendarLayout";
 
-const CalendarHeader: FC<CalendarHeaderProps> = ({ info, isActive, handles }) => {
+const CalendarHeader: FC<CalendarHeaderProps> = ({ info, isActive }) => {
     const { current, previous, next } = info;
     return (
         <header

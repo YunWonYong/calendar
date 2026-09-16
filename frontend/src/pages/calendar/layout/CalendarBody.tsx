@@ -130,11 +130,11 @@ const orderedTypes: CalendarEventMainType[] = [
     CalendarEventMainTypes.SCHEDULE,
 ];
 
-const orderedTypeIndexs: Record<CalendarEventMainType, number> = {
-    [CalendarEventMainTypes.SCHEDULE]: 1,
-    [CalendarEventMainTypes.TRANSACTION]: 2,
-    [CalendarEventMainTypes.MISSION]: 3,
-};
+// const orderedTypeIndexs: Record<CalendarEventMainType, number> = {
+//     [CalendarEventMainTypes.SCHEDULE]: 1,
+//     [CalendarEventMainTypes.TRANSACTION]: 2,
+//     [CalendarEventMainTypes.MISSION]: 3,
+// };
 
 const DayEventDotBox: FC<{ ymd: string; eventCount: CalendarEventCount }> = ({ ymd, eventCount }) => {
     const zeroCountEvents = orderedTypes.filter(orderedType => eventCount[orderedType] === 0);
