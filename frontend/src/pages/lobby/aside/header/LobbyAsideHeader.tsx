@@ -121,4 +121,5 @@ const AsideToggleButtonSVG = ({ asideState }: { asideState: LobbyAsideState }) =
         </svg>
     );
 };
+
 export default LobbyAsideHeader;

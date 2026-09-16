@@ -16,6 +16,7 @@ type LinkProps = {
 
 const Link = ({ to, className, children, clickEventName }: LinkProps) => {
     const location = useLocation();
+
     if (typeof to === "string") {
         to = { pathname: to };
     }
@@ -23,6 +24,7 @@ const Link = ({ to, className, children, clickEventName }: LinkProps) => {
     if (!clickEventName) {
         clickEventName = "PAGE_MOVE";
     }
+
     return (
         <L 
             to={ to }

@@ -17,6 +17,7 @@ const parameterNames = {
 const getAuthCode = () => {
     const url = new URL(window.location.href);
     const authCode = url.searchParams.get(parameterNames.AUTH_CODE);
+
     if (!authCode || authCode.length === 0) {
         return "";
     }
@@ -72,6 +73,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
         const authCode = getAuthCode();
         const refreshToken = getRefreshTokenFromLocalStorage();
+
         const logoutCallback = () => {
             // global modal을 띄워 사용자가 클릭 후 로그아웃되게 해야 하나?
             setUserInfo(null);
@@ -83,8 +85,10 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 setFetchState(false);
                 return;
             }
+
             lockRef.current = true;
             setFetchState(true);
+
             try {
                 const result = await authenticate({
                     data: getLoginBodyData(deviceInfo, authCode, refreshToken),

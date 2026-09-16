@@ -173,4 +173,5 @@ const DayEventDotBox: FC<{ ymd: string; eventCount: CalendarEventCount }> = ({ y
         </div>
     );
 };
+
 export default CalendarBody;

@@ -30,6 +30,7 @@ const useScroll = (props: UseScrollProps) => {
 
     useEffect(() => {
         const { onWheel, wheelOptions, onScroll, scrollOptions } = props
+
         const handleWheel = (event: WheelEvent) => {
             directionRef.current = event.deltaY >= 0 ? "down" : "up";
             onWheel(event, directionRef.current);
@@ -43,6 +44,7 @@ const useScroll = (props: UseScrollProps) => {
             if (onScroll) {
                 onScroll(event, directionRef.current);
             }
+
             setScrollState((oldScrollState) => {
                 return {
                     ...oldScrollState,
@@ -53,6 +55,7 @@ const useScroll = (props: UseScrollProps) => {
         
         window.addEventListener("scroll", handleScroll, scrollOptions);
         window.addEventListener("wheel", handleWheel, wheelOptions);
+
         return () => {
             window.removeEventListener("scroll", handleScroll, scrollOptions);
             window.removeEventListener(

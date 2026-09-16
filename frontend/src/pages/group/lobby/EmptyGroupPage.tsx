@@ -14,7 +14,9 @@ const EmptyGroupPage = ({ onCreateGroup, onJoinGroup }: EmptyGroupPageProps) => 
 
     const handleJoinSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         if (!inviteCode.trim()) return;
+
         onJoinGroup?.(inviteCode.trim());
     };
 

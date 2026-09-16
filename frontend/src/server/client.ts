@@ -14,6 +14,7 @@ class ServerApiClient {
     private serverApiUrl: string;
     constructor() {
         this.serverApiUrl = config.apiServerURL;
+
         if (!this.serverApiUrl) {
             throw new Error("Failed server api client class.");
         }
@@ -25,6 +26,7 @@ class ServerApiClient {
         }
 
         const url = this.getApiUrl(path);
+
         switch(method) {
             case METHODS.POST:
                 return post<R>(url, body, header);
@@ -40,6 +42,7 @@ class ServerApiClient {
 
         const pathFirstChar = path.charAt(0);
         const serverApiUrlLastChar = this.serverApiUrl.charAt(this.serverApiUrl.length - 1);
+
         if (pathFirstChar === "/" && serverApiUrlLastChar === "/") {
             return `${this.serverApiUrl}${path.slice(1)}`;
         }
@@ -61,6 +64,7 @@ class ServerUserApiClient {
         if (this.authUserInfo === null) {
             return;
         }
+
         const response = await serverApiClient.call<LogoutRequestBody, {}>(
             METHODS.DELETE,
             "/logout",
@@ -101,11 +105,13 @@ class ServerUserApiClient {
                if (this.refreshTokenPromise === null) {
                    await this.refreshAuthTokenInfo();
                }
+
                return this.call<B, R>(method, path, body, header);
             }
 
             throw new Error(response.errorMessage);
         }
+
         return response.data;
     }
 
@@ -134,6 +140,7 @@ class ServerUserApiClient {
 
         try {
             const response = await this.refreshTokenPromise;
+
             if (!response.ok) {
                 throw new Error(response.errorMessage);
             }
@@ -177,6 +184,7 @@ const serverApiClient = (() => {
         }
 
         let path = "/auth";
+
         if (params.type === "auto-login") {
             path = "/auth/auto-login";
         }
@@ -202,10 +210,12 @@ const serverApiClient = (() => {
         logoutEventCallback = callback;
         return response.data;
     };
+
     const logout = async () => {
         if (serverUserApiClient) {
             await serverUserApiClient.logout();
             serverUserApiClient = null;
+
             if (logoutEventCallback !== null) {
                 logoutEventCallback();
             }
@@ -225,6 +235,7 @@ const serverApiClient = (() => {
                 if (serverUserApiClient.hasRefreshTokenApiError()) {
                     throw new Error("refresh token api error.");
                 }
+
                 return response;
             } catch(_e) {
                 await logout();
@@ -236,6 +247,7 @@ const serverApiClient = (() => {
 
         throw new Error("not login.");  
     };
+
     return {
         login,
         logout,

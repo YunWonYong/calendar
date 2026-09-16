@@ -46,9 +46,11 @@ export abstract class BaseLogger implements ILogger {
     constructor(logLevel: number) {
         this.logLevel = logLevel;
         const logType = logTypeByLevel[logLevel];
+
         if (!logType) {
             throw new Error(`invalid logLevel. logLevel[${logLevel}]`);
         }
+
         this.logType = logType;
     }
 

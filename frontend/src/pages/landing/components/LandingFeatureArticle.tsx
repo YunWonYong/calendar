@@ -222,6 +222,7 @@ const FeatureFooter = () => {
         </div>
     );
 };
+
 const LandingFeatureArticle: FC<LandingPageSectionProps> = ({ isAnimationPlay }) => {
     return (
         <article

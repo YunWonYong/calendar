@@ -4,6 +4,7 @@ import useAuth from "@/hooks/auth/useAuth";
 
 const RootLayout = () => {
     const { isLoading, isLogin } = useAuth();
+
     if (isLoading) {
         return null;
     }

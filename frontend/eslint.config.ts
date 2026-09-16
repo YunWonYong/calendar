@@ -140,6 +140,36 @@ export default [
                 "error",
                 { blankLine: "always", prev: "import", next: "*" },
                 { blankLine: "any", prev: "import", next: "import" }, // import 끼리는 perfectionist가 관리하도록 허용
+                {
+                    blankLine: "always",
+                    prev: "*",
+                    next: [
+                        "if",
+                        "for",
+                        "do",
+                        "while",
+                        "try",
+                        "switch",
+                        "with",
+                        "block-like" // 함수 선언, 클래스 등 스코프를 가진 다른 블록 구문 포함
+                    ]
+                },
+
+                // 3. 제어문(if, for, do, while, try, switch 등) "다음"에 빈 줄 추가
+                {
+                    blankLine: "always",
+                    prev: [
+                        "if",
+                        "for",
+                        "do",
+                        "while",
+                        "try",
+                        "switch",
+                        "with",
+                        "block-like"
+                    ],
+                    next: "*"
+                }
             ],
             "no-unused-vars": "off",
             "@typescript-eslint/no-unused-vars": [

@@ -33,6 +33,7 @@ const ALLOWED_SPECIAL_CHARACTERS = new Set([
     "&",
     "'",
 ]);
+
 /**
  * 허용하지 않는 특수문자가 포함되어 있는지 확인합니다.
  *

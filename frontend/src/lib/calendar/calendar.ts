@@ -10,6 +10,7 @@ import type { DateType, Month_1_To_12 } from "@/domains/lib/date";
 
 export const getCalendarWeekdayTexts = (locale: CalendarLocaleType): string[] => {
     const weekdayTexts = CALENDAR_WEEKDAY_TEXTS[locale];
+
     if (!weekdayTexts) {
         throw new Error(`${locale} not supported locale. [getCalendarMetadate]`);
     }
@@ -101,6 +102,7 @@ export const getCalendarWeeks = (year: number, month: Month_1_To_12, locale: Cal
     if (dateList.length < MAX_CALENDAR_DATE_LIST_SIZE) {
         fillWeeks(year, month, dateList);
     }
+
     return createCalendarWeeks(dateList, locale);
 };
 
@@ -126,6 +128,7 @@ const validateDateList = (dateList: DateType[]) => {
 
 const fillWeeks = (year: number, month: number, dateList: DateType[]) => {
     const lastDate = dateList[dateList.length - 1];
+
     if (lastDate.isCurrentMonthDate) {
         fillWeeksByNextMonth(year, month, lastDate, dateList);
         return;
@@ -134,6 +137,7 @@ const fillWeeks = (year: number, month: number, dateList: DateType[]) => {
     let weekNo = lastDate.weekNo + 1;
     let date = lastDate.date + 1;
     let dayIndex = 0;
+
     while (weekNo <= MAX_CALENDAR_WEEK_NO) {
         dateList.push({
             ...lastDate,
@@ -144,6 +148,7 @@ const fillWeeks = (year: number, month: number, dateList: DateType[]) => {
         });
         ++dayIndex;
         ++date;
+
         if (dayIndex === 7) {
             ++weekNo;
             dayIndex = 0;
@@ -160,6 +165,7 @@ const fillWeeksByNextMonth = (year: number, month: number, lastDate: DateType, d
     let weekNo = lastDate.weekNo + 1;
     let i = 0;
     let dayIndex = 0;
+
     while (weekNo <= MAX_CALENDAR_WEEK_NO) {
         dateList.push({
             ...nextDateList[i],
@@ -169,6 +175,7 @@ const fillWeeksByNextMonth = (year: number, month: number, lastDate: DateType, d
         });
         ++i;
         ++dayIndex;
+
         if (dayIndex === 7) {
             ++weekNo;
             dayIndex = 0;
@@ -181,8 +188,10 @@ const createCalendarWeeks = (dateList: DateType[], locale: CalendarLocaleType): 
     let week = createCalendarWeek(1);
     let i = 0;
     const size = dateList.length;
+
     while (i < size) {
         const data = dateList[i];
+
         if (data.weekNo > week.weekNo) {
             weeks.push(week);
             week = createCalendarWeek(data.weekNo);
@@ -236,6 +245,7 @@ const formatYear = (year: number, locale: CalendarLocaleType) => {
 
 const formatMonth = (month: Month_1_To_12, locale: CalendarLocaleType) => {
     const monthTexts = CALENDAR_SHORT_MONTH_TEXTS[locale];
+
     if (!monthTexts) {
         throw new Error(`${locale} not supported locale. [formatMonth]`);
     }
@@ -251,11 +261,13 @@ const formatDate = (date: number) => {
 
 const formatDay = (day: number, locale: CalendarLocaleType) => {
     const weekdayTexts = CALENDAR_WEEKDAY_TEXTS[locale];
+
     if (!weekdayTexts) {
         throw new Error(`${locale} not supported locale. [formatDay]`);
     }
 
     const weekdayText = weekdayTexts[day];
+
     if (!weekdayText) {
         throw new Error(`${locale} not supported locale. [formatDay]`);
     }

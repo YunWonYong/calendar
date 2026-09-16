@@ -8,6 +8,7 @@ const ErrorPage: FC<{ errorMessage: string }> = ({ errorMessage }) => {
 
             console.error(errorMessage);
         };
+
         logging();
     }, [errorMessage]);
     return (

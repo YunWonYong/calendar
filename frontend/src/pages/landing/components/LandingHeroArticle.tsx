@@ -87,4 +87,5 @@ const CalendarDotLegendText: FC<{ eventType: CalendarEventMainType }> = ({ event
         </span>
     );
 };
+
 export default LandingHeroArticle;

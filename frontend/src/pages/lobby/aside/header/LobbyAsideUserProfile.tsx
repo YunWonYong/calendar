@@ -55,4 +55,5 @@ const LobbyAsideUserProfile = ({ asideState }: { asideState: LobbyAsideState; })
         </div>
     );
 };
+
 export default LobbyAsideUserProfile;

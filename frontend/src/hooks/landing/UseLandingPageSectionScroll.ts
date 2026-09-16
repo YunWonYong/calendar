@@ -22,6 +22,7 @@ const findSectionElements = () => {
     });
 
     const filteredSections = sections.filter((section) => section !== null);
+
     if (!checkSectionArraySize(filteredSections)) {
         return [];
     }
@@ -55,6 +56,7 @@ const getVisibleSectionV1 = (sections: HTMLElement[], minHeight: number) => {
         sections,
         (section: HTMLElement) => {
             const step = landingPageSectionIdByStep[section.id as LandingPageSectionIdType];
+
             if (step === undefined) {
                 return false;
             }
@@ -146,14 +148,17 @@ const getVisibleSection = (sections: HTMLElement[], version: 1 | 2 | 3, minHeigh
         case 3:
             return getVisibleSectionV3(sections);
     }
+
     throw new Error(`not supported version. getVisibleSection(..., ${version}, ...)`);
 };
 
 const getVisibleSectionStep = (sections: HTMLElement[], condition: (section: HTMLElement) => boolean) => {
     let i = 0;
     const size = sections.length;
+
     do {
         const section = sections[i];
+
         if (condition(section)) {
             return landingPageSectionIdByStep[
                 section.id as LandingPageSectionIdType
@@ -182,6 +187,7 @@ const useLandingPageSectionScroll = (minHeight: number) => {
         }
         
         const findSections = findSectionElements();
+
         if (!checkSectionArraySize(findSections)) {
             return;
         } 
@@ -191,6 +197,7 @@ const useLandingPageSectionScroll = (minHeight: number) => {
         findSections.forEach((findSection, index) => {
             const top = findSection.offsetTop;
             const bottom = top + findSection.offsetHeight;
+
             if (top <= currentY && currentY < bottom) {
                 step = index;
             }
@@ -216,13 +223,16 @@ const useLandingPageSectionScroll = (minHeight: number) => {
             // wheel과 scroll 이벤트를 구분함.
             return;
         }
+
         const isWheel = isWheelable.current;
+
         if (!isWheel) {
             event.preventDefault();
             return;
         }
         
         const nextStep = stepRef.current + (direction === "up"? -1: 1);
+
         if (nextStep < MIN_STEP || nextStep > MAX_STEP) {
             event.preventDefault();
             return;
@@ -237,6 +247,7 @@ const useLandingPageSectionScroll = (minHeight: number) => {
         window.scrollTo({  behavior: "smooth" , top: nextStep * Math.max(height, minHeight) });
         tick.current = setTimeout(() => { 
             isWheelable.current = true;
+
             if (tick.current) {
                 clearTimeout(tick.current);
                 tick.current = null;
@@ -252,6 +263,7 @@ const useLandingPageSectionScroll = (minHeight: number) => {
 
         const sectionss = sections.current;
         const size = sectionss.length;
+
         if (size === 0) {
             return MIN_STEP;
         }

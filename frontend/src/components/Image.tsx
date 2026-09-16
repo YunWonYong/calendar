@@ -10,9 +10,11 @@ const Image: FC<ImageProps> = (props) => {
     }, [src]);
 
     const className = props.className || "";
+
     const onLoadingHandler = () => {
         setIsLoading(false);
     };
+
     return (
         <div
             style={{
@@ -77,10 +79,12 @@ const DefaultImage = ({ className, src, defaultSrc, alt, onLoadingHandler }: Def
                 if (imageSrc === defaultSrc) {
                     return;
                 }
+
                 setImageSrc(defaultSrc);
             }}
             onDragStart={(e) => e.preventDefault()}
         />
     );
 };
+
 export default Image;

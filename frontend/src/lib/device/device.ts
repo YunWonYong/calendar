@@ -18,6 +18,7 @@ export const createDeviceInfo = (): DeviceInfo => {
 
 const getOrCreateDeviceId = (): string => {
     let deviceId = getDeviceIdFromLocalStorage();
+
     if (!deviceId) {
         deviceId = crypto.randomUUID();
         setDeviceIdFromLocalStorage(deviceId);

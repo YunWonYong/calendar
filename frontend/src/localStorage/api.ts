@@ -10,9 +10,11 @@ export const saveThemeFromLocalStorage = (theme: ThemeType) => {
 
 export const getThemeFromLocalStorage = () => {
     const value = get<ThemeType>(THEME_KEY_LOCAL_STORAGE);
+
     if (value === "light" || value === "dark") {
         return value;
     }
+
     return null;
 };
 
@@ -56,6 +58,7 @@ const save = <T extends string, >(key: LocalStorageKeyType, value: T) => {
 
 const get = <T, >(key: LocalStorageKeyType): T | null => {
     const value = localStorage.getItem(key);
+
     if (value === null) {
         return null;
     }

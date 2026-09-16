@@ -10,6 +10,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
     const currentDate = getCurrentMonth(year, month);
     const currentFirstDayIndex = currentDate.firstDayIndex;
     let weekNo = 1;
+
     if (currentFirstDayIndex > 0) {
         const prevDate = getPrevMonth(
             currentDate.year,
@@ -17,6 +18,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
         );
         let i = currentFirstDayIndex - 1;
         let dayIndex = 0;
+
         while(i > -1) {
             dateList.push({
                 year: prevDate.year,
@@ -34,6 +36,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
     let lastDate = currentDate.lastDate
     let date = 1;
     let dayIndex = currentFirstDayIndex;
+
     while(date < lastDate + 1) {
         dateList.push({
             year: currentDate.year,
@@ -45,6 +48,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
         });
         ++date;
         ++dayIndex;
+
         if (dayIndex === 7) {
             dayIndex = 0;
             ++weekNo;
@@ -58,6 +62,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
         );
         const { lastDayIndex } = currentDate;
         let i = 1;
+
         do {
             dateList.push({
                 year: nextMonth.year,
@@ -70,6 +75,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
             ++i;
         } while((i + lastDayIndex) < 7);
     }
+
     return dateList;
 };
 

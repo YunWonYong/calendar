@@ -9,11 +9,13 @@ import ThemeContext from "./ThemeContext";
 const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [ theme, setTheme ] = useState<ThemeType>(() => {
         const savedTheme = getThemeFromLocalStorage();
+
         if (savedTheme !== null) {
             return savedTheme;
         }
 
         let newTheme: ThemeType = THEME_TYPES.LIGHT;
+
         if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
             newTheme = THEME_TYPES.DARK;
         }

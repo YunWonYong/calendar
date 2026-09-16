@@ -28,6 +28,7 @@ const request = async <T, >(url: string, method: HttpMethod, body?: object, head
         if (response.status === 401) {
             return getUnauthorizedResponse(response.json());
         }
+
         if (!response.ok) {
             throw new Error(`failed to api call. ${response.status}/${response.statusText}`);
         }
@@ -49,6 +50,7 @@ const request = async <T, >(url: string, method: HttpMethod, body?: object, head
 
 const getUnauthorizedResponse = async (json: Promise<any>) => {
     const data = await json;
+
     if ("ok" in data && "errorCode" in data) {
         const { ok, errorCode } = data;
         // [TODO] accessToken이 만료 됐을 때의 errorCode를 체크해서 refresh api 호출할 수 있도록 수정. 
@@ -59,6 +61,7 @@ const getUnauthorizedResponse = async (json: Promise<any>) => {
             isRefresh: false,
         };
     }
+
     return {
         ok: false,
         errorCode: "UNAUTHORIZED",
@@ -69,6 +72,7 @@ const getUnauthorizedResponse = async (json: Promise<any>) => {
 
 const getErrorMessage = (url: string, method: HttpMethod, e: unknown) => {
     let msg = `errorMessage[%s] method[${method}] url[${url}]`;
+
     if (e instanceof Error) {
         msg = msg.replace("%s", e.message);
     } else {

@@ -57,4 +57,5 @@ const LoginButtonSVG = ({ asideState }: { asideState: LobbyAsideState }) => {
         </svg>
     );
 };
+
 export default LobbyAsideHeaderLoginButton;

@@ -63,6 +63,7 @@ const eventInfo: CalendarEventCounts = {
         [CalendarEventMainTypes.TRANSACTION]: 3,
     },
 };
+
 const LandingHeroCalendarPreview = () => {
     const info = getCalendarMonths(2026, 9 as Month_1_To_12, CalendarLocale.KR);
     const weekdayTexts = getCalendarWeekdayTexts(CalendarLocale.KR);

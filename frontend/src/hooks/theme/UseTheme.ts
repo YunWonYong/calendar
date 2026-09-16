@@ -6,6 +6,7 @@ import { THEME_TYPES, type ThemeContextType } from "@/domains/theme/themeTypes";
 
 const useTheme = () => {
     const ctx = useContext<ThemeContextType | null>(ThemeContext);
+
     if (!ctx) {
         throw new Error("useTheme must be used within ThemeProvider");
     }

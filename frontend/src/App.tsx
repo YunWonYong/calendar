@@ -11,6 +11,7 @@ import "./styles/theme.css";
 
 const AutoLoginOverlayWrap = () => {
     const { isLoading } = useAuth();
+
     if (isLoading) {
         return <AutoLoginOverlay />
     }

@@ -1,60 +1,93 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { FC, InputHTMLAttributes } from "react";
+
 import styles from "./TextInput.module.css";
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     id: string;
     label?: string;
     errorMessage?: string;
-    /** 라벨과 input의 배치 방향 (기본값: 'vertical') */
+    descriptionMessage?: string;
     layout?: "vertical" | "horizontal";
-    /** i 버튼, 툴팁 등 라벨 우측에 들어갈 요소 */
     labelRightElement?: React.ReactNode;
 }
 
-export const TextInput = ({
-    id,
-    label,
-    errorMessage,
-    layout = "vertical",
-    labelRightElement,
-    className = "",
-    disabled,
-    ...restProps
-}: TextInputProps) => {
+export const TextInput: FC<TextInputProps> = ({ id, label, errorMessage, descriptionMessage, layout = "vertical", labelRightElement, className = "", disabled, ...restProps }) => {
+    const isError = errorMessage !== undefined && errorMessage.length > 0;
     return (
         <div
             className={`
                 ${styles.fieldGroup} 
                 ${styles[layout]} 
-                ${errorMessage !== undefined ? styles.hasError : ""} 
+                ${isError? styles.hasError : ""} 
                 ${disabled ? styles.disabled : ""} 
                 ${className}
             `.trim()}
         >
-            {/* 1. 라벨 영역 */}
             {label && (
                 <div className={styles.labelWrapper}>
                     <label htmlFor={id}>{label}</label>
                     {labelRightElement}
                 </div>
             )}
-
-            {/* 2. Input + ErrorBox 영역 */}
             <div className={styles.inputControlGroup}>
                 <input
                     id={id}
                     disabled={disabled}
                     {...restProps}
                 />
+                {
+                    isError
+                        ?   <ErrorTextBox
+                                errorMessage={ errorMessage }
+                            />
+                        :   <DescriptionTextBox 
+                                descriptionMessage={ descriptionMessage }
+                            />
+                }
+            </div>
+        </div>
+    );
+};
 
-                {/* 3. 에러 메시지가 있을 때만 한 줄 영역을 가지고 애니메이션 렌더링 */}
-                {errorMessage !== undefined && (
-                    <div className={styles.errorContainer}>
-                        <div className={styles.errorTrack}>
-                            <span className={styles.errorText}>{errorMessage}</span>
-                        </div>
-                    </div>
-                )}
+type ErrorTextBoxProps = {
+    errorMessage: string;
+};
+
+const ErrorTextBox: FC<ErrorTextBoxProps> = ({ errorMessage }) => {
+    return (
+        <div 
+            className={ styles.errorContainer }
+        >
+            <div 
+                className={ styles.errorTrack }
+            >
+                <span 
+                    className={ styles.errorText }
+                >
+                    { errorMessage }
+                </span>
+            </div>
+        </div>
+    );
+};
+
+type DescriptionTextBoxProps = {
+    descriptionMessage?: string;
+};
+
+const DescriptionTextBox: FC<DescriptionTextBoxProps> = ({ descriptionMessage }) => {
+    return (
+        <div 
+            className={ styles.errorContainer }
+        >
+            <div 
+                className={ styles.errorTrack }
+            >
+                <span 
+                    className={ styles.errorText }
+                >
+                    {descriptionMessage}
+                </span>
             </div>
         </div>
     );

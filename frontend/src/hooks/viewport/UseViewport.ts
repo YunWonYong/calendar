@@ -31,7 +31,9 @@ const useViewport = () => {
                 ...getCurrentViewportSize()
             });
         };
+
         window.addEventListener("resize", resizingHandler);
+
         return () => {
             window.removeEventListener("resize", resizingHandler);
         };

@@ -26,6 +26,7 @@ export const reducer = (state: State, action: Action): State => {
     switch(action.type) {
         case ActionTypes.CHANGE_LOCALE:
             const locale = action.payload;
+
             if (locale === state.locale) {
                 return state;
             }
@@ -74,6 +75,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 selectedDate: action.payload,
             };
+
         default: {
             const _exhaustiveCheck: never = action;
             throw new Error(`Unhandled action type: ${(_exhaustiveCheck as Action).type}`);
