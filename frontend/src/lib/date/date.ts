@@ -33,7 +33,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
         }
     }
 
-    let lastDate = currentDate.lastDate
+    const lastDate = currentDate.lastDate
     let date = 1;
     let dayIndex = currentFirstDayIndex;
 
