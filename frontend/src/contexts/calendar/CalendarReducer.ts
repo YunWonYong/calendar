@@ -23,7 +23,7 @@ export const initCalendarState = (locale: CalendarLocaleType) => {
 };
 
 export const reducer = (state: State, action: Action): State => {
-    switch(action.type) {
+    switch (action.type) {
         case ActionTypes.CHANGE_LOCALE:
             const locale = action.payload;
 

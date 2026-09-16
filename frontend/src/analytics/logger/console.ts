@@ -38,7 +38,7 @@ export const initConsoleLogger = (logLevel: number) => {
         consoleLogger = lg;
         console.log("console logger type: ", lg.getLogType());
         return { consoleLogger };
-    } catch(e) {
+    } catch (e) {
         return { consoleLogger, errorMessage: (e as Error).message };
     }
 };

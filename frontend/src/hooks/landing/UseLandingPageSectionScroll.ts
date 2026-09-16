@@ -140,7 +140,7 @@ const getVisibleSectionV3 = (sections: HTMLElement[]) => {
 }; 
 
 const getVisibleSection = (sections: HTMLElement[], version: 1 | 2 | 3, minHeight: number) => {
-    switch(version) {
+    switch (version) {
         case 1:
             return getVisibleSectionV1(sections, minHeight);
         // case 2:
@@ -164,7 +164,7 @@ const getVisibleSectionStep = (sections: HTMLElement[], condition: (section: HTM
                 section.id as LandingPageSectionIdType
             ] ?? MIN_STEP;
         } 
-    } while(++i < size);
+    } while (++i < size);
 
     return MIN_STEP;
 };

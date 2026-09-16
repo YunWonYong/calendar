@@ -38,7 +38,7 @@ const request = async <T, >(url: string, method: HttpMethod, body?: object, head
             ok: true,
             ...data,
         };
-    } catch(e) {
+    } catch (e) {
         // [TODO] error logging
         return {
             ok: false,

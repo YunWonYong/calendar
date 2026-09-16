@@ -96,7 +96,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 });
 
                 setAuthenticateApiResult(result);
-            } catch(e) {
+            } catch (e) {
                 // [TODO] error logging
                 removeAuthInfoFromLocalStorage();
                 setUserInfo(null);

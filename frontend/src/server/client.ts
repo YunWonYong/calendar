@@ -27,7 +27,7 @@ class ServerApiClient {
 
         const url = this.getApiUrl(path);
 
-        switch(method) {
+        switch (method) {
             case METHODS.POST:
                 return post<R>(url, body, header);
         }
@@ -149,7 +149,7 @@ class ServerUserApiClient {
                 ...this.authUserInfo,
                 authTokenInfo: response.data,
             };
-        } catch(e) {
+        } catch (e) {
             this.isRefreshTokenApiError = true;
             throw e;
         } finally {
@@ -237,7 +237,7 @@ const serverApiClient = (() => {
                 }
 
                 return response;
-            } catch(_e) {
+            } catch (_e) {
                 await logout();
                 return {
                     errorCode: "AUTH_API_FAILED",

@@ -35,7 +35,7 @@ export const initConfig = (): { errorMessage?: string; config: Config; } => {
         config.buildEnv = buildEnv;
         config.logLevel = logLevel;
         return { config };
-    } catch(e) {
+    } catch (e) {
         let errorMessage = "config init failed.";
 
         if (e instanceof Error) {

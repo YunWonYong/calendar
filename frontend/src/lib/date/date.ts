@@ -19,7 +19,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
         let i = currentFirstDayIndex - 1;
         let dayIndex = 0;
 
-        while(i > -1) {
+        while (i > -1) {
             dateList.push({
                 year: prevDate.year,
                 month: prevDate.month,
@@ -37,7 +37,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
     let date = 1;
     let dayIndex = currentFirstDayIndex;
 
-    while(date < lastDate + 1) {
+    while (date < lastDate + 1) {
         dateList.push({
             year: currentDate.year,
             month: currentDate.month,
@@ -73,7 +73,7 @@ export const getDateList = (year: number, month: Month_0_To_11): DateType[] => {
                 weekNo,
             });
             ++i;
-        } while((i + lastDayIndex) < 7);
+        } while ((i + lastDayIndex) < 7);
     }
 
     return dateList;

@@ -184,6 +184,8 @@ export default [
                     ignoreRestSiblings: true
                 },
             ],
+            "keyword-spacing": ["error", { "before": true, "after": true }],
+            "space-before-blocks": ["error", "always"],
         },
     },
 ];
