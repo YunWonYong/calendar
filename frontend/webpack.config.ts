@@ -30,23 +30,23 @@ const config: Configuration = {
 
                 use: isProduction
                     ? {
-                          loader: "esbuild-loader",
-                          options: {
-                              loader: "tsx",
-                              target: "es2015",
-                          },
-                      }
+                        loader: "esbuild-loader",
+                        options: {
+                            loader: "tsx",
+                            target: "es2015",
+                        },
+                    }
                     : {
-                          loader: "ts-loader",
-                          options: {
-                              transpileOnly: true,
-                              getCustomTransformers: () => ({
-                                  before: [
-                                      ReactRefreshTypeScript(),
-                                  ],
-                              }),
-                          },
-                      },
+                        loader: "ts-loader",
+                        options: {
+                            transpileOnly: true,
+                            getCustomTransformers: () => ({
+                                before: [
+                                    ReactRefreshTypeScript(),
+                                ],
+                            }),
+                        },
+                    },
             },
             {
                 test: /\.css$/,

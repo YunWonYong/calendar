@@ -102,11 +102,11 @@ class ServerUserApiClient {
 
         if (!response.ok) {
             if (response.isRefresh) {
-               if (this.refreshTokenPromise === null) {
-                   await this.refreshAuthTokenInfo();
-               }
+                if (this.refreshTokenPromise === null) {
+                    await this.refreshAuthTokenInfo();
+                }
 
-               return this.call<B, R>(method, path, body, header);
+                return this.call<B, R>(method, path, body, header);
             }
 
             throw new Error(response.errorMessage);

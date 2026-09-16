@@ -46,13 +46,13 @@ const GroupCard: FC<GroupCardProps> = ({
                 {
                     emblemIconInfo.type === "emblem"
                         ?   <GroupEmblem
-                                emblemId={ emblemIconInfo.emblemId }
-                            />
+                            emblemId={ emblemIconInfo.emblemId }
+                        />
                         :   <Image
-                                src={ emblemIconInfo.imageUrl }
-                                defaultSrc={ emblemIconInfo.defaultImageUrl }
-                                alt={`${groupFullName} group emblem custom image`}
-                            />      
+                            src={ emblemIconInfo.imageUrl }
+                            defaultSrc={ emblemIconInfo.defaultImageUrl }
+                            alt={`${groupFullName} group emblem custom image`}
+                        />      
                 }
             </div>
             

@@ -13,4 +13,6 @@
     "[typescriptreact]": {
         "editor.formatOnSave": false
     },
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true
 }

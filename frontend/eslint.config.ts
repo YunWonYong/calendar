@@ -186,6 +186,31 @@ export default [
             ],
             "keyword-spacing": ["error", { "before": true, "after": true }],
             "space-before-blocks": ["error", "always"],
+            "indent": [
+                "error", 
+                4, 
+                { 
+                    "SwitchCase": 1,
+                    "ignoredNodes": [
+                        "ConditionalExpression", // 3항 연산자 내부 들여쓰기 꼬임 방지
+                        "JSXElement",            // JSX 요소 내부 들여쓰기는 코어 indent가 무시하도록 설정
+                        "JSXElement *",
+                        "JSXAttribute",
+                        "JSXIdentifier",
+                        "JSXNamespacedName",
+                        "JSXMemberExpression",
+                        "JSXSpreadAttribute",
+                        "JSXExpressionContainer",
+                        "JSXOpeningElement",
+                        "JSXClosingElement",
+                        "JSXFragment",
+                        "JSXOpeningFragment",
+                        "JSXClosingFragment",
+                        "JSXText",
+                        "JSXEmptyExpression"
+                    ] 
+                },
+            ],
         },
     },
 ];
