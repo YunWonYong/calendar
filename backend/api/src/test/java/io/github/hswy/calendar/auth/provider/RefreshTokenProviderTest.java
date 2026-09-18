@@ -71,6 +71,7 @@ public class RefreshTokenProviderTest {
         refreshTokenProvider.delete(refreshToken, userId, deviceId);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void shouldThrowRefreshTokenGenerateException() {
         StringRedisTemplate spyRedisTemplate = spy(redisTemplate);

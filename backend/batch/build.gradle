@@ -25,3 +25,7 @@ tasks.named('test') {
         includeTags project.findProperty('profile') ?: 'local'
     }
 }
+
+tasks.named('bootRun') {
+    dependsOn rootProject.tasks.named('setupGitHooks')
+}
