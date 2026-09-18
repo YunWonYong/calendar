@@ -8,9 +8,8 @@ import java.util.List;
 
 public class SetupGitHooks {
     public static void main(String[] args) throws Exception {
-        System.out.println("hello setup git hooks");
-        final String OS = System.getProperty("os.name").toLowerCase();
-        System.out.println(OS);
+        // final String OS = System.getProperty("os.name").toLowerCase();
+        // System.out.println(OS);
         final Path GIT_REPOSITORY_PATH = getGitRepositoryPath();
         Path gitDirPath = GIT_REPOSITORY_PATH.resolve(".git");
         Path gitHookDirPath = gitDirPath.resolve("hooks");
@@ -90,7 +89,8 @@ public class SetupGitHooks {
             StandardCharsets.UTF_8
         ).trim();
         int exitCode = process.waitFor();
-
+        System.out.println(output);
+        System.out.println(exitCode);
         if (exitCode != 0 || output.isBlank()) {
             throw new IllegalStateException("Git repository 경로를 찾을 수 없습니다.");
         }
