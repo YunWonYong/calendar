@@ -5,7 +5,12 @@
     "scripts": {
         "dev-start": "bash ./scripts/dev-start.sh",
         "start:local": "cross-env BUILD_ENV=local webpack serve --config webpack.config.ts",
-        "build:live": "cross-env BUILD_ENV=live webpack --config webpack.config.ts",
+        "prebuild": "npm run lint",
+        "build": "webpack --config webpack.config.ts",
+        "build:local": "cross-env BUILD_ENV=local npm run build",
+        "build:dev": "cross-env BUILD_ENV=dev npm run build",
+        "build:qa": "cross-env BUILD_ENV=qa npm run build",
+        "build:live": "cross-env BUILD_ENV=live npm run build",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix"
     },
