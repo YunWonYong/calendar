@@ -1,12 +1,10 @@
-import logoImage from "@/assets/logo/logo.png";
-
 import Link from "@/components/link";
+import LogoImage from "@/components/LogoImage";
 import { AUTH_PROVIDERS } from "@/domains/auth/authConstants";
+
 import { LoginButton } from "./components/LoginButton";
 
-
 import styles from "./LoginPage.module.css";
-
 
 const LoginPage = () => {
     return (
@@ -23,10 +21,8 @@ const LoginPage = () => {
                         <Link
                             to="/"
                         >
-                            <img 
+                            <LogoImage 
                                 className={ styles.loginLogo }
-                                src={ logoImage }
-                                alt="아워캘 로고"
                             />
                         </Link>
                     </div>

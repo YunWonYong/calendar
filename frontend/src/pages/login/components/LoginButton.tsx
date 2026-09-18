@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { getLoginPath } from "@/server/loginApi";
+import { getLoginPath } from "@/server/api";
 
 import styles from "./LoginButton.module.css";
 

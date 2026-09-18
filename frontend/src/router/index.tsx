@@ -1,12 +1,20 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 
-import NotFoundPage from "@/not-found";
-import { MainRouters } from "./MainRoute";
-import { LoginRoutes } from "./LoginRoute";
+import RootLayout from "@/layout/RootLayout";
+import NotFoundPage from "@/not-found/NotFoundPage";
+
+import LandingRoutes from "./LandingRoute";
+import LoginRoutes from "./LoginRoute";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 const routes: RouteObject[] = [
-    MainRouters,
-    LoginRoutes,
+    {
+        path: "/",
+        element: <RootLayout />
+    },
+    ...ProtectedRoutes,
+    ...LoginRoutes,
+    ...LandingRoutes,
     {
         path: "*",
         element: <NotFoundPage />,

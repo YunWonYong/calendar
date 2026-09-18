@@ -1,4 +1,5 @@
 .lobby-wrap {
+    --aside-width: 220px;
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -7,6 +8,15 @@
     gap: 1rem;
 }
 
+.lobby-wrap[data-display-type="collapsed"] {
+    --aside-width: 80px;
+}
+
+.lobby-aside-layout {
+    position: fixed;
+}
+
 .lobby-section {
     flex: 1;
+    margin-left: var(--aside-width, 220px);
 }

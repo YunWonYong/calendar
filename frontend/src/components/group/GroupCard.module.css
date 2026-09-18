@@ -1,0 +1,73 @@
+.wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px;
+    
+    border-radius: 28px;
+    background-color: transparent;
+    color: var(--text-color);
+    
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.emblemBox {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nameBox {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.nameText {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+}
+
+/* 💡 Compact (축소) 상태일 때 CSS */
+.wrap[data-display-type="compact"] {
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px 0;
+    width: 100%;
+}
+
+.wrap[data-display-type="compact"] .nameText {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--secondary-text-color, #8e8e93);
+}
+
+/* Hover & Active 효과 */
+.wrap:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.wrap:hover .nameText {
+    color: var(--bg-color);
+}
+
+.wrap:active {
+    transform: scale(0.96);
+}

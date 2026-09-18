@@ -1,52 +1,36 @@
-import LobbyAsideThemeToggleButton from "./LobbyAsideThemeToggleButton";
-import LobbyAsideUserProfile from "./LobbyAsideUserProfile";
+import CreateGroupButton from "@/components/group/CreateGroupButton";
+
+import LobbyAsideFooter from "./footer/LobbyAsideFooter";
+import LobbyAsideHeader from "./header/LobbyAsideHeader";
 
 import styles from "./LobbyAside.module.css";
+
 import type { LobbyAsideProps } from "../LobbyTypes";
 
 const LobbyAside = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
-    const isAsideCollapsed = asideState === "collapsed";
     return (
         <nav
             className={ styles.nav }
             data-display-type={ asideState }
         >
-            <header
-                className={ styles.header }
-            >
-                <div
-                    className={ styles.collapsedWrap }
-                >
-                    <button
-                        type="button"
-                        className={ styles.collapsedBtn }
-                        onClick={ toggleAsideState }
-                    > 
-                        {
-                            isAsideCollapsed
-                                ?   ">>"
-                                :   "<<"
-                        }
-                    </button>
+            <LobbyAsideHeader 
+                asideState={ asideState }
+                toggleAsideState={ toggleAsideState }
+            />
+            <div className={styles.groupSection}>
+                <div className={styles.actionWrap}>
+                    <CreateGroupButton 
+                        showLabel={ asideState === "expanded" }
+                        className={styles.asideCreateBtn}
+                    />
                 </div>
-                <LobbyAsideUserProfile 
-                    asideState={ asideState }
-                />
-            </header>
-            <ul
-                className={ styles.groupList }
-            >
-                <li>
-                    group item
-                </li>
-            </ul>
-            <footer
-                className={ styles.footer }
-            >
-                <LobbyAsideThemeToggleButton 
-                    asideState={ asideState }
-                />
-            </footer>
+
+                <ul className={styles.groupList}>
+                </ul>
+            </div>
+            <LobbyAsideFooter
+                asideState={ asideState }
+            />
         </nav>
     );
 };

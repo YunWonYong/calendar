@@ -1,0 +1,56 @@
+.calendar-header {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.year-box {
+    padding: 5px;
+}
+
+.year-text {
+    display: inline-block;
+    transition:
+        transform 0.15s ease,
+        color 0.15s ease;
+    color: #98a2b3;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.year-text[data-is-active="active"]:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    color: #000;
+}
+
+.month-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.month-box {
+    box-sizing: border-box;
+    padding: 5px;
+    color: #d4d1d1;
+    font-size: 1.2rem;
+}
+
+.month-box.current {
+    color: #444;
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.month-box[data-is-active="active"]:not(.current) {
+    cursor: pointer;
+    transition:
+        transform 0.15s ease,
+        color 0.15s ease;
+}
+
+.month-box[data-is-active="active"]:not(.current):hover {
+    transform: scale(1.25);
+    color: #444;
+}

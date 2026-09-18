@@ -1,4 +1,5 @@
 import { getDeviceIdFromLocalStorage, setDeviceIdFromLocalStorage } from "@/localStorage/api";
+
 import type { Browser, DeviceInfo, DeviceType, OS } from "@/domains/device/deviceTypes";
 
 export const createDeviceInfo = (): DeviceInfo => {
@@ -17,6 +18,7 @@ export const createDeviceInfo = (): DeviceInfo => {
 
 const getOrCreateDeviceId = (): string => {
     let deviceId = getDeviceIdFromLocalStorage();
+
     if (!deviceId) {
         deviceId = crypto.randomUUID();
         setDeviceIdFromLocalStorage(deviceId);

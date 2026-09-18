@@ -1,22 +1,23 @@
 
 import { FC, ReactNode, useCallback, useState } from "react";
 
+import { THEME_TYPES, type ThemeType } from "@/domains/theme/themeTypes";
 import { getThemeFromLocalStorage, saveThemeFromLocalStorage } from "@/localStorage/api";
 
 import ThemeContext from "./ThemeContext";
 
-import type { ThemeType } from "@/domains/theme/themeTypes";
-
 const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [ theme, setTheme ] = useState<ThemeType>(() => {
         const savedTheme = getThemeFromLocalStorage();
+
         if (savedTheme !== null) {
             return savedTheme;
         }
 
-        let newTheme: ThemeType = "light";
+        let newTheme: ThemeType = THEME_TYPES.LIGHT;
+
         if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            newTheme = "dark";
+            newTheme = THEME_TYPES.DARK;
         }
 
         saveThemeFromLocalStorage(newTheme);
@@ -24,7 +25,7 @@ const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     });
 
     const onChangeTheme = useCallback((theme: ThemeType) => {
-        if (theme !== "light" && theme !== "dark") {
+        if (theme !== THEME_TYPES.LIGHT && theme !== THEME_TYPES.DARK) {
             return;
         }
 
@@ -33,7 +34,11 @@ const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }, []);
     return (
         <ThemeContext.Provider 
-            value={{ currentTheme: theme, onChangeTheme }}
+            value={{ 
+                currentTheme: theme, 
+                onChangeTheme, 
+                isDarkTheme: theme === THEME_TYPES.DARK,
+            }}
         >
             <div
                 id="theme--context"

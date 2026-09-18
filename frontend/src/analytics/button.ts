@@ -3,6 +3,7 @@ export const trackClick = async (eventName: string, fn?: () => void | Promise<vo
     if (fn) {
         await fn();
     }
+
     // [TODO] event name transfer
     console.log(eventName);
 };

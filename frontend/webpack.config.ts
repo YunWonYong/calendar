@@ -1,22 +1,24 @@
-import { Configuration, DefinePlugin, ProgressPlugin } from "webpack";
 import "webpack-dev-server";
 
-import path from "path";
-
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import TerserPlugin from "terser-webpack-plugin";
-import WebpackObfuscator from "webpack-obfuscator";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import CompressionPlugin from "compression-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import CompressionPlugin from "compression-webpack-plugin";
-
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+import ReactRefreshTypeScript from "react-refresh-typescript";
+import TerserPlugin from "terser-webpack-plugin";
+import { Configuration, DefinePlugin, ProgressPlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import WebpackObfuscator from "webpack-obfuscator";
 
 import envConfig from "./config";
 
 const isProduction = envConfig.webpackBuildMode === "production";
 
+console.log("isProduction: ", isProduction);
+console.log("envConfig: ", envConfig);
 const config: Configuration = {
     mode: envConfig.webpackBuildMode,
     entry: "./src/index.tsx",
@@ -25,11 +27,26 @@ const config: Configuration = {
             {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
-                loader: 'esbuild-loader',
-                options: {
-                    loader: 'tsx',
-                    target: 'es2015',
-                },
+
+                use: isProduction
+                    ? {
+                        loader: "esbuild-loader",
+                        options: {
+                            loader: "tsx",
+                            target: "es2015",
+                        },
+                    }
+                    : {
+                        loader: "ts-loader",
+                        options: {
+                            transpileOnly: true,
+                            getCustomTransformers: () => ({
+                                before: [
+                                    ReactRefreshTypeScript(),
+                                ],
+                            }),
+                        },
+                    },
             },
             {
                 test: /\.css$/,
@@ -83,6 +100,7 @@ const config: Configuration = {
         path: path.resolve(__dirname, "dist"),
         filename: isProduction? "[name].[contenthash].js":"[name].bundle.js",
         clean: true,
+        publicPath: "/",
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -91,13 +109,14 @@ const config: Configuration = {
         new DefinePlugin({
             "process.env.API_SERVER_URL": JSON.stringify(envConfig.apiServerURL),
             "process.env.BUILD_ENV": JSON.stringify(envConfig.buildEnv),
+            "process.env.LOG_LEVEL": JSON.stringify(envConfig.logLevel),
         }),
         new ProgressPlugin(),
         new ForkTsCheckerWebpackPlugin(),
     ]
 };
 
-if (envConfig.webpackBuildMode === "development") {
+if (envConfig.webpackBuildMode === "development" && !isProduction) {
     config.devtool = "eval-source-map";
     config.devServer = {
         port: envConfig.devServerPort,
@@ -105,7 +124,9 @@ if (envConfig.webpackBuildMode === "development") {
         historyApiFallback: true,
         // open: true,
     };
-} else if (envConfig.webpackBuildMode === "production") {
+
+    config.plugins?.push(new ReactRefreshWebpackPlugin());
+} else if (isProduction) {
     config.optimization = {
         minimize: true,
         minimizer: [

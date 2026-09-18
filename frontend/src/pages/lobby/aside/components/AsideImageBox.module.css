@@ -1,0 +1,13 @@
+.box {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.box[data-display-type="collapsed"] {
+    width: 90%;
+    border: 1px solid var(--image-border-color);
+    border-radius: 50%;
+    box-shadow:
+        0 2px 6px var(--image-shadow-color),
+        0 0 0 1px var(--image-outline-color);
+}

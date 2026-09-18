@@ -1,6 +1,7 @@
 import { ACCESS_TOKEN_KEY_LOCAL_STORAGE, DEIVCE_ID_KEY_LOCAL_STORAGE, REFRESH_TOKEN_KEY_LOCAL_STORAGE, THEME_KEY_LOCAL_STORAGE } from "./constants";
 
 import type { ThemeType } from "@/domains/theme/themeTypes";
+
 import type { LocalStorageKeyType } from "./types";
 
 export const saveThemeFromLocalStorage = (theme: ThemeType) => {
@@ -9,9 +10,11 @@ export const saveThemeFromLocalStorage = (theme: ThemeType) => {
 
 export const getThemeFromLocalStorage = () => {
     const value = get<ThemeType>(THEME_KEY_LOCAL_STORAGE);
+
     if (value === "light" || value === "dark") {
         return value;
     }
+
     return null;
 };
 
@@ -44,12 +47,18 @@ export const getRefreshTokenFromLocalStorage = () => {
     return get<string>(REFRESH_TOKEN_KEY_LOCAL_STORAGE);
 };
 
+export const removeAuthInfoFromLocalStorage = () => {
+    localStorage.removeItem(ACCESS_TOKEN_KEY_LOCAL_STORAGE);
+    localStorage.removeItem(REFRESH_TOKEN_KEY_LOCAL_STORAGE);
+};
+
 const save = <T extends string, >(key: LocalStorageKeyType, value: T) => {
     localStorage.setItem(key, value);
 };
 
 const get = <T, >(key: LocalStorageKeyType): T | null => {
     const value = localStorage.getItem(key);
+
     if (value === null) {
         return null;
     }

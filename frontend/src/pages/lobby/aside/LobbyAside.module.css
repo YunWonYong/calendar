@@ -1,7 +1,6 @@
 .nav {
-    width: 220px;
+    width: var(--aside-width, 220px);
     min-height: 100dvh;
-    
     background-color: var(--bg-color);
     display: flex;
     flex-direction: column;
@@ -12,47 +11,36 @@
     transition: width 0.2s ease;
     color: var(--text-color);
     overflow: hidden;
-    
-}
-
-.nav[data-display-type="collapsed"] {
-    width: 80px;
-}
-
-.header {
-    width: 100%;
-    min-height: 180px;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-
-    border-bottom: 2px solid var(--border-color);
-}
-
-.collapsed-wrap {
-    width: 100%;
-    text-align: right;
-}
-
-.collapsed-btn {
-    border: none;
-    background: none;
-    padding: 5px;
-
-    box-sizing: border-box;
-    cursor: pointer;
-
-    color: var(--text-color);
-    font-weight: 900;
-    font-size: 1.3rem;
 }
 
 .group-list {
     flex: 1;
 }
 
-.footer {
-    min-height: 90px;
-    box-sizing: border-box;
-    border-top: 2px solid var(--border-color);
+.groupSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 8px;
+    gap: 12px;
+}
+
+.actionWrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* 💡 축소 상태일 때 부모 셀렉터에서 버튼의 크기와 배치를 제어 */
+.nav[data-display-type="collapsed"] .asideCreateBtn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.nav[data-display-type="collapsed"] .asideCreateBtn :global(.iconEmblem) {
+    width: 100%;
+    height: 100%;
 }

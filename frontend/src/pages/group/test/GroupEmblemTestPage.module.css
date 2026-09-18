@@ -1,0 +1,161 @@
+.container {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    background-color: #f8fafc;
+    margin: 20px 0;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.header h3 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: #1e293b;
+}
+
+/* 좌/우 2열 레이아웃 구조 */
+.content {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+/* [좌측] 미리보기/복사/크기 조절 패널 */
+.leftPanel {
+    flex: 1;
+    min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 20px;
+}
+
+.previewCard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+}
+
+.codeBox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+.codeBox code {
+    font-weight: 600;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.codeBox button {
+    padding: 4px 8px;
+    font-size: 12px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.sizeControl {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* [우측] 스크롤 패널 */
+.rightPanel {
+    flex: 2;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.sectionGroup h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #475569;
+}
+
+/* Y축 독립 스크롤 그리드 */
+.scrollGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 4px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+/* 배경 타일 박스 */
+.bgTile {
+    height: 56px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 4px;
+    transition: all 0.15s ease;
+}
+
+.bgTile:hover {
+    transform: scale(1.05);
+}
+
+.activeBg {
+    border-color: #4f46e5 !important;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.3);
+}
+
+/* 아이콘 카드 박스 */
+.iconTile {
+    height: 56px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px;
+    transition: all 0.15s ease;
+}
+
+.iconTile:hover {
+    border-color: #cbd5e1;
+    transform: scale(1.05);
+}
+
+.activeIcon {
+    border: 2px solid #4f46e5 !important;
+    background: #eeef2f;
+}
+
+.tileLabel {
+    font-size: 10px;
+    color: #64748b;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}

@@ -5,15 +5,34 @@
     "scripts": {
         "dev-start": "bash ./scripts/dev-start.sh",
         "start:local": "cross-env BUILD_ENV=local webpack serve --config webpack.config.ts",
-        "build:live": "cross-env BUILD_ENV=live webpack --config webpack.config.ts"
+        "prebuild": "npm run lint",
+        "build": "webpack --config webpack.config.ts",
+        "build:local": "cross-env BUILD_ENV=local npm run build",
+        "build:dev": "cross-env BUILD_ENV=dev npm run build",
+        "build:qa": "cross-env BUILD_ENV=qa npm run build",
+        "build:live": "cross-env BUILD_ENV=live npm run build",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "description": "",
     "engines": {
-        "node": "24.17.0",
-        "npm": ">=11.13.0"
+        "node": ">=24.17.0 <25",
+        "npm": ">=11.13.0 <12"
+    },
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=24.17.0 <25",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "npm",
+            "version": ">=11.13.0 <12",
+            "onFail": "error"
+        }
     },
     "dependencies": {
         "react": "^19.2.5",
@@ -21,23 +40,36 @@
         "react-router-dom": "^7.17.0"
     },
     "devDependencies": {
+        "@pmmmwh/react-refresh-webpack-plugin": "^0.6.3",
+        "@types/jest": "^30.0.0",
         "@types/node": "^25.6.0",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
         "@types/react-router-dom": "^5.3.3",
         "@types/webpack-bundle-analyzer": "^4.7.0",
+        "@typescript-eslint/eslint-plugin": "^8.70.0",
+        "@typescript-eslint/parser": "^8.70.0",
         "compression-webpack-plugin": "^12.0.0",
         "cross-env": "^10.1.0",
         "css-loader": "^7.1.4",
         "css-minimizer-webpack-plugin": "^8.0.0",
         "dotenv": "^17.4.2",
         "esbuild-loader": "^4.4.3",
+        "eslint": "^10.10.0",
+        "eslint-import-resolver-typescript": "^4.4.5",
+        "eslint-plugin-import-x": "^4.17.1",
+        "eslint-plugin-perfectionist": "^5.11.1",
         "fork-ts-checker-webpack-plugin": "^9.1.0",
         "html-webpack-plugin": "^5.6.7",
         "javascript-obfuscator": "^5.4.2",
+        "jest": "^30.5.1",
+        "jiti": "^2.7.0",
         "mini-css-extract-plugin": "^2.10.2",
+        "react-refresh": "^0.18.0",
+        "react-refresh-typescript": "^2.0.12",
         "style-loader": "^4.0.0",
         "terser-webpack-plugin": "^5.5.0",
+        "ts-jest": "^29.4.12",
         "ts-loader": "^9.5.7",
         "ts-node": "^10.9.2",
         "typescript": "^6.0.3",

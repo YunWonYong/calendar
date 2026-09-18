@@ -1,13 +1,18 @@
 import { useCallback, useState } from "react";
+
 import { trackClickAndPreventDefault } from "@/analytics/button";
+
+import EmptyGroupPage from "../group/lobby/EmptyGroupPage";
+import GroupEmblemTestPage from "../group/test/GroupEmblemTestPage";
 
 import LobbyAside from "./aside/LobbyAside";
 
 import styles from "./LobbyPage.module.css";
+
 import type { LobbyAsideState } from "./LobbyTypes";
 
 const LobbyPage = () => {
-    const [ asideState, setAsideState ] = useState<LobbyAsideState>("expanded");
+    const [ asideState, setAsideState ] = useState<LobbyAsideState>("collapsed");
     const toggleAsideState = useCallback((event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         trackClickAndPreventDefault(
             event,
@@ -19,21 +24,27 @@ const LobbyPage = () => {
             },
         );
     }, [asideState]);
-
-    // [TODO] authCode로 user 데이터 조회하기.
+    
     return (
         <div
             className={ styles.lobbyWrap }
+            data-display-type={ asideState }
         >
-            <LobbyAside 
-                asideState={ asideState }
-                toggleAsideState={ toggleAsideState }
-            />
+            <div
+                className={ styles.lobbyAsideLayout }
+            >
+                <LobbyAside 
+                    asideState={ asideState }
+                    toggleAsideState={ toggleAsideState }
+                />
+            </div>
 
             <section
                 className={ styles.lobbySection }
             >
-                main
+                <GroupEmblemTestPage />
+                {/* <CalendarPage /> */}
+                <EmptyGroupPage />
             </section>
         </div>
     );

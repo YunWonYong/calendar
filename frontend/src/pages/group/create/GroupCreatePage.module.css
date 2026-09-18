@@ -1,0 +1,261 @@
+/* 전체 화면 중앙 정렬 레이아웃 */
+.wrapper {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f5f9;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 720px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+    margin-bottom: 28px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 16px;
+}
+
+.header h2 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    color: #0f172a;
+}
+
+.stepIndicator {
+    font-size: 14px;
+    color: #94a3b8;
+    display: flex;
+    gap: 8px;
+}
+
+.activeStep {
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+.stepDivider {
+    color: #cbd5e1;
+}
+
+.stepContent {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 폼 요소 스타일링 */
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fieldGroup label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.fieldGroup input[type="text"] {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    font-size: 15px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.fieldGroup input[type="text"]:focus {
+    border-color: #4f46e5;
+}
+
+/* 툴팁 UI */
+.labelWithTooltip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tooltipIcon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    color: #475569;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tooltipText {
+    visibility: hidden;
+    opacity: 0;
+    width: 240px;
+    background-color: #1e293b;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    line-height: 1.4;
+}
+
+.tooltipIcon:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* 옵션 버턴 그리드 */
+.optionGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.optionBtn {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.optionBtn:hover:not(:disabled) {
+    border-color: #4f46e5;
+    background-color: #f5f3ff;
+}
+
+.selectedOption {
+    border-color: #4f46e5 !important;
+    background-color: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+.optionBtn:disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+}
+
+/* Step 2 탭 박스 */
+.tabContainer {
+    display: flex;
+    background: #f1f5f9;
+    border-radius: 12px;
+    padding: 4px;
+    gap: 4px;
+}
+
+.tabBtn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.activeTab {
+    background: #ffffff;
+    color: #4f46e5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.emblemBoardWrapper {
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+.uploadArea {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.uploadBox {
+    width: 100%;
+    border: 2px dashed #cbd5e1;
+    border-radius: 14px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.uploadIcon {
+    font-size: 32px;
+}
+
+.fileName {
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+/* 하단 이동 버튼 */
+.bottomNav {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.bottomNavBetween {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.nextBtn,
+.submitBtn {
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: none;
+    background: #4f46e5;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.prevBtn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}

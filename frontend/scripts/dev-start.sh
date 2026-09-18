@@ -23,6 +23,12 @@ fi
         
 trap "echo 'Stopping frontend...'; pkill -f webpack" EXIT
 
+if [ "$1" = "--clean" ]; then
+    echo "Cleaning node_modules & npm cache..."
+    rm -rf node_modules
+    npm cache clean --force
+fi
+
 echo "node modules install."
 npm ci
 
