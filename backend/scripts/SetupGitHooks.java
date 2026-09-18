@@ -10,58 +10,43 @@ public class SetupGitHooks {
     public static void main(String[] args) throws Exception {
         // final String OS = System.getProperty("os.name").toLowerCase();
         // System.out.println(OS);
-        final Path GIT_REPOSITORY_PATH = getGitRepositoryPath();
-        Path gitDirPath = GIT_REPOSITORY_PATH.resolve(".git");
-        Path gitHookDirPath = gitDirPath.resolve("hooks");
-        System.out.println(GIT_REPOSITORY_PATH.toString());
-        System.out.println(gitDirPath.toString());
-        System.out.println(gitHookDirPath.toString());
+        Path gitHookDirPath = getGitHookDirectoryPath();
         System.out.println("깃 훅 폴더를 검색합니다.");
-        if (exists(gitHookDirPath)) {
-            System.out.println("\t⚠️ 폴더가 없어 생성합니다.");
-            createDirectory(gitHookDirPath);
-            System.out.println("\t📁 폴더를 생성했습니다.");
-        } else {
+        createGitHookDirectory(gitHookDirPath);
+        System.out.println("깃 훅 스크립트 파일들을 생성합니다.");
+        GitHookScriptCreator[] creators = new GitHookScriptCreator[] {
+            new PreCommitGitHookScript(gitHookDirPath),
+            new PrePushGitHookScript(gitHookDirPath),
+            new PreCommitBackendGitHookScript(gitHookDirPath),
+            new PrePushBackendGitScriptHook(gitHookDirPath)
+        };
+        
+        for (GitHookScriptCreator creator: creators) {
+            creator.create();
+        }
+    }
+
+    private static void createGitHookDirectory(Path path) throws IOException {
+        if (Files.exists(path)) {
             System.out.println("\t✅ 폴더가 있습니다.");
+            return;
         }
-
-        try {
-            System.out.println("깃 훅 스크립트 파일들을 생성합니다.");
-            List
-                .of(
-                    new PreCommitGitHook(gitHookDirPath),
-                    new PrePushCommitGitHook(gitHookDirPath),
-                    new BackendPreCommitGitHook(gitHookDirPath),
-                    new BackendPrePushCommitGitHook(gitHookDirPath)
-                )
-                .forEach((maker) -> {
-                    System.out.println("\t" + maker.getScriptFileName() + " 스크립트 파일을 생성을 시도합니다.");
-                    try {
-                        maker.make();
-                        System.out.println("\t✅ 성공했습니다.");
-                    } catch(Exception e) {
-                        System.out.println(e);
-                        System.out.println("\t❌ 실패했습니다.");
-                    }
-                        
-                });
-        } catch(Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    private static void createDirectory(Path path) throws IOException {
+        System.out.println("\t⚠️ 폴더가 없어 생성합니다.");
         Files.createDirectories(path);
+        System.out.println("\t📁 폴더를 생성했습니다.");
     }
 
-    private static boolean exists(Path path) {
-        return Files.exists(path);
+    private static Path getGitHookDirectoryPath() {
+        return getGitRepositoryPath()
+            .resolve(".git")
+            .resolve("hooks");
     }
 
     private static Path getGitRepositoryPath() {
         try {
             String output = executeProcess("git", "rev-parse", "--show-toplevel");
             return Paths.get(output);
+
         } catch (IOException e) {
             throw new IllegalStateException(
                     "git 명령어를 실행할 수 없습니다.",
@@ -75,9 +60,7 @@ public class SetupGitHooks {
                     "git repository 경로 확인 중 인터럽트가 발생했습니다.",
                     e
             );
-        } catch(Exception e) {
-            throw e;
-        } 
+        }
     }
 
     private static String executeProcess(String... args) throws IOException, InterruptedException {
@@ -89,8 +72,6 @@ public class SetupGitHooks {
             StandardCharsets.UTF_8
         ).trim();
         int exitCode = process.waitFor();
-        System.out.println(output);
-        System.out.println(exitCode);
         if (exitCode != 0 || output.isBlank()) {
             throw new IllegalStateException("Git repository 경로를 찾을 수 없습니다.");
         }
@@ -99,63 +80,37 @@ public class SetupGitHooks {
     }
 }
 
+abstract class GitHookScriptCreator {
+    private final Path gitHookDirectoryPath;
+    private final String scriptFileName;
+    private final String script;
 
-interface GitHookScriptMaker {
-    public String make() throws Exception;
-    public String getScriptFileName();
-}
-
-abstract class AbstractGitHookScriptMaker implements GitHookScriptMaker {
-    private final Path GIT_HOOK_DIRECTORY_PATH;
-    private final String SCRIPT_FILE_NAME;
-    private final String SCRIPT;
-
-    protected AbstractGitHookScriptMaker(Path gitHookDirPath, String scriptFileName, String script) {
-        this.GIT_HOOK_DIRECTORY_PATH = gitHookDirPath;
-        this.SCRIPT_FILE_NAME = scriptFileName;
-        this.SCRIPT = script;
+    protected GitHookScriptCreator(Path gitHookDirPath, String scriptFileName, String script) {
+        this.gitHookDirectoryPath = gitHookDirPath;
+        this.scriptFileName = scriptFileName;
+        this.script = script;
     }
 
-    public String make() throws Exception {
-        if (!exists(GIT_HOOK_DIRECTORY_PATH)) {
-            createDirectory(GIT_HOOK_DIRECTORY_PATH);
-        }
-        
-        String normalizedScript = SCRIPT.replaceAll("\r\n", "\n");
+    public void create() throws IOException {
+        System.out.println("\t" + scriptFileName + " 스크립트 파일 생성 시도합니다.");
+        String normalizedScript = script.replace("\r\n", "\n");
         try {
-            File scriptFile = Files.writeString(
-                GIT_HOOK_DIRECTORY_PATH.resolve(SCRIPT_FILE_NAME), 
+            Files.writeString(
+                gitHookDirectoryPath.resolve(scriptFileName), 
                 normalizedScript, 
                 StandardCharsets.UTF_8
-            ).toFile();
-
-            scriptFile.setExecutable(true, false);
+            )
+            .toFile()
+            .setExecutable(true, false);
+            System.out.println("\t\t✅ 성공했습니다.");
         } catch(IOException e) {
-            throw e;
-        }
-        return SCRIPT_FILE_NAME;
-    }
-
-    public String getScriptFileName() {
-        return SCRIPT_FILE_NAME;
-    }
-
-    
-    private boolean exists(Path path) {
-        return Files.exists(path);
-    }
-    
-    private static void createDirectory(Path path) throws IOException {
-        try {
-            Files.createDirectories(path);
-        } catch (IOException e) {
-            System.out.println("\t❌ 폴더를 생성하지 못했습니다. " + path);
+            System.out.println("\t\t❌ 실패했습니다.");
             throw e;
         }
     }
 }
 
-class PreCommitGitHook extends AbstractGitHookScriptMaker {
+class PreCommitGitHookScript extends GitHookScriptCreator {
     private static final String SCRIPT_NAME = "pre-commit";
     private static final String SCRIPT = """
 #!/bin/sh
@@ -194,12 +149,12 @@ fi
 
 exit 0
 """;
-    public PreCommitGitHook(Path gitHookDirPath) {
+    public PreCommitGitHookScript(Path gitHookDirPath) {
         super(gitHookDirPath, SCRIPT_NAME, SCRIPT);
     }
 }
 
-class BackendPreCommitGitHook extends AbstractGitHookScriptMaker {
+class PreCommitBackendGitHookScript extends GitHookScriptCreator {
     private static final String SCRIPT_NAME = "pre-commit-backend";
     private static final String SCRIPT = """
 #!/bin/sh
@@ -218,9 +173,7 @@ echo "🔍 Backend pre-commit 검증을 시작합니다."
 
 cd "$BACKEND_ROOT" || exit 1
 
-# Core
-echo "🔍 Backend Core test/build를 실행합니다."
-if [ -n "$HAS_API" ]; then
+if [ -n "$HAS_CORE" ]; then
     echo "🔍 Backend CORE 변경 사항을 감지했습니다."
     echo "🔍 Backend CORE test/build를 실행합니다."
 
@@ -234,15 +187,6 @@ if [ -n "$HAS_API" ]; then
 
     echo "✅ Backend CORE 검증 통과!"
 fi
-
-
-if [ $? -ne 0 ]; then
-    echo "❌ Backend Core 검증 실패!"
-    echo "문제를 해결한 후 다시 커밋해 주세요."
-    exit 1
-fi
-
-echo "✅ Backend Core 검증 통과!"
 
 if [ -n "$HAS_API" ]; then
     echo "🔍 Backend API 변경 사항을 감지했습니다."
@@ -292,13 +236,13 @@ fi
 echo "✅ Backend pre-commit 검증 통과!"
 exit 0
 """;
-    public BackendPreCommitGitHook(Path gitHookDirPath) {
+    public PreCommitBackendGitHookScript(Path gitHookDirPath) {
         super(gitHookDirPath, SCRIPT_NAME, SCRIPT);
     }
 }
 
 
-class PrePushCommitGitHook extends AbstractGitHookScriptMaker {
+class PrePushGitHookScript extends GitHookScriptCreator {
     private static final String SCRIPT_NAME = "pre-push";
     private static final String SCRIPT = """
 #!/bin/sh
@@ -390,27 +334,37 @@ fi
 exit 0
 """;
 
-    public PrePushCommitGitHook(Path gitHookDirPath) {
+    public PrePushGitHookScript(Path gitHookDirPath) {
         super(gitHookDirPath, SCRIPT_NAME, SCRIPT);
     }
 }
 
-class BackendPrePushCommitGitHook extends AbstractGitHookScriptMaker {
+class PrePushBackendGitScriptHook extends GitHookScriptCreator {
     private static final String SCRIPT_NAME = "pre-push-backend";
     private static final String SCRIPT = """
 #!/bin/sh
+
+echo "🔍 Backend test/build를 실행합니다."
 
 PROJECT_ROOT="$(git rev-parse --show-toplevel)"
 BACKEND_ROOT="$PROJECT_ROOT/backend"
 
 cd $BACKEND_ROOT || exit 1
 
-./gradlew test
 ./gradlew build
-exit 1
+
+if [ $? -ne 0 ]; then
+    echo "❌ Backend test/build 검증 실패!"
+    echo "문제를 해결한 후 다시 push 해주세요."
+    exit 1
+fi
+
+echo "✅ Backend test/build 검증 통과!"
+
+exit 0
 """;
 
-    public BackendPrePushCommitGitHook(Path gitHookDirPath) {
+    public PrePushBackendGitScriptHook(Path gitHookDirPath) {
         super(gitHookDirPath, SCRIPT_NAME, SCRIPT);
     }
 }
