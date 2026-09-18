@@ -68,4 +68,7 @@ check_container() {
 
 check_container postgres 
 check_container redis 
+
+./gradlew setupGitHooks
+
 echo "All services are ready!"
