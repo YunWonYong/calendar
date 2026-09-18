@@ -16,6 +16,38 @@
             "projectName": "api",
             "mainClass": "io.github.hswy.calendar.CalendarApplication",
             "preLaunchTask": "start docker services (windows)"
+        },
+        {
+            "type": "java",
+            "name": "backend api (posix, local)",
+            "request": "launch",
+            "projectName": "api",
+            "mainClass": "io.github.hswy.calendar.CalendarApplication",
+            "args": "--spring.profiles.active=local"
+        },
+        {
+            "type": "java",
+            "name": "backend api (posix, dev)",
+            "request": "launch",
+            "projectName": "api",
+            "mainClass": "io.github.hswy.calendar.CalendarApplication",
+            "args": "--spring.profiles.active=dev"
+        },
+        {
+            "type": "java",
+            "name": "backend api (posix, qa)",
+            "request": "launch",
+            "projectName": "api",
+            "mainClass": "io.github.hswy.calendar.CalendarApplication",
+            "args": "--spring.profiles.active=qa"
+        },
+        {
+            "type": "java",
+            "name": "backend api (posix, live)",
+            "request": "launch",
+            "projectName": "api",
+            "mainClass": "io.github.hswy.calendar.CalendarApplication",
+            "args": "--spring.profiles.active=live"
         }
     ]
 }
