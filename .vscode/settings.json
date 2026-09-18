@@ -1,0 +1,11 @@
+{
+  "[java]": {
+    "editor.pasteAs.showPasteSelector": "never"
+  },
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}
