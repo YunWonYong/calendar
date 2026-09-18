@@ -3,11 +3,19 @@
     "configurations": [
         {
             "type": "java",
-            "name": "calendar backend api (local)",
+            "name": "backend api (posix, docker, local)",
             "request": "launch",
             "projectName": "api",
             "mainClass": "io.github.hswy.calendar.CalendarApplication",
-            "preLaunchTask": "start docker services"
+            "preLaunchTask": "start docker services (posix)"
+        },
+        {
+            "type": "java",
+            "name": "backend api (windows, docker, local)",
+            "request": "launch",
+            "projectName": "api",
+            "mainClass": "io.github.hswy.calendar.CalendarApplication",
+            "preLaunchTask": "start docker services (windows)"
         }
     ]
 }

@@ -2,9 +2,18 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "start docker services",
+            "label": "start docker services (posix)",
             "type": "shell",
             "command": "./scripts/dev-start.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "start docker services (windows)",
+            "type": "shell",
+            "command": ".\\scripts\\dev-start.bat",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
