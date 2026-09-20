@@ -4,7 +4,7 @@ export interface BgTheme {
     color: string; // 내부 아이콘 기본 색상
 }
 
-export const BG_THEMES: Record<string, BgTheme> = {
+export const BG_THEMES = {
     // 1~10: Modern Gradients
     "bg-01": { id: "bg-01", background: "linear-gradient(135deg, #FF6B6B, #FF8E53)", color: "#FFFFFF" },
     "bg-02": { id: "bg-02", background: "linear-gradient(135deg, #4FACFE, #00F2FE)", color: "#FFFFFF" },
@@ -40,5 +40,6 @@ export const BG_THEMES: Record<string, BgTheme> = {
     "bg-28": { id: "bg-28", background: "#701A75", color: "#F0ABFC" },
     "bg-29": { id: "bg-29", background: "#14532D", color: "#86EFAC" },
     "bg-30": { id: "bg-30", background: "#451A03", color: "#FDE047" },
-};
+} satisfies Record<string, BgTheme>;
 
+export type BGId = keyof typeof BG_THEMES;

@@ -4,10 +4,10 @@ import { TextInput } from "@/components/form/TextInput";
 
 import styles from "./GroupBasicInfoStep.module.css";
 
-import type { GroupBasicInfoStepProps } from "@/domains/group/groupCreate";
+import type { GroupBasicInfoStepProps } from "@/domains/group/group";
 
 
-const GroupBasicInfoStep: FC<GroupBasicInfoStepProps> = ({  fullNameEditInfo, shortNameEditInfo, selectedLimitLevel, limitInfo }) => {
+const GroupBasicInfoStep: FC<GroupBasicInfoStepProps> = ({  fullNameEditInfo, shortNameEditInfo }) => {
     return (
         <section>
             <TextInput 

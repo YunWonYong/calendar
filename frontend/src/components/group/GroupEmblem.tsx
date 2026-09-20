@@ -1,4 +1,5 @@
-import { BG_THEMES } from "@/domains/group/emblemBg";
+import { BG_THEMES, BGId } from "@/domains/group/emblemBg";
+import { IconId } from "@/domains/group/emblemIcon";
 
 import GroupEmblemIconSVG from "./GroupEmblemIconSVG";
 
@@ -13,7 +14,7 @@ const GroupEmblem = ({ emblemId, size = 44 }: GroupEmblemProps) => {
     // 없으면 데이터 오류라 죽어야 함.
     const ids = emblemId.split("@_@");
     const [ bgId, iconId ] = ids;
-    const theme = BG_THEMES[bgId];
+    const theme = BG_THEMES[bgId as BGId];
 
     return (
         <div
@@ -26,7 +27,7 @@ const GroupEmblem = ({ emblemId, size = 44 }: GroupEmblemProps) => {
             }}
         >
             <GroupEmblemIconSVG
-                iconId={iconId}
+                iconId={iconId as IconId}
                 style={{
                     width: `${size * 0.48}px`,
                     height: `${size * 0.48}px`,

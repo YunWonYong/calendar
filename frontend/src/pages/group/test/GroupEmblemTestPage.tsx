@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import GroupEmblem from "@/components/group/GroupEmblem";
-import { BG_THEMES } from "@/domains/group/emblemBg";
+import { BG_THEMES, BGId } from "@/domains/group/emblemBg";
 import { ICON_PRESETS } from "@/domains/group/emblemIcon";
 
 import styles from "./GroupEmblemTestPage.module.css";
@@ -62,7 +62,7 @@ const GroupEmblemTestPage = () => {
                         <h4>배경 테마 ({bgKeys.length}개)</h4>
                         <div className={styles.scrollGrid}>
                             {bgKeys.map((bgId) => {
-                                const theme = BG_THEMES[bgId];
+                                const theme = BG_THEMES[bgId as BGId];
                                 return (
                                     <button
                                         key={bgId}
