@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { DEFAULT_GROUP_BASIC_INFO_STEP_LIMITS } from "@/domains/group/groupCreate";
+import { GROUP_LIMIT_LEVEL_LIST_DUMMY_INFO } from "@/domains/group/group";
+import { UserPlanLevelType } from "@/domains/user/userPlan";
 
 import GroupBasicInfoStep from "./components/GroupBasicInfoStep";
 
@@ -12,23 +13,21 @@ const CreateGroupPage = () => {
     // 1: 기본 정보 입력, 2: 엠블럼 선택
     const [step, setStep] = useState<1 | 2>(1);
 
-    // Step 1 폼 상태
-    const [groupName, setGroupName] = useState("");
-    const [shortName, setShortName] = useState("");
-    const [memberLimit, setMemberLimit] = useState(15);
-    const [subLeaderLimit, setSubLeaderLimit] = useState(5);
+    // const [memberLimit, setMemberLimit] = useState(15);
+    // const [subLeaderLimit, setSubLeaderLimit] = useState(5);
 
     // Step 2 엠블럼 탭 상태 ('preset' | 'upload')
     const [emblemTab, setEmblemTab] = useState<"preset" | "upload">("preset");
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
-    const handleNextStep = () => {
-        if (!groupName.trim() || !shortName.trim()) {
-            alert("그룹 이름과 닉네임을 모두 입력해 주세요.");
-            return;
-        }
-        setStep(2);
-    };
+    // const handleNextStep = () => {
+    //     if (!groupName.trim() || !shortName.trim()) {
+    //         alert("그룹 이름과 닉네임을 모두 입력해 주세요.");
+    //         return;
+    //     }
+
+    //     setStep(2);
+    // };
 
     const handlePrevStep = () => {
         setStep(1);
@@ -52,21 +51,28 @@ const CreateGroupPage = () => {
                     </div>
                 </div>
                 <GroupBasicInfoStep 
-                    fullNameEditInfo={{
-                        onChange: (value) => setGroupName(value),
-                        value: groupName,
-                        errorMessage: ""
+                    editForm={{
+                        fullName: {
+                            value: "",
+                            onChange: (value: string) => console.log(value),
+                            errorMessage: "",
+                        },
+                        shortName: {
+                            value: "",
+                            onChange: (value: string) => console.log(value),
+                            errorMessage: "",
+                        },
+                        participantLimitLevel: {
+                            selectedLevel: 0,
+                            onSelect: (selectedLevel: UserPlanLevelType) => console.log(selectedLevel)
+                        },
+                        subGroupManagerLimitLevel: {
+                            selectedLevel: 0,
+                            onSelect: (selectedLevel: UserPlanLevelType) => console.log(selectedLevel)
+                        },
                     }}
-                    shortNameEditInfo={{
-                        onChange: (value) => setShortName(value),
-                        value: shortName,
-                        errorMessage: ""
-                    }}
-                    selectedLimitLevel={ 0 }
-                    limitInfo={{
-                        userPlanLevel: 0,
-                        limits: [ ...DEFAULT_GROUP_BASIC_INFO_STEP_LIMITS ]
-                    }}
+
+                    limitLevelInfo={ GROUP_LIMIT_LEVEL_LIST_DUMMY_INFO }
                 />
 
                 {/* Step 2: 엠블럼 선택/업로드 */}

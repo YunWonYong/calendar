@@ -1,10 +1,10 @@
 
 import type { GroupBasicForm, GroupEmblemCustomForm, GroupEmblemForm, GroupEmblemNormalForm, GroupInviteForm } from "./form";
-import type { GroupLimitLevelData } from "./group";
+import type { GroupLimitLevelInfo } from "./group";
 
 export type GroupCreateBasicProps = {
     editForm: GroupBasicForm;
-    limitList: GroupLimitLevelData[];
+    limitLevelInfo: GroupLimitLevelInfo;
 };
 
 export type GroupCreateEmblemCustomProps = {
