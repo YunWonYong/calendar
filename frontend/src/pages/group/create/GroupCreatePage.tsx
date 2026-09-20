@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 
 import { GROUP_LIMIT_LEVEL_LIST_DUMMY_INFO } from "@/domains/group/group";
 import { UserPlanLevelType } from "@/domains/user/userPlan";
@@ -11,7 +11,7 @@ import styles from "./GroupCreatePage.module.css";
 
 const CreateGroupPage = () => {
     // 1: 기본 정보 입력, 2: 엠블럼 선택
-    const [step, setStep] = useState<1 | 2>(1);
+    const [step, _] = useState<1 | 2>(1);
 
     // const [memberLimit, setMemberLimit] = useState(15);
     // const [subLeaderLimit, setSubLeaderLimit] = useState(5);
@@ -28,15 +28,6 @@ const CreateGroupPage = () => {
 
     //     setStep(2);
     // };
-
-    const handlePrevStep = () => {
-        setStep(1);
-    };
-
-    const handleSubmit = () => {
-        alert("그룹 생성이 완료되었습니다!");
-        // 생성 API 호출 로직 연결
-    };
 
     return (
         <div className={styles.wrapper}>
@@ -124,19 +115,61 @@ const CreateGroupPage = () => {
                                 />
                             </div>
                         )}
-
-                        {/* 하단 네비게이션 버튼 (이전 / 그룹 생성) */}
-                        <div className={styles.bottomNavBetween}>
-                            <button type="button" className={styles.prevBtn} onClick={handlePrevStep}>
-                                &larr; 이전 단계
-                            </button>
-                            <button type="button" className={styles.submitBtn} onClick={handleSubmit}>
-                                그룹 만들기 완료
-                            </button>
-                        </div>
                     </div>
                 )}
+                
+
+                <GroupCreateNavigator 
+                    canNext={ false }
+                    canPrevious={ false }
+                    canSubmit={ false }
+                    handleNextStep={ () => { } }
+                    handlePrevStep={ () => { } }
+                    handleSubmit={ () => { } }
+                    isLastStep={ false }
+                />
             </div>
+        </div>
+    );
+};
+
+type GroupCreateNavigatorProps = {
+    handlePrevStep: () => void;
+    handleNextStep: () => void;
+    handleSubmit: () => void;
+    canNext: boolean;
+    canPrevious: boolean;
+    canSubmit: boolean;
+    isLastStep: boolean;
+};
+
+const GroupCreateNavigator: FC<GroupCreateNavigatorProps> = (props) => {
+    const { canNext, canPrevious, canSubmit, isLastStep } = props;
+    const { handlePrevStep, handleNextStep, handleSubmit } = props;
+    return (
+        <div
+            className={ styles.bottomNavBetween }
+        >
+            <button 
+                type="button" 
+                className={styles.prevBtn} 
+                onClick={handlePrevStep}
+                disabled={ !canPrevious }
+            >
+                &larr; 이전 단계
+            </button>
+            <button 
+                type="button" 
+                className={ isLastStep? styles.submitBtn: styles.nextBtn } 
+                onClick={ isLastStep? handleSubmit: handleNextStep }
+                disabled={ isLastStep? !canSubmit: !canNext }
+            >
+                {
+                    isLastStep 
+                        ?   "그룹 만들기"
+                        :   "다음 단계"
+                }
+            </button>
         </div>
     );
 };
