@@ -1,3 +1,7 @@
+import { DIGIT_FORMAT_TEXT, getInvalidErrorMessageByLocale, INVALID_ERROR_MESSAGE_TYPES } from "./errorMessage";
+
+import type { LocaleType } from "@/domains/locale/locale";
+
 /**
  * 문자열에 Emoji Presentation 문자가 포함되어 있는지 확인합니다.
  *
@@ -6,6 +10,9 @@
  */
 const EMOJI_REGEX = /\p{Emoji_Presentation}/u;
 export const hasEmoji = (value: string) => EMOJI_REGEX.test(value);
+
+export const getEmojiErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.EMOJI, locale);
 
 const INVALID_SPECIAL_CHARACTER_REGEX = /[\[\]{}\\|`";:=^*<>,]/;
 /**
@@ -19,6 +26,9 @@ const INVALID_SPECIAL_CHARACTER_REGEX = /[\[\]{}\\|`";:=^*<>,]/;
  */
 export const hasInvalidSpecialCharacter = (value: string) =>
     INVALID_SPECIAL_CHARACTER_REGEX.test(value);
+
+export const getSpecialCharacterErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.SPECIAL_CHARACTER, locale);
 
 const ALLOWED_SPECIAL_CHARACTERS = new Set([
     "@",
@@ -56,6 +66,9 @@ export const hasInvalidSpecialCharacterStrict = (value: string) => {
     return false;
 };
 
+export const getSpecialCharacterStrictErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.SPECIAL_CHARACTER_STRICT, locale);
+
 /**
  * 일반 공백(" ")을 제외한 금지된 whitespace가 포함되어 있는지 확인합니다.
  *
@@ -74,6 +87,9 @@ const INVALID_WHITESPACE_REGEX = /[\t\n\r\f\v\u00A0]/;
 export const hasInvalidWhitespace = (value: string) =>
     INVALID_WHITESPACE_REGEX.test(value);
 
+export const getWhitespaceErrorMessage = (locale: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.WHITESPACE, locale);
+
 /**
  * 모든 whitespace가 연속으로 2개 이상 포함되어 있는지 확인합니다.
  *
@@ -86,6 +102,9 @@ const CONSECUTIVE_SPACE_REGEX = /\s{2,}/;
 export const hasConsecutiveWhitespace = (value: string) =>
     CONSECUTIVE_SPACE_REGEX.test(value);
 
+export const getConsecutiveWhitespaceErrorMessage = (locale: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.CONSECUTIVE_SPACE, locale);
+
 /**
  * 문자열의 첫 번째 문자가 whitespace인지 확인합니다.
  *
@@ -95,6 +114,9 @@ export const hasConsecutiveWhitespace = (value: string) =>
 export const startsWithWhitespace = (value: string) =>
     /\s/.test(value.charAt(0));
 
+export const getStartsWithWhitespaceErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.START_WHITESPACE, locale);
+
 /**
  * 주어진 값이 null인지 확인합니다.
  *
@@ -102,6 +124,9 @@ export const startsWithWhitespace = (value: string) =>
  * @returns 값이 null이면 true
 */
 export const isNull = (value: unknown) => value === null;
+
+export const getNullErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.NULL, locale);
 
 /**
  * 값이 비어 있는지 확인합니다.
@@ -136,6 +161,9 @@ export const isEmpty = (value: unknown) => {
     return false;
 };
 
+export const getEmptyErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.EMPTY, locale);
+
 /**
  * 문자열의 길이가 지정한 최소 길이보다 짧은지 확인합니다.
  *
@@ -144,6 +172,9 @@ export const isEmpty = (value: unknown) => {
  * @returns 문자열의 길이가 최소 길이보다 짧으면 true
 */
 export const isBlank = (value: string) => value.trim().length === 0;
+
+export const getBlankErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.BLANK, locale);
 
 const NUMBER_TEXT_REGEX = /^-?\d+(?:\.\d+)?$/;
 /**
@@ -170,6 +201,9 @@ const NUMBER_TEXT_REGEX = /^-?\d+(?:\.\d+)?$/;
  * @returns 십진수 형태의 숫자이면 true
  */
 export const isNumberText = (value: string) => NUMBER_TEXT_REGEX.test(value);
+
+export const getNumberTextErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.NUMBER_TEXT, locale);
 
 const STRICT_NUMBER_TEXT_REGEX = /^-?(?:0|[1-9]\d*)(?:\.\d+)?$/;
 /**
@@ -199,6 +233,9 @@ const STRICT_NUMBER_TEXT_REGEX = /^-?(?:0|[1-9]\d*)(?:\.\d+)?$/;
  */
 export const isNumberTextStrict = (value: string) => STRICT_NUMBER_TEXT_REGEX.test(value);
 
+export const getNumberTextStrictErrorMessage = (locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.NUMBER_TEXT_STRICT, locale);
+
 /**
  * 문자열의 길이가 지정한 최소 길이보다 짧은지 확인합니다.
  *
@@ -208,6 +245,9 @@ export const isNumberTextStrict = (value: string) => STRICT_NUMBER_TEXT_REGEX.te
 */
 export const isShorterThan = (value: string, minLength: number) => value.length < minLength;
 
+export const getShorterThanErrorMessage = (minLength: number, locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.SHORTER_THAN, locale).replace(DIGIT_FORMAT_TEXT, minLength.toString());
+
 /**
  * 문자열의 길이가 지정한 최대 길이보다 긴지 확인합니다.
  *
@@ -216,6 +256,9 @@ export const isShorterThan = (value: string, minLength: number) => value.length 
  * @returns 문자열의 길이가 최대 길이보다 길면 true
 */
 export const isLongerThan = (value: string, maxLength: number) => value.length > maxLength;
+
+export const getLongerThanErrorMessage = (maxLength: number, locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.LONGER_THAN, locale).replace(DIGIT_FORMAT_TEXT, maxLength.toString());
 
 /**
  * 문자열의 길이가 지정한 최소 길이보다 짧거나 최대 길이보다 긴지 확인합니다.
@@ -228,3 +271,8 @@ export const isLongerThan = (value: string, maxLength: number) => value.length >
 export const isOutsideLength = (value: string, minLength: number, maxLength: number) => 
     isShorterThan(value, minLength) ||
     isLongerThan(value, maxLength);
+
+export const getOutsideLengthErrorMessage = (minLength: number, maxLength: number, locale?: LocaleType) => 
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.OUTSIDE_LENGTH, locale)
+        .replace(DIGIT_FORMAT_TEXT, minLength.toString())
+        .replace(DIGIT_FORMAT_TEXT, maxLength.toString());
