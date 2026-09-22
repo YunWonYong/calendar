@@ -1,4 +1,4 @@
-import { RouteObject } from "react-router-dom";
+import type { RouteObject } from "react-router-dom";
 
 import RequiredAuthGuard from "@/guards/RequiredAuthGuard";
 import CreateGroupPage from "@/pages/group/create/GroupCreatePage";

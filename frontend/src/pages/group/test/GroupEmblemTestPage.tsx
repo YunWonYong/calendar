@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 import GroupEmblem from "@/components/group/GroupEmblem";
-import { BG_THEMES, BGId } from "@/domains/group/emblemBg";
+import { BG_THEMES } from "@/domains/group/emblemBg";
 import { ICON_PRESETS } from "@/domains/group/emblemIcon";
 
 import styles from "./GroupEmblemTestPage.module.css";
+
+import type { BGId } from "@/domains/group/emblemBg";
 
 const GroupEmblemTestPage = () => {
     const bgKeys = Object.keys(BG_THEMES);

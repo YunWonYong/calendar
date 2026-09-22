@@ -1,4 +1,5 @@
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import type { FC, ReactNode} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import useDevice from "@/hooks/device/UseDevice";
 import { getRefreshTokenFromLocalStorage, removeAuthInfoFromLocalStorage, saveAuthInfoFromLocalStorage } from "@/localStorage/api";

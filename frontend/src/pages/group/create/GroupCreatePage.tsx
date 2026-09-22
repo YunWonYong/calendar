@@ -1,12 +1,14 @@
-import { FC, useState } from "react";
+import type { FC} from "react";
+import { useState } from "react";
 
 import { GROUP_LIMIT_LEVEL_LIST_DUMMY_INFO } from "@/domains/group/group";
-import { UserPlanLevelType } from "@/domains/user/userPlan";
 
 import GroupBasicInfoStep from "./components/GroupBasicInfoStep";
 
 // import GroupEmblemTestPage from "./GroupEmblemTestPage"; // 이전 엠블럼 테스트/선택 컴포넌트
 import styles from "./GroupCreatePage.module.css";
+
+import type { UserPlanLevelType } from "@/domains/user/userPlan";
 
 
 const CreateGroupPage = () => {

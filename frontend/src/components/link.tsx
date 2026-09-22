@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Link as L, useLocation } from "react-router-dom";
 
 import { trackClick } from "@/analytics/button";

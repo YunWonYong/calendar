@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 
 import { trackClickAndPreventDefault } from "@/analytics/button";
 import { CalendarEventMainTypes } from "@/domains/calendar/calendarType";

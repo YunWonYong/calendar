@@ -1,4 +1,4 @@
-import { METHODS } from "./fetchConstants";
+import type { METHODS } from "./fetchConstants";
 
 type SuccessResponse<T> = {
     ok: true;

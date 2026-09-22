@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 
 import { LANDING_PAGE_SECTION_IDS, landingPageSectionIdByStep } from "@/domains/landing/landingPageType";
 

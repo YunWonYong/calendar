@@ -1,16 +1,17 @@
-import { FC } from "react";
+import type { FC } from "react";
 
 import { trackClick } from "@/analytics/button";
 import { RadioButton } from "@/components/form/RadioButton";
-import { TextInput, TextInputProps } from "@/components/form/TextInput";
-import { GroupLevelField, GroupNameField } from "@/domains/group/form";
-import { GroupLimitLevelData, GroupLimitLevelInfo } from "@/domains/group/group";
+import { TextInput } from "@/components/form/TextInput";
 import { USER_PLANS } from "@/domains/user/userPlan";
 import { isNumberTextStrict } from "@/lib/validation/validation";
 
 import styles from "./GroupBasicInfoStep.module.css";
 
+import type { TextInputProps } from "@/components/form/TextInput";
 import type { GroupCreateBasicProps } from "@/domains/group/create";
+import type { GroupLevelField, GroupNameField } from "@/domains/group/form";
+import type { GroupLimitLevelData, GroupLimitLevelInfo } from "@/domains/group/group";
 import type { UserPlanLevelType } from "@/domains/user/userPlan";
 
 

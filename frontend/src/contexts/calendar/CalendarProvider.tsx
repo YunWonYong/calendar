@@ -1,4 +1,5 @@
-import { FC, ReactNode, useMemo, useReducer } from "react";
+import type { FC, ReactNode} from "react";
+import { useMemo, useReducer } from "react";
 
 import { ActionTypes } from "@/domains/calendar/calendarReducer";
 

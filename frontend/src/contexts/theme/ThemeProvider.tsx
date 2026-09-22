@@ -1,5 +1,6 @@
 
-import { FC, ReactNode, useCallback, useState } from "react";
+import type { FC, ReactNode} from "react";
+import { useCallback, useState } from "react";
 
 import { THEME_TYPES, type ThemeType } from "@/domains/theme/themeTypes";
 import { getThemeFromLocalStorage, saveThemeFromLocalStorage } from "@/localStorage/api";

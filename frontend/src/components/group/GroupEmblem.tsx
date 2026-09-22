@@ -1,9 +1,11 @@
-import { BG_THEMES, BGId } from "@/domains/group/emblemBg";
-import { IconId } from "@/domains/group/emblemIcon";
+import { BG_THEMES } from "@/domains/group/emblemBg";
 
 import GroupEmblemIconSVG from "./GroupEmblemIconSVG";
 
 import styles from "./GroupEmblem.module.css";
+
+import type { BGId } from "@/domains/group/emblemBg";
+import type { IconId } from "@/domains/group/emblemIcon";
 
 interface GroupEmblemProps {
     emblemId: string;

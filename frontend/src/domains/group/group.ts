@@ -1,6 +1,7 @@
-import { USER_PLANS, type UserPlanLevelType } from "../user/userPlan";
+import { USER_PLANS } from "../user/userPlan";
 
 import type { PromotionMap } from "../promotion/promotionType";
+import type { UserPlanLevelType } from "../user/userPlan";
 
 export type GroupLimitLevelData = {
     limitLevel: UserPlanLevelType;
