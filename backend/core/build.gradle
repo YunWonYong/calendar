@@ -1,3 +1,20 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // Flyway가 PostgreSQL 문법을 해석할 수 있도록 전용 데이터베이스 모듈 주입
+        classpath 'org.flywaydb:flyway-database-postgresql:10.22.0' // 본인이 사용하는 flyway 플러그인 버전과 맞춰주세요
+        
+        // JDBC PostgreSQL 드라이버 주입
+        classpath 'org.postgresql:postgresql:42.7.2' 
+    }
+}
+
+plugins {
+    id 'org.flywaydb.flyway' version '10.22.0' 
+}
+
 dependencies {
     implementation 'org.springframework:spring-context'
     implementation 'org.springframework:spring-tx'
@@ -7,9 +24,19 @@ dependencies {
     implementation 'org.springframework.security:spring-security-oauth2-core'
     implementation 'jakarta.validation:jakarta.validation-api'
 
+    implementation 'org.flywaydb:flyway-core'
+    runtimeOnly 'org.postgresql:postgresql'
+
     implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 	
 	implementation 'org.apache.commons:commons-pool2'
+}
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/hswy'
+    user = 'calendar'
+    password = 'Asd!23QwE4%6'
+    cleanDisabled = false
 }
