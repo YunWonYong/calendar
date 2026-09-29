@@ -10,6 +10,13 @@ if ! command -v docker &> /dev/null
         exit 1
 fi
 
+if docker info >/dev/null 2>&1; then
+    echo "active docker."
+else
+    echo "inactive docker"
+    exit 1
+fi
+
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 WORK_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
 ROOT_DIR=$(cd "$WORK_DIR/.." && pwd)
