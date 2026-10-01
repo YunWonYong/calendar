@@ -13,7 +13,8 @@ CREATE TABLE users (
 	platform      VARCHAR(20) NOT NULL,
 	platform_id   VARCHAR(255) NOT NULL,
 	created_at    TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT uq_users_platform UNIQUE(platform, platform_id)
+	CONSTRAINT uk_users_platform 
+		UNIQUE(platform, platform_id)
 );
 
 CREATE TABLE user_profiles (
@@ -24,5 +25,6 @@ CREATE TABLE user_profiles (
 	profile_image_url	TEXT NULL,
     created_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at          TIMESTAMPTZ NULL,
-	CONSTRAINT fk_profiles_users FOREIGN KEY(user_id) REFERENCES users(user_id)
+	CONSTRAINT fk_profiles_users 
+		FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
