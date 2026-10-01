@@ -1,6 +1,6 @@
 package io.github.hswy.calendar.auth.exception;
 
-import io.github.hswy.calendar.global.exception.model.UnauthorizedException;
+import io.github.hswy.calendar.global.security.oauth2.exception.UnauthorizedException;
 
 public class RefreshTokenNotFoundException extends UnauthorizedException {
     

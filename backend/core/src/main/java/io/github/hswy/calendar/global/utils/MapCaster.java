@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.common.utils;
+package io.github.hswy.calendar.global.utils;
 
 import java.util.Map;
 

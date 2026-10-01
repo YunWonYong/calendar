@@ -1,7 +1,7 @@
 package io.github.hswy.calendar.global.security.oauth2.model;
 
-import io.github.hswy.calendar.global.common.enums.Platform;
-import io.github.hswy.calendar.global.common.utils.MapCaster;
+import io.github.hswy.calendar.auth.enums.Platform;
+import io.github.hswy.calendar.global.utils.MapCaster;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;

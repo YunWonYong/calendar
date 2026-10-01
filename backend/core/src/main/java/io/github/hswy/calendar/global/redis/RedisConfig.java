@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.store.redis;
+package io.github.hswy.calendar.global.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;

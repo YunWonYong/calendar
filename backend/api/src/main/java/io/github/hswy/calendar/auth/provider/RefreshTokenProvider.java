@@ -17,7 +17,7 @@ import io.github.hswy.calendar.auth.exception.RefreshTokenMismatchException;
 import io.github.hswy.calendar.auth.exception.RefreshTokenNotFoundException;
 import io.github.hswy.calendar.auth.exception.RefreshTokenRotateException;
 import io.github.hswy.calendar.auth.model.RefreshTokenInfoDTO;
-import io.github.hswy.calendar.global.exception.model.ApplicationException;
+import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 
 @Component

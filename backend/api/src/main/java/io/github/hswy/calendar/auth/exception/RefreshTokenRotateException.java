@@ -1,6 +1,6 @@
 package io.github.hswy.calendar.auth.exception;
 
-import io.github.hswy.calendar.global.exception.model.ApplicationException;
+import io.github.hswy.calendar.global.exception.ApplicationException;
 
 public class RefreshTokenRotateException extends ApplicationException {
     

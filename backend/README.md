@@ -151,3 +151,120 @@ calendar/
  │        │        │
 api      batch  websocket
 ```
+
+## 2.1. 모듈 책임
+
+Calendar Backend는 실행 환경에 따라 `core`, `api`, `batch`, `websocket` 모듈로 분리한다.
+
+각 모듈은 다음과 같은 책임을 가진다.
+
+### core
+
+여러 실행 모듈에서 공통으로 사용하는 Domain 및 영속성 관련 핵심 요소를 관리한다.
+
+* Domain Model 및 Entity
+* Enum
+* Domain Exception
+* Repository
+* Cache Name 및 Cache Contract와 같이 실행 모듈에서 공통으로 사용하는 정의
+
+`core`는 특정 실행 환경의 Use Case나 Service를 관리하지 않는다.
+
+또한 `api`, `batch`, `websocket`과 같은 실행 모듈의 구현에 의존하지 않는다.
+
+### api
+
+HTTP API를 제공하는 실행 모듈이다.
+
+* HTTP 요청 및 응답 처리
+* Controller
+* API DTO
+* API Use Case 및 Service
+* API에서 필요한 Cache 처리
+
+`api`는 `core`의 Domain 및 Repository 등을 사용하여 API에 필요한 기능을 구현한다.
+
+### batch
+
+배치 작업을 처리하는 실행 모듈이다.
+
+* 정기적인 데이터 처리
+* 데이터 상태 변경 및 정리 작업
+* Batch Use Case 및 Service
+* Batch 작업에서 필요한 Cache 처리
+
+### websocket
+
+실시간 통신을 처리하는 실행 모듈이다.
+
+* WebSocket 연결 및 메시지 처리
+* 실시간 통신 관련 Use Case 및 Service
+* WebSocket 작업에서 필요한 Cache 처리
+
+---
+
+## 2.2. 패키지 구성 원칙
+
+각 모듈 내부의 패키지는 기술 계층보다 **Domain을 우선하여 구성한다.**
+
+예를 들어 `auth`, `users`와 같이 기능 또는 Domain을 기준으로 패키지를 구분하고, 해당 Domain 내부에서 `model`, `repository`, `exception`, `service`, `controller`, `dto` 등의 역할을 구분한다.
+
+이를 통해 특정 Domain과 관련된 코드가 하나의 패키지 영역에서 관리되도록 한다.
+
+`core`에서는 Domain에 필요한 Model, Repository, Exception 등의 핵심 요소를 관리하고, `api`에서는 동일한 Domain의 Controller, Service, DTO 등을 관리한다.
+
+---
+
+## 2.3. Service 관리 원칙
+
+Service는 실행 모듈에서 관리한다.
+
+`api`, `batch`, `websocket`은 각각 자신의 실행 환경에 필요한 Use Case와 Service를 가진다.
+
+동일한 Domain을 사용하더라도 실행 환경에 따라 필요한 처리 방식이나 Use Case가 다를 수 있으므로, 모든 Service를 `core`에 공통으로 배치하지 않는다.
+
+실제 여러 실행 모듈에서 동일한 Use Case가 필요하고 공통화할 명확한 이유가 발생한 경우에만 별도의 공통 로직으로 추출한다.
+
+실행 모듈 간에는 서로의 Service를 직접 의존하지 않는다.
+
+---
+
+## 2.4. Cache 관리 원칙
+
+Cache의 실제 동작은 각 실행 모듈의 Service에서 관리한다.
+
+Spring Cache의 `@Cacheable`, `@CachePut`, `@CacheEvict` 등은 해당 Cache를 사용하는 실행 모듈에서 적용한다.
+
+예를 들어 API에서 데이터를 조회하여 Cache에 저장하고, Batch에서 해당 데이터를 변경하는 경우 API와 Batch가 각각 자신의 Service에서 Cache 처리를 담당한다.
+
+Cache Name과 Cache Key의 의미 및 타입과 같이 여러 실행 모듈에서 공유해야 하는 Cache Contract는 `core`에서 관리한다.
+
+단, 실제 Cache Key 표현식은 각 Service의 메서드에 맞게 작성한다.
+
+예를 들어 특정 Cache의 Contract가 다음과 같이 정의되어 있다면:
+
+* Cache Name: `user_profiles`
+* Key: `Long userId`
+* Value: `UserProfileEntity`
+
+각 실행 모듈은 해당 Contract를 준수하여 동일한 Cache Name과 Key 규칙을 사용해야 한다.
+
+`core`는 Cache의 실제 동작이나 Spring Cache Annotation에 의존하지 않으며, 실행 모듈이 공통으로 참조할 수 있는 Cache 정의만 제공한다.
+
+---
+
+## 2.5. 모듈 의존성 원칙
+
+모듈 간 기본 의존 방향은 **실행 모듈 → core**로 유지한다.
+
+```text
+api ────────┐
+batch ──────┼──→ core
+websocket ──┘
+```
+
+`core`는 실행 모듈을 의존하지 않는다.
+
+또한 `api`, `batch`, `websocket`은 서로의 Service를 직접 의존하지 않는다.
+
+이를 통해 Domain 및 공통 핵심 요소와 실행 환경에 따른 Application 로직을 분리한다.

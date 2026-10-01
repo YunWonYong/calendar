@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.common.enums;
+package io.github.hswy.calendar.auth.enums;
 
 import lombok.Getter;
 

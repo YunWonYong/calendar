@@ -1,6 +1,6 @@
 package io.github.hswy.calendar.global.security.oauth2.service;
 
-import io.github.hswy.calendar.global.common.enums.Platform;
+import io.github.hswy.calendar.auth.enums.Platform;
 import io.github.hswy.calendar.global.security.oauth2.model.CustomUserDetails;
 import io.github.hswy.calendar.global.security.oauth2.model.OAuth2UserInfo;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

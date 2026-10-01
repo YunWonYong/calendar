@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.exception.model;
+package io.github.hswy.calendar.global.exception;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,10 +1,11 @@
 package io.github.hswy.calendar.global.security.oauth2.model;
 
-import io.github.hswy.calendar.global.common.enums.Platform;
 import lombok.Builder;
 import lombok.Getter;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
+
+import io.github.hswy.calendar.auth.enums.Platform;
 
 @Getter
 @Builder

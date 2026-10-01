@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import io.github.hswy.calendar.global.common.model.ApiResponseBody;
-import io.github.hswy.calendar.global.exception.model.ApplicationException;
+import io.github.hswy.calendar.global.exception.ApplicationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 

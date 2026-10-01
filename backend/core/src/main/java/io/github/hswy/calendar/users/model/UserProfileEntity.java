@@ -35,7 +35,7 @@ public class UserProfileEntity {
     @JoinColumn(
         name = "user_id",
         foreignKey = @ForeignKey(
-            name = "user_profiles_user_id_fkey"
+            name = "fk_profiles_users"
         )
     )
     private UserEntity user;

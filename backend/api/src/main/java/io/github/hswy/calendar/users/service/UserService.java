@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import io.github.hswy.calendar.global.common.enums.Platform;
+import io.github.hswy.calendar.auth.enums.Platform;
 import io.github.hswy.calendar.global.security.oauth2.model.OAuth2UserInfo;
 import io.github.hswy.calendar.users.exception.UserNotFoundException;
 import io.github.hswy.calendar.users.model.UserEntity;
