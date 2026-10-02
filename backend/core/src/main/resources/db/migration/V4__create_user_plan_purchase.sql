@@ -8,8 +8,9 @@ CREATE TYPE user_plan_purchases_status AS ENUM (
 );
 
 CREATE TABLE user_plan_purchases (
-	purchase_id 		BIGSERIAL NOT NULL PRIMARY KEY,
+	purchase_id 		BIGSERIAL NOT NULL,
 	user_id				BIGINT NOT NULL,
+	card_id				BIGINT NULL,
 	purchase_status 	user_plan_purchases_status NOT NULL,
 	purchase_currency	VARCHAR(10) NOT NULL,
 	purchase_price 		BIGINT NOT NULL,
@@ -19,43 +20,25 @@ CREATE TABLE user_plan_purchases (
 	is_auto_purchase	BOOLEAN NOT NULL DEFAULT FALSE,
 	created_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at          TIMESTAMPTZ NULL,
-	CONSTRAINT uk_user_id_purchase_id 
-		UNIQUE(user_id, purchase_id),
+	CONSTRAINT pk_user_plan_purchases
+		PRIMARY KEY(purchase_id),
 	CONSTRAINT fk_user_plan_purchases_users
-        FOREIGN KEY(user_id) REFERENCES users(user_id)
+        FOREIGN KEY(user_id) REFERENCES users(user_id),
+    CONSTRAINT fk_user_plan_purchases_user_card
+        FOREIGN KEY(user_id, card_id) REFERENCES user_payment_cards(user_id, card_id)
 );
 
 CREATE TABLE user_plan_purchase_history (
 	seq 				BIGSERIAL NOT NULL,
 	user_id				BIGINT NOT NULL,
 	purchase_id			BIGINT NOT NULL,
+	card_id				BIGINT NULL,
 	purchase_status 	user_plan_purchases_status NOT NULL,
 	purchase_currency	VARCHAR(10) NOT NULL,
 	purchase_price 		BIGINT NOT NULL,
 	purchase_decimals	SMALLINT NOT NULL DEFAULT 0,
-	purchase_at			TIMESTAMPTZ NULL,
+	period_start_at		TIMESTAMPTZ NOT NULL,
+	period_end_at		TIMESTAMPTZ NOT NULL,
+	is_auto_purchase	BOOLEAN NOT NULL DEFAULT FALSE,
 	created_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-
-CREATE TYPE user_plan_purchase_card_status AS ENUM (
-	'ACTIVE', 	-- 사용자가 등록한 사용할 수 있는 카드.
-	'INACTIVE' 	-- 사용자가 해지한 사용할 수 없는 카드.
-	'EXPIRED'	-- 사용자가 등록한 카드의 유효기간이 만료됐을 때.
-);
-
-CREATE TABLE user_plan_purchase_cards (
-	purchase_id				BIGINT NOT NULL,
-	payment_method_token	VARCHAR(255) NOT NULL,
-	card_status				user_plan_purchase_card_status NOT NULL,
-	card_brand				VARCHAR(30) NOT NULL,
-	card_last_4				CHAR(4) NOT NULL,
-	card_exp_month			SMALLINT,
-	card_exp_year			SMALLINT,
-	created_at          	TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at          	TIMESTAMPTZ NULL,
-	CONSTRAINT fk_user_plan_purchase_cards_purchases
-        FOREIGN KEY(purchase_id) REFERENCES user_plan_purchases(purchase_id),
-	CONSTRAINT pk_purchase_id_pay_method_token 
-		PRIMARY KEY(purchase_id, payment_method_token)
 );
