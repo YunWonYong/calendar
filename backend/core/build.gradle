@@ -23,7 +23,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.security:spring-security-oauth2-core'
     implementation 'jakarta.validation:jakarta.validation-api'
-
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    
     implementation 'org.flywaydb:flyway-core'
     runtimeOnly 'org.postgresql:postgresql'
 
