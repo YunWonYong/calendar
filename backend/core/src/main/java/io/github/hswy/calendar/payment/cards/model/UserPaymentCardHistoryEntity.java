@@ -3,7 +3,8 @@ package io.github.hswy.calendar.payment.cards.model;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
+import io.github.hswy.calendar.global.model.CreatedAtEntity;
+import io.github.hswy.calendar.global.model.HistoryEntityFormInterface;
 import io.github.hswy.calendar.payment.cards.enums.UserPaymentCardStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,8 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,43 +21,43 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity 
-@Table (
-    name = "user_payment_cards",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "uk_user_payment_cards_user_token",
-            columnNames = { "user_id", "payment_method_token" }
-        ),
-        @UniqueConstraint(
-            name = "uk_user_payment_cards_user_card",
-            columnNames = { "user_id", "card_id" }
-        )
-    }
+@Table(
+    name = "user_payment_card_history"
 )
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter 
+@NoArgsConstructor()
 @AllArgsConstructor 
 @Builder
-public class UserPaymentCardEntity extends CreatedAtUpdatedAtEntity {
+public class UserPaymentCardHistoryEntity extends CreatedAtEntity implements HistoryEntityFormInterface<UserPaymentCardEntity, UserPaymentCardHistoryEntity> {
+
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
+        name = "seq",
+        nullable = false,
+        updatable = false,
+        insertable = false
+    )
+    private Long seq;
+
+    @Column(
         name = "card_id",
+        nullable = false,
         updatable = false
     )
     private Long cardId;
     
     @Column(
         name="user_id",
-        updatable = false,
-        nullable = false
+        nullable = false,
+        updatable = false
     )
     private Long userId;
 
     @Column(
         name="payment_method_token",
-        updatable = false,
-        nullable = false
+        nullable = false,
+        updatable = false
     )
     private String paymentMethodToken;
 
@@ -68,21 +67,20 @@ public class UserPaymentCardEntity extends CreatedAtUpdatedAtEntity {
         name="card_status",
         nullable = false
     )
-    @Builder.Default
-    @Setter 
-    private UserPaymentCardStatus cardStatus = UserPaymentCardStatus.ACTIVE;
+    @Setter
+    private UserPaymentCardStatus cardStatus;
 
     @Column(
         name="card_brand",
-        length = 30,
-        nullable = false
+        nullable = false,
+        length = 30
     )
     private String cardBrand;
 
     @Column(
         name="card_last_4",
-        length = 4,
-        nullable = false
+        nullable = false,
+        length = 4
     )
     private String cardLast4;
 
@@ -102,6 +100,22 @@ public class UserPaymentCardEntity extends CreatedAtUpdatedAtEntity {
         name="card_nickname",
         length = 60
     )
-    @Setter 
     private String cardNickname;
+
+    @Override
+    public UserPaymentCardHistoryEntity form(UserPaymentCardEntity entity) {
+        return new UserPaymentCardHistoryEntityBuilder()
+            .cardId(entity.getCardId())
+            .userId(entity.getUserId())
+            .paymentMethodToken(entity.getPaymentMethodToken())
+            .cardStatus(entity.getCardStatus())
+            .cardBrand(entity.getCardBrand())
+            .cardLast4(entity.getCardLast4())
+            .cardExpMonth(entity.getCardExpMonth())
+            .cardExpYear(entity.getCardExpYear())
+            .cardNickname(entity.getCardNickname())
+            .build();
+    }
+
+    
 }
