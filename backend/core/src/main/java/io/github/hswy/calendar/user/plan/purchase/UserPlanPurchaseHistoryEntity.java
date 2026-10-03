@@ -15,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -86,8 +85,7 @@ class UserPlanPurchaseHistoryEntity extends CreatedAtEntity {
         nullable = false,
         insertable = true
     )
-    @Builder.Default
-    private short purchaseDecimals = 0;
+    private short purchaseDecimals;
     
     @Column(
         name = "period_start_at",
