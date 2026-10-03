@@ -10,8 +10,8 @@ import io.github.hswy.calendar.auth.model.LoginResponseBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthRequestBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthResponseBody;
 import io.github.hswy.calendar.global.security.oauth2.service.OAuth2AuthCodeService;
-import io.github.hswy.calendar.users.model.UserInfoDTO;
-import io.github.hswy.calendar.users.service.UserProfileService;
+import io.github.hswy.calendar.user.service.UserProfileService;
+import io.github.hswy.calendar.user.model.UserInfoDTO;
 import lombok.AllArgsConstructor;
 
 @Service

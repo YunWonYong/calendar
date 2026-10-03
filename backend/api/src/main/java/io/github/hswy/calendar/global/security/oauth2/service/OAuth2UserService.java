@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import io.github.hswy.calendar.global.security.oauth2.model.OAuth2UserInfo;
-import io.github.hswy.calendar.users.model.UserEntity;
-import io.github.hswy.calendar.users.model.UserProfileEntity;
-import io.github.hswy.calendar.users.service.UserProfileService;
-import io.github.hswy.calendar.users.service.UserService;
+import io.github.hswy.calendar.user.service.UserProfileService;
+import io.github.hswy.calendar.user.service.UserService;
+import io.github.hswy.calendar.user.model.UserEntity;
+import io.github.hswy.calendar.user.profile.model.UserProfileEntity;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 

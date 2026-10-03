@@ -11,7 +11,7 @@ import io.github.hswy.calendar.auth.model.RefreshAuthRequestBody;
 import io.github.hswy.calendar.auth.model.RefreshTokenInfoDTO;
 import io.github.hswy.calendar.auth.provider.JWTProvider;
 import io.github.hswy.calendar.auth.provider.RefreshTokenProvider;
-import io.github.hswy.calendar.users.model.UserInfoDTO;
+import io.github.hswy.calendar.user.model.UserInfoDTO;
 import lombok.AllArgsConstructor;
 
 @Service

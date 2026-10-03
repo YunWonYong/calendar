@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.users.service;
+package io.github.hswy.calendar.user.service;
 
 import java.util.Optional;
 
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 
 import io.github.hswy.calendar.auth.enums.Platform;
 import io.github.hswy.calendar.global.security.oauth2.model.OAuth2UserInfo;
-import io.github.hswy.calendar.users.exception.UserNotFoundException;
-import io.github.hswy.calendar.users.model.UserEntity;
-import io.github.hswy.calendar.users.repository.UserRepository;
+import io.github.hswy.calendar.user.exception.UserNotFoundException;
+import io.github.hswy.calendar.user.model.UserEntity;
+import io.github.hswy.calendar.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service

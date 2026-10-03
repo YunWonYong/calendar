@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.plans.enums;
+package io.github.hswy.calendar.plan.enums;
 
 public enum PlanType {
     FREE(0),

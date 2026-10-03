@@ -1,5 +1,6 @@
-package io.github.hswy.calendar.users.model;
+package io.github.hswy.calendar.user.model;
 
+import io.github.hswy.calendar.user.profile.model.UserProfileEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

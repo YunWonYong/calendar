@@ -1,7 +1,7 @@
-package io.github.hswy.calendar.users.model;
-
+package io.github.hswy.calendar.user.profile.model;
 
 import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
+import io.github.hswy.calendar.user.model.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,8 +1,8 @@
-package io.github.hswy.calendar.users.model;
+package io.github.hswy.calendar.user.model;
 
 import io.github.hswy.calendar.auth.enums.Platform;
 import io.github.hswy.calendar.global.model.CreatedAtEntity;
-import io.github.hswy.calendar.users.enums.UserStatus;
+import io.github.hswy.calendar.user.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

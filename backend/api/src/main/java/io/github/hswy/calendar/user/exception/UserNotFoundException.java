@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.users.exception;
+package io.github.hswy.calendar.user.exception;
 
 import io.github.hswy.calendar.auth.enums.Platform;
 import io.github.hswy.calendar.global.exception.ApplicationException;
