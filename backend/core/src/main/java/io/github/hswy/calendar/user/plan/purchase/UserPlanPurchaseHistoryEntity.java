@@ -6,7 +6,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import io.github.hswy.calendar.global.model.CreatedAtEntity;
-import io.github.hswy.calendar.global.model.HistoryEntityFormInterface;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,17 +17,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
     name = "user_plan_purchase_history"
 )
 @Getter 
-@NoArgsConstructor()
 @AllArgsConstructor
-@Builder 
-class UserPlanPurchaseHistoryEntity extends CreatedAtEntity implements HistoryEntityFormInterface<UserPlanPurchaseEntity, UserPlanPurchaseHistoryEntity> {
+class UserPlanPurchaseHistoryEntity extends CreatedAtEntity {
 
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -112,22 +108,5 @@ class UserPlanPurchaseHistoryEntity extends CreatedAtEntity implements HistoryEn
         nullable = false,
         insertable = true
     )
-    @Builder.Default
-    private boolean isAutoPurchase = false;
-
-    @Override
-    public UserPlanPurchaseHistoryEntity form(UserPlanPurchaseEntity entity) {
-        return new UserPlanPurchaseHistoryEntityBuilder()
-            .purchaseId(entity.getPurchaseId())
-            .userId(entity.getUserId())
-            .cardId(entity.getCardId())
-            .purchaseStatus(entity.getPurchaseStatus())
-            .purchaseCurrency(entity.getPurchaseCurrency())
-            .purchasePrice(entity.getPurchasePrice())
-            .purchaseDecimals(entity.getPurchaseDecimals())
-            .periodStartAt(entity.getPeriodStartAt())
-            .periodEndAt(entity.getPeriodEndAt())
-            .isAutoPurchase(entity.isAutoPurchase())
-            .build();
-    }
+    private boolean autoPurchase;
 }

@@ -114,21 +114,21 @@ public class UserPlanPurchaseEntity extends CreatedAtUpdatedAtEntity {
         updatable = true
     )
     @Builder.Default
-    private boolean isAutoPurchase = false;
+    private boolean autoPurchase = false;
 
-    void changeAutoPurchase(boolean isAutoPurchase) {
-        this.isAutoPurchase = isAutoPurchase;
-        this.purchaseStatus = getNextPurchaseStatus(isAutoPurchase);
+    void changeAutoPurchase(boolean autoPurchase) {
+        this.autoPurchase = autoPurchase;
+        this.purchaseStatus = getNextPurchaseStatus(autoPurchase);
     }
 
-    private UserPlanPurchaseStatus getNextPurchaseStatus(boolean isAutoPurchase) {
+    private UserPlanPurchaseStatus getNextPurchaseStatus(boolean autoPurchase) {
         if (
             this.purchaseStatus == UserPlanPurchaseStatus.FREE_TRIAL || 
             this.purchaseStatus == UserPlanPurchaseStatus.FREE_TRIAL_PENDING || 
             this.purchaseStatus == UserPlanPurchaseStatus.ACTIVE || 
             this.purchaseStatus == UserPlanPurchaseStatus.ACTIVE_PENDING
         ) {
-            if (isAutoPurchase) {
+            if (autoPurchase) {
                 return this.purchaseStatus == UserPlanPurchaseStatus.FREE_TRIAL_PENDING
                     ?   UserPlanPurchaseStatus.FREE_TRIAL
                     :   UserPlanPurchaseStatus.ACTIVE;

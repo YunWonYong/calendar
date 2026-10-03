@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor 
 public class UserPlanPurchaseProcessor {
     private final EntityManager em;
+    private final UserPlanPurchaseHistoryEntityMapper historyEntityMapper;
 
     @RequireTransaction
     public UserPlanPurchaseEntity createUserPlanPurchase(UserPlanPurchaseEntity entity) {
@@ -41,12 +42,8 @@ public class UserPlanPurchaseProcessor {
         return entity;
     }
 
-    private UserPlanPurchaseHistoryEntity toHistory(UserPlanPurchaseEntity entity) {
-        return new UserPlanPurchaseHistoryEntity().form(entity);
-    }
-
     private void insertHistory(UserPlanPurchaseEntity entity) {
-        em.persist(toHistory(entity));
+        em.persist(historyEntityMapper.of(entity));
     }
 
 }
