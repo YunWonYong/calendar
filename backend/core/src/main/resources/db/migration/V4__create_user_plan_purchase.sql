@@ -1,4 +1,4 @@
-CREATE TYPE user_plan_purchases_status AS ENUM (
+CREATE TYPE user_plan_purchase_status AS ENUM (
 	'FREE_TRIAL', 				-- 무료 체험 중
 	'FREE_TRIAL_PENDING',   	-- 무료 체험 중인데 결제 취소한 상태.
 	'ACTIVE',			    	-- 정기 구독 이용 중
@@ -10,8 +10,8 @@ CREATE TYPE user_plan_purchases_status AS ENUM (
 CREATE TABLE user_plan_purchases (
 	purchase_id 		BIGSERIAL NOT NULL,
 	user_id				BIGINT NOT NULL,
-	card_id				BIGINT NULL,
-	purchase_status 	user_plan_purchases_status NOT NULL,
+	card_id				BIGINT NOT NULL,
+	purchase_status 	user_plan_purchase_status NOT NULL,
 	purchase_currency	VARCHAR(10) NOT NULL,
 	purchase_price 		BIGINT NOT NULL,
 	purchase_decimals	SMALLINT NOT NULL DEFAULT 0,
@@ -32,13 +32,13 @@ CREATE TABLE user_plan_purchase_history (
 	seq 				BIGSERIAL NOT NULL,
 	user_id				BIGINT NOT NULL,
 	purchase_id			BIGINT NOT NULL,
-	card_id				BIGINT NULL,
-	purchase_status 	user_plan_purchases_status NOT NULL,
+	card_id				BIGINT NOT NULL,
+	purchase_status 	user_plan_purchase_status NOT NULL,
 	purchase_currency	VARCHAR(10) NOT NULL,
 	purchase_price 		BIGINT NOT NULL,
 	purchase_decimals	SMALLINT NOT NULL DEFAULT 0,
 	period_start_at		TIMESTAMPTZ NOT NULL,
 	period_end_at		TIMESTAMPTZ NOT NULL,
-	is_auto_purchase	BOOLEAN NOT NULL DEFAULT FALSE,
+	is_auto_purchase	BOOLEAN NOT NULL,
 	created_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
