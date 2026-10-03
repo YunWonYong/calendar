@@ -1,10 +1,9 @@
 package io.github.hswy.calendar.plans.model;
 
-import java.time.Instant;
-
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
 import io.github.hswy.calendar.plans.enums.PlanType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,7 +34,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor 
 @Builder
-public class PlanEntity {
+public class PlanEntity extends CreatedAtUpdatedAtEntity {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
@@ -65,21 +64,4 @@ public class PlanEntity {
         name = "is_active"
     )
     private boolean isActive;
-    
-
-    @Column(
-        name = "created_at",
-        nullable = false,
-        insertable = false,
-        updatable = false
-    )
-    private Instant createdAt;
-
-    @Column(
-        name = "updated_at",
-        nullable = true,
-        insertable = false,
-        updatable = true
-    )
-    private Instant updatedAt;
 }

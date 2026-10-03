@@ -1,7 +1,7 @@
 package io.github.hswy.calendar.users.model;
 
-import java.time.Instant;
 
+import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class UserProfileEntity {
+public class UserProfileEntity extends CreatedAtUpdatedAtEntity {
 
     @Id
     private Long userId;
@@ -71,20 +71,4 @@ public class UserProfileEntity {
         updatable = true
     )
     private String profileImageUrl;
-
-    @Column(
-        name = "created_at",
-        nullable = false,
-        insertable = false,
-        updatable = false
-    )
-    private Instant createdAt;
-
-    @Column(
-        name = "updated_at",
-        nullable = true,
-        insertable = false,
-        updatable = true
-    )
-    private Instant updatedAt;
 }

@@ -1,11 +1,10 @@
 package io.github.hswy.calendar.users.model;
 
 import io.github.hswy.calendar.auth.enums.Platform;
+import io.github.hswy.calendar.global.model.CreatedAtEntity;
 import io.github.hswy.calendar.users.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.Instant;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -24,7 +23,7 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class UserEntity {
+public class UserEntity extends CreatedAtEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,12 +55,4 @@ public class UserEntity {
         nullable = false
     )
     private String platformId;
-
-    @Column(
-        name = "created_at",
-        nullable = false,
-        insertable = false,
-        updatable = false
-    )
-    private Instant createdAt;
 }
