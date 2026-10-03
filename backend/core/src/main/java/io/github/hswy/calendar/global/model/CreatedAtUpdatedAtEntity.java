@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 
 @Getter 
@@ -16,4 +17,9 @@ public abstract class CreatedAtUpdatedAtEntity extends CreatedAtEntity {
         updatable = true
     )
     private Instant updatedAt;
+
+    @PreUpdate 
+    protected void settingUpdatedAt() {
+        this.updatedAt = Instant.now();
+    }
 }
