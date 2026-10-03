@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.payment.cards.enums;
+package io.github.hswy.calendar.user.payment.card.enums;
 
 public enum UserPaymentCardStatus {
     ACTIVE,

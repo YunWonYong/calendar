@@ -1,7 +1,7 @@
-package io.github.hswy.calendar.payment.cards.repository;
+package io.github.hswy.calendar.user.payment.card.repository;
 
-import io.github.hswy.calendar.payment.cards.enums.UserPaymentCardStatus;
-import io.github.hswy.calendar.payment.cards.model.UserPaymentCardEntity;
+import io.github.hswy.calendar.user.payment.card.enums.UserPaymentCardStatus;
+import io.github.hswy.calendar.user.payment.card.model.UserPaymentCardEntity;
 
 interface UserPaymentCardFragment {
     UserPaymentCardEntity saveNewCard(UserPaymentCardEntity cardEntity);

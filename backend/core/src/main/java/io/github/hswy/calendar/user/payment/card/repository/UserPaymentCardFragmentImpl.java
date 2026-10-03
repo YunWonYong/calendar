@@ -1,11 +1,11 @@
-package io.github.hswy.calendar.payment.cards.repository;
+package io.github.hswy.calendar.user.payment.card.repository;
 
 import org.springframework.stereotype.Repository;
 
 import io.github.hswy.calendar.global.annotations.RequireTransaction;
-import io.github.hswy.calendar.payment.cards.enums.UserPaymentCardStatus;
-import io.github.hswy.calendar.payment.cards.model.UserPaymentCardEntity;
-import io.github.hswy.calendar.payment.cards.model.UserPaymentCardHistoryEntity;
+import io.github.hswy.calendar.user.payment.card.enums.UserPaymentCardStatus;
+import io.github.hswy.calendar.user.payment.card.model.UserPaymentCardEntity;
+import io.github.hswy.calendar.user.payment.card.model.UserPaymentCardHistoryEntity;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 

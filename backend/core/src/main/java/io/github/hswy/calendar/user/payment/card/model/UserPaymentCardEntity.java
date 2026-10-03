@@ -1,10 +1,10 @@
-package io.github.hswy.calendar.payment.cards.model;
+package io.github.hswy.calendar.user.payment.card.model;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
-import io.github.hswy.calendar.payment.cards.enums.UserPaymentCardStatus;
+import io.github.hswy.calendar.user.payment.card.enums.UserPaymentCardStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
