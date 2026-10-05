@@ -15,12 +15,8 @@ CREATE TABLE user_plan (
 CREATE TABLE user_plan_history (
 	seq				BIGSERIAL NOT NULL,
 	user_id			BIGINT NOT NULL,
-	before_plan_id	BIGINT NOT NULL,
-	after_plan_id	BIGINT NOT NULL,
+	plan_id			BIGINT NOT NULL,
+	purchase_id     BIGINT NULL,
 	reason			VARCHAR NOT NULL,
-	created_at      TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT fk_user_plan_history_before_plan_id
-        FOREIGN KEY(before_plan_id) REFERENCES plans(plan_id),
-	CONSTRAINT fk_user_plan_history_after_plan_id
-        FOREIGN KEY(after_plan_id) REFERENCES plans(plan_id)
+	created_at      TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
