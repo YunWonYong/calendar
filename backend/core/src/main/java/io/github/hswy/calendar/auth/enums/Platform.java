@@ -3,6 +3,7 @@ package io.github.hswy.calendar.auth.enums;
 import lombok.Getter;
 
 @Getter
+// [TODO] 삭제.
 public enum Platform {
     GOOGLE("google"),
     KAKAO("kakao"),
