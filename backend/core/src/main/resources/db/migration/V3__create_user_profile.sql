@@ -6,6 +6,6 @@ CREATE TABLE user_profile (
 	profile_image_url	TEXT NULL,
     created_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at          TIMESTAMPTZ NULL,
-	CONSTRAINT fk_profiles_users 
+	CONSTRAINT fk_profiles_user
 		FOREIGN KEY(user_id) REFERENCES users(user_id)
 );

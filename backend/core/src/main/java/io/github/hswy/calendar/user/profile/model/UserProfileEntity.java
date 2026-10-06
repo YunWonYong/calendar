@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-    name = "user_profiles"
+    name = "user_profile"
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
