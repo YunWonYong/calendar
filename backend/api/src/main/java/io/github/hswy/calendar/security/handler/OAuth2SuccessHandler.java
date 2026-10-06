@@ -1,11 +1,11 @@
-package io.github.hswy.calendar.global.security.oauth2.handler;
+package io.github.hswy.calendar.security.handler;
 
+import io.github.hswy.calendar.auth.provider.AuthCodeProvider;
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
-import io.github.hswy.calendar.global.security.oauth2.model.CustomUserDetails;
-import io.github.hswy.calendar.global.security.oauth2.service.OAuth2AuthCodeService;
-import io.github.hswy.calendar.global.security.oauth2.service.OAuth2UserService;
+import io.github.hswy.calendar.security.model.CustomUserDetails;
 import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
+import io.github.hswy.calendar.user.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,8 +25,8 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final FrontendProperties frontendProperties;
-    private final OAuth2UserService oAuth2UserService;
-    private final OAuth2AuthCodeService authCodeService;
+    private final UserService userService;
+    private final AuthCodeProvider authCodeProvider;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -35,15 +35,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         SocialOAuth2UserInfo info = userDetails.getUserInfo();
         String redirectUrl = "";
         try {
-            boolean isNewUser = oAuth2UserService.checkNewUser(info);
-            Long userId = -1L;
-            if (isNewUser) {
-                userId = oAuth2UserService.createUserId(info);
-            } else {
-                userId = oAuth2UserService.getUserId(info);
-            }
+            boolean isNewUser = userService.isNewUser(info);
+            Long userId = isNewUser
+                ? userService.createNewUser(info)
+                : userService.getUserId(info);
             
-            String authCode = authCodeService.generateAuthCode(userId);
+            String authCode = authCodeProvider.generateAuthCode(userId);
             redirectUrl = makeRedirectUrl(
                 frontendProperties.getOauth2SuccessUrl(),
                 "code",

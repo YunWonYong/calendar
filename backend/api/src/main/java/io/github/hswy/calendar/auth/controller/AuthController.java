@@ -11,7 +11,7 @@ import io.github.hswy.calendar.auth.model.LoginResponseBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthRequestBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthResponseBody;
 import io.github.hswy.calendar.auth.service.AuthService;
-import io.github.hswy.calendar.global.common.model.ApiResponseBody;
+import io.github.hswy.calendar.common.model.ApiResponseBody;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 

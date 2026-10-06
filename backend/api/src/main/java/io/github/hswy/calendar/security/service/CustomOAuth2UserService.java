@@ -1,6 +1,6 @@
-package io.github.hswy.calendar.global.security.oauth2.service;
+package io.github.hswy.calendar.security.service;
 
-import io.github.hswy.calendar.global.security.oauth2.model.CustomUserDetails;
+import io.github.hswy.calendar.security.model.CustomUserDetails;
 import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
 import io.github.hswy.calendar.social.model.SocialType;
 

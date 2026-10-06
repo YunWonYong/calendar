@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.security.config;
+package io.github.hswy.calendar.security.config;
 
 import java.util.List;
 

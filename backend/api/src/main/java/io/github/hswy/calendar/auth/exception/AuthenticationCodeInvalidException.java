@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.security.oauth2.exception;
+package io.github.hswy.calendar.auth.exception;
 
 import io.github.hswy.calendar.global.exception.ApplicationException;
 

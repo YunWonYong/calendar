@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.security.oauth2.model;
+package io.github.hswy.calendar.security.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

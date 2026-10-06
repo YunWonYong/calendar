@@ -9,7 +9,7 @@ import io.github.hswy.calendar.auth.model.LoginRequestBody;
 import io.github.hswy.calendar.auth.model.LoginResponseBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthRequestBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthResponseBody;
-import io.github.hswy.calendar.global.security.oauth2.service.OAuth2AuthCodeService;
+import io.github.hswy.calendar.auth.provider.AuthCodeProvider;
 import io.github.hswy.calendar.user.service.UserProfileService;
 import io.github.hswy.calendar.user.model.UserInfoDTO;
 import lombok.AllArgsConstructor;
@@ -17,12 +17,12 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AuthService {
-    private final OAuth2AuthCodeService oAuth2AuthCodeService;
+    private final AuthCodeProvider authCodeProvider;
     private final UserProfileService userProfileService;
     private final AccessTokenService accessTokenService;
 
     public LoginResponseBody login(LoginRequestBody body) {
-        Long userId = oAuth2AuthCodeService.getUserIdByAuthenticationCode(body.authCode());
+        Long userId = authCodeProvider.getUserIdByAuthenticationCode(body.authCode());
         UserInfoDTO userInfoDTO = userProfileService.getUserInfoDTO(userId);
         AuthTokenInfoDTO accessTokenInfoDTO = accessTokenService.generateAuthTokenInfo(userInfoDTO, body);
         return new LoginResponseBody(userInfoDTO, accessTokenInfoDTO);

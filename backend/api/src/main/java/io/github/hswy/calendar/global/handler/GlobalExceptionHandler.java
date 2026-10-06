@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.exception.handler;
+package io.github.hswy.calendar.global.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import io.github.hswy.calendar.global.common.model.ApiResponseBody;
+import io.github.hswy.calendar.common.model.ApiResponseBody;
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

@@ -1,17 +1,18 @@
-package io.github.hswy.calendar.global.security.oauth2.service;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
-
-import io.github.hswy.calendar.global.security.oauth2.exception.AuthenticationCodeInvalidException;
+package io.github.hswy.calendar.auth.provider;
 
 import java.time.Duration;
 import java.util.UUID;
 
-@Service
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+
+import io.github.hswy.calendar.auth.exception.AuthenticationCodeInvalidException;
+import lombok.RequiredArgsConstructor;
+
+@Component
 @RequiredArgsConstructor
-public class OAuth2AuthCodeService {
+public class AuthCodeProvider {
+    
     private final StringRedisTemplate redisTemplate;
     private final Duration expireSeconds = Duration.ofSeconds(60);
 

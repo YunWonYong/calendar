@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.common.model;
+package io.github.hswy.calendar.common.model;
 
 import lombok.Getter;
 

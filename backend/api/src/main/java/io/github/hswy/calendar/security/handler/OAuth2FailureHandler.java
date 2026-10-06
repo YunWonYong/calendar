@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.global.security.oauth2.handler;
+package io.github.hswy.calendar.security.handler;
 
 import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 import jakarta.servlet.http.HttpServletRequest;

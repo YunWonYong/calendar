@@ -1,8 +1,5 @@
-package io.github.hswy.calendar.global.security.config;
+package io.github.hswy.calendar.security.config;
 
-import io.github.hswy.calendar.global.security.oauth2.handler.OAuth2FailureHandler;
-import io.github.hswy.calendar.global.security.oauth2.handler.OAuth2SuccessHandler;
-import io.github.hswy.calendar.global.security.oauth2.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+
+import io.github.hswy.calendar.security.handler.OAuth2FailureHandler;
+import io.github.hswy.calendar.security.handler.OAuth2SuccessHandler;
+import io.github.hswy.calendar.security.service.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebSecurity

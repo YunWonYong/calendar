@@ -1,6 +1,6 @@
 package io.github.hswy.calendar.auth.exception;
 
-import io.github.hswy.calendar.global.security.oauth2.exception.UnauthorizedException;
+import io.github.hswy.calendar.common.exception.UnauthorizedException;
 
 public class RefreshTokenExpiredException extends UnauthorizedException {
     public RefreshTokenExpiredException(Long userId, Long ttl) {
