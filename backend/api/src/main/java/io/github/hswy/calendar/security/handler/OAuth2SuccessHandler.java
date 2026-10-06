@@ -5,7 +5,7 @@ import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 import io.github.hswy.calendar.security.model.CustomUserDetails;
 import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
-import io.github.hswy.calendar.user.service.UserService;
+import io.github.hswy.calendar.user.service.UserRegistrationService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final FrontendProperties frontendProperties;
-    private final UserService userService;
+    private final UserRegistrationService userRegistrationService;
     private final AuthCodeProvider authCodeProvider;
 
     @Override
@@ -35,10 +35,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         SocialOAuth2UserInfo info = userDetails.getUserInfo();
         String redirectUrl = "";
         try {
-            boolean isNewUser = userService.isNewUser(info);
+            boolean isNewUser = userRegistrationService.isNewUser(info);
             Long userId = isNewUser
-                ? userService.createNewUser(info)
-                : userService.getUserId(info);
+                ? userRegistrationService.createNewUser(info)
+                : userRegistrationService.getUserId(info);
             
             String authCode = authCodeProvider.generateAuthCode(userId);
             redirectUrl = makeRedirectUrl(
@@ -66,11 +66,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
 
         getRedirectStrategy()
-        .sendRedirect(
-            request, 
-            response, 
-            redirectUrl
-        );
+            .sendRedirect(
+                request, 
+                response, 
+                redirectUrl
+            );
     }
 
     private String makeErrorRedirectUrl(String errorCode) {
