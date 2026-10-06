@@ -4,8 +4,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.global.utils.MapCaster;
-import io.github.hswy.calendar.social.account.exception.NotFoundSocialRequiredAttributeException;
-import io.github.hswy.calendar.social.account.exception.NotFoundSocialIdentityException;
+import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
+import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
         } 
         
         if (socialIdentity == null || socialIdentity.isBlank()) {
-            throw new NotFoundSocialIdentityException(userInfo.socialType, "id");
+            throw new SocialIdentityNotFoundException(userInfo.socialType, "id");
         }
 
         Map<String, Object> userAccount = SocialAccountMapCaster.getAsRequiredMap(
@@ -33,7 +33,7 @@ public class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
 
         Object email = userAccount.get("email");
         if (email instanceof String value && !value.isBlank()) {
-            throw new NotFoundSocialRequiredAttributeException(userInfo.socialType, "kakao_account->email");
+            throw new SocialRequiredAttributeNotFoundException(userInfo.socialType, "kakao_account->email");
         }
 
 

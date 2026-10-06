@@ -3,8 +3,8 @@ package io.github.hswy.calendar.social.account.oauth2;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import io.github.hswy.calendar.global.exception.ApplicationException;
-import io.github.hswy.calendar.social.account.exception.NotFoundSocialRequiredAttributeException;
-import io.github.hswy.calendar.social.account.exception.NotFoundSocialIdentityException;
+import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
+import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 
 import java.util.Map;
 
@@ -29,12 +29,12 @@ public class NaverSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
         }
 
         if (socialIdentity == null) {
-            throw new NotFoundSocialIdentityException(userInfo.socialType, "response->id");
+            throw new SocialIdentityNotFoundException(userInfo.socialType, "response->id");
         }
 
         Object email = response.get("email");
         if (!(email instanceof String value && !value.isBlank())) {
-            throw new NotFoundSocialRequiredAttributeException(userInfo.socialType, "response->email");
+            throw new SocialRequiredAttributeNotFoundException(userInfo.socialType, "response->email");
         }
 
         userInfo.socialIdentity = socialIdentity;
