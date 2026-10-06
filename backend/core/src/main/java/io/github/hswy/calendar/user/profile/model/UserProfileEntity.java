@@ -1,15 +1,9 @@
 package io.github.hswy.calendar.user.profile.model;
 
 import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
-import io.github.hswy.calendar.user.model.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,16 +23,6 @@ public class UserProfileEntity extends CreatedAtUpdatedAtEntity {
 
     @Id
     private Long userId;
-
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "user_id",
-        foreignKey = @ForeignKey(
-            name = "fk_profiles_users"
-        )
-    )
-    private UserEntity user;
 
     @Column(
         name = "email",

@@ -6,12 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.hswy.calendar.social.account.SocialAccountEntity;
 import io.github.hswy.calendar.social.account.SocialAccountProcessor;
 import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
+import io.github.hswy.calendar.user.UserEntity;
+import io.github.hswy.calendar.user.UserProcessor;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final SocialAccountProcessor socialAccountProcessor;
+    private final UserProcessor userProcessor;
 
     public boolean isNewUser(SocialOAuth2UserInfo info) {
         SocialAccountEntity entity = socialAccountProcessor.getSocialAccountEntity(
@@ -32,6 +35,8 @@ public class UserService {
             info.getSocialIdentity()
         );
 
+        UserEntity userEntity = userProcessor.createNewUser();
+        
         return 1L;
     }
 }

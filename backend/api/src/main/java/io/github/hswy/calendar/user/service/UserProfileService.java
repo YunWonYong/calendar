@@ -7,8 +7,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
+import io.github.hswy.calendar.user.UserEntity;
 import io.github.hswy.calendar.user.exception.UserProfileNotFoundException;
-import io.github.hswy.calendar.user.model.UserEntity;
 import io.github.hswy.calendar.user.model.UserInfoDTO;
 import io.github.hswy.calendar.user.profile.model.UserProfileEntity;
 import io.github.hswy.calendar.user.profile.repository.UserProfileRepository;
@@ -44,7 +44,6 @@ public class UserProfileService {
 
     private UserProfileEntity makeUserProfileEntity(UserEntity user, SocialOAuth2UserInfo info) {
         return UserProfileEntity.builder()
-            .user(user)
             .nickname(info.getNickname())
             .email(info.getEmail())
             .tel(info.getTel())

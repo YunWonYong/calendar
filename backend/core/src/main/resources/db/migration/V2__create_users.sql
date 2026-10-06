@@ -10,9 +10,5 @@ CREATE TYPE user_status AS ENUM (
 CREATE TABLE users (
 	user_id	      BIGSERIAL NOT NULL PRIMARY KEY,
 	user_status   user_status NOT NULL DEFAULT 'ACTIVE',
-	platform      VARCHAR(20) NOT NULL,
-	platform_id   VARCHAR(255) NOT NULL,
-	created_at    TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT uk_users_platform 
-		UNIQUE(platform, platform_id)
+	created_at    TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

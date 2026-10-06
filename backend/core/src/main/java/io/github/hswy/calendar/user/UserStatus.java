@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.user.enums;
+package io.github.hswy.calendar.user;
 
 public enum UserStatus {
     ACTIVE,
