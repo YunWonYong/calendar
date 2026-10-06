@@ -48,8 +48,8 @@ public class NaverSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
         }
 
         Object profileImageObj = response.get("profile_image");
-        if (profileImageObj != null) {
-            userInfo.profileImageUrl = String.valueOf(profileImageObj);
+        if (profileImageObj instanceof String profileImage && !profileImage.isBlank()) {
+            userInfo.profileImage = profileImage;
         }
         
         // TODO Naver login optional data
@@ -71,7 +71,6 @@ public class NaverSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
         if (nickname instanceof String value && !value.isBlank()) {
             return value;
         }
-        // TODO 추후 nickname 설정.
-        return "qwdbnoqwdnoqwd";
+        return null;
     }
 }

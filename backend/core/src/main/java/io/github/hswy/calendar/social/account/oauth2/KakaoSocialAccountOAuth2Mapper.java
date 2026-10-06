@@ -50,7 +50,6 @@ public class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
                 return value;
             }
         }
-        // TODO 추후 nickname 설정.
-        return "qwdbnoqwdnoqwd";
+        return null;
     }
 }

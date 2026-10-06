@@ -21,7 +21,5 @@ public class GoogleSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mappe
 
         userInfo.socialIdentity = sub;
         userInfo.email = email;
-        // TODO 추후 nickname 설정.
-        userInfo.nickname = "qwdbnoqwdnoqwd";
     }
 }

@@ -15,7 +15,7 @@ public class SocialOAuth2UserInfo {
     String nickname;
     String email;
     String tel;
-    String profileImageUrl;
+    String profileImage;
 
     public void sync(OAuth2User oAuth2User) throws Exception {
         SocialAccountOAuth2Mapper builder = switch (this.socialType) {
