@@ -8,8 +8,8 @@ import io.github.hswy.calendar.social.account.SocialAccountProcessor;
 import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
 import io.github.hswy.calendar.user.UserEntity;
 import io.github.hswy.calendar.user.UserProcessor;
-import io.github.hswy.calendar.user.profile.UserProfileEntity;
 import io.github.hswy.calendar.user.profile.UserProfileProcessor;
+import io.github.hswy.calendar.user.social.account.UserSocialAccountProcessor;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,6 +18,7 @@ public class UserService {
     private final SocialAccountProcessor socialAccountProcessor;
     private final UserProcessor userProcessor;
     private final UserProfileProcessor userProfileProcessor;
+    private final UserSocialAccountProcessor userSocialAccountProcessor;
 
     public boolean isNewUser(SocialOAuth2UserInfo info) {
         SocialAccountEntity entity = socialAccountProcessor.getSocialAccountEntity(
@@ -41,11 +42,18 @@ public class UserService {
         UserEntity userEntity = userProcessor.createNewUser();
         Long userId = userEntity.getUserId();
         
-        UserProfileEntity userProfileEntity = userProfileProcessor.createNewUserProfile(
-            userEntity.getUserId(), 
+        userProfileProcessor.createNewUserProfile(
+            userId, 
             info
         );
-        return 1L;
+
+        userSocialAccountProcessor.createNewUserSocialAccount(
+            userEntity,
+            socialAccountEntity
+        );
+
+
+        return userId;
     }
 }
 
