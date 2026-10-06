@@ -3,9 +3,9 @@ package io.github.hswy.calendar.global.security.oauth2.handler;
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
 import io.github.hswy.calendar.global.security.oauth2.model.CustomUserDetails;
-import io.github.hswy.calendar.global.security.oauth2.model.OAuth2UserInfo;
 import io.github.hswy.calendar.global.security.oauth2.service.OAuth2AuthCodeService;
 import io.github.hswy.calendar.global.security.oauth2.service.OAuth2UserService;
+import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,7 +32,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        OAuth2UserInfo info = userDetails.getUserInfo();
+        SocialOAuth2UserInfo info = userDetails.getUserInfo();
         String redirectUrl = "";
         try {
             boolean isNewUser = oAuth2UserService.checkNewUser(info);
@@ -52,8 +52,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         } catch(ApplicationException e) {
             log.error(
                 "Failed to login. platform: {}, platformId: {} errCode: {} errMsg: {}", 
-                info.getPlatform().name(), 
-                info.getPlatformId(), 
+                info.getSocialType().name(), 
+                info.getSocialIdentity(), 
                 e.getCode(),
                 e.getMessage()
             );
@@ -61,8 +61,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         } catch(Exception e) {
             log.error(
                 "Failed to login. platform: {}, platformId: {} errMsg: {}", 
-                info.getPlatform().name(), 
-                info.getPlatformId(), 
+                info.getSocialType().name(), 
+                info.getSocialIdentity(), 
                 e.getMessage()
             );
             redirectUrl = makeErrorRedirectUrl("server_error");

@@ -20,4 +20,8 @@ public enum SocialType {
 
         throw new IllegalArgumentException("Unsupported registration : " + registrationId);
     }
+
+    public String value() {
+        return this.registrationId;
+    }
 }

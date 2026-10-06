@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import io.github.hswy.calendar.auth.enums.Platform;
-import io.github.hswy.calendar.global.security.oauth2.model.OAuth2UserInfo;
+import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
 import io.github.hswy.calendar.user.exception.UserNotFoundException;
 import io.github.hswy.calendar.user.model.UserEntity;
 import io.github.hswy.calendar.user.repository.UserRepository;
@@ -42,20 +42,8 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public UserEntity createNewUser(OAuth2UserInfo info) {
-        return userRepository.save(
-            makeUserEntityByPlatformAndPlatformId(
-                info.getPlatform(),
-                info.getPlatformId()
-            )
-        );
-    }
-
-    private UserEntity makeUserEntityByPlatformAndPlatformId(Platform platform, String platformId) {
-        return UserEntity.builder()
-            .platform(platform)
-            .platformId(platformId)
-            .build();
+    public UserEntity createNewUser(SocialOAuth2UserInfo info) {
+        return null;
     }
 }
 

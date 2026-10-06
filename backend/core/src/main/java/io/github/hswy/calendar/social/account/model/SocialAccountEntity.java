@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.social.accounts.model;
+package io.github.hswy.calendar.social.account.model;
 
 import io.github.hswy.calendar.global.model.CreatedAtEntity;
 import io.github.hswy.calendar.social.model.SocialType;
@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Getter;
 
 @Entity 
 @Table(
@@ -22,6 +23,7 @@ import jakarta.persistence.UniqueConstraint;
         )
     }
 )
+@Getter
 public class SocialAccountEntity extends CreatedAtEntity {
     
     @Id 
