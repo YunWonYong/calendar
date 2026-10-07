@@ -23,6 +23,23 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+    security:
+        oauth2:
+            client:
+                registration:
+                    test:
+                        client-id: test
+                        client-secret: test
+                        authorization-grant-type: authorization_code
+                        redirect-uri: "{baseUrl}/login/oauth2/code/test"
+                        client-name: Test
+                        scope: [ profile ]
+                provider:
+                    test:
+                        authorization-uri: http://localhost:8080/test/oauth/authorize
+                        token-uri: http://localhost:8080/test/oauth/token
+                        user-info-uri: http://localhost:8080/test/oauth/userinfo
+                        user-name-attribute: response
 front-end:
     base-url: "http://localhost:3001"
     paths:
@@ -40,3 +57,8 @@ logging:
         org.springframework.boot.autoconfigure.flyway: DEBUG
         org.springframework.data.redis: DEBUG
         io.lettuce.core: DEBUG
+        org.springframework.security: TRACE
+        org.springframework.security.oauth2: TRACE
+        org.springframework.security.web.util.matcher: TRACE
+        org.springframework.security.authorization: TRACE
+        org.springframework.security.web.access.intercept: TRACE

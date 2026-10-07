@@ -3,8 +3,9 @@ package io.github.hswy.calendar.social.model;
 public enum SocialType {
     GOOGLE("google"),
     KAKAO("kakao"),
-    NAVER("naver");
-
+    NAVER("naver"),
+    TEST("test");
+    
     private final String registrationId;
 
     SocialType(String registrationId) {

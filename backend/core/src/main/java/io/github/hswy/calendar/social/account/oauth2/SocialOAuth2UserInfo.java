@@ -22,6 +22,7 @@ public class SocialOAuth2UserInfo {
             case GOOGLE -> new GoogleSocialAccountOAuth2Mapper();
             case KAKAO -> new KakaoSocialAccountOAuth2Mapper();
             case NAVER -> new NaverSocialAccountOAuth2Mapper();
+            case TEST -> new TestSocialAccountOAuth2Mapper();
         };
 
         builder.map(this, oAuth2User);

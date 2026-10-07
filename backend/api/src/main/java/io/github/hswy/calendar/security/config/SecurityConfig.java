@@ -24,7 +24,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        SecurityFilterChain chain = http
             .csrf(AbstractHttpConfigurer::disable)
             .cors(Customizer.withDefaults())
             .formLogin(AbstractHttpConfigurer::disable)
@@ -33,6 +33,8 @@ public class SecurityConfig {
                 auth
                     .requestMatchers(
                         "/login/**",
+                        "/oauth2/**",
+                        "/test/oauth/**",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html"
@@ -56,5 +58,10 @@ public class SecurityConfig {
                     .failureHandler(oAuth2FailureHandler)
             )
             .build();
+        // chain.getFilters().forEach(filter ->
+        //     System.out.println("SECURITY FILTER: " + filter.getClass().getName())
+        // );
+
+        return chain;
     }
 }
