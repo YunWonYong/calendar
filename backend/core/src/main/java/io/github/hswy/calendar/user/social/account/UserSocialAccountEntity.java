@@ -1,5 +1,8 @@
 package io.github.hswy.calendar.user.social.account;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
 import io.github.hswy.calendar.social.account.SocialAccountEntity;
 import io.github.hswy.calendar.user.UserEntity;
@@ -32,6 +35,7 @@ public class UserSocialAccountEntity extends CreatedAtUpdatedAtEntity {
     private UserSocialAccountId id;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(
         name = "user_social_status",
         nullable = false,

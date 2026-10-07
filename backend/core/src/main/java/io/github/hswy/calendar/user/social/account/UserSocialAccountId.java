@@ -10,14 +10,16 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable 
 @Getter 
+@Setter 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
-class UserSocialAccountId implements Serializable {
+public class UserSocialAccountId implements Serializable {
 
     @Column(
         name = "user_id",

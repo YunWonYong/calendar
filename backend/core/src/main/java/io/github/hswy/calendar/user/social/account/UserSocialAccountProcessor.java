@@ -96,12 +96,17 @@ public class UserSocialAccountProcessor {
         key = "#socialAccountId"
     )
     public Long getConnectedSocialAccountUserId(Long socialAccountId) {
-        return repo
-            .findUser_UserIdById_SocialAccountIdAndUserSocialStatus(
-                socialAccountId,
-                UserSocialAccountStatus.CONNECTED
-            )
-            .orElse(null);
+        try {
+            return repo
+                .findUserIdBySocialAccountIdAndUserSocialStatus(
+                    socialAccountId,
+                    UserSocialAccountStatus.CONNECTED
+                )
+                .orElse(null);
+        } catch(Exception e) {
+            System.out.println(e);
+            throw e;
+        }
     }
 
     @Cacheable(
