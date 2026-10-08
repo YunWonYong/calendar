@@ -1,6 +1,8 @@
 package io.github.hswy.calendar.security.config;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,7 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import io.github.hswy.calendar.security.filter.TestUserInfoTokenFilter;
 import io.github.hswy.calendar.security.handler.OAuth2FailureHandler;
 import io.github.hswy.calendar.security.handler.OAuth2SuccessHandler;
 import io.github.hswy.calendar.security.service.CustomOAuth2UserService;
@@ -22,9 +26,11 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final OAuth2FailureHandler oAuth2FailureHandler;
 
+    private final ObjectProvider<TestUserInfoTokenFilter> testUserInfoTokenFilterProvider;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        SecurityFilterChain chain = http
+        http
             .csrf(AbstractHttpConfigurer::disable)
             .cors(Customizer.withDefaults())
             .formLogin(AbstractHttpConfigurer::disable)
@@ -56,12 +62,14 @@ public class SecurityConfig {
                     )
                     .successHandler(oAuth2SuccessHandler)
                     .failureHandler(oAuth2FailureHandler)
-            )
-            .build();
-        // chain.getFilters().forEach(filter ->
-        //     System.out.println("SECURITY FILTER: " + filter.getClass().getName())
-        // );
+            );
 
-        return chain;
+        testUserInfoTokenFilterProvider.ifAvailable(filter -> {
+            http.addFilterBefore(
+                filter,
+                UsernamePasswordAuthenticationFilter.class
+            );
+        });
+        return http.build();
     }
 }
