@@ -58,13 +58,12 @@ public class TestOAuthController {
     }
 
     @GetMapping("/userinfo")
-    public Map<String, Object> userInfo(@AuthenticationPrincipal String accessToken) {
-        System.out.println(accessToken);
+    public Map<String, Object> userInfo(@AuthenticationPrincipal String accessToken) throws Exception {
+        TestOAuthDTO dto = service.getTestOAuthDTO(accessToken);
         return Map.of(
             "response", Map.of(
-                "id", "test-user-001",
-                "nickname", "Test User",
-                "email", "test@example.com"
+                "id", dto.getIdentity(),
+                "email", "test@gmail.com"
             )
         );
     }

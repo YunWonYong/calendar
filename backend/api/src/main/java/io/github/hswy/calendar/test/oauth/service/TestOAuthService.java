@@ -67,9 +67,22 @@ public class TestOAuthService {
         return checkDuplicateRedisKey(accessTokenRedisKey);
     }
 
+    public TestOAuthDTO getTestOAuthDTO(String accessToken) throws Exception {
+        String redisKey = getAccessTokenRedisKey(accessToken);
+        if (!checkDuplicateRedisKey(redisKey)) {
+            throw new Exception("not found auth data.");
+        }
+
+        Map<Object, Object> authData = redisTemplate.opsForHash().entries(redisKey);
+        TestOAuthDTO dto = new ObjectMapper().convertValue(authData, TestOAuthDTO.class);
+        invalidAllData(dto);
+        redisTemplate.delete(redisKey);
+        return dto;
+    }
+
     public Map<String, Object> generateAccessToken(String code) throws Exception {
         String codeRedisKey = getAuthCodeRedisKey(code);
-        TestOAuthDTO dto = getTestOAuthDTO(code);
+        TestOAuthDTO dto = getTestOAuthDTOByCode(code);
         while(true) {
             String accessToken = UUID.randomUUID().toString() + dto.getIdentity();
             String accessTokenRedisKey = getAccessTokenRedisKey(accessToken);
@@ -96,7 +109,7 @@ public class TestOAuthService {
         }
     }
 
-    private TestOAuthDTO getTestOAuthDTO(String code) throws Exception {
+    private TestOAuthDTO getTestOAuthDTOByCode(String code) throws Exception {
         String redisKey = getAuthCodeRedisKey(code);
         if (!checkDuplicateRedisKey(redisKey)) {
             throw new Exception("not found auth data.");
