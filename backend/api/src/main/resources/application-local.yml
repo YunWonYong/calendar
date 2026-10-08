@@ -59,6 +59,3 @@ logging:
         io.lettuce.core: DEBUG
         org.springframework.security: TRACE
         org.springframework.security.oauth2: TRACE
-        org.springframework.security.web.util.matcher: TRACE
-        org.springframework.security.authorization: TRACE
-        org.springframework.security.web.access.intercept: TRACE
