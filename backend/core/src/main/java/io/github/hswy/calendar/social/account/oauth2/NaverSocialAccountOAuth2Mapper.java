@@ -5,6 +5,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
 import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
+import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 
 import java.util.Map;
 
@@ -71,6 +72,6 @@ public class NaverSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
         if (nickname instanceof String value && !value.isBlank()) {
             return value;
         }
-        return null;
+        return UserProfileNicknameGenerator.getRandomNickname();
     }
 }

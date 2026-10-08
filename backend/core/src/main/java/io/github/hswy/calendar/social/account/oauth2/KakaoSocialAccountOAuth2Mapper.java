@@ -5,6 +5,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.global.utils.MapCaster;
 import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
+import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 
 import java.util.Map;
@@ -50,6 +51,6 @@ public class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
                 return value;
             }
         }
-        return null;
+        return UserProfileNicknameGenerator.getRandomNickname();
     }
 }
