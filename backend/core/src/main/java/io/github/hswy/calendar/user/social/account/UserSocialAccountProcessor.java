@@ -23,16 +23,17 @@ public class UserSocialAccountProcessor {
 
     @RequireTransaction     
     public UserSocialAccountEntity createNewUserSocialAccount(UserEntity userEntity, SocialAccountEntity socialAccountEntity) {
-        checkConnectedSocialAccount(
-            userEntity.getUserId(),
-            socialAccountEntity.getSocialAccountId()
-        );
+        List<Long> connectedUserIds = getConnectedSocialAccountUserId(socialAccountEntity.getSocialAccountId());
+        if (connectedUserIds != null && connectedUserIds.size() > 0) {
+            // 다른 사용자 ID와 연결된게 있으면 예외처리.
+            throw new UserSocialAccountAlreadyConnectedToAnotherUserException(
+                userEntity.getUserId(), 
+                socialAccountEntity.getSocialAccountId()
+            );
+        }
+        // [TODO] history
         return repo.save(
-            UserSocialAccountEntity
-                .builder()
-                    .user(userEntity)
-                    .socialAccount(socialAccountEntity)
-                .build()
+            makeUserSocialAccountEntity(userEntity, socialAccountEntity)
         );
     }
 
@@ -59,11 +60,7 @@ public class UserSocialAccountProcessor {
         );
         // [TODO] history
         return repo.save(
-            UserSocialAccountEntity
-                .builder()
-                    .user(userEntity)
-                    .socialAccount(socialAccountEntity)
-                .build()
+            makeUserSocialAccountEntity(userEntity, socialAccountEntity)
         );
     }
 
@@ -95,18 +92,11 @@ public class UserSocialAccountProcessor {
         cacheNames = "USER:SOCIAL:ACCOUNT:OWNER",
         key = "#socialAccountId"
     )
-    public Long getConnectedSocialAccountUserId(Long socialAccountId) {
-        try {
-            return repo
-                .findUserIdBySocialAccountIdAndUserSocialStatus(
-                    socialAccountId,
-                    UserSocialAccountStatus.CONNECTED
-                )
-                .orElse(null);
-        } catch(Exception e) {
-            System.out.println(e);
-            throw e;
-        }
+    public List<Long> getConnectedSocialAccountUserId(Long socialAccountId) {
+        return repo.findUserIdBySocialAccountIdAndUserSocialStatus(
+            socialAccountId,
+            UserSocialAccountStatus.CONNECTED
+        );
     }
 
     @Cacheable(
@@ -114,7 +104,12 @@ public class UserSocialAccountProcessor {
         key = "#userId + ':' + #socialAccountId"
     )
     public UserSocialAccountEntity getSocialAccount(Long userId, Long socialAccountId) {
-        Optional<UserSocialAccountEntity> userSocialAccountEntityOpt = repo.findById(getUserSocialAccountId(userId, socialAccountId));
+        Optional<UserSocialAccountEntity> userSocialAccountEntityOpt = repo.findById(
+            makeUserSocialAccountId(
+                userId,
+                socialAccountId
+            )
+        );
         if (userSocialAccountEntityOpt.isEmpty()) {
             throw new UserSocialAccountNotFoundException(userId, socialAccountId);
         }
@@ -122,23 +117,14 @@ public class UserSocialAccountProcessor {
         return userSocialAccountEntityOpt.get();
     }
 
-    
-    @Cacheable(
-        cacheNames = "USER:SOCIAL:ACCOUNTS",
-        key = "#userId"
-    )
-    public List<UserSocialAccountEntity> getSocialAccounts(Long userId) {
-        return repo.findByUser_UserId(userId);
-    }
-
     private void checkConnectedSocialAccount(Long userId, Long socialAccountId) {
-        Long connectedUserId = getConnectedSocialAccountUserId(socialAccountId);
-        if (connectedUserId != null) {
-            if (!userId.equals(connectedUserId)) {
+        List<Long> connectedUserIds = getConnectedSocialAccountUserId(socialAccountId);
+        if (connectedUserIds != null && connectedUserIds.size() > 0) {
+            
+            if (connectedUserIds.indexOf(userId) == 0) {
                 throw new UserSocialAccountAlreadyConnectedToAnotherUserException(
                     userId, 
-                    socialAccountId, 
-                    connectedUserId
+                    socialAccountId
                 );
             }
 
@@ -149,7 +135,19 @@ public class UserSocialAccountProcessor {
         }
     }
 
-    private UserSocialAccountId getUserSocialAccountId(Long userId, Long socialAccountId) {
+    private UserSocialAccountEntity makeUserSocialAccountEntity(UserEntity userEntity, SocialAccountEntity socialAccountEntity) {
+        return UserSocialAccountEntity
+            .builder()
+                .id(makeUserSocialAccountId(
+                    userEntity.getUserId(),
+                    socialAccountEntity.getSocialAccountId()
+                ))
+                .user(userEntity)
+                .socialAccount(socialAccountEntity)
+            .build();
+    }
+
+    private UserSocialAccountId makeUserSocialAccountId(Long userId, Long socialAccountId) {
         return UserSocialAccountId
             .builder()
                 .userId(userId)

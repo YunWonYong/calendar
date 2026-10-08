@@ -39,7 +39,8 @@ public class UserSocialAccountEntity extends CreatedAtUpdatedAtEntity {
     @Column(
         name = "user_social_status",
         nullable = false,
-        insertable = false
+        insertable = false,
+        columnDefinition = "user_social_status"
     )
     @Builder.Default
     private UserSocialAccountStatus userSocialStatus = UserSocialAccountStatus.CONNECTED;
