@@ -3,8 +3,8 @@ package io.github.hswy.calendar.user.plan;
 import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
 import io.github.hswy.calendar.plan.enums.PlanChangeType;
 import io.github.hswy.calendar.plan.enums.PlanType;
-import io.github.hswy.calendar.user.plan.exception.InvalidDowngradePlanException;
-import io.github.hswy.calendar.user.plan.exception.InvalidUpgradePlanException;
+import io.github.hswy.calendar.user.plan.exception.UserPlanInvalidDowngradeException;
+import io.github.hswy.calendar.user.plan.exception.UserPlanInvalidUpgradeException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -67,7 +67,11 @@ public class UserPlanEntity extends CreatedAtUpdatedAtEntity {
     void downgradePlan(PlanType planType, Long purchaseId) {
         Long changePlanId = planType.getPlanId();
         if (isInvalidPlanChange(changePlanId, PlanChangeType.DOWNGRADE)) {
-            throw new InvalidDowngradePlanException(this.planId, changePlanId);
+            throw new UserPlanInvalidDowngradeException(
+                this.userId,
+                this.planId, 
+                changePlanId
+            );
         }
 
         updatePlan(changePlanId, purchaseId);
@@ -76,7 +80,11 @@ public class UserPlanEntity extends CreatedAtUpdatedAtEntity {
     void upgradePlan(PlanType planType, Long purchaseId) {
         Long changePlanId = planType.getPlanId();
         if (isInvalidPlanChange(changePlanId, PlanChangeType.UPGRADE)) {
-            throw new InvalidUpgradePlanException(this.planId, changePlanId);
+            throw new UserPlanInvalidUpgradeException(
+                this.userId,
+                this.planId, 
+                changePlanId
+            );
         }
 
         updatePlan(changePlanId, purchaseId);
