@@ -2,14 +2,19 @@ package io.github.hswy.calendar.social.account.oauth2;
 
 import java.util.Map;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
+import io.github.hswy.calendar.social.model.SocialType;
 
-public class TestSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
+@Component
+@Profile("local")
+class TestSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
     @Override
     public void map(SocialOAuth2UserInfo userInfo, OAuth2User oAuth2User) throws ApplicationException {
         Map<String, Object> response = SocialAccountMapCaster.getAsRequiredMap(
@@ -39,5 +44,10 @@ public class TestSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper 
         userInfo.socialIdentity = socialIdentity;
         userInfo.email = value;
         userInfo.nickname = UserProfileNicknameGenerator.getRandomNickname();
+    }
+
+    @Override
+    public SocialType getSocialType() {
+        return SocialType.TEST;
     }
 }

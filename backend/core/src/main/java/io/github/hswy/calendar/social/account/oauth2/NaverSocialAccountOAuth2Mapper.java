@@ -1,15 +1,18 @@
 package io.github.hswy.calendar.social.account.oauth2;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
+import io.github.hswy.calendar.social.model.SocialType;
 import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 
 import java.util.Map;
 
-public class NaverSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
+@Component 
+class NaverSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
 
     @Override
     public void map(SocialOAuth2UserInfo userInfo, OAuth2User oAuth2User) throws ApplicationException {
@@ -73,5 +76,10 @@ public class NaverSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
             return value;
         }
         return UserProfileNicknameGenerator.getRandomNickname();
+    }
+
+    @Override
+    public SocialType getSocialType() {
+        return SocialType.NAVER;
     }
 }

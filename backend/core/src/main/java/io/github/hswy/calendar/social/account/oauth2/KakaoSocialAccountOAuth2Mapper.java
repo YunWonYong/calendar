@@ -1,16 +1,19 @@
 package io.github.hswy.calendar.social.account.oauth2;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.global.utils.MapCaster;
 import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
+import io.github.hswy.calendar.social.model.SocialType;
 import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 
 import java.util.Map;
 
-public class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
+@Component 
+class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
 
     @Override
     public void map(SocialOAuth2UserInfo userInfo, OAuth2User oAuth2User) throws ApplicationException {
@@ -33,7 +36,7 @@ public class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
         );
 
         Object email = userAccount.get("email");
-        if (email instanceof String value && !value.isBlank()) {
+        if (!(email instanceof String value && !value.isBlank())) {
             throw new SocialRequiredAttributeNotFoundException(userInfo.socialType, "kakao_account->email");
         }
 
@@ -52,5 +55,10 @@ public class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper
             }
         }
         return UserProfileNicknameGenerator.getRandomNickname();
+    }
+
+    @Override
+    public SocialType getSocialType() {
+        return SocialType.KAKAO;
     }
 }
