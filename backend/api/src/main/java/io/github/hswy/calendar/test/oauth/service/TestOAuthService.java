@@ -3,7 +3,6 @@ package io.github.hswy.calendar.test.oauth.service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -105,7 +104,16 @@ public class TestOAuthService {
             redisTemplate.expire(accessTokenRedisKey, accessTokenDTO.getExpiresIn());
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
-            return objectMapper.convertValue(accessTokenDTO, new HashMap<String, Object>().getClass());
+            return objectMapper.convertValue(
+                accessTokenDTO, 
+                objectMapper
+                    .getTypeFactory()
+                    .constructMapType(
+                        Map.class, 
+                        String.class,
+                        Object.class
+                    )
+            );
         }
     }
 
