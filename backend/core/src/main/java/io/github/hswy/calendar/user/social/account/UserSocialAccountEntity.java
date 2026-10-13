@@ -19,6 +19,7 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.ForeignKey;
 
@@ -28,6 +29,7 @@ import jakarta.persistence.ForeignKey;
 )
 @NoArgsConstructor 
 @AllArgsConstructor 
+@Getter 
 @Builder 
 public class UserSocialAccountEntity extends CreatedAtUpdatedAtEntity {
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.global.annotations.RequireTransaction;
 import io.github.hswy.calendar.social.account.SocialAccountEntity;
+import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
 import io.github.hswy.calendar.user.UserEntity;
 import io.github.hswy.calendar.user.social.account.exception.UserSocialAccountAlreadyConnectedToAnotherUserException;
 import io.github.hswy.calendar.user.social.account.exception.UserSocialAccountAlreadyExistsException;
@@ -69,23 +70,26 @@ public class UserSocialAccountProcessor {
         evict = {
             @CacheEvict(
                 cacheNames = "USER:SOCIAL:ACCOUNT",
-                key = "#userId + ':' + #socialAccountId"
+                key = "#entity.id.userId + ':' + #entity.id.socialAccountId"
             ),
             @CacheEvict(
                 cacheNames = "USER:SOCIAL:ACCOUNTS",
-                key = "#userId"
+                key = "#entity.id.userId"
             ),
             @CacheEvict(
                 cacheNames = "USER:SOCIAL:ACCOUNT:OWNER",
-                key = "#socialAccountId"
+                key = "#entity.id.socialAccountId"
             ),
+            @CacheEvict(
+                cacheNames = "USER:SOCIAL:ACCOUNT",
+                key = "#entity.socialAccount.socialType + ':' + #entity.socialAccount.socialIdentity"
+            )
     })
-    public UserSocialAccountEntity changeStatus(Long userId, Long socialAccountId, UserSocialAccountStatus status) {
-        UserSocialAccountEntity userSocialAccountEntity = getSocialAccount(userId, socialAccountId);
-        userSocialAccountEntity.changeStatus(status);
+    public UserSocialAccountEntity changeStatus(UserSocialAccountEntity entity, UserSocialAccountStatus status) {
+        entity.changeStatus(status);
         // [TODO] history
         // String oldStatus = userSocialAccountEntity.changeStatus(status);
-        return userSocialAccountEntity;
+        return entity;
     }
 
     @Cacheable(
@@ -115,6 +119,18 @@ public class UserSocialAccountProcessor {
         }
 
         return userSocialAccountEntityOpt.get();
+    } 
+
+    @Cacheable(
+        cacheNames = "USER:SOCIAL:ACCOUNT",
+        key = "#info.socialType + ':' + #info.socialIdentiy"
+    )
+    public UserSocialAccountEntity getConnectedSocialAccount(SocialOAuth2UserInfo info) {
+        return repo.findBySocialIdentityAndSocialTypeAndUserSocialStatus(
+            info.getSocialIdentity(),
+            info.getSocialType(),
+            UserSocialAccountStatus.CONNECTED
+        );
     }
 
     private void checkConnectedSocialAccount(Long userId, Long socialAccountId) {

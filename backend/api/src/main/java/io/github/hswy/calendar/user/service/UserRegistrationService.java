@@ -10,6 +10,7 @@ import io.github.hswy.calendar.user.UserEntity;
 import io.github.hswy.calendar.user.UserProcessor;
 import io.github.hswy.calendar.user.plan.UserPlanProcessor;
 import io.github.hswy.calendar.user.profile.UserProfileProcessor;
+import io.github.hswy.calendar.user.social.account.UserSocialAccountEntity;
 import io.github.hswy.calendar.user.social.account.UserSocialAccountProcessor;
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +32,8 @@ public class UserRegistrationService {
     }
 
     public Long getUserId(SocialOAuth2UserInfo info) {
-        return 1L;
+        UserSocialAccountEntity entity = userSocialAccountProcessor.getConnectedSocialAccount(info);
+        return entity.getId().getUserId();
     }
 
     @Transactional 
