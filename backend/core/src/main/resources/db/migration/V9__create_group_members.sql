@@ -1,6 +1,6 @@
 CREATE TYPE group_member_types AS ENUM (
 	'LEADER',		-- 그룹 장
-	'ASSISTANT',	-- 그룹 부장
+	'SUB_LEADER',	-- 그룹 부장
 	'NORMAL'		-- 일반
 );
 

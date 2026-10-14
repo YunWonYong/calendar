@@ -2,7 +2,7 @@ package io.github.hswy.calendar.group.member;
 
 public enum GroupMemberType {
     LEADER(0),
-    ASSISTANT(1),
+    SUB_LEADER(1),
     NORMAL(2);
 
     private final int orderNo;
