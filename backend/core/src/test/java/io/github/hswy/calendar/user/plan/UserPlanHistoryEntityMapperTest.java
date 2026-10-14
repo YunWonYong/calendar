@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import io.github.hswy.calendar.plan.enums.PlanType;
+import io.github.hswy.calendar.plan.PlanType;
 
 class UserPlanHistoryEntityMapperTest {
     private final UserPlanHistoryEntityMapper mapper = 

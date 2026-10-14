@@ -1,10 +1,9 @@
-package io.github.hswy.calendar.plan.model;
+package io.github.hswy.calendar.plan;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
-import io.github.hswy.calendar.plan.enums.PlanType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

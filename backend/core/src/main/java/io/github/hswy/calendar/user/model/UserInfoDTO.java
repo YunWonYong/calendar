@@ -1,6 +1,6 @@
 package io.github.hswy.calendar.user.model;
 
-import io.github.hswy.calendar.plan.enums.PlanType;
+import io.github.hswy.calendar.plan.PlanType;
 import io.github.hswy.calendar.user.profile.UserProfileImageType;
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package io.github.hswy.calendar.plan.enums;
+package io.github.hswy.calendar.plan;
 
 public enum PlanChangeType {
     UPGRADE,

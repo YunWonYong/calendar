@@ -1,8 +1,8 @@
 package io.github.hswy.calendar.user.plan;
 
 import io.github.hswy.calendar.global.model.CreatedAtUpdatedAtEntity;
-import io.github.hswy.calendar.plan.enums.PlanChangeType;
-import io.github.hswy.calendar.plan.enums.PlanType;
+import io.github.hswy.calendar.plan.PlanChangeType;
+import io.github.hswy.calendar.plan.PlanType;
 import io.github.hswy.calendar.user.plan.exception.UserPlanInvalidDowngradeException;
 import io.github.hswy.calendar.user.plan.exception.UserPlanInvalidUpgradeException;
 import jakarta.persistence.Column;

@@ -7,7 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.global.annotations.RequireTransaction;
-import io.github.hswy.calendar.plan.enums.PlanType;
+import io.github.hswy.calendar.plan.PlanType;
 import io.github.hswy.calendar.user.plan.exception.UserPlanNotFoundException;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

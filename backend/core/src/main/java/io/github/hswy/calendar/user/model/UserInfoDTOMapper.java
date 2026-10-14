@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import io.github.hswy.calendar.plan.enums.PlanType;
+import io.github.hswy.calendar.plan.PlanType;
 import io.github.hswy.calendar.user.plan.UserPlanEntity;
 import io.github.hswy.calendar.user.profile.UserProfileEntity;
 
