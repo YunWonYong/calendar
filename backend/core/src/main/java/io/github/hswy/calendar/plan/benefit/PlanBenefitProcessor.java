@@ -18,23 +18,23 @@ public class PlanBenefitProcessor {
         cacheNames = "PLAN:BENEFIT",
         key = "#planId"
     )
-    public PlanBenefitData getPlanBenefits(Long planId) {
+    public PlanBenefitDTO getPlanBenefits(Long planId) {
         List<PlanBenefitEntity> entities = repo.getLastVersionPlanBenefits(planId);
         if (entities.isEmpty()) {
             // [TODO] throw exception
         }
 
-        return convert(entities);
+        return toPlanBenefitDTO(entities);
     }
 
-    private PlanBenefitData convert(List<PlanBenefitEntity> entities) {
+    private PlanBenefitDTO toPlanBenefitDTO(List<PlanBenefitEntity> entities) {
         Map<PlanBenefitNames, String> info = entities.stream()
             .collect(Collectors.toUnmodifiableMap(
                 entity -> entity.getPk().getBenefitName(),
                 PlanBenefitEntity::getBenefitValue
             ));
 
-        return new PlanBenefitData(
+        return new PlanBenefitDTO(
             parseIfPresent(info, PlanBenefitNames.MAX_CREATED_GROUPS),
             parseIfPresent(info, PlanBenefitNames.MAX_SUB_LEADERS),
             parseIfPresent(info, PlanBenefitNames.MAX_JOINED_GROUPS),

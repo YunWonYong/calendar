@@ -1,6 +1,6 @@
 package io.github.hswy.calendar.plan.benefit;
 
-public record PlanBenefitData (
+public record PlanBenefitDTO (
     Integer maxCreatedGroups,
     Integer maxSubLeaders,
     Integer maxJoinedGroups,

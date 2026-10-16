@@ -1,5 +1,7 @@
 package io.github.hswy.calendar.plan;
 
+import java.util.List;
+
 public enum PlanType {
     FREE(0),
     BASIC(1),
@@ -14,6 +16,16 @@ public enum PlanType {
 
     PlanType(long planId) {
         this.planId = planId;
+    }
+
+    public static List<PlanType> getAllPlanTypes() {
+        return List.of(
+            PlanType.FREE,
+            PlanType.BASIC,
+            PlanType.PRO,
+            PlanType.PREMIUM,
+            PlanType.ULTIMATE
+        );
     }
 
     public static PlanType fromPlanId(long planId) {
