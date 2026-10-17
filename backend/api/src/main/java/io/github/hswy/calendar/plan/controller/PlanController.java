@@ -17,6 +17,6 @@ public class PlanController {
 
     @GetMapping 
     public ApiResponseBody<PlanListReponseBody> list() {
-        return ApiResponseBody.success(planService.getPlanItems());
+        return ApiResponseBody.success(planService.getPlanList());
     }
 }

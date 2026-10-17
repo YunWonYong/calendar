@@ -1,7 +1,8 @@
 package io.github.hswy.calendar.plan.model;
 
-import java.util.List;
+import java.util.Map;
 
 public record PlanListReponseBody(
-    List<PlanItemDTO> plans
+    PlanItemMetadataDTO metadata,
+    Map<String, PlanItemDTO> plans
 ){}

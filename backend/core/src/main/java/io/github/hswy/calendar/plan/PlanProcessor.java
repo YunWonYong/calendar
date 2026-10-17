@@ -1,11 +1,13 @@
 package io.github.hswy.calendar.plan;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+import io.github.hswy.calendar.plan.exception.PlanNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Component 
@@ -13,28 +15,28 @@ import lombok.RequiredArgsConstructor;
 public class PlanProcessor {
     private final PlanRepository repo;
 
-    @Cacheable(
-        cacheNames = "PLANS"
-    )
-    public List<PlanDTO> getPlanDatas() {
-        List<PlanEntity> entities = repo.findAllByOrderByPlanIdAsc();
-        if (entities.isEmpty()) {
-            // [TODO] throw exception
+    public List<PlanMetadataDTO> getPlanMetadata() {
+        List<PlanMetadataDTO> metadata = new ArrayList<>();
+        for (PlanType type: PlanType.values()) {
+            metadata.add(
+                new PlanMetadataDTO(
+                    type.getPlanId(),
+                    type.name()
+                )
+            );
         }
-        return entities
-            .stream()
-            .map(this::toPlanDTO)
-            .toList();
+
+        return metadata;
     }
 
     @Cacheable(
         cacheNames = "PLAN",
         key = "#planId"
     )
-    public PlanDTO getPlanData(Long planId) {
+    public PlanDTO getPlanDTO(Long planId) {
         Optional<PlanEntity> entityOpt = repo.findById(planId);
         if (entityOpt.isEmpty()) {
-            // [TODO] throw exception
+            throw new PlanNotFoundException(planId);
         }
         return toPlanDTO(entityOpt.get());
     }
