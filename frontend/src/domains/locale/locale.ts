@@ -6,3 +6,9 @@ export const LOCALE = {
 } as const;
 
 export type LocaleType = typeof LOCALE[keyof typeof LOCALE];
+
+export type LocaleContextType = {
+    locale: LocaleType;
+    orderedLocaleList: LocaleType[];
+    changeLocale: (locale: LocaleType) => void;
+};
