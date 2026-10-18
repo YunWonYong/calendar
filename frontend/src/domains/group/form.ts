@@ -1,4 +1,5 @@
-import type { UserPlanLevelType } from "../user/userPlan";
+
+import type { PlanTypeIds } from "../plan/planType";
 
 import type { BGId } from "./emblemBg";
 import type { IconId } from "./emblemIcon";
@@ -10,8 +11,8 @@ export type GroupNameField = {
 };
 
 export type GroupLevelField = {
-    selectedLevel: UserPlanLevelType;
-    onSelect: (selectedLevel: UserPlanLevelType) => void;
+    selectedPlanId: PlanTypeIds;
+    onSelect: (selectedPlanId: PlanTypeIds) => void;
 };
 
 export type GroupBasicForm = {

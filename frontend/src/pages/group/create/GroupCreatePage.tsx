@@ -1,14 +1,14 @@
-import type { FC} from "react";
+import type { FC } from "react";
 import { useState } from "react";
 
 import { GROUP_LIMIT_LEVEL_LIST_DUMMY_INFO } from "@/domains/group/group";
 
 import GroupBasicInfoStep from "./components/GroupBasicInfoStep";
 
-// import GroupEmblemTestPage from "./GroupEmblemTestPage"; // 이전 엠블럼 테스트/선택 컴포넌트
 import styles from "./GroupCreatePage.module.css";
 
-import type { UserPlanLevelType } from "@/domains/user/userPlan";
+// import GroupEmblemTestPage from "./GroupEmblemTestPage"; // 이전 엠블럼 테스트/선택 컴포넌트
+import type { PlanTypeIds } from "@/domains/plan/planType";
 
 
 const CreateGroupPage = () => {
@@ -56,12 +56,12 @@ const CreateGroupPage = () => {
                             errorMessage: "",
                         },
                         participantLimitLevel: {
-                            selectedLevel: 0,
-                            onSelect: (selectedLevel: UserPlanLevelType) => console.log(selectedLevel)
+                            selectedPlanId: 0,
+                            onSelect: (selectedLevel: PlanTypeIds) => console.log(selectedLevel)
                         },
                         subGroupManagerLimitLevel: {
-                            selectedLevel: 0,
-                            onSelect: (selectedLevel: UserPlanLevelType) => console.log(selectedLevel)
+                            selectedPlanId: 0,
+                            onSelect: (selectedLevel: PlanTypeIds) => console.log(selectedLevel)
                         },
                     }}
 

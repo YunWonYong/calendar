@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { trackClick } from "@/analytics/button";
 import { RadioButton } from "@/components/form/RadioButton";
 import { TextInput } from "@/components/form/TextInput";
-import { USER_PLANS } from "@/domains/user/userPlan";
+import { PLANS } from "@/domains/plan/planType";
 import { isNumberTextStrict } from "@/lib/validation/validation";
 
 import styles from "./GroupBasicInfoStep.module.css";
@@ -12,7 +12,7 @@ import type { TextInputProps } from "@/components/form/TextInput";
 import type { GroupCreateBasicProps } from "@/domains/group/create";
 import type { GroupLevelField, GroupNameField } from "@/domains/group/form";
 import type { GroupLimitLevelData, GroupLimitLevelInfo } from "@/domains/group/group";
-import type { UserPlanLevelType } from "@/domains/user/userPlan";
+import type { PlanTypeIds } from "@/domains/plan/planType";
 
 
 const GroupBasicInfoStep: FC<GroupCreateBasicProps> = ({ editForm, limitLevelInfo }) => {
@@ -147,7 +147,7 @@ type GroupLimitRadioProps = {
 };
 
 
-const USER_PLAN: UserPlanLevelType = USER_PLANS.PRO;
+const USER_PLAN: PlanTypeIds = PLANS.PRO;
 
 
 const GroupLimitRadio: FC<GroupLimitRadioProps> = ({
@@ -166,7 +166,7 @@ const GroupLimitRadio: FC<GroupLimitRadioProps> = ({
                 {limitLevelDataList.map((limitLevelData) => {
                     const { limitLevel, count } = limitLevelData;
 
-                    const isSelected = field.selectedLevel === limitLevel;
+                    const isSelected = field.selectedPlanId === limitLevel;
                     const isDisabled = limitLevel > USER_PLAN;
 
                     return (
