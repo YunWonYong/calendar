@@ -32,17 +32,14 @@ class Logger extends BaseLogger {
     }
 };
 
-let consoleLogger: ILogger = new Logger(LOG_LEVELS.NONE);
+export let consoleLogger: ILogger = new Logger(LOG_LEVELS.NONE);
 
 export const initConsoleLogger = (logLevel: number) => {
     try {
         const lg = new Logger(logLevel);
         consoleLogger = lg;
-        console.log("console logger type: ", lg.getLogType());
         return { consoleLogger };
     } catch (e) {
         return { consoleLogger, errorMessage: (e as Error).message };
     }
 };
-
-export default consoleLogger;
