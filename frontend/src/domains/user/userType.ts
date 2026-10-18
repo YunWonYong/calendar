@@ -2,6 +2,7 @@ export type UserInfo = {
     email: string;
     id: number;
     nickname: string;
-    profileImageUrl?: string;
+    profileImage: string;
+    profileImageType: "URL" | "ID";
     tel: string;
 };
