@@ -1,8 +1,8 @@
 import { ActionTypes } from "@/domains/calendar/calendarReducer";
 import { getCalendarMonths, getCalendarWeekdayTexts, getCurrentCalendarMonths, jumpMonth, nextMonth, previousMonth } from "@/lib/calendar/calendar";
 
-import type { CalendarLocaleType } from "@/domains/calendar/calendarLocale";
 import type { Action, State } from "@/domains/calendar/calendarReducer";
+import type { LocaleType } from "@/domains/locale/locale";
 
 // type AssertInitialized = (state: State, type: ActionType) => asserts state is InitializedState;
 
@@ -12,7 +12,7 @@ import type { Action, State } from "@/domains/calendar/calendarReducer";
 //     }
 // }
 
-export const initCalendarState = (locale: CalendarLocaleType) => {
+export const initCalendarState = (locale: LocaleType) => {
     const weekdayTexts = getCalendarWeekdayTexts(locale);
     return {
         weekdayTexts,

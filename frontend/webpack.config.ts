@@ -9,7 +9,8 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import ReactRefreshTypeScript from "react-refresh-typescript";
 import TerserPlugin from "terser-webpack-plugin";
-import { Configuration, DefinePlugin, ProgressPlugin } from "webpack";
+import type { Configuration } from "webpack";
+import { DefinePlugin, ProgressPlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import WebpackObfuscator from "webpack-obfuscator";
 

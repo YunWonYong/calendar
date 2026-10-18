@@ -3,6 +3,7 @@ export const USER_PLANS = {
     BASIC: 1,
     PRO: 2,
     PREMIUM: 3,
+    ULTIMATE: 4,
 } as const;
 
 export type UserPlanType = typeof USER_PLANS;

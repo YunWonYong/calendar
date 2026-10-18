@@ -1,4 +1,6 @@
-import { BaseLogger, ILogger, LOG_LEVELS, LOG_TYPES } from "@/domains/logger/loggerType";
+import { BaseLogger, LOG_LEVELS, LOG_TYPES } from "@/domains/logger/loggerType";
+
+import type { ILogger } from "@/domains/logger/loggerType";
 
 class Logger extends BaseLogger {
     constructor(logLevel: number) {

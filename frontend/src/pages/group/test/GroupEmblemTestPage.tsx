@@ -6,6 +6,8 @@ import { ICON_PRESETS } from "@/domains/group/emblemIcon";
 
 import styles from "./GroupEmblemTestPage.module.css";
 
+import type { BGId } from "@/domains/group/emblemBg";
+
 const GroupEmblemTestPage = () => {
     const bgKeys = Object.keys(BG_THEMES);
     const iconKeys = Object.keys(ICON_PRESETS);
@@ -62,7 +64,7 @@ const GroupEmblemTestPage = () => {
                         <h4>배경 테마 ({bgKeys.length}개)</h4>
                         <div className={styles.scrollGrid}>
                             {bgKeys.map((bgId) => {
-                                const theme = BG_THEMES[bgId];
+                                const theme = BG_THEMES[bgId as BGId];
                                 return (
                                     <button
                                         key={bgId}

@@ -8,7 +8,7 @@ export interface IconPreset {
     shapes: IconShape[];
 }
 
-export const ICON_PRESETS: Record<string, IconPreset> = {
+export const ICON_PRESETS = {
     // ----------------------------------------------------------------
     // 1. 기본 / 모임 (01 ~ 08)
     // ----------------------------------------------------------------
@@ -377,4 +377,6 @@ export const ICON_PRESETS: Record<string, IconPreset> = {
             { type: "circle", props: { cx: 64, cy: 64, r: 16 } },
         ],
     },
-};
+} satisfies Record<string, IconPreset>;
+
+export type IconId = keyof typeof ICON_PRESETS;

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 
 import Link from "@/components/link";
 import LogoImage from "@/components/LogoImage";

@@ -1,30 +1,25 @@
-export const CalendarLocale = {
-    KR: "KR",
-    JP: "JP",
-    ZH: "ZH",
-    EN: "EN"
-} as const;
+import { LOCALE } from "../locale/locale";
 
-export type CalendarLocaleType = typeof CalendarLocale[keyof typeof CalendarLocale];
+import type { LocaleType } from "../locale/locale";
 
-export const CALENDAR_YEAR_SUFFIXES: Record<CalendarLocaleType, string> = {
-    [CalendarLocale.KR]: "년",
-    [CalendarLocale.ZH]: "年",
-    [CalendarLocale.JP]: "年",
-    [CalendarLocale.EN]: ""
+export const CALENDAR_YEAR_SUFFIXES: Record<LocaleType, string> = {
+    [LOCALE.KR]: "년",
+    [LOCALE.ZH]: "年",
+    [LOCALE.JP]: "年",
+    [LOCALE.EN]: ""
 };
 
 export type MonthKey = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-export const CALENDAR_MONTH_SUFFIXES: Record<CalendarLocaleType, string> = {
-    [CalendarLocale.KR]: "월",
-    [CalendarLocale.ZH]: "月",
-    [CalendarLocale.JP]: "月",
-    [CalendarLocale.EN]: ""
+export const CALENDAR_MONTH_SUFFIXES: Record<LocaleType, string> = {
+    [LOCALE.KR]: "월",
+    [LOCALE.ZH]: "月",
+    [LOCALE.JP]: "月",
+    [LOCALE.EN]: ""
 };
 
-export const CALENDAR_FULL_MONTH_TEXTS: Record<CalendarLocaleType, Record<MonthKey, string>> = {
-    [CalendarLocale.KR]: {
+export const CALENDAR_FULL_MONTH_TEXTS: Record<LocaleType, Record<MonthKey, string>> = {
+    [LOCALE.KR]: {
         1: "1",
         2: "2",
         3: "3",
@@ -38,7 +33,7 @@ export const CALENDAR_FULL_MONTH_TEXTS: Record<CalendarLocaleType, Record<MonthK
         11: "11",
         12: "12"
     },
-    [CalendarLocale.JP]: {
+    [LOCALE.JP]: {
         1: "1",
         2: "2",
         3: "3",
@@ -52,7 +47,7 @@ export const CALENDAR_FULL_MONTH_TEXTS: Record<CalendarLocaleType, Record<MonthK
         11: "11",
         12: "12"
     },
-    [CalendarLocale.ZH]: {
+    [LOCALE.ZH]: {
         1: "一",
         2: "二",
         3: "三",
@@ -66,7 +61,7 @@ export const CALENDAR_FULL_MONTH_TEXTS: Record<CalendarLocaleType, Record<MonthK
         11: "十一",
         12: "十二"
     },
-    [CalendarLocale.EN]: {
+    [LOCALE.EN]: {
         1: "January", // Jan
         2: "February", // Feb
         3: "March", // Mar
@@ -82,11 +77,11 @@ export const CALENDAR_FULL_MONTH_TEXTS: Record<CalendarLocaleType, Record<MonthK
     },
 } as const;
 
-export const CALENDAR_SHORT_MONTH_TEXTS: Record<CalendarLocaleType, Record<MonthKey, string>> = {
-    [CalendarLocale.KR]: CALENDAR_FULL_MONTH_TEXTS[CalendarLocale.KR],
-    [CalendarLocale.JP]: CALENDAR_FULL_MONTH_TEXTS[CalendarLocale.JP],
-    [CalendarLocale.ZH]: CALENDAR_FULL_MONTH_TEXTS[CalendarLocale.ZH],
-    [CalendarLocale.EN]: {
+export const CALENDAR_SHORT_MONTH_TEXTS: Record<LocaleType, Record<MonthKey, string>> = {
+    [LOCALE.KR]: CALENDAR_FULL_MONTH_TEXTS[LOCALE.KR],
+    [LOCALE.JP]: CALENDAR_FULL_MONTH_TEXTS[LOCALE.JP],
+    [LOCALE.ZH]: CALENDAR_FULL_MONTH_TEXTS[LOCALE.ZH],
+    [LOCALE.EN]: {
         1: "Jan", // Jan
         2: "Feb", // Feb
         3: "Mar", // Mar
@@ -102,8 +97,8 @@ export const CALENDAR_SHORT_MONTH_TEXTS: Record<CalendarLocaleType, Record<Month
     },
 } as const;
 
-export const CALENDAR_WEEKDAY_TEXTS: Record<CalendarLocaleType, Record<number, string>> = {
-    [CalendarLocale.KR]: {
+export const CALENDAR_WEEKDAY_TEXTS: Record<LocaleType, Record<number, string>> = {
+    [LOCALE.KR]: {
         0: "일",
         1: "월",
         2: "화",
@@ -112,7 +107,7 @@ export const CALENDAR_WEEKDAY_TEXTS: Record<CalendarLocaleType, Record<number, s
         5: "금",
         6: "토"
     },
-    [CalendarLocale.JP]: {
+    [LOCALE.JP]: {
         0: "日",
         1: "月",
         2: "火",
@@ -121,7 +116,7 @@ export const CALENDAR_WEEKDAY_TEXTS: Record<CalendarLocaleType, Record<number, s
         5: "金",
         6: "土"
     },
-    [CalendarLocale.ZH]: {
+    [LOCALE.ZH]: {
         0: "日",
         1: "一",
         2: "二",
@@ -130,7 +125,7 @@ export const CALENDAR_WEEKDAY_TEXTS: Record<CalendarLocaleType, Record<number, s
         5: "五",
         6: "六"
     },
-    [CalendarLocale.EN]: {
+    [LOCALE.EN]: {
         0: "Sun",
         1: "Mon",
         2: "Tue",

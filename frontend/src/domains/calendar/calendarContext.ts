@@ -1,4 +1,4 @@
-import { Month_1_To_12 } from "../lib/date";
+import type { Month_1_To_12 } from "../lib/date";
 
 import type { CalendarCurrentDate, CalendarDate, CalendarMonth } from "./calendarType";
 

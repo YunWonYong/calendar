@@ -1,5 +1,5 @@
-import { CalendarLocale } from "@/domains/calendar/calendarLocale";
 import { CalendarEventMainTypes } from "@/domains/calendar/calendarType";
+import { LOCALE } from "@/domains/locale/locale";
 import { getCalendarMonths, getCalendarWeekdayTexts } from "@/lib/calendar/calendar";
 import CalendarViewer from "@/pages/calendar/components/CalendarViewer";
 
@@ -65,8 +65,8 @@ const eventInfo: CalendarEventCounts = {
 };
 
 const LandingHeroCalendarPreview = () => {
-    const info = getCalendarMonths(2026, 9 as Month_1_To_12, CalendarLocale.KR);
-    const weekdayTexts = getCalendarWeekdayTexts(CalendarLocale.KR);
+    const info = getCalendarMonths(2026, 9 as Month_1_To_12, LOCALE.KR);
+    const weekdayTexts = getCalendarWeekdayTexts(LOCALE.KR);
     info.current.today = "2026-9-25";
     return (
         <CalendarViewer 

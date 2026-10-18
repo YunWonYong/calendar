@@ -1,9 +1,11 @@
-import { SVGProps } from "react";
+import type { SVGProps } from "react";
 
 import { ICON_PRESETS } from "@/domains/group/emblemIcon";
 
+import type { IconId } from "@/domains/group/emblemIcon";
+
 interface GroupEmblemIconSVGProps extends SVGProps<SVGSVGElement> {
-    iconId: string;
+    iconId: IconId;
 }
 
 const GroupEmblemIconSVG = ({ iconId, ...props }: GroupEmblemIconSVGProps) => {

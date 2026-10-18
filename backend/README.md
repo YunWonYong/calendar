@@ -120,3 +120,34 @@ docker run hello-world
 sudo usermod -aG docker $USER
 ## 설정 후 wsl 재시작 필수.
 ```
+## 2. 프로젝트 설명
+
+Calendar Backend는 기능별 실행 환경을 분리할 수 있도록 멀티 모듈로 구성한다.
+
+
+```text
+calendar/
+├── core/              # 공통 도메인/애플리케이션/영속성/인증 핵심 로직
+├── api/               # HTTP API 및 Spring Boot 실행 애플리케이션
+├── batch/             # 향후 추가: 배치 작업 전용 애플리케이션
+└── websocket/         # 향후 추가: 실시간 통신 전용 애플리케이션
+```
+
+
+**의존성 방향은 항상 실행 모듈 → core 방향을 유지한다.**
+```text
+   ┌──────────────┐
+   │     core     │
+   │              │
+   │ domain       │
+   │ application  │
+   │ persistence  │
+   │ auth logic   │
+   │ shared       | 
+   │ ...          |
+   └──────▲───────┘
+          │
+ ┌────────┼────────┐
+ │        │        │
+api      batch  websocket
+```
