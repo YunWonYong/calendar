@@ -1,15 +1,13 @@
-import { Navigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-import useAuth from "@/hooks/auth/useAuth";
+import PlanProvider from "@/contexts/plan/PlanProvider";
 
 const RootLayout = () => {
-    const { isLoading, isLogin } = useAuth();
-
-    if (isLoading) {
-        return null;
-    }
-
-    return <Navigate to={ isLogin? "/lobby": "/landing" } replace />
+    return (
+        <PlanProvider>
+            <Outlet />
+        </PlanProvider>
+    );
 };
 
 export default RootLayout;

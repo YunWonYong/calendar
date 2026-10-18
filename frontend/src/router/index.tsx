@@ -1,6 +1,7 @@
 import type { RouteObject } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
 
+import RootPathAccessGuard from "@/guards/RootPathAccessGuard";
 import RootLayout from "@/layout/RootLayout";
 import NotFoundPage from "@/not-found/NotFoundPage";
 
@@ -10,16 +11,21 @@ import ProtectedRoutes from "./ProtectedRoutes";
 
 const routes: RouteObject[] = [
     {
-        path: "/",
-        element: <RootLayout />
-    },
-    ...ProtectedRoutes,
-    ...LoginRoutes,
-    ...LandingRoutes,
-    {
-        path: "*",
-        element: <NotFoundPage />,
-    },
+        element: <RootLayout />,
+        children: [
+            {
+                path: "/",
+                element: <RootPathAccessGuard />
+            },
+            ...ProtectedRoutes,
+            ...LoginRoutes,
+            ...LandingRoutes,
+            {
+                path: "*",
+                element: <NotFoundPage />,
+            },
+        ]
+    }
 ];
 
 const router = createBrowserRouter(routes);
