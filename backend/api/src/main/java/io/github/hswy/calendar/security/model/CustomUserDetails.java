@@ -1,0 +1,35 @@
+package io.github.hswy.calendar.security.model;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
+import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+
+@Getter
+@RequiredArgsConstructor
+public class CustomUserDetails implements OAuth2User {
+    private final SocialOAuth2UserInfo userInfo; // 우리가 채운 데이터 바구니
+    private final Map<String, Object> attributes;
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getName() {
+        return userInfo.getSocialType().name();
+    }
+}

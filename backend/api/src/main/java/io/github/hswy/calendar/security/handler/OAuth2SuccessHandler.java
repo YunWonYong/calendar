@@ -1,0 +1,87 @@
+package io.github.hswy.calendar.security.handler;
+
+import io.github.hswy.calendar.auth.provider.AuthCodeProvider;
+import io.github.hswy.calendar.global.exception.ApplicationException;
+import io.github.hswy.calendar.global.properties.frontend.FrontendProperties;
+import io.github.hswy.calendar.security.model.CustomUserDetails;
+import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
+import io.github.hswy.calendar.user.service.UserRegistrationService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.IOException;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    private final FrontendProperties frontendProperties;
+    private final UserRegistrationService userRegistrationService;
+    private final AuthCodeProvider authCodeProvider;
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        SocialOAuth2UserInfo info = userDetails.getUserInfo();
+        String redirectUrl = "";
+        try {
+            boolean isNewUser = userRegistrationService.isNewUser(info);
+            Long userId = isNewUser
+                ? userRegistrationService.createNewUser(info)
+                : userRegistrationService.getUserId(info);
+            
+            String authCode = authCodeProvider.generateAuthCode(userId);
+            redirectUrl = makeRedirectUrl(
+                frontendProperties.getOauth2SuccessUrl(),
+                "code",
+                authCode
+            );
+        } catch(ApplicationException e) {
+            log.error(
+                "Failed to login. platform: {}, platformId: {} errCode: {} errMsg: {}", 
+                info.getSocialType().name(), 
+                info.getSocialIdentity(), 
+                e.getCode(),
+                e.getMessage()
+            );
+            redirectUrl = makeErrorRedirectUrl(e.getCode());
+        } catch(Exception e) {
+            log.error(
+                "Failed to login. platform: {}, platformId: {} errMsg: {}", 
+                info.getSocialType().name(), 
+                info.getSocialIdentity(), 
+                e.getMessage()
+            );
+            redirectUrl = makeErrorRedirectUrl("server_error");
+        }
+
+        getRedirectStrategy()
+            .sendRedirect(
+                request, 
+                response, 
+                redirectUrl
+            );
+    }
+
+    private String makeErrorRedirectUrl(String errorCode) {
+        return makeRedirectUrl(frontendProperties.getOauth2FailureUrl(), "error_code", errorCode);
+    }
+
+    private String makeRedirectUrl(String url, String paramName, String paramValue) {
+        return UriComponentsBuilder
+            .fromUriString(url)
+            .queryParam(paramName, paramValue)
+            .build()
+            .toString();
+    }
+}
