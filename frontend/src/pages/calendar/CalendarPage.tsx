@@ -1,10 +1,10 @@
 import CalendarProvider from "@/contexts/calendar/CalendarProvider";
-import { CalendarLocale } from "@/domains/calendar/calendarLocale";
+import { LOCALE } from "@/domains/locale/locale";
 
 const CalendarPage = () => {
     return (
         <CalendarProvider
-            locale={ CalendarLocale.KR }
+            locale={ LOCALE.KR }
         >
             main
         </CalendarProvider>

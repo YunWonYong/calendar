@@ -1,4 +1,4 @@
-import { RouteObject } from "react-router-dom";
+import type { RouteObject } from "react-router-dom";
 
 import PublicAccessGuard from "@/guards/PublicAccessGuard";
 import LandingPage from "@/pages/landing/LandingPage";

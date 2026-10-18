@@ -1,43 +1,35 @@
+import type { FC} from "react";
 import { useState } from "react";
 
-import { DEFAULT_GROUP_BASIC_INFO_STEP_LIMITS } from "@/domains/group/groupCreate";
+import { GROUP_LIMIT_LEVEL_LIST_DUMMY_INFO } from "@/domains/group/group";
 
 import GroupBasicInfoStep from "./components/GroupBasicInfoStep";
 
 // import GroupEmblemTestPage from "./GroupEmblemTestPage"; // 이전 엠블럼 테스트/선택 컴포넌트
 import styles from "./GroupCreatePage.module.css";
 
+import type { UserPlanLevelType } from "@/domains/user/userPlan";
+
 
 const CreateGroupPage = () => {
     // 1: 기본 정보 입력, 2: 엠블럼 선택
-    const [step, setStep] = useState<1 | 2>(1);
+    const [step, _] = useState<1 | 2>(1);
 
-    // Step 1 폼 상태
-    const [groupName, setGroupName] = useState("");
-    const [shortName, setShortName] = useState("");
-    const [memberLimit, setMemberLimit] = useState(15);
-    const [subLeaderLimit, setSubLeaderLimit] = useState(5);
+    // const [memberLimit, setMemberLimit] = useState(15);
+    // const [subLeaderLimit, setSubLeaderLimit] = useState(5);
 
     // Step 2 엠블럼 탭 상태 ('preset' | 'upload')
     const [emblemTab, setEmblemTab] = useState<"preset" | "upload">("preset");
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
-    const handleNextStep = () => {
-        if (!groupName.trim() || !shortName.trim()) {
-            alert("그룹 이름과 닉네임을 모두 입력해 주세요.");
-            return;
-        }
-        setStep(2);
-    };
+    // const handleNextStep = () => {
+    //     if (!groupName.trim() || !shortName.trim()) {
+    //         alert("그룹 이름과 닉네임을 모두 입력해 주세요.");
+    //         return;
+    //     }
 
-    const handlePrevStep = () => {
-        setStep(1);
-    };
-
-    const handleSubmit = () => {
-        alert("그룹 생성이 완료되었습니다!");
-        // 생성 API 호출 로직 연결
-    };
+    //     setStep(2);
+    // };
 
     return (
         <div className={styles.wrapper}>
@@ -52,21 +44,28 @@ const CreateGroupPage = () => {
                     </div>
                 </div>
                 <GroupBasicInfoStep 
-                    fullNameEditInfo={{
-                        onChange: (value) => setGroupName(value),
-                        value: groupName,
-                        errorMessage: ""
+                    editForm={{
+                        fullName: {
+                            value: "",
+                            onChange: (value: string) => console.log(value),
+                            errorMessage: "",
+                        },
+                        shortName: {
+                            value: "",
+                            onChange: (value: string) => console.log(value),
+                            errorMessage: "",
+                        },
+                        participantLimitLevel: {
+                            selectedLevel: 0,
+                            onSelect: (selectedLevel: UserPlanLevelType) => console.log(selectedLevel)
+                        },
+                        subGroupManagerLimitLevel: {
+                            selectedLevel: 0,
+                            onSelect: (selectedLevel: UserPlanLevelType) => console.log(selectedLevel)
+                        },
                     }}
-                    shortNameEditInfo={{
-                        onChange: (value) => setShortName(value),
-                        value: shortName,
-                        errorMessage: ""
-                    }}
-                    selectedLimitLevel={ 0 }
-                    limitInfo={{
-                        userPlanLevel: 0,
-                        limits: [ ...DEFAULT_GROUP_BASIC_INFO_STEP_LIMITS ]
-                    }}
+
+                    limitLevelInfo={ GROUP_LIMIT_LEVEL_LIST_DUMMY_INFO }
                 />
 
                 {/* Step 2: 엠블럼 선택/업로드 */}
@@ -118,19 +117,61 @@ const CreateGroupPage = () => {
                                 />
                             </div>
                         )}
-
-                        {/* 하단 네비게이션 버튼 (이전 / 그룹 생성) */}
-                        <div className={styles.bottomNavBetween}>
-                            <button type="button" className={styles.prevBtn} onClick={handlePrevStep}>
-                                &larr; 이전 단계
-                            </button>
-                            <button type="button" className={styles.submitBtn} onClick={handleSubmit}>
-                                그룹 만들기 완료
-                            </button>
-                        </div>
                     </div>
                 )}
+                
+
+                <GroupCreateNavigator 
+                    canNext={ false }
+                    canPrevious={ false }
+                    canSubmit={ false }
+                    handleNextStep={ () => { } }
+                    handlePrevStep={ () => { } }
+                    handleSubmit={ () => { } }
+                    isLastStep={ false }
+                />
             </div>
+        </div>
+    );
+};
+
+type GroupCreateNavigatorProps = {
+    handlePrevStep: () => void;
+    handleNextStep: () => void;
+    handleSubmit: () => void;
+    canNext: boolean;
+    canPrevious: boolean;
+    canSubmit: boolean;
+    isLastStep: boolean;
+};
+
+const GroupCreateNavigator: FC<GroupCreateNavigatorProps> = (props) => {
+    const { canNext, canPrevious, canSubmit, isLastStep } = props;
+    const { handlePrevStep, handleNextStep, handleSubmit } = props;
+    return (
+        <div
+            className={ styles.bottomNavBetween }
+        >
+            <button 
+                type="button" 
+                className={styles.prevBtn} 
+                onClick={handlePrevStep}
+                disabled={ !canPrevious }
+            >
+                &larr; 이전 단계
+            </button>
+            <button 
+                type="button" 
+                className={ isLastStep? styles.submitBtn: styles.nextBtn } 
+                onClick={ isLastStep? handleSubmit: handleNextStep }
+                disabled={ isLastStep? !canSubmit: !canNext }
+            >
+                {
+                    isLastStep 
+                        ?   "그룹 만들기"
+                        :   "다음 단계"
+                }
+            </button>
         </div>
     );
 };

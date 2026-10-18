@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-import { landingPageSectionIdByStep, landingPageSectionIds, LandingPageSectionIdType } from "@/domains/landing/landingPageType";
+import { landingPageSectionIdByStep, landingPageSectionIds } from "@/domains/landing/landingPageType";
 
 import useScroll from "../scroll/UseScroll";
 import useViewport from "../viewport/UseViewport";
+
+import type { LandingPageSectionIdType } from "@/domains/landing/landingPageType";
 
 import type { ScrollDirectionType } from "../scroll/UseScroll";
 

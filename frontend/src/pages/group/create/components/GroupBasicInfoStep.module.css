@@ -1,5 +1,348 @@
-.fieldGroup {
+/* =========================
+   Common
+   ========================= */
+
+.fieldTitle {
+    display: block;
+
+    margin: 0 0 7px;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #334155;
+}
+
+
+/* =========================
+   Group Name
+   ========================= */
+
+.nameEditBox {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
+
+    width: 100%;
+}
+
+.nameField {
+    width: 100%;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+    height: 44px;
+
+    padding: 0 13px;
+    box-sizing: border-box;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    background-color: #ffffff;
+
+    color: #1e293b;
+    font-size: 14px;
+    line-height: 20px;
+
+    outline: none;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.input::placeholder {
+    color: #94a3b8;
+}
+
+.input:hover {
+    border-color: #94a3b8;
+}
+
+.input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.input:disabled {
+    background-color: #f8fafc;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   Helper / Error
+   ========================= */
+
+.helperText {
+    display: block;
+
+    height: 18px;
+    margin-top: 4px;
+
+    overflow: hidden;
+
+    font-size: 12px;
+    line-height: 18px;
+    color: #94a3b8;
+
+    transition: color 0.15s ease;
+}
+
+.helperText[data-is-error="true"] {
+    color: #ef4444;
+}
+
+
+/* =========================
+   Group Limit
+   ========================= */
+
+.limitRadioBox {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    width: 100%;
+    margin-top: 28px;
+}
+
+.limitRadio {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+
+/* =========================
+   Radio Options
+   ========================= */
+
+.radioOptionList {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+
+    width: 100%;
+}
+
+/* =========================
+   Radio Options
+   ========================= */
+
+.radioOption {
+    position: relative;
+    min-width: 0;
+}
+
+
+/* =========================
+   Information
+   ========================= */
+
+.info {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+    z-index: 10;
+}
+
+.infoButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 16px;
+    height: 16px;
+    padding: 0;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+
+    background-color: #ffffff;
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+
+    cursor: help;
+
+    transition:
+        border-color 0.15s ease,
+        color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.infoButton:hover {
+    border-color: #94a3b8;
+    background-color: #f8fafc;
+    color: #475569;
+}
+
+
+/* =========================
+   Tooltip
+   ========================= */
+.tooltip {
+    position: absolute;
+
+    right: 0;
+    bottom: calc(100% + 8px);
+
+    width: max-content;
+    max-width: 220px;
+
+    padding: 9px 11px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+
+    background-color: #1e293b;
+    color: #f8fafc;
+
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.12),
+        0 1px 3px rgba(15, 23, 42, 0.08);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(3px);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.15s ease,
+        visibility 0.15s ease,
+        transform 0.15s ease;
+}
+
+.info:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+/* =========================
+   Radio Button
+   ========================= */
+
+.radioButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 46px;
+
+    padding: 0 14px;
+    box-sizing: border-box;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    background-color: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.radioButton:hover {
+    border-color: #94a3b8;
+    background-color: #f8fafc;
+}
+
+.radioButton:has(input:checked) {
+    border-color: #6366f1;
+    background-color: #eef2ff;
+    box-shadow: 0 0 0 1px #6366f1;
+}
+
+.radioButton:has(input:disabled) {
+    border-color: #e2e8f0;
+    background-color: #f8fafc;
+
+    cursor: not-allowed;
+}
+
+.radioButton:has(input:disabled):hover {
+    border-color: #e2e8f0;
+    background-color: #f8fafc;
+}
+
+
+/* =========================
+   Native Radio
+   ========================= */
+
+.radioButton input {
+    flex: 0 0 auto;
+
+    width: 16px;
+    height: 16px;
+    margin: 0;
+
+    accent-color: #6366f1;
+
+    cursor: pointer;
+}
+
+.radioButton input:disabled {
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   Radio Label
+   ========================= */
+
+.radioLabel {
+    margin-left: 8px;
+
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+
+    color: #334155;
+
+    white-space: nowrap;
+}
+
+.radioButton:has(input:disabled) .radioLabel {
+    color: #a1a8b3;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 700px) {
+    .radioOptionList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }

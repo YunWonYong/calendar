@@ -1,4 +1,5 @@
-import { FC, ReactNode, useMemo, useReducer } from "react";
+import type { FC, ReactNode} from "react";
+import { useMemo, useReducer } from "react";
 
 import { ActionTypes } from "@/domains/calendar/calendarReducer";
 
@@ -6,9 +7,9 @@ import CalendarContext from "./CalendarContext";
 import { initCalendarState, reducer } from "./CalendarReducer";
 
 import type { CalendarHandles } from "@/domains/calendar/calendarContext";
-import type { CalendarLocaleType } from "@/domains/calendar/calendarLocale";
+import type { LocaleType } from "@/domains/locale/locale";
 
-const CalendarProvider: FC<{ children: ReactNode, locale: CalendarLocaleType }> = ({ children, locale }) => {
+const CalendarProvider: FC<{ children: ReactNode, locale: LocaleType }> = ({ children, locale }) => {
     const [ state, dispatch ] = useReducer(reducer, initCalendarState(locale));
     const handles = useMemo<CalendarHandles>(() => {
         return {

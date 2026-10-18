@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC} from "react";
+import { useEffect } from "react";
 
 const ErrorPage: FC<{ errorMessage: string }> = ({ errorMessage }) => {
     useEffect(() => {

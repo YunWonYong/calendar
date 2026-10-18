@@ -1,5 +1,6 @@
+import type { LocaleType } from "../locale/locale";
+
 import type { CalendarContextMonths } from "./calendarContext";
-import type { CalendarLocaleType } from "./calendarLocale";
 import type { CalendarDate, CalendarMonth } from "./calendarType";
 
 export const ActionTypes = {
@@ -12,14 +13,14 @@ export const ActionTypes = {
 
 export type ActionType = typeof ActionTypes[keyof typeof ActionTypes];
 
-export type Action = { type: typeof ActionTypes.CHANGE_LOCALE; payload: CalendarLocaleType } | 
+export type Action = { type: typeof ActionTypes.CHANGE_LOCALE; payload: LocaleType; } | 
     { type: typeof ActionTypes.PREV_MONTH } | 
     { type: typeof ActionTypes.NEXT_MONTH } | 
     { type: typeof ActionTypes.SELECT_DATE; payload: CalendarDate } | 
     { type: typeof ActionTypes.JUMP_MONTH; payload: CalendarMonth };
 
 export type State = {
-    locale: CalendarLocaleType;
+    locale: LocaleType;
     weekdayTexts: string[];
     info: CalendarContextMonths;
     selectedDate: CalendarDate | null;

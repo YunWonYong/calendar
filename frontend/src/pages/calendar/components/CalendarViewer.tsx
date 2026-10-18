@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 
 import CalendarBody from "../layout/CalendarBody";
 import CalendarHeader from "../layout/CalendarHeader";
