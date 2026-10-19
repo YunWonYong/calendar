@@ -1,0 +1,31 @@
+.group-create-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.group-create-header-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.group-create-header-utils {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+@media (max-width: 600px) {
+    .group-create-header {
+        padding: 0.5rem 0.5rem 0.2rem;
+    }
+
+    .group-create-header-title {
+        font-size: 1.1rem;    
+    }
+}

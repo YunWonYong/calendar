@@ -1,4 +1,6 @@
 
+import GroupCreateHeader from "../layout/GroupCreateHeader";
+
 import styles from "./GroupCreateForm.module.css";
 
 const GroupCreateForm = () => { 
@@ -9,6 +11,7 @@ const GroupCreateForm = () => {
             <div
                 className={ styles.groupCreateFormInner }
             >
+                <GroupCreateHeader />
                 <article
                     className={ styles.groupCreateForm }
                 >
