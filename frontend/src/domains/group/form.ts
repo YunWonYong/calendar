@@ -80,11 +80,11 @@ export type GroupInviteForm = {
 
 
 export const GROUP_FORM_TYPE = {
-    BASIC: "basic",
-    EMBLEM: "emblem",
-    MEMBERS: "members",
-    REVIEW: "review",
-    RESULT: "result"
+    BASIC: "BASIC",
+    EMBLEM: "EMBLEM",
+    MEMBERS: "MEMBERS",
+    REVIEW: "REVIEW",
+    RESULT: "RESULT"
 } as const;
 
 export type GroupCreateStepTypes = typeof GROUP_FORM_TYPE[keyof typeof GROUP_FORM_TYPE];
