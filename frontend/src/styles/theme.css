@@ -3,8 +3,9 @@
     --border-color: var(--black-color);
     --text-color: var(--black-color);
 
-    --text-color-muted: #6b7280;
+    --bg-color-muted: #e5e7eb;
     --border-color-muted: #d1d5db;
+    --text-color-muted: #6b7280;
 
     --image-border-color: #fff;
     --image-shadow-color: rgba(0, 0, 0, 0.12);
@@ -16,6 +17,7 @@
     --border-color: var(--white-color);
     --text-color: var(--white-color);
 
+    --bg-color-muted: #292929;
     --text-color-muted: #9ca3af;
     --border-color-muted: #484848;
 

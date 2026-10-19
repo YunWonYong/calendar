@@ -1,0 +1,90 @@
+.locale-drop-box-wrap {
+    position: relative;
+}
+
+.selected-locale-box {
+    background-color: var(--bg-color);
+    width: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-sizing: border-box;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 5px;
+    color: var(--text-color);
+    cursor: pointer;
+    line-height: 1;
+    overflow: hidden;
+}
+
+.selected-locale-label-wrap {
+    flex: 1;
+    text-align: center;
+}
+
+.locale-drop-box {
+    width: 80px;
+    position: absolute;
+    display: none;
+}
+
+.locale-drop-box[data-open="true"] {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.locale-option {
+    cursor: pointer;
+}
+
+.language-icon-wrap {
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+}
+
+.language-icon {
+    display: block;
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--text-color);
+}
+
+.locale-label-wrap {
+    background-color: var(--bg-color-muted);
+    box-sizing: border-box;
+    border: 2px solid var(--border-color-muted);
+    border-radius: 6px;
+    padding: 2px;
+    text-align: center;
+    color: var(--text-color-muted);
+}
+
+.locale-label-wrap:hover {
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.locale-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: inherit;
+}
+
+.locale-code {
+    font-size: 6px;
+    font-weight: 900;
+    vertical-align: super;
+    color: inherit;
+}
