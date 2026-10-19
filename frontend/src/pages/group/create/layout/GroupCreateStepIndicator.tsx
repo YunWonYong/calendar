@@ -3,6 +3,7 @@ import type { FC } from "react";
 import Image from "@/components/Image";
 import { GroupCreateFlowStepByFormType } from "@/domains/group/create";
 import { GROUP_CREATE_STEP_ICON, GROUP_CREATE_STEP_TITLE } from "@/domains/group/form";
+import useGroupCreateFlow from "@/hooks/group/create/UseGroupCreateFlow";
 import useLocale from "@/hooks/locale/useLocale";
 
 import styles from "./GroupCreateStepIndicator.module.css";
@@ -46,17 +47,16 @@ const GroupCreateStepList: FC<{ titles: GroupCreateStepTitleTypes; }> = ({ title
 
 
 const GroupCreateStepItem: FC<{ formType: GroupCreateStepTypes, title: string; }> = ({ formType, title }) => {
+    const { steps: { current } } = useGroupCreateFlow();
     const icon = GROUP_CREATE_STEP_ICON[formType];
     return (
         <li
             className={styles.groupCreateStepItem}
-            data-current-step={GroupCreateFlowStepByFormType[formType] === 2}
+            data-current-step={GroupCreateFlowStepByFormType[formType] === current}
             data-valid-type={
-                GroupCreateFlowStepByFormType[formType] === 1
-                    ? "failed"
-                    : GroupCreateFlowStepByFormType[formType] < 1
-                        ? "success"
-                        : "none"
+                GroupCreateFlowStepByFormType[formType] >= current
+                    ? "none"
+                    : "success"
             }
         >
             <Image
