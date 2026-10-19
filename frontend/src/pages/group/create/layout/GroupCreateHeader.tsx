@@ -1,3 +1,4 @@
+import LocaleDropBox from "@/components/locale/LocaleDropBox";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { GROUP_CREATE_HEADER_TITLES } from "@/domains/group/create";
 import { DisplayMode } from "@/domains/theme/themeButtonType";
@@ -22,7 +23,9 @@ const GroupCreateHeader = () => {
                 className={ styles.groupCreateHeaderUtils }
             >
                 <li>
-                    한국어
+                    <LocaleDropBox 
+                        eventSource="GROUP_CREATE_HEADER"
+                    />
                 </li>
                 <li>
                     <ThemeToggleButton 
