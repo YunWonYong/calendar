@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import Image from "@/components/Image";
-import Link from "@/components/link";
+import Link from "@/components/Link";
 import useAuth from "@/hooks/auth/useAuth";
 
 import styles from "./LobbyAsideUserProfile.module.css";
