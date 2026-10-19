@@ -5,11 +5,10 @@ import CreateGroupButton from "@/components/group/CreateGroupButton";
 import styles from "./EmptyGroupPage.module.css";
 
 interface EmptyGroupPageProps {
-    onCreateGroup?: () => void;
     onJoinGroup?: (code: string) => void;
 }
 
-const EmptyGroupPage = ({ onCreateGroup, onJoinGroup }: EmptyGroupPageProps) => {
+const EmptyGroupPage = ({ onJoinGroup }: EmptyGroupPageProps) => {
     const [inviteCode, setInviteCode] = useState("");
 
     const handleJoinSubmit = (e: React.FormEvent) => {
@@ -50,7 +49,7 @@ const EmptyGroupPage = ({ onCreateGroup, onJoinGroup }: EmptyGroupPageProps) => 
                     초대 코드를 입력하여 기존 그룹에 참여해 보세요.
                 </p>
                 <CreateGroupButton 
-                    onClick={ onCreateGroup }
+                    eventSource="EMPTY_GROUP_PAGE"
                 />
                 <div className={styles.divider}>
                     <span>또는</span>
