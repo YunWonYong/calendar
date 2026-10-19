@@ -1,5 +1,6 @@
 
 import GroupCreateHeader from "../layout/GroupCreateHeader";
+import GroupCreateStepIndicator from "../layout/GroupCreateStepIndicator";
 
 import styles from "./GroupCreateForm.module.css";
 
@@ -15,6 +16,7 @@ const GroupCreateForm = () => {
                 <article
                     className={ styles.groupCreateForm }
                 >
+                    <GroupCreateStepIndicator />
                 </article>
             </div>
         </section>
