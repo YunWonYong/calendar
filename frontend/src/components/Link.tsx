@@ -14,8 +14,10 @@ type LinkProps = {
     children: ReactNode;
 };
 
-export const movePageEventTranckClick = (from: string, to: string) => {
-    return trackClick(`PAGE_MOVE@${from}=>${to}`);
+export const getPageMoveEventName = (from: string, to: string) => `PAGE_MOVE@${from}=>${to}`;
+
+export const movePageEventTranckClick = (from: string, to: string, fn?: (() => void | Promise<void>)) => {
+    trackClick(getPageMoveEventName(from, to), fn);
 };
 
 const Link = ({ to, className, children, clickEventName }: LinkProps) => {
