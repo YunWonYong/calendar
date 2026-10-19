@@ -13,6 +13,7 @@
 }
 
 .toggle-box {
+    background-color: var(--bg-color);
     position: relative;
     box-sizing: border-box;
 
