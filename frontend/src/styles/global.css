@@ -6,6 +6,10 @@
     --border-color-blue: #2563EB;
     --border-color-red: #B91C1C;
 
+    --button-color-red: #B91C1C;
+    --button-color-blue: #2563EB;
+    --button-color-green: #15803D;
+
     --calendar-schedule-dot-color: #4f46e5;
     --calendar-transaction-dot-color: #10b981;
     --calendar-mission-dot-color: #f59e0b;
