@@ -1,7 +1,5 @@
-import type { MouseEvent } from "react";
 import { useContext } from "react";
 
-import { trackClick } from "@/analytics/button";
 import GroupCreateFlowContext from "@/contexts/group/create/GroupCreateFlowContext";
 import { GROUP_CREATE_STEP_BUTTON_TITLE, GROUP_CREATE_STEP_BUTTON_TYPE, GroupCreateFlowStepByFormType, GroupFormTypeByCreateFlowStep } from "@/domains/group/create";
 import useLocale from "@/hooks/locale/useLocale";
@@ -34,7 +32,7 @@ const getButtonTitle = (locale: LocaleType, buttonType: GroupCreateStepButtonTyp
 const useGroupCreateFlow = () => {
     const { steps, nextStep, previousStep } = useContext<GroupCreateFlowContextType>(GroupCreateFlowContext);
     const { locale } = useLocale();
-    const { movePageToClick } = usePageMove();
+    const { movePageTo } = usePageMove();
     const hasNext = steps.next !== undefined;
     const hasPrevious = steps.previous !== undefined;
     const previousButtonType = !hasPrevious && steps.current === GroupCreateFlowStepByFormType.BASIC
@@ -46,32 +44,25 @@ const useGroupCreateFlow = () => {
             ? GROUP_CREATE_STEP_BUTTON_TYPE.LOBBY
             : GROUP_CREATE_STEP_BUTTON_TYPE.NEXT;
     
-    const moveNext = <T extends HTMLElement>(event: MouseEvent<T>) => {
+    const moveNext = () => {
         if (nextButtonType === GROUP_CREATE_STEP_BUTTON_TYPE.LOBBY) {
-            movePageToClick(event, "/lobby", { replace: true });
+            movePageTo("/lobby", { replace: true });
             return;
         }
 
         if (steps.next !== undefined) {
-            trackClick(
-                `GROUP_CREATE_NEXT_FLOW@${steps.current}=>${steps.next}`,
-                nextStep
-            );
+            nextStep();
         }
-    }
-    ;
+    };
 
-    const movePrevious = <T extends HTMLElement>(event: MouseEvent<T>) => {
+    const movePrevious = () => {
         if (previousButtonType === GROUP_CREATE_STEP_BUTTON_TYPE.LOBBY) {
-            movePageToClick(event, "/lobby", { replace: true });
+            movePageTo("/lobby", { replace: true });
             return;
         }
 
         if (steps.previous !== undefined) {
-            trackClick(
-                `GROUP_CREATE_PREVIOUS_FLOW@${steps.current}=>${steps.previous}`,
-                previousStep
-            );
+            previousStep();
         }
     };
     
@@ -85,12 +76,14 @@ const useGroupCreateFlow = () => {
             previousButtonType,
             GroupFormTypeByCreateFlowStep[steps.current]
         ),
+        previousButtonEventName: `GROUP_CREATE_PREVIOUS_FLOW@${steps.current}=>${steps.previous}`,
         nextButtonType,
         nextButtonTitle: getButtonTitle(
             locale,
             nextButtonType,
             GroupFormTypeByCreateFlowStep[steps.current]
         ),
+        nextButtonEventName: `GROUP_CREATE_NEXT_FLOW@${steps.current}=>${steps.next}`,
         moveNext,
         movePrevious
     };
