@@ -6,10 +6,10 @@ import useLocale from "@/hooks/locale/useLocale";
 import usePageMove from "@/hooks/page/move/UsePageMove";
 
 import type { GroupCreateFlowContextType, GroupCreateStepButtonTypes } from "@/domains/group/create";
-import type { GroupCreateStepTypes } from "@/domains/group/form";
+import type { GroupFormTypes } from "@/domains/group/form";
 import type { LocaleType } from "@/domains/locale/locale";
 
-const getButtonTitle = (locale: LocaleType, buttonType: GroupCreateStepButtonTypes, formType: GroupCreateStepTypes): string => {
+const getButtonTitle = (locale: LocaleType, buttonType: GroupCreateStepButtonTypes, formType: GroupFormTypes): string => {
     const titleByButtonType = GROUP_CREATE_STEP_BUTTON_TITLE[locale];
 
     if (

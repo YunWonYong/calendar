@@ -4,29 +4,7 @@ import { GROUP_FORM_TYPE } from "./form";
 
 import type { LocaleType } from "../locale/locale";
 
-import type { GroupBasicForm, GroupCreateStepTypes, GroupEmblemCustomForm, GroupEmblemForm, GroupEmblemNormalForm, GroupInviteForm } from "./form";
-import type { GroupLimitLevelInfo } from "./group";
-
-export type GroupCreateBasicProps = {
-    editForm: GroupBasicForm;
-    limitLevelInfo: GroupLimitLevelInfo;
-};
-
-export type GroupCreateEmblemCustomProps = {
-    editForm: GroupEmblemCustomForm;
-};
-
-export type GroupCreateEmblemNormalProps = {
-    editForm: GroupEmblemNormalForm;
-};
-
-export type GroupCreateEmblemProps = {
-    editForm: GroupEmblemForm;
-};
-
-export type GroupCreateInviteProps = {
-    editForm: GroupInviteForm;
-};
+import type { GroupFormTypes } from "./form";
 
 export const GROUP_CREATE_HEADER_TITLES: Record<LocaleType, string> = {
     [LOCALE.KR]: "그룹 생성",
@@ -37,7 +15,7 @@ export const GROUP_CREATE_HEADER_TITLES: Record<LocaleType, string> = {
 
 export type GroupCreateFlowStepTypes = 0 | 1 | 2 | 3 | 4;
 
-export const GroupCreateFlowStepByFormType: Record<GroupCreateStepTypes, GroupCreateFlowStepTypes> = {
+export const GroupCreateFlowStepByFormType: Record<GroupFormTypes, GroupCreateFlowStepTypes> = {
     [GROUP_FORM_TYPE.BASIC]: 0,
     [GROUP_FORM_TYPE.EMBLEM]: 1,
     [GROUP_FORM_TYPE.MEMBERS]: 2,
@@ -45,7 +23,7 @@ export const GroupCreateFlowStepByFormType: Record<GroupCreateStepTypes, GroupCr
     [GROUP_FORM_TYPE.RESULT]: 4,
 };
 
-export const GroupFormTypeByCreateFlowStep: Record<GroupCreateFlowStepTypes, GroupCreateStepTypes> = {
+export const GroupFormTypeByCreateFlowStep: Record<GroupCreateFlowStepTypes, GroupFormTypes> = {
     0: GROUP_FORM_TYPE.BASIC,
     1: GROUP_FORM_TYPE.EMBLEM,
     2: GROUP_FORM_TYPE.MEMBERS,

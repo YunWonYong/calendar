@@ -2,17 +2,17 @@ import type { FC } from "react";
 
 import Image from "@/components/Image";
 import { GroupCreateFlowStepByFormType } from "@/domains/group/create";
-import { GROUP_CREATE_STEP_ICON, GROUP_CREATE_STEP_TITLE } from "@/domains/group/form";
+import { GROUP_FORM_ICON, GROUP_FORM_TITLE } from "@/domains/group/form";
 import useGroupCreateFlow from "@/hooks/group/create/UseGroupCreateFlow";
 import useLocale from "@/hooks/locale/useLocale";
 
 import styles from "./GroupCreateStepIndicator.module.css";
 
-import type { GroupCreateStepTitleTypes, GroupCreateStepTypes } from "@/domains/group/form";
+import type { GroupFormTitleTypes, GroupFormTypes } from "@/domains/group/form";
 
 const GroupCreateStepIndicator = () => {
     const { locale } = useLocale();
-    const formTitles = GROUP_CREATE_STEP_TITLE[locale];
+    const formTitles = GROUP_FORM_TITLE[locale];
     return (
         <nav
             className={ styles.groupCreateStepNav }
@@ -24,14 +24,14 @@ const GroupCreateStepIndicator = () => {
     );
 };
 
-const GroupCreateStepList: FC<{ titles: GroupCreateStepTitleTypes; }> = ({ titles }) => {
+const GroupCreateStepList: FC<{ titles: GroupFormTitleTypes; }> = ({ titles }) => {
     return (
         <ul
             className={ styles.groupCreateStepList }
         >
             {
                 Object.keys(titles).map((formType) => {
-                    const groupFormType = formType as GroupCreateStepTypes;
+                    const groupFormType = formType as GroupFormTypes;
                     return (
                         <GroupCreateStepItem 
                             key={ groupFormType } 
@@ -46,9 +46,9 @@ const GroupCreateStepList: FC<{ titles: GroupCreateStepTitleTypes; }> = ({ title
 };
 
 
-const GroupCreateStepItem: FC<{ formType: GroupCreateStepTypes, title: string; }> = ({ formType, title }) => {
+const GroupCreateStepItem: FC<{ formType: GroupFormTypes, title: string; }> = ({ formType, title }) => {
     const { steps: { current } } = useGroupCreateFlow();
-    const icon = GROUP_CREATE_STEP_ICON[formType];
+    const icon = GROUP_FORM_ICON[formType];
     return (
         <li
             className={styles.groupCreateStepItem}
