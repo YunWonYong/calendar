@@ -33,6 +33,7 @@ export type GroupFormContextType<T> = {
 export type GroupFormState<T> = {
     formData: T;
     isValid: boolean;
+    isDirty: boolean;
 };
 
 export type GroupBasicFormData = {
@@ -64,6 +65,7 @@ export type GroupBasicFormContextType = {
 } & GroupFormContextType<GroupBasicFormData>;
 
 export type GroupBasicFormState = {
+    oldFormData?: GroupBasicFormData;
     errorMessages: Record<GroupBasicFormChangeNameTypes, string>;
 } & GroupFormState<GroupBasicFormData>;
 
@@ -79,6 +81,7 @@ export const DEFAULT_GROUP_BASIC_FORM_STATE: GroupBasicFormState = {
         shortName: ""
     },
     isValid: false,
+    isDirty: false,
 }
 
 export const GROUP_EMBLEM_TYPE = {
