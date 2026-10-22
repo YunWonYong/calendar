@@ -1,5 +1,6 @@
 
 import type { ReactNode } from "react";
+import { useCallback, useMemo } from "react";
 
 import { GROUP_BASIC_ACTION_TYPES } from "@/domains/group/form";
 import useGroupFormReducer from "@/hooks/group/form/UseGroupFormReducer";
@@ -15,22 +16,26 @@ const GroupBasicFormProvider = ({ children, formData }: { children: ReactNode; f
         reducer
     );
 
-    const onChangeName: GroupBasicFormChangeNameHandleType = (type, value) => {
+    const onChangeName = useCallback<GroupBasicFormChangeNameHandleType>((type, value) => {
         dispatch({ type: GROUP_BASIC_ACTION_TYPES[type], value });
-    };
+    }, []);
 
-    const onSelectPlanId: GroupBasicFormSelectPlanIdHandleType = (type, selectedPlanId) => {
+    const onSelectPlanId = useCallback<GroupBasicFormSelectPlanIdHandleType>((type, selectedPlanId) => {
         dispatch({ type: GROUP_BASIC_ACTION_TYPES[type], selectedPlanId });
-    };
+    }, []);
+
+    const isValidFormData = useCallback(() => state.isValid, [state.isValid]);
+    
+    const contextValue = useMemo(() => ({
+        ...state,
+        isValidFormData,
+        onChangeName,
+        onSelectPlanId
+    }), [state, isValidFormData, onChangeName, onSelectPlanId]);
 
     return (
         <GroupBasicFormContext.Provider
-            value={{
-                ...state,
-                isValidFormData: () => state.isValid,
-                onChangeName,
-                onSelectPlanId
-            }}
+            value={ contextValue }
         >
             {
                 children

@@ -1,7 +1,9 @@
+import GroupBasicNameForm from "./GroupBasicNameForm";
+
 const GroupBasicForm = () => {
     return (
         <section>
-            
+            <GroupBasicNameForm />
         </section>
     );
 };

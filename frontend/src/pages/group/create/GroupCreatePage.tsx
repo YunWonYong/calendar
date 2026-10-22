@@ -1,13 +1,16 @@
 import GroupCreateFlowProvider from "@/contexts/group/create/GroupCreateFlowProvider";
+import GroupCreateFormProvider from "@/contexts/group/create/GroupCreateFormProvider";
 
 import GroupCreateForm from "./layout/GroupCreateForm";
 
 
 const CreateGroupPage = () => {
     return (
-        <GroupCreateFlowProvider>
-            <GroupCreateForm />
-        </GroupCreateFlowProvider>
+        <GroupCreateFormProvider>
+            <GroupCreateFlowProvider>
+                <GroupCreateForm />
+            </GroupCreateFlowProvider>
+        </GroupCreateFormProvider>
     );
 };
 

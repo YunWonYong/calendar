@@ -1,4 +1,6 @@
 
+import type { ChangeEvent } from "react";
+
 import { LOCALE } from "../locale/locale";
 import { PLANS } from "../plan/planType";
 
@@ -213,6 +215,15 @@ export type GroupActionForState<T extends GroupReducerState> =
 
 export type GroupFormReducerType<T extends GroupReducerState> = (state: T, action: GroupActionForState<T>) => T;
 
+export type GroupFormBasicNameType = {
+    changeNameType: GroupBasicFormChangeNameTypes;
+    value: string;
+    errorMessage: string;
+    isError: boolean;
+    onChange: (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => void
+};
+
+
 export type GroupFormTitleTypes = Record<GroupFormTypes, string>;
 export const GROUP_FORM_TITLE: Record<LocaleType, GroupFormTitleTypes> = {
     [LOCALE.KR]: {
@@ -252,3 +263,60 @@ export const GROUP_FORM_ICON: Record<GroupFormTypes, string> = {
     [GROUP_FORM_TYPE.REVIEW]: reviewIcon,
     [GROUP_FORM_TYPE.RESULT]: resultIcon,
 };
+
+export type GroupFormNameInputTextType = {
+    LABEL: string;
+    PLACEHOLDER: string;
+    DESCRIPTION: string;
+};
+
+export const GROUP_FORM_NAME_INPUT: Record<LocaleType, Record<GroupBasicFormChangeNameTypes, GroupFormNameInputTextType>> = {
+    [LOCALE.KR]: {
+        [CHANGE_NAME_TYPE.FULL_NAME]: {
+            LABEL: "그룹 이름",
+            PLACEHOLDER: "예: 러닝을 사랑하는 모임",
+            DESCRIPTION: "최소 2글자 최대 18글자 입력해주세요."
+        },
+        [CHANGE_NAME_TYPE.SHORT_NAME]: {
+            LABEL: "그룹 닉네임",
+            PLACEHOLDER: "예: 러너스",
+            DESCRIPTION: "최소 2글자 최대 6글자 입력해주세요."
+        },
+    },
+    [LOCALE.EN]: {
+        [CHANGE_NAME_TYPE.FULL_NAME]: {
+            LABEL: "Group Name",
+            PLACEHOLDER: "e.g. Running Enthusiasts",
+            DESCRIPTION: "Enter 2–18 characters."
+        },
+        [CHANGE_NAME_TYPE.SHORT_NAME]: {
+            LABEL: "Group Nickname",
+            PLACEHOLDER: "e.g. Runners",
+            DESCRIPTION: "Enter 2–6 characters."
+        }
+    },
+    [LOCALE.ZH]: {
+        [CHANGE_NAME_TYPE.FULL_NAME]: {
+            LABEL: "群组名称",
+            PLACEHOLDER: "例如：热爱跑步的伙伴",
+            DESCRIPTION: "请输入 2～18 个字符。"
+        },
+        [CHANGE_NAME_TYPE.SHORT_NAME]: {
+            LABEL: "群组昵称",
+            PLACEHOLDER: "例如：跑者联盟",
+            DESCRIPTION: "请输入 2～6 个字符。"
+        }
+    },
+    [LOCALE.JP]: {
+        [CHANGE_NAME_TYPE.FULL_NAME]: {
+            LABEL: "グループ名",
+            PLACEHOLDER: "例：ランニング好きの集まり",
+            DESCRIPTION: "2〜18文字で入力してください。"
+        },
+        [CHANGE_NAME_TYPE.SHORT_NAME]: {
+            LABEL: "グループのニックネーム",
+            PLACEHOLDER: "例：ランナーズ",
+            DESCRIPTION: "2〜6文字で入力してください。"
+        }
+    },
+} as const;

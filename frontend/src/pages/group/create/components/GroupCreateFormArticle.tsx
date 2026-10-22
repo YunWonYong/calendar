@@ -1,3 +1,5 @@
+import GroupBasicForm from "../../form/basic/GroupBasicForm";
+
 import styles from "./GroupCreateFormArticle.module.css";
 
 const GroupCreateFormArticle = () => {
@@ -5,7 +7,7 @@ const GroupCreateFormArticle = () => {
         <article
             className={ styles.groupCreateFromArticle }
         >
-
+            <GroupBasicForm />
         </article>
     );
 };
