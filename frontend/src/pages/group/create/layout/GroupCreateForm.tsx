@@ -1,7 +1,9 @@
 
-import GroupCreateFooter from "../layout/GroupCreateFooter";
-import GroupCreateHeader from "../layout/GroupCreateHeader";
-import GroupCreateStepIndicator from "../layout/GroupCreateStepIndicator";
+import GroupCreateFormArticle from "../components/GroupCreateFormArticle";
+
+import GroupCreateFooter from "./GroupCreateFooter";
+import GroupCreateHeader from "./GroupCreateHeader";
+import GroupCreateStepIndicator from "./GroupCreateStepIndicator";
 
 import styles from "./GroupCreateForm.module.css";
 
@@ -14,12 +16,13 @@ const GroupCreateForm = () => {
                 className={ styles.groupCreateFormInner }
             >
                 <GroupCreateHeader />
-                <article
+                <div
                     className={ styles.groupCreateForm }
                 >
                     <GroupCreateStepIndicator />
+                    <GroupCreateFormArticle />
                     <GroupCreateFooter />
-                </article>
+                </div>
             </div>
         </section>
     );

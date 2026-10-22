@@ -1,6 +1,6 @@
 import GroupCreateFlowProvider from "@/contexts/group/create/GroupCreateFlowProvider";
 
-import GroupCreateForm from "./components/GroupCreateForm";
+import GroupCreateForm from "./layout/GroupCreateForm";
 
 
 const CreateGroupPage = () => {

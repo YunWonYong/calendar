@@ -1,4 +1,6 @@
 
+import type { ReactNode } from "react";
+
 import { GROUP_BASIC_ACTION_TYPES } from "@/domains/group/form";
 import useGroupFormReducer from "@/hooks/group/form/UseGroupFormReducer";
 
@@ -6,7 +8,6 @@ import { getDefaultState, reducer } from "./GroupBasicForm";
 import GroupBasicFormContext from "./GroupBasicFormContext";
 
 import type { GroupBasicFormChangeNameHandleType, GroupBasicFormData, GroupBasicFormSelectPlanIdHandleType, GroupBasicFormState } from "@/domains/group/form";
-import type { ReactNode } from "react";
 
 const GroupBasicFormProvider = ({ children, formData }: { children: ReactNode; formData?: GroupBasicFormData; }) => {
     const [state, dispatch] = useGroupFormReducer<GroupBasicFormState>(
