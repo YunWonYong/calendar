@@ -223,6 +223,17 @@ export type GroupFormBasicNameType = {
     onChange: (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => void
 };
 
+export type GroupFormBasicPlanBenefitType = {
+    planId: PlanTypeIds;
+    value: number;
+};
+
+export type GroupFormBasicPlanIdType = {
+    selectedPlanId: PlanTypeIds;
+    planBenefits: GroupFormBasicPlanBenefitType[];
+    onSelect: (value: string) => void;
+};
+
 
 export type GroupFormTitleTypes = Record<GroupFormTypes, string>;
 export const GROUP_FORM_TITLE: Record<LocaleType, GroupFormTitleTypes> = {
