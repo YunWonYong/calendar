@@ -20,98 +20,29 @@ export const PLAN_BENEFITS = {
 } as const;
 
 export type PlanBenefitTypes = keyof typeof PLAN_BENEFITS;
-export type PlanBenefitProperties = typeof PLAN_BENEFITS[keyof typeof PLAN_BENEFITS];
+export type PlanBenefitPropertyNameTypes = typeof PLAN_BENEFITS[keyof typeof PLAN_BENEFITS];
 
-export const PLAN_BENEFIT_VALUE_PARSERS = {
-    INTEGER: (value: unknown) => value as number,
-    BOOLEAN: (value: unknown) => value as boolean,
-} as const;
-
-type PlanBenefitValueTypeMap = {
-    [K in keyof typeof PLAN_BENEFIT_VALUE_PARSERS]:
-        ReturnType<typeof PLAN_BENEFIT_VALUE_PARSERS[K]>;
+export const PLAN_BENEFIT_VALUE_TYPE = {
+    INTEGER: "INTEGER",
+    DECIMAL: "DECIMAL",
+    BOOLEAN: "BOOLEAN",
+    STRING: "STRING",
 };
+export type PlanBenefitValueTypes = keyof typeof PLAN_BENEFIT_VALUE_TYPE;
 
-type PlanBenefitValueType = keyof PlanBenefitValueTypeMap;
+export type PlanBenefitValueTypeMap = {
+    [PLAN_BENEFITS.MAX_CREATED_GROUPS]: "INTEGER";
+    [PLAN_BENEFITS.MAX_SUB_LEADERS]: "INTEGER";
+    [PLAN_BENEFITS.MAX_JOINED_GROUPS]: "INTEGER";
+    [PLAN_BENEFITS.MAX_OWNED_GROUP_MEMBERS]: "INTEGER";
+    [PLAN_BENEFITS.ENABLE_PERSONAL_ALARMS]: "BOOLEAN";
+    [PLAN_BENEFITS.ENABLE_GROUP_ALARMS]: "BOOLEAN";
+    [PLAN_BENEFITS.MAX_ALARM_GROUPS]: "INTEGER";
+}
 
-type MetadataPlanBenefit = {
-    [T in PlanBenefitValueType]: {
-        benefitName: PlanBenefitTypes;
-        benefitPropertyName: PlanBenefitProperties;
-        valueType: T;
-    };
-}[PlanBenefitValueType];
-
-type MetadataPlan = {
-    planId: PlanTypeIds;
-    planType: PlanTypes;
-};
-
-type Metadata = {
-    plans: MetadataPlan[];
-    benefits: MetadataPlanBenefit[];
-};
-
-type PlanBenefitResponseData = {
-    [key in PlanBenefitProperties]?: {
-        version: number;
-        value: PlanBenefitValueTypeMap[PlanBenefitValueType];
-    };
-};
-
-type PlanData = {
-    [key in PlanTypes]: {
-        id: number;
-        price: number;
-        benefits: PlanBenefitResponseData;
-    };
-};
-
-export type PlansResponseBody = {
-    metadata: Metadata;
-    plans: PlanData;
-};
-
-export type PlanContextType = {
-    orderedPlanTypes: PlanTypes[];
-    orderedPlanBenfitProperties: PlanBenefitProperties[];
-    plans: PlanData;
-};
-
-export const DEFAULT_METADATA: Metadata = {
-    benefits: [],
-    plans: [],
-};
-
-export const DEFAULT_PLANS: PlanData = {
-    FREE: {
-        id: 0,
-        price: 0,
-        benefits: {}
-    },
-    BASIC: {
-        id: 0,
-        price: 0,
-        benefits: {}
-    },
-    PRO: {
-        id: 0,
-        price: 0,
-        benefits: {}
-    },
-    PREMIUM: {
-        id: 0,
-        price: 0,
-        benefits: {}
-    },
-    ULTIMATE: {
-        id: 0,
-        price: 0,
-        benefits: {}
-    }
-};
-
-export const DEFAULT_PLAN_RESPONSE_BODY_DATA: PlansResponseBody = {
-    metadata: DEFAULT_METADATA,
-    plans: DEFAULT_PLANS,
+export type PlanBenefitValueDataTypeMap = {
+    INTEGER: number;
+    DECIMAL: number;
+    BOOLEAN: boolean;
+    STRING: string;
 };
