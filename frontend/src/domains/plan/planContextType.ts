@@ -7,6 +7,12 @@ export type PlanMetadata = {
     planType: PlanTypes;
 };
 
+export type PlanBenefitMetadata = {
+    benefitName: PlanBenefitTypes;
+    benefitPropertyName: PlanBenefitPropertyNameTypes;
+    valueType: PlanBenefitValueTypes;
+};
+
 export type PlanBenefitDataType<T extends PlanBenefitValueTypes> = {
     version: number;
     value: PlanBenefitValueDataTypeMap[T];
@@ -32,11 +38,7 @@ export type PlansType = Record<PlanTypes, PlanData>;
 
 export type PlanContextType = {
     planMetadataList: PlanMetadata[];
-    planBenefitMetadataList: {
-        benefitName: PlanBenefitTypes;
-        benefitPropertyName: PlanBenefitPropertyNameTypes;
-        valueType: "INTEGER" | "DECIMAL" | "BOOLEAN" | "STRING";
-    }[];
+    planBenefitMetadataList: PlanBenefitMetadata[];
     plans: PlansType;
 };
 

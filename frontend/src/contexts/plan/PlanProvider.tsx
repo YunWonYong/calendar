@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 
-import { DEFAULT_PLAN_DATA } from "@/domains/plan/planContextType";
+import { DEFAULT_PLAN_BENEFIT_DATA, DEFAULT_PLAN_DATA } from "@/domains/plan/planContextType";
 import { DEFAULT_PLAN_RESPONSE_BODY_DATA } from "@/domains/plan/planResponseBodyType";
 import { PLAN_BENEFITS, PLANS } from "@/domains/plan/planType";
 import { isEmpty } from "@/lib/validation/validation";
@@ -9,10 +9,47 @@ import { fetchPlans } from "@/server/api";
 
 import PlanContext from "./PlanContext";
 
-import type { PlanBenefitType, PlanMetadata, PlansType } from "@/domains/plan/planContextType";
-import type { PlansResponseBody } from "@/domains/plan/planResponseBodyType";
+import type { PlanBenefitMetadata, PlanBenefitType, PlanMetadata, PlansType } from "@/domains/plan/planContextType";
+import type { PlanResponseData, PlansResponseBody } from "@/domains/plan/planResponseBodyType";
 import type { PlanBenefitPropertyNameTypes, PlanBenefitTypes, PlanTypeIds, PlanTypes } from "@/domains/plan/planType";
 
+const getPlans = (planMetadataList: PlanMetadata[], planBenefitMetadataList: PlanBenefitMetadata[], responsePlanData: Record<PlanTypes, PlanResponseData>) => {
+    const plans: PlansType = {
+        ...DEFAULT_PLAN_DATA,
+    };
+
+    planMetadataList.forEach(({ planType, planId }) => {
+        const planData = responsePlanData[planType];
+
+        if (isEmpty(planData)) {
+            return;
+        }
+
+        plans[planType] = {
+            ...plans[planType],
+            planId,
+            benefits: { ...DEFAULT_PLAN_BENEFIT_DATA }
+        };
+
+        const { benefits } = planData;
+        planBenefitMetadataList.forEach(benefitMetadata => {
+            const { benefitPropertyName } = benefitMetadata;
+            const benefitData = benefits[benefitPropertyName];
+
+            if (!benefitData) {
+                return;
+            }
+
+            setBenefitData(
+                plans[planType].benefits,
+                benefitPropertyName,
+                benefitData
+            );
+        });
+    });
+
+    return plans;
+};
 
 const setBenefitData = <K extends PlanBenefitPropertyNameTypes>(target: PlanBenefitType, key: K, value: PlanBenefitType[K]) => { 
     target[key] = value;
@@ -74,43 +111,14 @@ const PlanProvider: FC<{ children: ReactNode }> = ({ children }) => {
                     valueType
                 };
             });
-
-        const planDatas: PlansType = {
-            ...DEFAULT_PLAN_DATA,
-        };
-
-        planMetadataList.forEach(({ planType, planId }) => {
-            const planData = plans[planType];
-
-            if (isEmpty(planData)) {
-                return;
-            }
-
-            planDatas[planType] = {
-                ...planDatas[planType],
-                planId,
-            };
-
-            const { benefits } = planData;
-            planBenefitMetadataList.forEach(benefitMetadata => {
-                const { benefitPropertyName } = benefitMetadata;
-                const benefitData = benefits[benefitPropertyName];
-
-                if (!benefitData) {
-                    return;
-                }
-
-                setBenefitData(
-                    planDatas[planType].benefits,
-                    benefitPropertyName,
-                    benefitData
-                );
-            });
-        });
         return {
             planMetadataList,
             planBenefitMetadataList,
-            plans: planDatas,
+            plans: getPlans(
+                planMetadataList,
+                planBenefitMetadataList,
+                plans
+            ),
         };
     }, [data]);
     return (

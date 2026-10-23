@@ -24,7 +24,7 @@ type PlanBenefitResponseData = {
     };
 };
 
-type PlanResponseData = {
+export type PlanResponseData = {
     id: number;
     price: number;
     benefits: PlanBenefitResponseData;

@@ -2,7 +2,7 @@ import { METHODS } from "@/domains/fetch/fetchConstants";
 
 import serverApiClient from "./client";
 
-import type { PlansResponseBody } from "@/domains/plan/planType";
+import type { PlansResponseBody } from "@/domains/plan/planResponseBodyType";
 import type { AuthenticateApiParameterType } from "@/domains/server/serverType";
 
 export const getLoginPath = (authProvider: string) => 
