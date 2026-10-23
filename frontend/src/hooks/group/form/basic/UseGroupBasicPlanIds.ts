@@ -14,6 +14,7 @@ const useGroupBasicPlanIds = () => {
     const { formData, onSelectPlanId } = ctx;
     const maxOwnedGroupMemberPlanId = useMemo<GroupFormBasicPlanIdType>(() => {
         return {
+            selectType: SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER,
             selectedPlanId: formData.maxOwnedGroupMemberPlanId,
             planBenefits: planMetadataList.map(({ planId, planType }) => {
                 const { maxOwnedGroupMembers } = plans[planType].benefits;
@@ -31,12 +32,13 @@ const useGroupBasicPlanIds = () => {
     }, [plans, planMetadataList, formData.maxOwnedGroupMemberPlanId, onSelectPlanId]);
     const maxSubLeaderPlanId = useMemo<GroupFormBasicPlanIdType>(() => {
         return {
+            selectType: SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER,
             selectedPlanId: formData.maxSubLeaderPlanId,
             planBenefits: planMetadataList.map(({ planId, planType }) => {
-                const { maxOwnedGroupMembers } = plans[planType].benefits;
+                const { maxSubLeaders } = plans[planType].benefits;
                 return {
                     planId,
-                    value: maxOwnedGroupMembers.value,
+                    value: maxSubLeaders.value,
                 };
             }),
             onSelect: (value) => 

@@ -229,6 +229,7 @@ export type GroupFormBasicPlanBenefitType = {
 };
 
 export type GroupFormBasicPlanIdType = {
+    selectType: GroupBasicFormSelectPlanIdTypes;
     selectedPlanId: PlanTypeIds;
     planBenefits: GroupFormBasicPlanBenefitType[];
     onSelect: (value: string) => void;
@@ -331,3 +332,52 @@ export const GROUP_FORM_NAME_INPUT: Record<LocaleType, Record<GroupBasicFormChan
         }
     },
 } as const;
+
+
+export type GroupFormPlanIdRadioBoxTextType = {
+    LABEL: string;
+    UNIT: string;
+};
+
+export const GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT: Record<LocaleType, Record<GroupBasicFormSelectPlanIdTypes, GroupFormPlanIdRadioBoxTextType>> = {
+    [LOCALE.KR]: {
+        [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: {
+            LABEL: "그룹 참가 인원 선택",
+            UNIT: "명",
+        },
+        [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: {
+            LABEL: "부그룹장 인원 선택",
+            UNIT: "명",
+        },
+    },
+    [LOCALE.EN]: {
+        [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: {
+            LABEL: "Select group member capacity",
+            UNIT: "p",
+        },
+        [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: {
+            LABEL: "Select sub-leader capacity",
+            UNIT: "p",
+        },
+    },
+    [LOCALE.ZH]: {
+        [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: {
+            LABEL: "选择群组成员人数",
+            UNIT: "人",
+        },
+        [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: {
+            LABEL: "选择副群主人数",
+            UNIT: "人",
+        },
+    },
+    [LOCALE.JP]: {
+        [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: {
+            LABEL: "グループ参加メンバー数を選択",
+            UNIT: "名",
+        },
+        [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: {
+            LABEL: "サブリーダー数を選択",
+            UNIT: "名",
+        },
+    },
+};
