@@ -33,6 +33,7 @@ export type GroupFormContextType<T> = {
 };
 
 export type GroupFormState<T> = {
+    oldFormData?: T;
     formData: T;
     isValid: boolean;
     isDirty: boolean;
@@ -67,7 +68,6 @@ export type GroupBasicFormContextType = {
 } & GroupFormContextType<GroupBasicFormData>;
 
 export type GroupBasicFormState = {
-    oldFormData?: GroupBasicFormData;
     errorMessages: Record<GroupBasicFormChangeNameTypes, string>;
 } & GroupFormState<GroupBasicFormData>;
 
@@ -105,13 +105,23 @@ export type GroupEmblemFormNormalData = {
 };
 
 export type GroupEmblemFormData = {
+    type: GroupEmblemTypes;
     [GROUP_EMBLEM_TYPE.CUSTOM]: GroupEmblemFormCustomData;
     [GROUP_EMBLEM_TYPE.NORMAL]: GroupEmblemFormNormalData;
 };
 
 export type GroupEmblemFormState = {
+    errorMessages: Record<GroupEmblemTypes, string>;
     currentEmblemType: GroupEmblemTypes;
 } & GroupFormState<GroupEmblemFormData>;
+
+export type GroupEmblemFormContextType = {
+    errorMessages: Record<GroupEmblemTypes, string>;
+    getCurrentEmblemType: () => GroupEmblemTypes;
+    onChangeEmblemType: (changeType: GroupEmblemTypes) => void;
+    saveNormalEmblem: (data: GroupEmblemFormNormalData) => void;
+    saveCustomEmblem: (data: GroupEmblemFormCustomData) => void;
+} & GroupFormContextType<GroupEmblemFormData>;
 
 export type GroupMemberFormData = {
     members: GroupMemberType[];
