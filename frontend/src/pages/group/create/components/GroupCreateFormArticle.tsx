@@ -1,13 +1,17 @@
-import GroupBasicForm from "../../form/basic/GroupBasicForm";
+import useGroupCreateForm from "@/hooks/group/create/UseGroupCreateForm";
 
 import styles from "./GroupCreateFormArticle.module.css";
 
 const GroupCreateFormArticle = () => {
+    const { FormComponent } = useGroupCreateForm();
     return (
         <article
             className={ styles.groupCreateFromArticle }
         >
-            <GroupBasicForm />
+            {
+                FormComponent && 
+                    <FormComponent />
+            }
         </article>
     );
 };

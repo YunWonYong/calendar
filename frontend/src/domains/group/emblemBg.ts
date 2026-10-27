@@ -44,6 +44,7 @@ export const BG_THEMES = {
 
 export type BGId = keyof typeof BG_THEMES;
 export const BG_IDS = Object.keys(BG_THEMES) as BGId[];
+
 export const getRandomBGId = () => {
     const bgIdSize = BG_IDS.length;
     return BG_IDS[Math.floor(Math.random() * bgIdSize)];

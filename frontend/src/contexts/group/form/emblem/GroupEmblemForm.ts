@@ -1,7 +1,8 @@
 import { getRandomBGId } from "@/domains/group/emblemBg";
 import { getRandomIconId } from "@/domains/group/emblemIcon";
-import type { GroupEmblemFormData, GroupEmblemFormNormalData, GroupEmblemFormState, GroupFormReducerType } from "@/domains/group/form";
 import { GROUP_EMBLEM_FORM_ACTIONS, GROUP_EMBLEM_TYPE } from "@/domains/group/form";
+
+import type { GroupEmblemFormData, GroupEmblemFormNormalData, GroupEmblemFormState, GroupFormReducerType } from "@/domains/group/form";
 
 const getDefaultNormalEmblemData = () => {
     const data: GroupEmblemFormNormalData = {
@@ -36,20 +37,22 @@ export const getDefaultState = (formData?: GroupEmblemFormData) => {
 
     if (formData) {
         const { type, normal, custom } = formData;
+
         if (type === GROUP_EMBLEM_TYPE.CUSTOM) {
-            state.formData.type = GROUP_EMBLEM_TYPE.CUSTOM;
             state.formData[GROUP_EMBLEM_TYPE.CUSTOM] = custom;
         } else {
             state.formData[GROUP_EMBLEM_TYPE.NORMAL] = normal;
         }
 
         state.oldFormData = formData;
+        state.currentEmblemType = type;
     }
+
     return state;
 }
 
 export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case GROUP_EMBLEM_FORM_ACTIONS.CHANGE_CUSTOM_EMBLEM:
             return {
                 ...state,
@@ -59,7 +62,7 @@ export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, actio
                     [GROUP_EMBLEM_TYPE.CUSTOM]: action.data
                 }
             };
-        case GROUP_EMBLEM_FORM_ACTIONS.CHANGE_NOMAL_EMBLEM:
+        case GROUP_EMBLEM_FORM_ACTIONS.CHANGE_NORMAL_EMBLEM:
             return {
                 ...state,
                 isDirty: true,
@@ -72,6 +75,7 @@ export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, actio
             if (state.currentEmblemType === action.selectedEmblemType) {
                 return state;
             }
+
             return {
                 ...state,
                 currentEmblemType: action.selectedEmblemType,

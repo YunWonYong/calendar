@@ -381,6 +381,7 @@ export const ICON_PRESETS = {
 
 export type IconId = keyof typeof ICON_PRESETS;
 export const ICON_IDS = Object.keys(ICON_PRESETS) as IconId[];
+
 export const getRandomIconId = () => {
     const iconIdSize = ICON_IDS.length;
     return ICON_IDS[Math.floor(Math.random() * iconIdSize)];
