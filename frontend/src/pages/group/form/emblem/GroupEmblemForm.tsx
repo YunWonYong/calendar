@@ -6,6 +6,8 @@ import { GROUP_EMBLEM_TYPE, GROUP_FORM_EMBLEM_HEADER_TEXT } from "@/domains/grou
 import useGroupEmblemForm from "@/hooks/group/form/emblem/UseGroupEmblemForm";
 import useLocale from "@/hooks/locale/useLocale";
 
+import GroupCustomEmblemForm from "./GroupCustomEmblemForm";
+import GroupNormalEmblemForm from "./GroupNormalEmblemForm";
 
 import styles from "./GroupEmblemForm.module.css";
 
@@ -24,6 +26,15 @@ const GroupEmblemForm = () => {
                 currentEmblemType={ currentEmblemType }
                 onChangeEmblemType={ onChangeEmblemType }
             />
+            <div
+                className={ styles.content }
+            >
+                {
+                    currentEmblemType === GROUP_EMBLEM_TYPE.NORMAL
+                        ? <GroupNormalEmblemForm />
+                        : <GroupCustomEmblemForm />
+                }
+            </div>
         </section>
     );
 };

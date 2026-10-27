@@ -69,7 +69,7 @@ export const ICON_PRESETS = {
         shapes: [
             { type: "circle", props: { cx: 64, cy: 64, r: 48 } },
             { type: "line", props: { x1: 16, y1: 64, x2: 112, y2: 64 } },
-            { type: "path", props: { d: "M64 16a80 80 0 0 1 0 96 80 80 0 0 1 0-96z" } },
+            { type: "path", props: { d: "M64 16C38 36 38 92 64 112M64 16C90 36 90 92 64 112" } },
         ],
     },
 
@@ -80,10 +80,10 @@ export const ICON_PRESETS = {
         category: "반려동물",
         shapes: [
             { type: "path", props: { d: "M64 53.3c-13.3 0-24 10.7-24 24 0 10.7 8 18.7 24 29.3 16-10.7 24-18.7 24-29.3 0-13.3-10.7-24-24-24z" } },
-            { type: "circle", props: { cx: 37.3, cy: 40, r: 10.7 } },
-            { type: "circle", props: { cx: 90.7, cy: 40, r: 10.7 } },
-            { type: "circle", props: { cx: 61.3, cy: 24, r: 9.6 } },
-            { type: "circle", props: { cx: 77.3, cy: 24, r: 9.6 } },
+            { type: "circle", props: { cx: 36, cy: 40, r: 8.5 } },
+            { type: "circle", props: { cx: 56, cy: 29, r: 8.5 } },
+            { type: "circle", props: { cx: 72, cy: 29, r: 8.5 } },
+            { type: "circle", props: { cx: 92, cy: 40, r: 8.5 } },
         ],
     },
     "icon-10": {
@@ -96,10 +96,8 @@ export const ICON_PRESETS = {
     "icon-11": {
         category: "자연",
         shapes: [
-            { type: "path", props: { d: "M58.7 112V64a10.7 10.7 0 0 1 10.7-10.7h0a10.7 10.7 0 0 1 10.7 10.7v48" } },
-            { type: "path", props: { d: "M16 96c21.3-42.7 74.7-42.7 96 0" } },
-            { type: "path", props: { d: "M26.7 74.7C42.7 42.7 85.3 42.7 101.3 74.7" } },
-            { type: "path", props: { d: "M37.3 53.3C50.7 26.7 77.3 26.7 90.7 53.3" } },
+            { type: "path", props: { d: "M64 18C46 36 34 50 34 66a30 30 0 0 0 60 0C94 50 82 36 64 18z" } },
+            { type: "path", props: { d: "M64 84v28M48 112h32" } },
         ],
     },
     "icon-12": {
@@ -111,7 +109,7 @@ export const ICON_PRESETS = {
     "icon-13": {
         category: "자연",
         shapes: [
-            { type: "path", props: { d: "M93.3 85.3A42.7 42.7 0 0 0 42.7 34.7c-2.1 0-4.3.2-6.4.5A48 48 0 1 0 93.3 85.3z" } },
+            { type: "path", props: { d: "M88 18A48 48 0 1 0 110 88A40 40 0 0 1 88 18z" } },
         ],
     },
     "icon-14": {
@@ -166,7 +164,7 @@ export const ICON_PRESETS = {
         category: "가계부",
         shapes: [
             { type: "circle", props: { cx: 64, cy: 64, r: 48 } },
-            { type: "path", props: { d: "M64 32v64M48 48h32a16 16 0 0 1 0 32H48a16 16 0 0 0 0 32h32" } },
+            { type: "path", props: { d: "M64 30v68M82 44H56a12 12 0 0 0 0 24h16a12 12 0 0 1 0 24H46" } },
         ],
     },
     "icon-20": {
@@ -206,11 +204,11 @@ export const ICON_PRESETS = {
     "icon-24": {
         category: "운동",
         shapes: [
-            { type: "line", props: { x1: 26.7, y1: 64, x2: 101.3, y2: 64 } },
-            { type: "rect", props: { x: 16, y: 42.7, width: 10.7, height: 42.7, rx: 4, ry: 4 } },
-            { type: "rect", props: { x: 101.3, y: 42.7, width: 10.7, height: 42.7, rx: 4, ry: 4 } },
-            { type: "rect", props: { x: 5.3, y: 48, width: 10.7, height: 32, rx: 4, ry: 4 } },
-            { type: "rect", props: { x: 112, y: 48, width: 10.7, height: 32, rx: 4, ry: 4 } },
+            { type: "line", props: { x1: 24, y1: 64, x2: 104, y2: 64 } },
+            { type: "rect", props: { x: 24, y: 42, width: 12, height: 44, rx: 4, ry: 4 } },
+            { type: "rect", props: { x: 92, y: 42, width: 12, height: 44, rx: 4, ry: 4 } },
+            { type: "rect", props: { x: 12, y: 48, width: 12, height: 32, rx: 4, ry: 4 } },
+            { type: "rect", props: { x: 104, y: 48, width: 12, height: 32, rx: 4, ry: 4 } },
         ],
     },
     "icon-25": {
@@ -279,7 +277,7 @@ export const ICON_PRESETS = {
         ],
     },
     "icon-33": {
-        category: "음속",
+        category: "음료",
         shapes: [
             { type: "path", props: { d: "M42.7 21.3v42.7A21.3 21.3 0 0 0 64 85.3a21.3 21.3 0 0 0 21.3-21.3V21.3" } },
             { type: "line", props: { x1: 64, y1: 85.3, x2: 64, y2: 112 } },
@@ -317,7 +315,7 @@ export const ICON_PRESETS = {
     "icon-38": {
         category: "여행",
         shapes: [
-            { type: "path", props: { d: "M64 16l14.7 29.8 32.9 4.8-23.8 23.2 5.6 32.8-29.4-15.5-29.4 15.5 5.6-32.8L16.4 50.6l32.9-4.8L64 16z" } },
+            { type: "path", props: { d: "M64 18 77.5 45.5 108 50l-22 21.5 5.2 30.5L64 87.5 36.8 102l5.2-30.5L20 50l30.5-4.5L64 18z" } },
         ],
     },
 
@@ -373,8 +371,121 @@ export const ICON_PRESETS = {
     "icon-45": {
         category: "스페셜",
         shapes: [
-            { type: "path", props: { d: "M64 16v32M64 80v32M16 64h32M80 64h32" } },
+            { type: "path", props: { d: "M64 16v28M64 84v28M16 64h28M84 64h28" } },
             { type: "circle", props: { cx: 64, cy: 64, r: 16 } },
+        ],
+    },
+    // ----------------------------------------------------------------
+    // 7. 커뮤니티 / 스페셜 (46 ~ 60)
+    // ----------------------------------------------------------------
+    "icon-46": {
+        category: "스페셜",
+        shapes: [
+            { type: "path", props: { d: "M32 24h64v20a32 32 0 0 1-64 0V24z" } },
+            { type: "path", props: { d: "M32 32H20v12a20 20 0 0 0 20 20" } },
+            { type: "path", props: { d: "M96 32h12v12a20 20 0 0 1-20 20" } },
+            { type: "path", props: { d: "M64 76v20M44 108h40M48 96h32" } },
+        ],
+    },
+    "icon-47": {
+        category: "스페셜",
+        shapes: [
+            { type: "path", props: { d: "M64 12 108 30v30c0 28-18 45-44 56C38 105 20 88 20 60V30L64 12z" } },
+            { type: "path", props: { d: "m42 63 15 15 30-32" } },
+        ],
+    },
+    "icon-48": {
+        category: "여행",
+        shapes: [
+            { type: "path", props: { d: "M72 12 28 72h30l-4 44 46-64H70l2-40z" } },
+        ],
+    },
+    "icon-49": {
+        category: "취미",
+        shapes: [
+            { type: "path", props: { d: "M64 16c-4 24-28 32-28 60a28 28 0 0 0 56 0c0-12-6-21-14-30 1 15-6 22-12 24 4-23-2-38-2-54z" } },
+        ],
+    },
+    "icon-50": {
+        category: "일반",
+        shapes: [
+            { type: "path", props: { d: "M16 56 28 32l20 12 16-24 16 24 20-12 12 24-12 48H28L16 56z" } },
+            { type: "line", props: { x1: 31, y1: 78, x2: 97, y2: 78 } },
+        ],
+    },
+    "icon-51": {
+        category: "일반",
+        shapes: [
+            { type: "path", props: { d: "M20 24h88v64H64l-24 20V88H20V24z" } },
+            { type: "circle", props: { cx: 44, cy: 56, r: 4 } },
+            { type: "circle", props: { cx: 64, cy: 56, r: 4 } },
+            { type: "circle", props: { cx: 84, cy: 56, r: 4 } },
+        ],
+    },
+    "icon-52": {
+        category: "IT",
+        shapes: [
+            { type: "rect", props: { x: 24, y: 12, width: 80, height: 104, rx: 12, ry: 12 } },
+            { type: "line", props: { x1: 44, y1: 28, x2: 84, y2: 28 } },
+            { type: "circle", props: { cx: 64, cy: 100, r: 5 } },
+        ],
+    },
+    "icon-53": {
+        category: "일반",
+        shapes: [
+            { type: "path", props: { d: "M64 16a32 32 0 0 0-32 32v16L20 84v8h88v-8L96 64V48a32 32 0 0 0-32-32z" } },
+            { type: "path", props: { d: "M48 100a16 16 0 0 0 32 0" } },
+        ],
+    },
+    "icon-54": {
+        category: "IT",
+        shapes: [
+            { type: "rect", props: { x: 24, y: 52, width: 80, height: 60, rx: 10, ry: 10 } },
+            { type: "path", props: { d: "M40 52V36a24 24 0 0 1 48 0v16" } },
+            { type: "circle", props: { cx: 64, cy: 78, r: 6 } },
+            { type: "line", props: { x1: 64, y1: 84, x2: 64, y2: 96 } },
+        ],
+    },
+    "icon-55": {
+        category: "자연",
+        shapes: [
+            { type: "path", props: { d: "M104 24C56 24 24 44 24 76a28 28 0 0 0 28 28c32 0 52-32 52-80z" } },
+            { type: "path", props: { d: "M24 104c16-24 36-40 64-56" } },
+        ],
+    },
+    "icon-56": {
+        category: "일반",
+        shapes: [
+            { type: "path", props: { d: "M64 16 78 44l31 5-22 22 5 31-28-15-28 15 5-31-22-22 31-5 14-28z" } },
+            { type: "circle", props: { cx: 64, cy: 64, r: 10 } },
+        ],
+    },
+    "icon-57": {
+        category: "여행",
+        shapes: [
+            { type: "path", props: { d: "M64 16 75 44l28 11-28 11-11 28-11-28-28-11 28-11 11-28z" } },
+            { type: "path", props: { d: "M94 82l5 13 13 5-13 5-5 13-5-13-13-5 13-5 5-13z" } },
+        ],
+    },
+    "icon-58": {
+        category: "취미",
+        shapes: [
+            { type: "path", props: { d: "M28 20h24a12 12 0 0 1 24 0h24v24h-8a12 12 0 1 0 0 24h8v24H76v-8a12 12 0 1 0-24 0v8H28V68h-8a12 12 0 1 1 0-24h8V20z" } },
+        ],
+    },
+    "icon-59": {
+        category: "IT",
+        shapes: [
+            { type: "rect", props: { x: 20, y: 28, width: 88, height: 72, rx: 4, ry: 4 } },
+            { type: "path", props: { d: "m20 36 44 34 44-34" } },
+        ],
+    },
+    "icon-60": {
+        category: "여행",
+        shapes: [
+            { type: "circle", props: { cx: 64, cy: 64, r: 48 } },
+            { type: "path", props: { d: "M16 64h96M64 16C38 36 38 92 64 112M64 16C90 36 90 92 64 112" } },
+            { type: "path", props: { d: "M24 40C48 48 80 48 104 40M24 88C48 80 80 80 104 88" } },
         ],
     },
 } satisfies Record<string, IconPreset>;

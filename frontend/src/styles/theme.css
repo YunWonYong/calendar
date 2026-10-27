@@ -2,6 +2,10 @@
     --bg-color: var(--white-color);
     --border-color: var(--black-color);
     --text-color: var(--black-color);
+    
+    --inverse-bg-color: var(--black-color);
+    --inverse-border-color: var(--white-color);
+    --inverse-text-color: var(--white-color);
 
     --bg-color-muted: #e5e7eb;
     --border-color-muted: #d1d5db;
@@ -16,6 +20,10 @@
     --bg-color: var(--black-color);
     --border-color: var(--white-color);
     --text-color: var(--white-color);
+    
+    --inverse-bg-color: var(--white-color);
+    --inverse-border-color: var(--black-color);
+    --inverse-text-color: var(--black-color);
 
     --bg-color-muted: #292929;
     --text-color-muted: #9ca3af;
