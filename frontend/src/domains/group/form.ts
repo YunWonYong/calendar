@@ -115,12 +115,15 @@ export type GroupEmblemFormState = {
     currentEmblemType: GroupEmblemTypes;
 } & GroupFormState<GroupEmblemFormData>;
 
+type SaveEmblemParams = 
+    { type: typeof GROUP_EMBLEM_TYPE.CUSTOM; data: GroupEmblemFormCustomData; } |
+    { type: typeof GROUP_EMBLEM_TYPE.NORMAL; data: GroupEmblemFormNormalData; };
+    
 export type GroupEmblemFormContextType = {
     errorMessages: Record<GroupEmblemTypes, string>;
-    getCurrentEmblemType: () => GroupEmblemTypes;
+    currentEmblemType: GroupEmblemTypes;
     onChangeEmblemType: (changeType: GroupEmblemTypes) => void;
-    saveNormalEmblem: (data: GroupEmblemFormNormalData) => void;
-    saveCustomEmblem: (data: GroupEmblemFormCustomData) => void;
+    saveEmblem: (param: SaveEmblemParams) => void;
 } & GroupFormContextType<GroupEmblemFormData>;
 
 export type GroupMemberFormData = {
@@ -159,7 +162,7 @@ export type GroupBasicFormActionType = typeof GROUP_BASIC_FORM_ACTIONS[keyof typ
 
 export const GROUP_EMBLEM_FORM_ACTIONS = {
     SELECT_EMBLEM_TAB: "SELECT_EMBLEM_TAB",
-    CHANGE_NOMAL_EMBLEM: "CHANGE_NOMAL_EMBLEM",
+    CHANGE_NORMAL_EMBLEM: "CHANGE_NORMAL_EMBLEM",
     CHANGE_CUSTOM_EMBLEM: "CHANGE_CUSTOM_EMBLEM",
 } as const;
 export type GroupEmblemFormActionType = typeof GROUP_EMBLEM_FORM_ACTIONS[keyof typeof GROUP_EMBLEM_FORM_ACTIONS];
@@ -198,7 +201,7 @@ export type GroupEmblemFormAction =
         data: GroupEmblemFormCustomData;
     } |
     {
-        type: typeof GROUP_EMBLEM_FORM_ACTIONS.CHANGE_NOMAL_EMBLEM;
+        type: typeof GROUP_EMBLEM_FORM_ACTIONS.CHANGE_NORMAL_EMBLEM;
         data: GroupEmblemFormNormalData;
     };
 
@@ -390,4 +393,23 @@ export const GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT: Record<LocaleType, Record<GroupB
             UNIT: "名",
         },
     },
+};
+
+export const GROUP_FORM_EMBLEM_HEADER_TEXT: Record<LocaleType, Record<GroupEmblemTypes, string>> = {
+    [LOCALE.KR]: {
+        [GROUP_EMBLEM_TYPE.NORMAL]: "기본 엠블럼",
+        [GROUP_EMBLEM_TYPE.CUSTOM]: "개인 엠블럼",
+    },
+    [LOCALE.EN]: {
+        [GROUP_EMBLEM_TYPE.NORMAL]: "Basic Emblem",
+        [GROUP_EMBLEM_TYPE.CUSTOM]: "Personal Emblem",
+    },
+    [LOCALE.ZH]: {
+        [GROUP_EMBLEM_TYPE.NORMAL]: "預設徽章",
+        [GROUP_EMBLEM_TYPE.CUSTOM]: "自訂徽章",
+    },
+    [LOCALE.JP]: {
+        [GROUP_EMBLEM_TYPE.NORMAL]: "基本エンブレム",
+        [GROUP_EMBLEM_TYPE.CUSTOM]: "個人エンブレム",
+    }
 };

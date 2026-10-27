@@ -1,0 +1,127 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding-top: 1rem;
+}
+
+.tab_list {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+
+    margin: 0;
+    padding: 8px 0 0;
+
+    border-bottom: 1px solid var(--border-color-muted);
+
+    list-style: none;
+}
+
+.tab_list[data-select-emblem-tab="normal"] {
+    padding-left: 8px;
+}
+
+.tab {
+    position: relative;
+    z-index: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color-muted);
+    box-sizing: border-box;
+    flex: 0 0 150px;
+    min-height: 38px;
+    border: 1px solid var(--border-color-muted);
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+    padding: 5px 10px;
+
+    color: var(--text-color-muted, #6b7280);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+
+    cursor: pointer;
+    user-select: none;
+
+    transform: scale(1);
+    transform-origin: center bottom;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.tab::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+
+    height: 2px;
+
+    content: "";
+    transition: background-color 0.2s ease;
+}
+
+.tab:hover:not([data-selected="true"]) {
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+}
+
+.tab[data-selected="true"] {
+    z-index: 1;
+
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+    font-weight: 700;
+
+    transform: scale(1.1);
+}
+
+.tab[data-selected="true"]::after {
+    background-color: var(--button-color-blue, #2563eb);
+}
+
+.tab:focus-visible {
+    outline: 2px solid var(--button-color-blue, #2563eb);
+    outline-offset: -2px;
+    border-radius: 4px;
+}
+
+.content {
+    width: 100%;
+    min-width: 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        gap: 20px;
+    }
+
+    .tab {
+        padding: 10px 12px;
+        width: 110px;
+        min-height: 22px;
+        font-size: 11px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tab,
+    .tab::after {
+        transition: none;
+    }
+}
