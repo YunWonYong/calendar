@@ -8,14 +8,17 @@ import GroupEmblemBG from "@/components/group/GroupEmblemBG";
 import GroupEmblemIconSVG from "@/components/group/GroupEmblemIconSVG";
 import { BG_IDS, type BGId } from "@/domains/group/emblemBg";
 import { ICON_IDS } from "@/domains/group/emblemIcon";
+import { EMBLEM_NORMAL_PREVIEW_TEXT, type GroupEmblemFormNormalData } from "@/domains/group/form";
 import useGroupNormalEmblem from "@/hooks/group/form/emblem/UseGroupNormalEmblem";
+import useLocale from "@/hooks/locale/useLocale";
 
 import styles from "./GroupNormalEmblemForm.module.css";
 
 import type { IconId } from "@/domains/group/emblemIcon";
-import type { GroupEmblemFormNormalData } from "@/domains/group/form";
+import type { LocaleType } from "@/domains/locale/locale";
 
 const GroupNormalEmblemForm = () => {
+    const { locale } = useLocale();
     const { data, saveNormalEmblem } = useGroupNormalEmblem();
     
     const onChangeIconId = (iconId: IconId) => {
@@ -37,6 +40,7 @@ const GroupNormalEmblemForm = () => {
             className={ styles.normalEmblemForm }
         >
             <EmblemPreview
+                locale={ locale }
                 data={ data }
             />
             <EmblemIconContainer 
@@ -51,16 +55,20 @@ const GroupNormalEmblemForm = () => {
     );
 };
 
-const EmblemPreview: FC<{ data: GroupEmblemFormNormalData; }> = ({ data }) => {
+const EmblemPreview: FC<{ locale: LocaleType; data: GroupEmblemFormNormalData; }> = ({ locale, data }) => {
     return (
         <section className={ styles.preview }>
             <div className={ styles.previewHeader }>
                 <h3 className={ styles.previewTitle }>
-                    엠블럼 미리보기
+                    {
+                        EMBLEM_NORMAL_PREVIEW_TEXT[locale].TITLE
+                    }
                 </h3>
 
                 <span className={ styles.previewDescription }>
-                    선택한 디자인이 이렇게 표시됩니다.
+                    {
+                        EMBLEM_NORMAL_PREVIEW_TEXT[locale].DESCRIPTION
+                    }
                 </span>
             </div>
 
@@ -86,6 +94,7 @@ const EmblemBGContainer: FC<{ currentBGId: BGId; onChange: (bgId: BGId) => void;
                     return (
                         <span
                             key={ bgId }
+                            className={ styles.bgBox }
                             onClick={(event) => {
                                 if (bgId !== currentBGId) {
                                     trackClickAndPreventDefault(
@@ -98,7 +107,6 @@ const EmblemBGContainer: FC<{ currentBGId: BGId; onChange: (bgId: BGId) => void;
                         >
                             <GroupEmblemBG 
                                 bgId={ bgId }
-                                size={ 32 }
                             />
                         </span>
                     );

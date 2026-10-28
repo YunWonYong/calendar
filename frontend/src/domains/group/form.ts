@@ -548,3 +548,27 @@ export const EMBLEM_CUSTOM_FILE_PREVIEW_TEXT: Record<LocaleType, EmblemCustomFil
         EMPTY_PREVIEW_ICON: "画像を選択してください",
     },
 };
+
+type EmblemNormalPreviewTextType = {
+    TITLE: string;
+    DESCRIPTION: string;
+};
+
+export const EMBLEM_NORMAL_PREVIEW_TEXT: Record<LocaleType, EmblemNormalPreviewTextType> = {
+    [LOCALE.KR]: {
+        TITLE: "엠블럼 미리보기",
+        DESCRIPTION: "선택한 디자인이 이렇게 표시됩니다.",
+    },
+    [LOCALE.EN]: {
+        TITLE: "Emblem Preview",
+        DESCRIPTION: "This is how your selected design will look.",
+    },
+    [LOCALE.ZH]: {
+        TITLE: "徽章预览",
+        DESCRIPTION: "您选择的设计将显示为以下效果。",
+    },
+    [LOCALE.JP]: {
+        TITLE: "エンブレムのプレビュー",
+        DESCRIPTION: "選択したデザインはこのように表示されます。",
+    },
+};

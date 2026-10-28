@@ -10,7 +10,9 @@ const GroupEmblemBG: FC<{ bgId: BGId; size?: number; children?: ReactNode; }> = 
     const { background, color } = BG_THEMES[bgId];
     const style: CSSProperties = {
         background,
-        color
+        color,
+        width: "100%",
+        height: "100%"
     };
 
     if (size) {
