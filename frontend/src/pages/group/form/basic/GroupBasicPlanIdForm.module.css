@@ -1,3 +1,48 @@
 .plan_id_form_wrap {
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 1.5rem;
+}
 
+.plan_id_form_field_label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--text-color);
+}
+
+.plan_id_form_field_box {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+
+    box-sizing: border-box;
+    padding-top: 0.5rem;
+}
+
+.radio_button_label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.radio_button_label.disable {
+    color: var(--text-color-muted);
+}
+
+@media (max-width: 640px) {
+    .plan_id_form_field_box {
+        gap: 0.3rem;
+    }
+
+    .radio_button_label {
+        width: 4rem;
+    }
 }

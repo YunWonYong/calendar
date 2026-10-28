@@ -89,7 +89,7 @@
     border-color: var(--border-color-red);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
     .group-create-step-list {
         width: 100%;
         justify-content: center;

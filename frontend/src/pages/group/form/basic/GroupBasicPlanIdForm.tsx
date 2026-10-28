@@ -19,9 +19,7 @@ const GroupBasicPlanIdForm = () => {
     const userInfo = useUserInfo();
     const { maxOwnedGroupMemberPlanId, maxSubLeaderPlanId } = useGroupBasicPlanIds();
     return (
-        <article
-            className={ styles.planIdFormWrap }
-        >
+        <article>
             <PlanIdRadioButtonBox
                 locale={ locale }
                 userPlanId={ userInfo.planId }
@@ -39,15 +37,19 @@ const GroupBasicPlanIdForm = () => {
 const PlanIdRadioButtonBox: FC<{ locale: LocaleType; userPlanId: PlanTypeIds; formData: GroupFormBasicPlanIdType; }> = memo(({ locale, userPlanId, formData }) => {
     const { selectType, selectedPlanId, planBenefits, onSelect } = formData;
     return (
-        <div>
-            <div>
-                <h3>
-                    {
-                        GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT[locale][selectType].LABEL
-                    }
-                </h3>
-            </div>
-            <div>
+        <div
+            className={ styles.planIdFormWrap }
+        >
+            <h3
+                className={ styles.planIdFormFieldLabel }
+            >
+                {
+                    GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT[locale][selectType].LABEL
+                }
+            </h3>
+            <div
+                className={ styles.planIdFormFieldBox }
+            >
                 {
                     planBenefits.map((benefit) => {
                         const { planId, value } = benefit;
@@ -69,6 +71,7 @@ const PlanIdRadioButtonBox: FC<{ locale: LocaleType; userPlanId: PlanTypeIds; fo
                                 label={ `${value}${unitText}` }
                                 checked={ selectedPlanId === planId }
                                 disabled={ isDisabled }
+                                containerClassName={ `${styles.radioButtonLabel} ${isDisabled? styles.disable: ""}` }
                             />
                         );
                     })

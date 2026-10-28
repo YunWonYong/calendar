@@ -314,7 +314,7 @@
     cursor: not-allowed;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
     .preview,
     .upload_section,
     .footer {
