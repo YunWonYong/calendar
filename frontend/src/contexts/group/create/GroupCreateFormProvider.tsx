@@ -5,6 +5,7 @@ import { GroupCreateFlowStepByFormType } from "@/domains/group/create";
 import useGroupCreateFlow from "@/hooks/group/create/UseGroupCreateFlow";
 import GroupBasicForm from "@/pages/group/form/basic/GroupBasicForm";
 import GroupEmblemForm from "@/pages/group/form/emblem/GroupEmblemForm";
+import GroupMembersForm from "@/pages/group/form/members/GroupMembersForm";
 
 import GroupCreateFormContext from "./GroupCreateFormContext";
 
@@ -13,6 +14,7 @@ import type { GroupCreateFlowStepTypes } from "@/domains/group/create";
 const GROUP_CREATE_FORM_COMPONENTS = {
     [GroupCreateFlowStepByFormType.BASIC]: GroupBasicForm,
     [GroupCreateFlowStepByFormType.EMBLEM]: GroupEmblemForm,
+    [GroupCreateFlowStepByFormType.MEMBERS]: GroupMembersForm,
 
 } satisfies Partial<Record<GroupCreateFlowStepTypes, ComponentType>>;
 

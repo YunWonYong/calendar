@@ -11,7 +11,10 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const TextInput: FC<TextInputProps> = ({ id, label, labelClassName = "", containerClassName = "", children, ...restProps }) => {
     return (
-        <label className={ containerClassName }>
+        <label 
+            className={ containerClassName }
+            htmlFor={ id }
+        >
             {
                 label && (
                     <span className={ labelClassName }>
