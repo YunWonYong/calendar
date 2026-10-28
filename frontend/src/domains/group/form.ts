@@ -62,13 +62,13 @@ export type GroupBasicFormChangeNameHandleType = (type: GroupBasicFormChangeName
 export type GroupBasicFormSelectPlanIdHandleType = (type: GroupBasicFormSelectPlanIdTypes, selectedPlanId: PlanTypeIds) => void;
 
 export type GroupBasicFormContextType = {
-    errorMessages: Record<GroupBasicFormChangeNameTypes, string>;
+    errorCodes: Record<GroupBasicFormChangeNameTypes, string>;
     onChangeName: GroupBasicFormChangeNameHandleType;
     onSelectPlanId: GroupBasicFormSelectPlanIdHandleType;
 } & GroupFormContextType<GroupBasicFormData>;
 
 export type GroupBasicFormState = {
-    errorMessages: Record<GroupBasicFormChangeNameTypes, string>;
+    errorCodes: Record<GroupBasicFormChangeNameTypes, string>;
 } & GroupFormState<GroupBasicFormData>;
 
 export const DEFAULT_GROUP_BASIC_FORM_STATE: GroupBasicFormState = {
@@ -78,7 +78,7 @@ export const DEFAULT_GROUP_BASIC_FORM_STATE: GroupBasicFormState = {
         maxOwnedGroupMemberPlanId: PLANS.FREE,
         maxSubLeaderPlanId: PLANS.FREE,
     },
-    errorMessages: {
+    errorCodes: {
         fullName: "",
         shortName: ""
     },
@@ -94,9 +94,8 @@ export const GROUP_EMBLEM_TYPE = {
 export type GroupEmblemTypes = typeof GROUP_EMBLEM_TYPE[keyof typeof GROUP_EMBLEM_TYPE];
 
 export type GroupEmblemFormCustomData = {
-    byte: number;
-    extension: string;
-    base64: string;
+    url?: string;
+    file?: File;
 };
 
 export type GroupEmblemFormNormalData = {
@@ -110,8 +109,13 @@ export type GroupEmblemFormData = {
     [GROUP_EMBLEM_TYPE.NORMAL]: GroupEmblemFormNormalData;
 };
 
+export type GroupEmblemErrorCodeType = {
+    [GROUP_EMBLEM_TYPE.CUSTOM]?: EmblemCustomFileErrorCodeType;
+    [GROUP_EMBLEM_TYPE.NORMAL]?: string;
+};
+
 export type GroupEmblemFormState = {
-    errorMessages: Record<GroupEmblemTypes, string>;
+    errorCodes: GroupEmblemErrorCodeType;
     currentEmblemType: GroupEmblemTypes;
 } & GroupFormState<GroupEmblemFormData>;
 
@@ -120,7 +124,7 @@ type SaveEmblemParams =
     { type: typeof GROUP_EMBLEM_TYPE.NORMAL; data: GroupEmblemFormNormalData; };
     
 export type GroupEmblemFormContextType = {
-    errorMessages: Record<GroupEmblemTypes, string>;
+    errorCodes: GroupEmblemErrorCodeType;
     currentEmblemType: GroupEmblemTypes;
     onChangeEmblemType: (changeType: GroupEmblemTypes) => void;
     saveEmblem: (param: SaveEmblemParams) => void;
@@ -412,4 +416,135 @@ export const GROUP_FORM_EMBLEM_HEADER_TEXT: Record<LocaleType, Record<GroupEmble
         [GROUP_EMBLEM_TYPE.NORMAL]: "基本エンブレム",
         [GROUP_EMBLEM_TYPE.CUSTOM]: "個人エンブレム",
     }
+};
+
+export const EMBLEM_CUSTOM_FILE_ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/webp"];
+export const EMBLEM_CUSTOM_FILE_MAX_SIZE =  1 * 1024 * 1024;
+
+export const EMBLEM_CUSTOM_FILE_ERROR_CODES = {
+    EMPTY_FILE: "EMPTY_FILE",
+    MISMATCH_FILE_MEDIA_TYPE: "MISMATCH_FILE_MEDIA_TYPE",
+    OVERFLOW_FILE_SIZE: "OVERFLOW_FILE_SIZE"
+} as const;
+
+export type EmblemCustomFileErrorCodeType = keyof typeof EMBLEM_CUSTOM_FILE_ERROR_CODES;
+
+const MAX_FILE_SIZE_MB = EMBLEM_CUSTOM_FILE_MAX_SIZE / (1024 * 1024);
+const ACCEPTED_FILE_TYPES_MESSAGE = EMBLEM_CUSTOM_FILE_ACCEPTED_TYPES
+    .map((type) => type.split("/")[1].toUpperCase())
+    .join(", ");
+
+export const EMBLEM_CUSTOM_FILE_ERROR_MESSAGES: Record<LocaleType, Record<EmblemCustomFileErrorCodeType, string>> = {
+    [LOCALE.KR]: {
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.EMPTY_FILE]: "이미지 파일을 선택해주세요.",
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.MISMATCH_FILE_MEDIA_TYPE]: `${ACCEPTED_FILE_TYPES_MESSAGE} 형식의 이미지만 업로드할 수 있습니다.`,
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.OVERFLOW_FILE_SIZE]: `이미지 파일은 최대 ${MAX_FILE_SIZE_MB}MB까지 업로드할 수 있습니다.`,
+    },
+    [LOCALE.EN]: {
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.EMPTY_FILE]: "Please select an image file.",
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.MISMATCH_FILE_MEDIA_TYPE]: `Only ${ACCEPTED_FILE_TYPES_MESSAGE} image formats are supported.`,
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.OVERFLOW_FILE_SIZE]: `The image file size must not exceed ${MAX_FILE_SIZE_MB} MB.`,
+    },
+    [LOCALE.ZH]: {
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.EMPTY_FILE]: "请选择图片文件。",
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.MISMATCH_FILE_MEDIA_TYPE]: `仅支持 ${ACCEPTED_FILE_TYPES_MESSAGE} 格式的图片。`,
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.OVERFLOW_FILE_SIZE]: `图片文件大小不能超过 ${MAX_FILE_SIZE_MB} MB。`,
+    },
+    [LOCALE.JP]: {
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.EMPTY_FILE]: "画像ファイルを選択してください。",
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.MISMATCH_FILE_MEDIA_TYPE]: `${ACCEPTED_FILE_TYPES_MESSAGE}形式の画像のみアップロードできます。`,
+        [EMBLEM_CUSTOM_FILE_ERROR_CODES.OVERFLOW_FILE_SIZE]: `画像ファイルのサイズは${MAX_FILE_SIZE_MB}MB以下にしてください。`,
+    },
+};
+
+type EmblemCustomFileDropZoneTextType = {
+    TITLE: string;
+    SEPARATOR: string;
+};
+
+export const EMBLEM_CUSTOM_FILE_DROP_ZONE_TEXT: Record<LocaleType, EmblemCustomFileDropZoneTextType> = {
+    [LOCALE.KR]: {
+        TITLE: "이미지 파일을 여기에 끌어 놓으세요.",
+        SEPARATOR: "또는",
+    },
+    [LOCALE.EN]: {
+        TITLE: "Drag and drop an image file here.",
+        SEPARATOR: "or",
+    },
+    [LOCALE.ZH]: {
+        TITLE: "将图片文件拖放到此处。",
+        SEPARATOR: "或",
+    },
+    [LOCALE.JP]: {
+        TITLE: "画像ファイルをここにドラッグ＆ドロップしてください。",
+        SEPARATOR: "または",
+    },
+};
+
+type EmblemCustomFileUploadButtonTextType = {
+    LABEL: string;
+    LABEL_MODIFY: string;
+    DESCRIPTION: string;
+};
+
+export const EMBLEM_CUSTOM_FILE_UPLOAD_BUTTON_TEXT: Record<LocaleType, EmblemCustomFileUploadButtonTextType> = {
+    [LOCALE.KR]: {
+        LABEL: "이미지 선택",
+        LABEL_MODIFY: "이미지 수정",
+        DESCRIPTION: `${ACCEPTED_FILE_TYPES_MESSAGE} 형식의 이미지 파일을 선택해주세요. (최대 ${MAX_FILE_SIZE_MB}MB)`,
+    },
+    [LOCALE.EN]: {
+        LABEL: "Choose Image",
+        LABEL_MODIFY: "Change Image",
+        DESCRIPTION: `Please select an image file in ${ACCEPTED_FILE_TYPES_MESSAGE} format. (Max ${MAX_FILE_SIZE_MB}MB)`,
+    },
+    [LOCALE.ZH]: {
+        LABEL: "选择图片",
+        LABEL_MODIFY: "更换图片",
+        DESCRIPTION: `请选择 ${ACCEPTED_FILE_TYPES_MESSAGE} 格式的图片文件。（最大 ${MAX_FILE_SIZE_MB}MB）`,
+    },
+    [LOCALE.JP]: {
+        LABEL: "画像を選択",
+        LABEL_MODIFY: "画像を変更",
+        DESCRIPTION: `${ACCEPTED_FILE_TYPES_MESSAGE} 形式の画像ファイルを選択してください。（最大 ${MAX_FILE_SIZE_MB}MB）`,
+    },
+};
+
+type EmblemCustomFilePreviewTextType = {
+    TITLE: string;
+    DESCRIPTION: string;
+    DESCRIPTION_MODIFY: string;
+    PREVIEW_IMAGE_ALT: string;
+    EMPTY_PREVIEW_ICON: string;
+};
+
+export const EMBLEM_CUSTOM_FILE_PREVIEW_TEXT: Record<LocaleType, EmblemCustomFilePreviewTextType> = {
+    [LOCALE.KR]: {
+        TITLE: "파일 이미지 미리보기",
+        DESCRIPTION: "이미지 파일을 선택해주세요.",
+        DESCRIPTION_MODIFY: "이미지 수정 버튼으로 수정할 수 있습니다.",
+        PREVIEW_IMAGE_ALT: "그룹 커스텀 엠블럼 미리보기",
+        EMPTY_PREVIEW_ICON: "이미지를 선택해주세요",
+    },
+    [LOCALE.EN]: {
+        TITLE: "Image Preview",
+        DESCRIPTION: "Please select an image file.",
+        DESCRIPTION_MODIFY: "You can change the image using the Change Image button.",
+        PREVIEW_IMAGE_ALT: "Group custom emblem preview",
+        EMPTY_PREVIEW_ICON: "Select an image",
+    },
+    [LOCALE.ZH]: {
+        TITLE: "图片预览",
+        DESCRIPTION: "请选择图片文件。",
+        DESCRIPTION_MODIFY: "您可以点击“更换图片”按钮来更换图片。",
+        PREVIEW_IMAGE_ALT: "群组自定义徽章预览",
+        EMPTY_PREVIEW_ICON: "请选择图片",
+    },
+    [LOCALE.JP]: {
+        TITLE: "画像プレビュー",
+        DESCRIPTION: "画像ファイルを選択してください。",
+        DESCRIPTION_MODIFY: "「画像を変更」ボタンから画像を変更できます。",
+        PREVIEW_IMAGE_ALT: "グループのカスタムエンブレムのプレビュー",
+        EMPTY_PREVIEW_ICON: "画像を選択してください",
+    },
 };

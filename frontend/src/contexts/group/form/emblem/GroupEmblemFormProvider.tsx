@@ -17,7 +17,7 @@ const GroupEmblemFormProvider = ({ children, formData }: { children: ReactNode; 
     const value = useMemo<GroupEmblemFormContextType>(() => {
         return {
             formData: state.formData,
-            errorMessages: state.errorMessages,
+            errorCodes: state.errorCodes,
             onChangeEmblemType: (changeType) => {
                 dispatch({ 
                     type: GROUP_EMBLEM_FORM_ACTIONS.SELECT_EMBLEM_TAB, 

@@ -5,6 +5,7 @@
 
     width: 100%;
     min-width: 0;
+    height: 100%;
     box-sizing: border-box;
     padding-top: 1rem;
 }
@@ -104,6 +105,7 @@
 .content {
     width: 100%;
     min-width: 0;
+    height: 100%;
 }
 
 @media (max-width: 600px) {

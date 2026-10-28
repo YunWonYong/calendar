@@ -1,132 +1,311 @@
-import { useEffect, useRef, useState } from "react";
+import type { DragEvent, FC } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
+import { trackClickAndPreventDefault } from "@/analytics/button";
+import Button from "@/components/Button";
+import Image from "@/components/Image";
+import { BUTTON_SIZE } from "@/domains/button/buttonType";
+import { EMBLEM_CUSTOM_FILE_ACCEPTED_TYPES, EMBLEM_CUSTOM_FILE_DROP_ZONE_TEXT, EMBLEM_CUSTOM_FILE_ERROR_MESSAGES, EMBLEM_CUSTOM_FILE_PREVIEW_TEXT, EMBLEM_CUSTOM_FILE_UPLOAD_BUTTON_TEXT } from "@/domains/group/form";
+import useDevice from "@/hooks/device/UseDevice";
 import useGroupCustomEmblem from "@/hooks/group/form/emblem/UseGroupCustomEmblem";
+import useLocale from "@/hooks/locale/useLocale";
+import { isEmpty, isNullOrUndefined } from "@/lib/validation/validation";
+
 import styles from "./GroupCustomEmblemForm.module.css";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/webp"];
+import type { EmblemCustomFileErrorCodeType, GroupEmblemFormCustomData } from "@/domains/group/form";
+import type { LocaleType } from "@/domains/locale/locale";
 
 const GroupCustomEmblemForm = () => {
-    const { data, errorMessage, saveCustomEmblem } = useGroupCustomEmblem();
+    const { locale } = useLocale();
+    const { data, errorCode, saveCustomEmblem } = useGroupCustomEmblem();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [fileError, setFileError] = useState("");
+
+    const changeFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const input = event.currentTarget;
+        const file = input.files?.[0];
+        saveCustomEmblem({
+            file
+        });
+        
+        input.value = "";
+    }, [saveCustomEmblem]);
+
+    const onSelectFile = useCallback(() => {
+        fileInputRef.current?.click();
+    }, []);
+    return (
+        <article className={styles.custom_emblem_form}>
+            <input
+                ref={fileInputRef}
+                className={styles.file_input}
+                type="file"
+                accept={ EMBLEM_CUSTOM_FILE_ACCEPTED_TYPES.join(",") }
+                onChange={changeFile}
+                aria-label="select custom emblem image"
+            />
+            <Preview 
+                locale={ locale }
+                data={ data }
+                onSelectFile={ onSelectFile }
+            />
+            <UploadSection 
+                locale={ locale }
+                errorCode={ errorCode }
+                data={ data }
+                onSelectFile={ onSelectFile }
+                saveCustomEmblem={ saveCustomEmblem }
+            />
+        </article>
+    );
+};
+
+type PreviewProps = {
+    locale: LocaleType; 
+    data: GroupEmblemFormCustomData;
+    onSelectFile: () => void;
+};
+const Preview: FC<PreviewProps> = memo(({ locale, onSelectFile, data }) => {
+    const { deviceType } = useDevice();
+    const [previewUrl, setPreviewUrl] = useState(data.url ?? null);
 
     useEffect(() => {
-        return () => {
-            if (previewUrl) {
-                URL.revokeObjectURL(previewUrl);
-            }
-        };
-    }, [previewUrl]);
+        if (data.url) {
+            setPreviewUrl(data.url);
+            return;
+        }
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
+        if (!data.file) {
+            setPreviewUrl(null);
+            return;
+        }
+        
+        const url = URL.createObjectURL(data.file);
+        setPreviewUrl(url);
+
+        return () => {
+            URL.revokeObjectURL(url);
+        };
+    }, [data.url, data.file]);
+
+    const text = EMBLEM_CUSTOM_FILE_PREVIEW_TEXT[locale];
+
+    if (deviceType === "desktop" && previewUrl === null) {
+        return null;
+    }
+
+    return (
+        <section className={styles.preview}>
+            <header className={styles.preview_header}>
+                <h3 className={styles.preview_title}>
+                    {
+                        text.TITLE
+                    }
+                </h3>
+                <p className={styles.preview_description}>
+                    {
+                        previewUrl
+                            ?   text.DESCRIPTION_MODIFY
+                            :   text.DESCRIPTION
+                    }
+                </p>
+            </header>
+
+            <div className={styles.preview_canvas}>
+                <div className={styles.emblem_frame}>
+                    {
+                        previewUrl
+                            ?   <Image
+                                    className={styles.preview_image}
+                                    src={previewUrl}
+                                    alt={ text.PREVIEW_IMAGE_ALT }
+                                />
+                            :   deviceType !== "desktop" 
+                                    ?   <div 
+                                            className={styles.emptyPreview}
+                                            onClick={(event) => {
+                                                trackClickAndPreventDefault(
+                                                    event,
+                                                    "EMBLEM_CUSTOM_PREVIEW_FILE_UPLOAD",
+                                                    onSelectFile
+                                                )
+                                            }}
+                                        >
+                                            <span className={styles.emptyPreviewIcon} aria-hidden="true">
+                                                ＋
+                                            </span>
+                                            <span>{ text.EMPTY_PREVIEW_ICON }</span>
+                                        </div>
+                                    : null
+                    }
+                </div>
+            </div>
+        </section>
+    );
+});
+
+type UploadSectionProps = {
+    data: GroupEmblemFormCustomData;
+    locale: LocaleType; 
+    errorCode?: EmblemCustomFileErrorCodeType; 
+    onSelectFile: () => void;
+    saveCustomEmblem: (data: GroupEmblemFormCustomData) => void; 
+};
+
+const UploadSection: FC<UploadSectionProps> = ({ locale, data, errorCode, onSelectFile, saveCustomEmblem }) => {
+    const { deviceType } = useDevice();
+    const hasSelectedImage = !isNullOrUndefined(data.file) || !isEmpty(data.url);
+    const showDropUploadZone = !hasSelectedImage && deviceType === "desktop";
+    return (
+        <section 
+            className={ styles.uploadSection }
+            data-show-drop-upload-zone={ showDropUploadZone }
+        >
+
+            {
+                showDropUploadZone
+                    ?   <UploadDropZone 
+                            locale={ locale }
+                            saveCustomEmblem={ saveCustomEmblem }
+                            onSelectFile={ onSelectFile }
+                        />
+                    :   <UploadButton 
+                            locale={ locale }
+                            label={ 
+                                hasSelectedImage
+                                    ? EMBLEM_CUSTOM_FILE_UPLOAD_BUTTON_TEXT[locale].LABEL_MODIFY
+                                    : EMBLEM_CUSTOM_FILE_UPLOAD_BUTTON_TEXT[locale].LABEL
+                                }
+                            eventName={
+                                hasSelectedImage
+                                    ? "EMBLEM_CUSTOM_IMAGE_UPLOAD@MODIFY"
+                                    : "EMBLEM_CUSTOM_IMAGE_UPLOAD"
+                            }
+                            onSelectFile={ onSelectFile }
+                        />
+            }
+            {
+                errorCode && 
+                    <p className={styles.error_message} role="alert">
+                        {
+                            EMBLEM_CUSTOM_FILE_ERROR_MESSAGES[locale][errorCode]
+                        }
+                    </p>
+            }
+        </section>
+    );
+};
+
+type UploadDropZoneProps = {
+    locale: LocaleType;
+    onSelectFile: () => void;
+    saveCustomEmblem: (data: GroupEmblemFormCustomData) => void;
+};
+
+const UploadDropZone: FC<UploadDropZoneProps> = ({ locale, onSelectFile, saveCustomEmblem, }) => {
+    const [isDragging, setIsDragging] = useState(false);
+
+    const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+    };
+
+    const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+
+        // 자식 요소로 이동할 때 발생하는 불필요한 상태 변경 방지
+        if (event.currentTarget.contains(event.relatedTarget as Node | null)) {
+            return;
+        }
+
+        setIsDragging(false);
+    };
+
+    const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setIsDragging(false);
+
+        const file = event.dataTransfer.files[0];
 
         if (!file) {
             return;
         }
 
-        if (!ACCEPTED_TYPES.includes(file.type)) {
-            setFileError("PNG, JPG, WEBP 형식의 이미지 파일만 업로드할 수 있습니다.");
-            event.target.value = "";
-            return;
-        }
-
-        if (file.size > MAX_FILE_SIZE) {
-            setFileError("이미지 파일은 5MB 이하로 업로드해주세요.");
-            event.target.value = "";
-            return;
-        }
-
-        setFileError("");
-        setPreviewUrl(URL.createObjectURL(file));
-    };
-
-    const handleSelectFile = () => {
-        fileInputRef.current?.click();
+        saveCustomEmblem({ file });
     };
 
     return (
-        <article className={styles.container}>
-            <header className={styles.header}>
-                <h2 className={styles.title}>커스텀 엠블럼</h2>
-                <p className={styles.description}>
-                    원하는 이미지를 업로드해 그룹만의 엠블럼을 만들어보세요.
-                </p>
-            </header>
+        <div
+            className={`${styles.drop_zone} ${
+                isDragging ? styles.dragging : ""
+            }`}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
+            <span className={styles.drop_zone_icon} aria-hidden="true">
+                ＋
+            </span>
 
-            <section className={styles.previewSection} aria-label="엠블럼 미리보기">
-                <div className={styles.preview}>
-                    {previewUrl ? (
-                        <img
-                            className={styles.previewImage}
-                            src={previewUrl}
-                            alt="업로드한 엠블럼 미리보기"
-                        />
-                    ) : (
-                        <div className={styles.emptyPreview}>
-                            <span className={styles.emptyPreviewIcon} aria-hidden="true">
-                                ＋
-                            </span>
-                            <span>이미지를 선택해주세요</span>
-                        </div>
-                    )}
-                </div>
+            <p className={styles.drop_zone_title}>
+                {
+                    EMBLEM_CUSTOM_FILE_DROP_ZONE_TEXT[locale].TITLE
+                }
+            </p>
 
-                <p className={styles.previewCaption}>
-                    미리보기
-                </p>
-            </section>
+            <span className={styles.drop_zone_separator}>
+                {
+                    EMBLEM_CUSTOM_FILE_DROP_ZONE_TEXT[locale].SEPARATOR
+                }
+            </span>
 
-            <section className={styles.uploadSection}>
-                <input
-                    ref={fileInputRef}
-                    className={styles.fileInput}
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    onChange={handleFileChange}
-                    aria-label="엠블럼 이미지 선택"
-                />
-
-                <button
-                    className={styles.uploadButton}
-                    type="button"
-                    onClick={handleSelectFile}
-                >
-                    이미지 선택
-                </button>
-
-                <p className={styles.helpText}>
-                    PNG, JPG, WEBP · 최대 5MB
-                </p>
-
-                {fileError && (
-                    <p className={styles.errorMessage} role="alert">
-                        {fileError}
-                    </p>
-                )}
-
-                {errorMessage && (
-                    <p className={styles.errorMessage} role="alert">
-                        {errorMessage}
-                    </p>
-                )}
-            </section>
-
-            <footer className={styles.footer}>
-                <button
-                    className={styles.saveButton}
-                    type="button"
-                    onClick={() => saveCustomEmblem}
-                    disabled={!previewUrl}
-                >
-                    엠블럼 저장
-                </button>
-            </footer>
-        </article>
+            <UploadButton 
+                locale={ locale }
+                label={ EMBLEM_CUSTOM_FILE_UPLOAD_BUTTON_TEXT[locale].LABEL }
+                eventName="EMBLEM_CUSTOM_IMAGE_UPLOAD"
+                onSelectFile={ onSelectFile }
+            />
+        </div>
     );
 };
+
+
+type UploadButtonProps = {
+    locale: LocaleType;
+    label: string;
+    eventName: string;
+    onSelectFile: () => void;
+};
+
+const UploadButton: FC<UploadButtonProps> = ({ locale, label, eventName, onSelectFile }) => {
+    return (
+        <div
+            className={ styles.uploadButtonBox }
+        >
+            <Button
+                eventName={ eventName }
+                size={ BUTTON_SIZE.LARGE }
+                onClick={ onSelectFile }
+            >
+                {
+                    label
+                }
+
+            </Button>
+            <p className={styles.upload_description}>
+                {
+                    EMBLEM_CUSTOM_FILE_UPLOAD_BUTTON_TEXT[locale].DESCRIPTION
+                }
+            </p>
+        </div>
+    );
+};
+
 
 export default GroupCustomEmblemForm;

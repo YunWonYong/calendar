@@ -1,17 +1,19 @@
-import { trackClickAndPreventDefault } from "@/analytics/button";
-import GroupEmblemIconSVG from "@/components/group/GroupEmblemIconSVG";
-import { BG_IDS, type BGId } from "@/domains/group/emblemBg";
-import type { IconId } from "@/domains/group/emblemIcon";
-import { ICON_IDS } from "@/domains/group/emblemIcon";
-import { GroupEmblemFormNormalData } from "@/domains/group/form";
-import useGroupNormalEmblem from "@/hooks/group/form/emblem/UseGroupNormalEmblem";
 import type { FC } from "react";
 import { memo } from "react";
 
+import { trackClickAndPreventDefault } from "@/analytics/button";
 import Container from "@/components/Container";
 import GroupEmblem, { getGroupEmblemId } from "@/components/group/GroupEmblem";
 import GroupEmblemBG from "@/components/group/GroupEmblemBG";
+import GroupEmblemIconSVG from "@/components/group/GroupEmblemIconSVG";
+import { BG_IDS, type BGId } from "@/domains/group/emblemBg";
+import { ICON_IDS } from "@/domains/group/emblemIcon";
+import useGroupNormalEmblem from "@/hooks/group/form/emblem/UseGroupNormalEmblem";
+
 import styles from "./GroupNormalEmblemForm.module.css";
+
+import type { IconId } from "@/domains/group/emblemIcon";
+import type { GroupEmblemFormNormalData } from "@/domains/group/form";
 
 const GroupNormalEmblemForm = () => {
     const { data, saveNormalEmblem } = useGroupNormalEmblem();

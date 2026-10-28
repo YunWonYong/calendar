@@ -9,7 +9,7 @@ import type { GroupFormBasicNameType } from "@/domains/group/form";
 const useGroupBasicNames = () => {
     const ctx = useGroupBasicForm();
 
-    const { formData, errorMessages, onChangeName } = ctx;
+    const { formData, errorCodes: errorMessages, onChangeName } = ctx;
 
     const fullName = useMemo<GroupFormBasicNameType>(() => {
         const changeNameType = CHANGE_NAME_TYPE.FULL_NAME;

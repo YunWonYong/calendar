@@ -6,7 +6,7 @@ export const getDefaultState = (formData?: GroupBasicFormData) => {
     const state: GroupBasicFormState = { 
         ...DEFAULT_GROUP_BASIC_FORM_STATE, 
         formData: { ...DEFAULT_GROUP_BASIC_FORM_STATE.formData },
-        errorMessages: { ...DEFAULT_GROUP_BASIC_FORM_STATE.errorMessages }
+        errorCodes: { ...DEFAULT_GROUP_BASIC_FORM_STATE.errorCodes }
     };
 
     if (formData) {

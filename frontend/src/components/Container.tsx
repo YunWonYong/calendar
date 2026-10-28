@@ -16,7 +16,7 @@ const Container: FC<ContainerProps> = ({ children, className, ...props }) => {
         }
     }, []);
 
-    const onScroll = (ev: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    const onScroll = (_: React.UIEvent<HTMLDivElement, UIEvent>) => {
         if (timeoutRef.current !== null) {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = null;
@@ -32,6 +32,7 @@ const Container: FC<ContainerProps> = ({ children, className, ...props }) => {
             containerRef.current.setAttribute("data-is-scrolling", "true");
         }
     };
+
     return (
         <div
             { ...props }    

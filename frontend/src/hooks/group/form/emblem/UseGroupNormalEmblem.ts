@@ -7,7 +7,7 @@ import useGroupEmblemForm from "./UseGroupEmblemForm";
 import type { GroupEmblemFormNormalData } from "@/domains/group/form";
 
 const useGroupNormalEmblem = () => {
-    const { errorMessages, formData, saveEmblem } = useGroupEmblemForm();
+    const { errorCodes: errorMessages, formData, saveEmblem } = useGroupEmblemForm();
     const value = useMemo(() => {
         return {
             data: formData[GROUP_EMBLEM_TYPE.NORMAL],

@@ -1,9 +1,9 @@
 
+import GroupEmblemBG from "./GroupEmblemBG";
 import GroupEmblemIconSVG from "./GroupEmblemIconSVG";
 
 import type { BGId } from "@/domains/group/emblemBg";
 import type { IconId } from "@/domains/group/emblemIcon";
-import GroupEmblemBG from "./GroupEmblemBG";
 
 interface GroupEmblemProps {
     emblemId: string;
