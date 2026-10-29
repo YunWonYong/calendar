@@ -31,6 +31,7 @@
     cursor: pointer;
     font-size: 0.8rem;
     font-weight: 600;
+    color: var(--text-color);
 }
 
 .radio_button_label.disable {
