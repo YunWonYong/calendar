@@ -1,5 +1,6 @@
-import { ACCESS_TOKEN_KEY_LOCAL_STORAGE, DEIVCE_ID_KEY_LOCAL_STORAGE, REFRESH_TOKEN_KEY_LOCAL_STORAGE, THEME_KEY_LOCAL_STORAGE } from "./constants";
+import { ACCESS_TOKEN_KEY_LOCAL_STORAGE, DEIVCE_ID_KEY_LOCAL_STORAGE, LOCALE_KEY_LOCAL_STORAGE, REFRESH_TOKEN_KEY_LOCAL_STORAGE, THEME_KEY_LOCAL_STORAGE } from "./constants";
 
+import type { LocaleType } from "@/domains/locale/locale";
 import type { ThemeType } from "@/domains/theme/themeTypes";
 
 import type { LocalStorageKeyType } from "./types";
@@ -51,6 +52,20 @@ export const removeAuthInfoFromLocalStorage = () => {
     localStorage.removeItem(ACCESS_TOKEN_KEY_LOCAL_STORAGE);
     localStorage.removeItem(REFRESH_TOKEN_KEY_LOCAL_STORAGE);
 };
+
+export const getLocaleFromLocalStorage = () => {
+    const locale = get<string>(LOCALE_KEY_LOCAL_STORAGE);
+
+    if (locale) {
+        return locale as LocaleType;
+    }
+
+    return null;
+};
+
+export const saveLocaleFromLocalStorage = (locale: LocaleType) => {
+    save<string>(LOCALE_KEY_LOCAL_STORAGE, locale);
+}
 
 const save = <T extends string, >(key: LocalStorageKeyType, value: T) => {
     localStorage.setItem(key, value);

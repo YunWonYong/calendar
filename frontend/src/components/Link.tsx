@@ -14,6 +14,12 @@ type LinkProps = {
     children: ReactNode;
 };
 
+export const getPageMoveEventName = (from: string, to: string) => `PAGE_MOVE@${from}=>${to}`;
+
+export const movePageEventTranckClick = (from: string, to: string, fn?: (() => void | Promise<void>)) => {
+    trackClick(getPageMoveEventName(from, to), fn);
+};
+
 const Link = ({ to, className, children, clickEventName }: LinkProps) => {
     const location = useLocation();
 
@@ -21,16 +27,19 @@ const Link = ({ to, className, children, clickEventName }: LinkProps) => {
         to = { pathname: to };
     }
 
-    if (!clickEventName) {
-        clickEventName = "PAGE_MOVE";
-    }
-
     return (
         <L 
             to={ to }
             className={ className }
             onClick={(() => {
-                trackClick(`${clickEventName}@${location.pathname}=>${to.pathname}`)
+                movePageEventTranckClick(
+                    location.pathname,
+                    to.pathname,
+                );
+
+                if (clickEventName && clickEventName.length > 0) {
+                    trackClick(clickEventName);
+                }
             })}
         >
             {

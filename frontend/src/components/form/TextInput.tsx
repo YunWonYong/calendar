@@ -1,4 +1,4 @@
-import type { FC, InputHTMLAttributes } from "react";
+import type { FC, InputHTMLAttributes, ReactNode } from "react";
 
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -6,11 +6,15 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     labelClassName?: string;
     containerClassName?: string;
+    children?: ReactNode;
 };
 
-export const TextInput: FC<TextInputProps> = ({ id, label, labelClassName = "", containerClassName = "", ...restProps }) => {
+export const TextInput: FC<TextInputProps> = ({ id, label, labelClassName = "", containerClassName = "", children, ...restProps }) => {
     return (
-        <label className={ containerClassName }>
+        <label 
+            className={ containerClassName }
+            htmlFor={ id }
+        >
             {
                 label && (
                     <span className={ labelClassName }>
@@ -22,6 +26,9 @@ export const TextInput: FC<TextInputProps> = ({ id, label, labelClassName = "", 
                 id={ id }
                 { ...restProps }
             />
+            {
+                children
+            }
         </label>
     );
 };

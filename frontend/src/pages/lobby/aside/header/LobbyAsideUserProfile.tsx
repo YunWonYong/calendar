@@ -1,13 +1,31 @@
+import { useMemo } from "react";
+
 import Image from "@/components/Image";
-import Link from "@/components/link";
+import Link from "@/components/Link";
 import useAuth from "@/hooks/auth/useAuth";
 
 import styles from "./LobbyAsideUserProfile.module.css";
+
+import defaultUserProfileImage from "@/assets/user/default_profile.png";
 
 import type { LobbyAsideState } from "../../LobbyTypes";
 
 const LobbyAsideUserProfile = ({ asideState }: { asideState: LobbyAsideState; }) => {
     const { userInfo } = useAuth();
+    const userProfileImage = useMemo(() => {
+        if (userInfo === null) {
+            return "";
+        }
+
+        const { profileImage, profileImageType } = userInfo;
+        let userProfileImage = profileImage;
+
+        if (profileImageType === "ID") {
+            userProfileImage = defaultUserProfileImage;
+        }
+
+        return userProfileImage;
+    }, [userInfo]);
     return (
         <div
             className={ styles.wrap }
@@ -23,13 +41,13 @@ const LobbyAsideUserProfile = ({ asideState }: { asideState: LobbyAsideState; })
                             >
                                 <Image
                                     className={ styles.profileImage }
-                                    src={ userInfo?.profileImageUrl }
+                                    src={ userProfileImage }
                                     alt="사용자 프로필 사진"
                                 />   
                             </Link>
                         :   <Image
                                 className={ styles.profileImage }
-                                src={ userInfo?.profileImageUrl }
+                                src={ userProfileImage }
                                 alt="사용자 프로필 사진"
                             />   
                 }

@@ -123,8 +123,8 @@ export const getStartsWithWhitespaceErrorMessage = (locale?: LocaleType) =>
  * @param value 검사할 값
  * @returns 값이 null이면 true
 */
-export const isNull = (value: unknown) => value === null;
-
+export const isNull = (value: unknown): value is null => value === null;
+export const isNullOrUndefined = (value: unknown): value is null | undefined => value === null || value === undefined;
 export const getNullErrorMessage = (locale?: LocaleType) => 
     getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.NULL, locale);
 
@@ -141,7 +141,7 @@ export const getNullErrorMessage = (locale?: LocaleType) =>
  * @param value 검사할 값
  * @returns 값이 비어 있으면 true
  */
-export const isEmpty = (value: unknown) => {
+export const isEmpty = (value: unknown): boolean => {
     if (value === null || value === undefined) {
         return true;
     }

@@ -1,6 +1,6 @@
 import config from "@/config";
 import { METHODS } from "@/domains/fetch/fetchConstants";
-import { post } from "@/lib/fetch";
+import { get, post } from "@/lib/fetch";
 
 import type { AuthTokenInfo } from "@/domains/auth/authTypes";
 import type { ApiResponse, HttpMethod } from "@/domains/fetch/fetchType";
@@ -20,7 +20,7 @@ class ServerApiClient {
         }
     }
     
-    public async call<B extends object, R>(method: HttpMethod, path: string, body?: B, header?: Record<string, string>) {
+    public async call<B extends (object | undefined), R>(method: HttpMethod, path: string, body?: B, header?: Record<string, string>) {
         if (!header) {
             header = { ...DEFAULT_HEADER };
         }
@@ -30,6 +30,8 @@ class ServerApiClient {
         switch (method) {
             case METHODS.POST:
                 return post<R>(url, body, header);
+            case METHODS.GET:
+                return get<R>(url, header);
         }
         
         throw new Error(`not supported method[${method}]`);
@@ -251,7 +253,7 @@ const serverApiClient = (() => {
     return {
         login,
         logout,
-        call: <B extends object, R>(method: HttpMethod, path: string, body?: B, header?: Record<string, string>) => apiClient.call<B, R>(method, path, body, header),
+        call: <B extends (object | undefined), R>(method: HttpMethod, path: string, body?: B, header?: Record<string, string>) => apiClient.call<B, R>(method, path, body, header),
         getApiUrl: (path: string) => apiClient.getApiUrl(path),
         authCall,
     };

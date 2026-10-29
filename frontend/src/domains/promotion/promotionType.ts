@@ -1,4 +1,4 @@
-import type { UserPlanLevelType } from "../user/userPlan";
+import type { PlanTypeIds } from "../plan/planType";
 
 export type PromotionTypes = "discount" | "event" | "upgrade" | "returns";
 export type PromotionData = {
@@ -7,5 +7,5 @@ export type PromotionData = {
 };
 
 export type PromotionMap = Partial<
-    Record<UserPlanLevelType, PromotionData>
+    Record<PlanTypeIds, PromotionData>
 >;

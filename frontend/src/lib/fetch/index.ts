@@ -6,6 +6,10 @@ export const post = async <T, >(url: string, body?: object, header?: HeadersInit
     return request<T>(url, METHODS.POST, body, header);
 };
 
+export const get = async <T, >(url: string, header?: HeadersInit) => {
+    return request<T>(url, METHODS.GET, undefined, header);
+}
+
 const request = async <T, >(url: string, method: HttpMethod, body?: object, header?: HeadersInit): Promise<ApiResponse<T>> => {
     const init: RequestInit  = {
         method,

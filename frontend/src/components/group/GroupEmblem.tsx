@@ -1,8 +1,6 @@
-import { BG_THEMES } from "@/domains/group/emblemBg";
 
+import GroupEmblemBG from "./GroupEmblemBG";
 import GroupEmblemIconSVG from "./GroupEmblemIconSVG";
-
-import styles from "./GroupEmblem.module.css";
 
 import type { BGId } from "@/domains/group/emblemBg";
 import type { IconId } from "@/domains/group/emblemIcon";
@@ -12,21 +10,16 @@ interface GroupEmblemProps {
     size?: number;
 }
 
+export const getGroupEmblemId = ({ bgId, iconId }: { bgId: BGId; iconId: IconId; }) => `${bgId}@_@${iconId}`;
+
 const GroupEmblem = ({ emblemId, size = 44 }: GroupEmblemProps) => {
-    // 없으면 데이터 오류라 죽어야 함.
     const ids = emblemId.split("@_@");
     const [ bgId, iconId ] = ids;
-    const theme = BG_THEMES[bgId as BGId];
 
     return (
-        <div
-            className={styles.emblem}
-            style={{
-                width: `${size}px`,
-                height: `${size}px`,
-                background: theme.background,
-                color: theme.color,
-            }}
+        <GroupEmblemBG
+            bgId={ bgId as BGId }
+            size={ size }
         >
             <GroupEmblemIconSVG
                 iconId={iconId as IconId}
@@ -35,7 +28,7 @@ const GroupEmblem = ({ emblemId, size = 44 }: GroupEmblemProps) => {
                     height: `${size * 0.48}px`,
                 }}
             />
-        </div>
+        </GroupEmblemBG>
     );
 };
 
