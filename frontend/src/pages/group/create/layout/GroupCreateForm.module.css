@@ -1,0 +1,27 @@
+.group-create-form-wrap {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--border-color-muted);
+}
+
+.group-create-form-inner {
+    width: 100%;
+    max-width: 720px;
+    flex: 1;
+}
+
+.group-create-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-color);
+    height: calc(100% - 75px);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 1rem 0.5rem;
+}

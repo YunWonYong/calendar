@@ -39,6 +39,7 @@ const getDefaultLocale = (): LocaleType => {
 const LocaleProvider: FC<{ children: ReactNode; }> = ({ children }) => {
     const [locale, setLocale] = useState<LocaleType>(() => {
         const savedLocale = getLocaleFromLocalStorage();
+
         if (savedLocale) {
             return savedLocale;
         }
@@ -57,6 +58,12 @@ const LocaleProvider: FC<{ children: ReactNode; }> = ({ children }) => {
         ];
     }, []);
 
+    const otherLocaleList = useMemo(() => {
+        return orderedLocaleList.filter(
+            (localeType) => localeType !== locale,
+        );
+    }, [orderedLocaleList, locale]);
+
     const changeLocale = (changeLocale: LocaleType) => {
         if (locale === changeLocale) {
             return;
@@ -71,6 +78,7 @@ const LocaleProvider: FC<{ children: ReactNode; }> = ({ children }) => {
             value={{
                 locale,
                 orderedLocaleList,
+                otherLocaleList,
                 changeLocale
             }}
         >

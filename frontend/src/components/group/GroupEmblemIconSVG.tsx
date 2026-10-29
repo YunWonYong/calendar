@@ -15,7 +15,7 @@ const GroupEmblemIconSVG = ({ iconId, ...props }: GroupEmblemIconSVGProps) => {
             viewBox="0 0 128 128"
             fill="none"
             stroke="currentColor"
-            strokeWidth="8"
+            strokeWidth={ 6 }
             strokeLinecap="round"
             strokeLinejoin="round"
             {...props}

@@ -22,6 +22,7 @@ const LobbyAside = ({ asideState, toggleAsideState }: LobbyAsideProps) => {
                     <CreateGroupButton 
                         showLabel={ asideState === "expanded" }
                         className={styles.asideCreateBtn}
+                        eventSource="LOBBY_ASIDE"
                     />
                 </div>
 

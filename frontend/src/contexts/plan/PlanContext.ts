@@ -1,14 +1,8 @@
 import { createContext } from "react";
 
-import { DEFAULT_PLANS } from "@/domains/plan/planType";
-
-import type { PlanContextType } from "@/domains/plan/planType";
+import type { PlanContextType } from "@/domains/plan/planContextType";
 
 
-const PlanContext = createContext<PlanContextType>({
-    orderedPlanTypes: [],
-    orderedPlanBenfitProperties: [],
-    plans: DEFAULT_PLANS
-});
+const PlanContext = createContext<PlanContextType | null>(null);
 
 export default PlanContext;

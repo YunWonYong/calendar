@@ -1,3 +1,4 @@
+import { consoleLogger } from "./logger/console";
 
 export const trackClick = async (eventName: string, fn?: () => void | Promise<void> ) => {
     if (fn) {
@@ -5,7 +6,7 @@ export const trackClick = async (eventName: string, fn?: () => void | Promise<vo
     }
 
     // [TODO] event name transfer
-    console.log(eventName);
+    consoleLogger.log(eventName);
 };
 
 export const trackClickAndPreventDefault = async <T extends HTMLElement,> (event: React.MouseEvent<T, MouseEvent>, eventName: string, fn?: () => void | Promise<void> ) => {

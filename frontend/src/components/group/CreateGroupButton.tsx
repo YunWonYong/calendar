@@ -1,20 +1,21 @@
-import type { HTMLAttributes } from "react";
+import Link from "../Link";
 
 import styles from "./CreateGroupButton.module.css";
 
-interface CreateGroupButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface CreateGroupButtonProps {
+    eventSource: string;
+    className?: string;
     label?: string;
     showLabel?: boolean;
 }
 
-const CreateGroupButton = ({ label = "새 그룹 만들기", showLabel = true, className = "", ...props }: CreateGroupButtonProps) => {
+const CreateGroupButton = ({ eventSource, label = "새 그룹 만들기", showLabel = true, className = "", }: CreateGroupButtonProps) => {
     return (
-        <button
-            type="button"
+        <Link
+            to="/group/create"
             className={`${styles.createBtn} ${className}`}
-            title={!showLabel ? label : undefined}
             aria-label={label}
-            {...props}
+            clickEventName={ `CREATE_GROUP_BUTTON@${eventSource}` }
         >
             <div className={styles.iconEmblem}>
                 <svg
@@ -36,7 +37,7 @@ const CreateGroupButton = ({ label = "새 그룹 만들기", showLabel = true, c
                     <span className={styles.btnText}>{label}</span>
                 </div>
             )}
-        </button>
+        </Link>
     );
 };
 

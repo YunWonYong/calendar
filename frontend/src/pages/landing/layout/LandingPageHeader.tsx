@@ -1,4 +1,4 @@
-import Link from "@/components/link";
+import Link from "@/components/Link";
 import LogoImage from "@/components/LogoImage";
 
 import styles from "./LandingPageHeader.module.css";
