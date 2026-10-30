@@ -44,7 +44,15 @@ export type GroupBasicFormData = {
     shortName: string;
     maxSubLeaderPlanId: PlanTypeIds;
     maxOwnedGroupMemberPlanId: PlanTypeIds;
+    visibilityType: GroupVisibilityTypes;
 };
+
+export const GROUP_VISIBILITY_TYPE = {
+    PUBLIC: "PUBLIC",
+    PRIVATE: "PRIVATE",
+    FRIENDS: "FRIENDS",
+} as const;
+export type GroupVisibilityTypes = keyof typeof GROUP_VISIBILITY_TYPE;
 
 export const CHANGE_NAME_TYPE = {
     FULL_NAME: "fullName",
@@ -60,11 +68,12 @@ export type GroupBasicFormSelectPlanIdTypes = typeof SELECT_PLAN_ID_TYPE[keyof t
 
 export type GroupBasicFormChangeNameHandleType = (type: GroupBasicFormChangeNameTypes, value: string) => void;
 export type GroupBasicFormSelectPlanIdHandleType = (type: GroupBasicFormSelectPlanIdTypes, selectedPlanId: PlanTypeIds) => void;
-
+export type GroupBasicFormChangeVisibilityHandleType = (visibilityType: GroupVisibilityTypes) => void;
 export type GroupBasicFormContextType = {
     errorCodes: Record<GroupBasicFormChangeNameTypes, string>;
     onChangeName: GroupBasicFormChangeNameHandleType;
     onSelectPlanId: GroupBasicFormSelectPlanIdHandleType;
+    onSelectVisibilityType: GroupBasicFormChangeVisibilityHandleType;
 } & GroupFormContextType<GroupBasicFormData>;
 
 export type GroupBasicFormState = {
@@ -77,6 +86,7 @@ export const DEFAULT_GROUP_BASIC_FORM_STATE: GroupBasicFormState = {
         shortName: "",
         maxOwnedGroupMemberPlanId: PLANS.FREE,
         maxSubLeaderPlanId: PLANS.FREE,
+        visibilityType: GROUP_VISIBILITY_TYPE.PUBLIC
     },
     errorCodes: {
         fullName: "",
@@ -153,6 +163,7 @@ export const GROUP_BASIC_FORM_ACTIONS = {
     CHANGE_SHORT_NAME: "CHANGE_SHORT_NAME",
     SELECT_MAX_OWNED_GROUP_MEMBER_PLAN_ID: "SELECT_MAX_OWNED_GROUP_MEMBER_PLAN_ID",
     SELECT_MAX_SUB_LEADER_PLAN_ID: "SELECT_MAX_SUB_LEADER_PLAN_ID",
+    CHANGE_VISIBILITY_TYPE: "CHANGE_VISIBILITY_TYPE"
 } as const;
 
 export const GROUP_BASIC_ACTION_TYPES = {
@@ -160,6 +171,7 @@ export const GROUP_BASIC_ACTION_TYPES = {
     [CHANGE_NAME_TYPE.SHORT_NAME]: GROUP_BASIC_FORM_ACTIONS.CHANGE_SHORT_NAME,
     [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: GROUP_BASIC_FORM_ACTIONS.SELECT_MAX_SUB_LEADER_PLAN_ID,
     [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: GROUP_BASIC_FORM_ACTIONS.SELECT_MAX_OWNED_GROUP_MEMBER_PLAN_ID,
+    [typeof GROUP_BASIC_FORM_ACTIONS.CHANGE_VISIBILITY_TYPE]: GROUP_BASIC_FORM_ACTIONS.CHANGE_VISIBILITY_TYPE
 } as const;
 
 export type GroupBasicFormActionType = typeof GROUP_BASIC_FORM_ACTIONS[keyof typeof GROUP_BASIC_FORM_ACTIONS];
@@ -193,6 +205,10 @@ export type GroupBasicFormAction =
     {
         type: GroupBasicFormPlanIdAction;
         selectedPlanId: PlanTypeIds;
+    } |
+    {
+        type: typeof GROUP_BASIC_FORM_ACTIONS.CHANGE_VISIBILITY_TYPE,
+        visibilityType: GroupVisibilityTypes;
     };
 
 export type GroupEmblemFormAction = 
@@ -252,6 +268,11 @@ export type GroupFormBasicPlanIdType = {
     onSelect: (value: string) => void;
 };
 
+export type GroupFormBasicVisibilityType = {
+    visibilityTypeList: GroupVisibilityTypes[];
+    selectedVisibilityType: GroupVisibilityTypes;
+    onSelect: (value: string) => void;
+};
 
 export type GroupFormTitleTypes = Record<GroupFormTypes, string>;
 export const GROUP_FORM_TITLE: Record<LocaleType, GroupFormTitleTypes> = {
@@ -396,6 +417,36 @@ export const GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT: Record<LocaleType, Record<GroupB
             LABEL: "サブリーダー数を選択",
             UNIT: "名",
         },
+    },
+};
+
+export const GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE: Record<LocaleType, string> = {
+    [LOCALE.KR]: "그룹 공개 범위 선택",
+    [LOCALE.EN]: "Select group visibility",
+    [LOCALE.ZH]: "选择群组公开范围",
+    [LOCALE.JP]: "グループの公開範囲を選択",
+};
+
+export const GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT: Record<LocaleType, Record<GroupVisibilityTypes, string>> = {
+    [LOCALE.KR]: {
+        [GROUP_VISIBILITY_TYPE.PUBLIC]: "공개",
+        [GROUP_VISIBILITY_TYPE.PRIVATE]: "비공개",
+        [GROUP_VISIBILITY_TYPE.FRIENDS]: "친구 공개",
+    },
+    [LOCALE.EN]: {
+        [GROUP_VISIBILITY_TYPE.PUBLIC]: "Public",
+        [GROUP_VISIBILITY_TYPE.PRIVATE]: "Private",
+        [GROUP_VISIBILITY_TYPE.FRIENDS]: "Friends only",
+    },
+    [LOCALE.ZH]: {
+        [GROUP_VISIBILITY_TYPE.PUBLIC]: "公开",
+        [GROUP_VISIBILITY_TYPE.PRIVATE]: "不公开",
+        [GROUP_VISIBILITY_TYPE.FRIENDS]: "仅好友可见",
+    },
+    [LOCALE.JP]: {
+        [GROUP_VISIBILITY_TYPE.PUBLIC]: "公開",
+        [GROUP_VISIBILITY_TYPE.PRIVATE]: "非公開",
+        [GROUP_VISIBILITY_TYPE.FRIENDS]: "友達のみ",
     },
 };
 

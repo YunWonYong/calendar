@@ -1,17 +1,17 @@
 import { useMemo } from "react";
 
-import { SELECT_PLAN_ID_TYPE } from "@/domains/group/form";
+import { GROUP_VISIBILITY_TYPE, SELECT_PLAN_ID_TYPE } from "@/domains/group/form";
 import usePlan from "@/hooks/plan/UsePlan";
 
 import useGroupBasicForm from "./UseGroupBasicForm";
 
-import type { GroupFormBasicPlanIdType } from "@/domains/group/form";
+import type { GroupFormBasicPlanIdType, GroupFormBasicVisibilityType, GroupVisibilityTypes } from "@/domains/group/form";
 import type { PlanTypeIds } from "@/domains/plan/planType";
 
-const useGroupBasicPlanIds = () => {
+const useGroupBasicRadioForm = () => {
     const { plans, planMetadataList } = usePlan();
     const ctx = useGroupBasicForm();
-    const { formData, onSelectPlanId } = ctx;
+    const { formData, onSelectPlanId, onSelectVisibilityType } = ctx;
     const maxOwnedGroupMemberPlanId = useMemo<GroupFormBasicPlanIdType>(() => {
         return {
             selectType: SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER,
@@ -48,10 +48,28 @@ const useGroupBasicPlanIds = () => {
                 )
         };
     }, [plans, planMetadataList, formData.maxSubLeaderPlanId, onSelectPlanId]);
+    
+    const visibilityTypeList = useMemo(() => {
+        return [
+            GROUP_VISIBILITY_TYPE.PUBLIC,
+            GROUP_VISIBILITY_TYPE.PRIVATE,
+            GROUP_VISIBILITY_TYPE.FRIENDS
+        ];
+    }, []);
+    
+    const visibilityType = useMemo<GroupFormBasicVisibilityType>(() => {
+        return {
+            visibilityTypeList,
+            selectedVisibilityType: formData.visibilityType,
+            onSelect: (value) => onSelectVisibilityType(value as GroupVisibilityTypes),
+        };
+    }, [formData.visibilityType, onSelectVisibilityType, visibilityTypeList]);
+
     return {
         maxOwnedGroupMemberPlanId,
-        maxSubLeaderPlanId
+        maxSubLeaderPlanId,
+        visibilityType
     };
 };
 
-export default useGroupBasicPlanIds;
+export default useGroupBasicRadioForm;

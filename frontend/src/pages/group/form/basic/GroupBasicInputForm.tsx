@@ -3,16 +3,16 @@ import { memo, useMemo } from "react";
 
 import { TextInput } from "@/components/form/TextInput";
 import { GROUP_FORM_NAME_INPUT } from "@/domains/group/form";
-import useGroupBasicNames from "@/hooks/group/form/basic/UseGroupBasicNames";
+import useGroupBasicInputForm from "@/hooks/group/form/basic/UseGroupBasicInputForm";
 import useLocale from "@/hooks/locale/useLocale";
 
-import styles from "./GroupBasicNameForm.module.css";
+import styles from "./GroupBasicInputForm.module.css";
 
 import type { GroupFormBasicNameType, GroupFormNameInputTextType } from "@/domains/group/form";
 
-const GroupBasicNameForm = () => {
+const GroupBasicInputForm = () => {
     const { locale } = useLocale();
-    const { fullName, shortName } = useGroupBasicNames();
+    const { fullName, shortName } = useGroupBasicInputForm();
     const localeFullNameText = useMemo(() => {
         return GROUP_FORM_NAME_INPUT[locale][fullName.changeNameType];
     }, [locale, fullName.changeNameType]);
@@ -67,4 +67,4 @@ const InputBox: FC<{ formData: GroupFormBasicNameType; localeText: GroupFormName
     );
 });
 
-export default GroupBasicNameForm;
+export default GroupBasicInputForm;

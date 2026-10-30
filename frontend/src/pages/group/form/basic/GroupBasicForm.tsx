@@ -1,11 +1,11 @@
-import GroupBasicNameForm from "./GroupBasicNameForm";
-import GroupBasicPlanIdForm from "./GroupBasicPlanIdForm";
+import GroupBasicInputForm from "./GroupBasicInputForm";
+import GroupBasicRadioForm from "./GroupBasicRadioForm";
 
 const GroupBasicForm = () => {
     return (
         <section>
-            <GroupBasicNameForm />
-            <GroupBasicPlanIdForm />
+            <GroupBasicInputForm />
+            <GroupBasicRadioForm />
         </section>
     );
 };

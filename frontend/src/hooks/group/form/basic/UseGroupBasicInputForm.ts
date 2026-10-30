@@ -6,7 +6,7 @@ import useGroupBasicForm from "./UseGroupBasicForm";
 
 import type { GroupFormBasicNameType } from "@/domains/group/form";
 
-const useGroupBasicNames = () => {
+const useGroupBasicInputForm = () => {
     const ctx = useGroupBasicForm();
 
     const { formData, errorCodes: errorMessages, onChangeName } = ctx;
@@ -47,4 +47,4 @@ const useGroupBasicNames = () => {
     };
 };
 
-export default useGroupBasicNames;
+export default useGroupBasicInputForm;
