@@ -20,9 +20,30 @@
 }
 
 .visibility_info_box {
-    width: 120px;
+    width: 220px;
     box-sizing: border-box;
     font-size: 0.8rem;
+}
+
+.plan_id_radio_button_info_box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.plan_id_radio_button_info_text {
+    font-size: 0.8rem;
+}
+
+.plan_id_radio_button_info_description {
+    font-size: 0.6rem;
+    color: var(--info-box-description-color);
+}
+
+.plan_redirect_buttonBox {
+    display: flex;
+    justify-content: center;
 }
 
 .radio_button_box {

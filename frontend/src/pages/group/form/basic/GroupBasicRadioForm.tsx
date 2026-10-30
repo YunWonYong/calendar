@@ -1,9 +1,13 @@
 import type { FC, ReactNode } from "react";
 import { memo, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
+import Button from "@/components/Button";
 import { RadioButton } from "@/components/form/RadioButton";
 import InformationButtonBox from "@/components/infomation/InformationButtonBox";
-import { GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE, GROUP_FORM_VISIBILITY_TYPE_RADIO_INFO_TEXT } from "@/domains/group/form";
+import { movePageEventTranckClick } from "@/components/Link";
+import { BUTTON_COLOR } from "@/domains/button/buttonType";
+import { GROUP_FORM_PLAN_ID_RADIO_BOX_INFO_TEXT, GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE, GROUP_FORM_VISIBILITY_TYPE_RADIO_INFO_TEXT } from "@/domains/group/form";
 import { PLANS } from "@/domains/plan/planType";
 import useGroupBasicRadioForm from "@/hooks/group/form/basic/UseGroupBasicRadioForm";
 import useLocale from "@/hooks/locale/useLocale";
@@ -40,8 +44,10 @@ const GroupBasicRadioForm = () => {
 };
 
 const PlanIdRadioButtonBox: FC<{ locale: LocaleType; userPlanId: PlanTypeIds; formData: GroupFormBasicPlanIdType; }> = memo(({ locale, userPlanId, formData }) => {
+    const nav = useNavigate();
     const props = useMemo(() => {
         const { selectType, selectedPlanId, planBenefits, onSelect } = formData;
+        const text = GROUP_FORM_PLAN_ID_RADIO_BOX_INFO_TEXT[locale];
         return {
             title: GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT[locale][selectType].LABEL,
             list: planBenefits.map((benefit) => {
@@ -65,6 +71,44 @@ const PlanIdRadioButtonBox: FC<{ locale: LocaleType; userPlanId: PlanTypeIds; fo
                     disabled:  isDisabled,
                 }
             }),
+            informationButton: (
+                <div
+                    className={ styles.planIdRadioButtonInfoBox }
+                >
+                    <span
+                        className={ styles.planIdRadioButtonInfoText }
+                    >
+                        {
+                            text[selectType]
+                        }
+                    </span>
+                    <span
+                        className={ styles.planIdRadioButtonInfoDescription }
+                    >
+                        {
+                            text.DISABLE_PLAN_RADIO_BUTTON_TEXT
+                        }
+                    </span>
+                    <div
+                        className={ styles.planRedirectButtonBox }
+                    >
+                        <Button 
+                            eventName="GROUP_BASIC_PLAN_ID_RADIO_BOX_INFO_BUTTON"
+                            onClick={() => {
+                                const to = "/plan";
+                                movePageEventTranckClick(
+                                    "/group/create",
+                                    to,
+                                    () => nav(to)
+                                );
+                            }}
+                            title={ text.PLAN_REDIRECT_BUTTON_TITLE }
+                            color={ BUTTON_COLOR.TEAL }
+                            isBarButtonType={ true }
+                        />
+                    </div>
+                </div>
+            ),
         };
     }, [locale, userPlanId, formData]);
     return (

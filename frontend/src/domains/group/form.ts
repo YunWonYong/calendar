@@ -420,6 +420,33 @@ export const GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT: Record<LocaleType, Record<GroupB
     },
 };
 
+export const GROUP_FORM_PLAN_ID_RADIO_BOX_INFO_TEXT: Record<LocaleType, Record<GroupBasicFormSelectPlanIdTypes | string, string>> = {
+    [LOCALE.KR]: {
+        [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: "그룹에 참여할 수 있는 최대 인원수입니다. (부그룹장 포함)",
+        [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: "그룹 내에 임명할 수 있는 최대 부그룹장 수입니다.",
+        DISABLE_PLAN_RADIO_BUTTON_TEXT: "이용 중인 플랜에 따라 선택 가능한 옵션이 달라집니다.",
+        PLAN_REDIRECT_BUTTON_TITLE: "플랜 상세 보기",
+    },
+    [LOCALE.EN]: {
+        [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: "The maximum number of members who can join the group (including co-hosts).",
+        [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: "The maximum number of co-hosts that can be assigned in the group.",
+        DISABLE_PLAN_RADIO_BUTTON_TEXT: "Available options vary depending on your current plan.",
+        PLAN_REDIRECT_BUTTON_TITLE: "View Plan Details",
+    },
+    [LOCALE.ZH]: {
+        [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: "可加入群组的最大成员人数（包含副群主）。",
+        [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: "群组内可设置的最大副群主人数。",
+        DISABLE_PLAN_RADIO_BUTTON_TEXT: "可选选项因您当前使用的套餐而异。",
+        PLAN_REDIRECT_BUTTON_TITLE: "查看套餐详情",
+    },
+    [LOCALE.JP]: {
+        [SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER]: "グループに参加できる最大人数です。（サブリーダーを含む）",
+        [SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER]: "グループ内で 설정できる最大サブリーダー数です。",
+        DISABLE_PLAN_RADIO_BUTTON_TEXT: "ご利用中のプランによって選択 가능한 オプションが異なります。",
+        PLAN_REDIRECT_BUTTON_TITLE: "プランの詳細を見る",
+    },
+};
+
 export const GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE: Record<LocaleType, string> = {
     [LOCALE.KR]: "그룹 공개 범위 선택",
     [LOCALE.EN]: "Select group visibility",
