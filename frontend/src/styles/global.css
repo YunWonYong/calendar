@@ -5,11 +5,25 @@
     --border-color-green: #15803D;
     --border-color-blue: #2563EB;
     --border-color-red: #B91C1C;
+    --border-color-purple: #7C3AED;
+    --border-color-amber: #D97706;
+    --border-color-slate: #475569;
+    --border-color-teal: #0D9488;
+    --border-color-pink: #DB2777;
 
     --button-color-red: #B91C1C;
     --button-color-blue: #2563EB;
     --button-color-green: #15803D;
+    --button-color-purple: #7C3AED;
+    --button-color-amber: #D97706;
+    --button-color-slate: #475569;
+    --button-color-teal: #0D9488;
+    --button-color-pink: #DB2777;
 
+    --disabled-bg-color: #E2E8F0;
+    --disabled-border-color: #CBD5E1;
+    --disabled-text-color: #94A3B8;
+    
     --error-text-color: #ef4444;
 
     --calendar-schedule-dot-color: #4f46e5;

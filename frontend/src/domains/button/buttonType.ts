@@ -7,6 +7,7 @@ export type ButtonProps = {
     size?: ButtonSize;
     color?: ButtonColor;
     children?: ReactNode;
+    isBarButtonType?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const BUTTON_SIZE = {
@@ -20,6 +21,11 @@ export const BUTTON_COLOR = {
     RED: "red",
     BLUE: "blue",
     GREEN: "green",
-    DEFAULT: "default"
+    DEFAULT: "default",
+    PURPLE: "purple",
+    AMBER: "amber",
+    SLATE: "slate",
+    TEAL: "teal",
+    PINK: "pink"
 } as const;
 export type ButtonColor = typeof BUTTON_COLOR[keyof typeof BUTTON_COLOR];
