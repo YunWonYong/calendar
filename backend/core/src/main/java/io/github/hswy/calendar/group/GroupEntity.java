@@ -90,6 +90,16 @@ public class GroupEntity extends CreatedAtUpdatedAtEntity {
     )
     private String groupEmblemId;
 
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(
+        name = "group_visibility",
+        nullable = false,
+        updatable = true,
+        insertable = true
+    )
+    private GroupVisibilityType groupVisibility;
+
     @Column(
         name = "member_limit_count",
         nullable = false,
@@ -99,12 +109,12 @@ public class GroupEntity extends CreatedAtUpdatedAtEntity {
     private int memberLimitCount;
 
     @Column(
-        name = "assistant_limit_count",
+        name = "sub_leader_limit_count",
         nullable = false,
         updatable = true,
         insertable = true
     )
-    private int assistantLimitCount;
+    private int subLeaderLimitCount;
     
     void changeLeaderId(Long groupLeaderId) {
         // [TODO] groupStatus가 inactive일 때만 처리해야 하나?
@@ -172,6 +182,6 @@ public class GroupEntity extends CreatedAtUpdatedAtEntity {
 
     void changeMemberLimits(int memberLimitCount, int assistantLimitCount) {
         this.memberLimitCount = memberLimitCount;
-        this.assistantLimitCount = assistantLimitCount;
+        this.subLeaderLimitCount = assistantLimitCount;
     }
 }

@@ -22,8 +22,9 @@ class GroupHistoryEntityMapperTest {
             .groupShortName("tg")
             .groupEmblemType(GroupEmblemType.NORMAL)
             .groupEmblemId("2#5")
+            .groupVisibility(GroupVisibilityType.PRIVATE)
             .memberLimitCount(50)
-            .assistantLimitCount(5)
+            .subLeaderLimitCount(5)
             .build();
 
         GroupHistoryEntity historyEntity = mapper.of(entity);
@@ -37,7 +38,8 @@ class GroupHistoryEntityMapperTest {
         assertEquals(entity.getGroupShortName(), historyEntity.getGroupShortName(), "groupShortName");
         assertEquals(entity.getGroupEmblemType(), historyEntity.getGroupEmblemType(), "groupEmblemType");
         assertEquals(entity.getGroupEmblemId(), historyEntity.getGroupEmblemId(), "groupEmblemId");
+        assertEquals(entity.getGroupVisibility(), historyEntity.getGroupVisibility(), "groupVisibility");
         assertEquals(entity.getMemberLimitCount(), historyEntity.getMemberLimitCount(), "memberLimitCount");
-        assertEquals(entity.getAssistantLimitCount(), historyEntity.getAssistantLimitCount(), "assistantLimitCount");
+        assertEquals(entity.getSubLeaderLimitCount(), historyEntity.getSubLeaderLimitCount(), "subLeaderLimitCount");
     }
 }

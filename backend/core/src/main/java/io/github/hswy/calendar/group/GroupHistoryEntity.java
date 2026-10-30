@@ -101,6 +101,16 @@ class GroupHistoryEntity extends CreatedAtEntity {
     )
     private String groupEmblemId;
 
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(
+        name = "group_visibility",
+        nullable = false,
+        updatable = true,
+        insertable = true
+    )
+    private GroupVisibilityType groupVisibility;
+
     @Column(
         name = "member_limit_count",
         nullable = false,
@@ -110,10 +120,10 @@ class GroupHistoryEntity extends CreatedAtEntity {
     private int memberLimitCount;
 
     @Column(
-        name = "assistant_limit_count",
+        name = "sub_leader_limit_count",
         nullable = false,
         updatable = false,
         insertable = true
     )
-    private int assistantLimitCount;
+    private int subLeaderLimitCount;
 }

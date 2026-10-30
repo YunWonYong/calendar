@@ -8,6 +8,12 @@ CREATE TYPE group_status AS ENUM (
 	'CHANGED_LEADER_ID' -- history 테이블에만 저장되는 status고 group의 leader를 수정할 때 사용됨.
 ); 
 
+CREATE TYPE group_visibility_type AS ENUM (
+	'PUBLIC',
+	'PRIVATE',
+	'FRIENDS'
+);
+
 CREATE TABLE groups (
 	group_id 				BIGSERIAL NOT NULL,
 	group_leader_id			BIGINT NOT NULL,				
@@ -16,8 +22,9 @@ CREATE TABLE groups (
 	group_short_name		VARCHAR(50) NOT NULL,
 	group_emblem_type		VARCHAR(10) NOT NULL CHECK(group_emblem_type IN('NORMAL', 'CUSTOM')),
 	group_emblem_id			VARCHAR(255) NOT NULL,
+	group_visibility		group_visibility_type NOT NULL,
 	member_limit_count		INT NOT NULL,
-	assistant_limit_count	INT NOT NULL,
+	sub_leader_limit_count	INT NOT NULL,
     created_at          	TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at          	TIMESTAMPTZ NULL,
 	CONSTRAINT pk_groups
@@ -35,7 +42,8 @@ CREATE TABLE group_history (
 	group_short_name		VARCHAR(50) NOT NULL,
 	group_emblem_type		VARCHAR(10) NOT NULL,
 	group_emblem_id			VARCHAR(255) NOT NULL,
+	group_visibility		group_visibility_type NOT NULL,
 	member_limit_count		INT NOT NULL,
-	assistant_limit_count	INT NOT NULL,
+	sub_leader_limit_count	INT NOT NULL,
     created_at      		TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
