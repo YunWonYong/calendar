@@ -63,5 +63,16 @@ export const reducer: GroupFormReducerType<GroupBasicFormState> = (state, action
                     maxSubLeaderPlanId: action.selectedPlanId,
                 }
             };
+        case GROUP_BASIC_FORM_ACTIONS.CHANGE_VISIBILITY_TYPE:
+            return {
+                ...state,
+                isDirty: state.oldFormData
+                    ?   state.oldFormData.visibilityType !== action.visibilityType
+                    :   true,
+                formData: {
+                    ...state.formData,
+                    visibilityType: action.visibilityType
+                },
+            };
     }
 };
