@@ -427,6 +427,13 @@ export const GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE: Record<LocaleType, stri
     [LOCALE.JP]: "グループの公開範囲を選択",
 };
 
+export const GROUP_FORM_VISIBILITY_TYPE_RADIO_INFO_TEXT: Record<LocaleType, string> = {
+    [LOCALE.KR]: "그룹의 검색 가능 범위입니다. 친구 공개는 그룹장과 친구인 사용자에게만 검색됩니다.",
+    [LOCALE.EN]: "This sets the group's search visibility. 'Friends only' means it is searchable only by users who are friends with the group owner.",
+    [LOCALE.ZH]: "此为群组的可搜索范围。“仅好友可见”表示仅对与群主互为好友的用户显示。",
+    [LOCALE.JP]: "グループの検索可能範囲です。「友達のみ」はグループのオーナーと友達であるユーザーにのみ検索されます。",
+};
+
 export const GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT: Record<LocaleType, Record<GroupVisibilityTypes, string>> = {
     [LOCALE.KR]: {
         [GROUP_VISIBILITY_TYPE.PUBLIC]: "공개",

@@ -2,8 +2,8 @@ import type { FC, ReactNode } from "react";
 import { memo, useMemo } from "react";
 
 import { RadioButton } from "@/components/form/RadioButton";
-import InfomationButtonBox from "@/components/infomation/InfomationButtonBox";
-import { GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE } from "@/domains/group/form";
+import InformationButtonBox from "@/components/infomation/InformationButtonBox";
+import { GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE, GROUP_FORM_VISIBILITY_TYPE_RADIO_INFO_TEXT } from "@/domains/group/form";
 import { PLANS } from "@/domains/plan/planType";
 import useGroupBasicRadioForm from "@/hooks/group/form/basic/UseGroupBasicRadioForm";
 import useLocale from "@/hooks/locale/useLocale";
@@ -92,11 +92,13 @@ const VisibilityTypeRadioButtonBox: FC<{ locale: LocaleType; formData: GroupForm
                 }
             }),
             labelContainerClassName: styles.full,
-            infomationButton: (
+            informationButton: (
                 <div
                     className={ styles.visibilityInfoBox }
                 >
-                    다른 사용자들이 검색할 때 보여지는 여부를 선택할 수 있습니다.
+                    {
+                        GROUP_FORM_VISIBILITY_TYPE_RADIO_INFO_TEXT[locale]
+                    }
                 </div>
             ),
         };
@@ -122,11 +124,11 @@ type RadioButtonProps = {
 type RadioButtonBoxProps = {
     title: string;
     list: RadioButtonProps[];
-    infomationButton?: ReactNode;
+    informationButton?: ReactNode;
     labelContainerClassName?: string;
 };
 
-const RadioButtonBox: FC<RadioButtonBoxProps> = ({ title, list, infomationButton, labelContainerClassName }) => {
+const RadioButtonBox: FC<RadioButtonBoxProps> = ({ title, list, informationButton, labelContainerClassName }) => {
     return (
         <div
             className={ styles.radioButtonBoxWrap }
@@ -142,12 +144,12 @@ const RadioButtonBox: FC<RadioButtonBoxProps> = ({ title, list, infomationButton
                     }
                 </h3>
                 {
-                    infomationButton &&
-                        <InfomationButtonBox>
+                    informationButton &&
+                        <InformationButtonBox>
                             {
-                                infomationButton
+                                informationButton
                             }
-                        </InfomationButtonBox>
+                        </InformationButtonBox>
                 }
             </div>
             <div

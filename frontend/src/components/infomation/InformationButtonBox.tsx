@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from "react";
 import { useEffect, useId, useRef, useState } from "react";
 
-import styles from "./InfomationButtonBox.module.css";
+import styles from "./InformationButtonBox.module.css";
 
-const InfomationButtonBox: FC<{ children: ReactNode }> = ({ children }) => {
+const InformationButtonBox: FC<{ children: ReactNode }> = ({ children }) => {
     const id = useId();
     const boxRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
@@ -58,4 +58,4 @@ const InfomationButtonBox: FC<{ children: ReactNode }> = ({ children }) => {
     );
 };
 
-export default InfomationButtonBox;
+export default InformationButtonBox;
