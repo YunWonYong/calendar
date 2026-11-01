@@ -282,6 +282,21 @@ export type GroupFormBasicVisibilityType = {
     onSelect: (value: string) => void;
 };
 
+export const GROUP_FORM_MODE = {
+    EDIT: "EDIT",
+    PREVIEW: "PREVIEW",
+} as const;
+
+export type GroupFormModeType = keyof typeof GROUP_FORM_MODE;
+
+export type GroupFormModeComponentProps<E, P> = 
+    ({
+        mode: "EDIT";
+    } & E)|
+    ({
+        mode: "PREVIEW";
+    } & P);
+
 export type GroupFormTitleTypes = Record<GroupFormTypes, string>;
 export const GROUP_FORM_TITLE: Record<LocaleType, GroupFormTitleTypes> = {
     [LOCALE.KR]: {

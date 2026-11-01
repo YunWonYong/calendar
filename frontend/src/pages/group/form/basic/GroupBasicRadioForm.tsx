@@ -7,7 +7,7 @@ import { RadioButton } from "@/components/form/RadioButton";
 import InformationButtonBox from "@/components/infomation/InformationButtonBox";
 import { movePageEventTranckClick } from "@/components/Link";
 import { BUTTON_COLOR } from "@/domains/button/buttonType";
-import { GROUP_FORM_PLAN_ID_RADIO_BOX_INFO_TEXT, GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE, GROUP_FORM_VISIBILITY_TYPE_RADIO_INFO_TEXT } from "@/domains/group/form";
+import { GROUP_FORM_MODE, GROUP_FORM_PLAN_ID_RADIO_BOX_INFO_TEXT, GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT, GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE, GROUP_FORM_VISIBILITY_TYPE_RADIO_INFO_TEXT } from "@/domains/group/form";
 import { PLANS } from "@/domains/plan/planType";
 import useGroupBasicRadioForm from "@/hooks/group/form/basic/UseGroupBasicRadioForm";
 import useLocale from "@/hooks/locale/useLocale";
@@ -15,7 +15,8 @@ import useUserInfo from "@/hooks/user/UseUserInfo";
 
 import styles from "./GroupBasicRadioForm.module.css";
 
-import type { GroupBasicFormSelectPlanIdTypes, GroupFormBasicPlanBenefitType, GroupFormBasicPlanIdType, GroupFormBasicVisibilityType, GroupVisibilityTypes } from "@/domains/group/form";
+import type { GroupCreateBasicPlanIdFormData, GroupCreateBasicVisibilityTypeFormData } from "@/domains/group/create";
+import type { GroupFormBasicPlanIdType, GroupFormBasicVisibilityType, GroupFormModeComponentProps } from "@/domains/group/form";
 import type { LocaleType } from "@/domains/locale/locale";
 import type { PlanTypeIds } from "@/domains/plan/planType";
 
@@ -25,44 +26,36 @@ const GroupBasicRadioForm = () => {
     return (
         <article>
             <GroupBasicPlanIdRadioButtonForm
-                mode="EDIT"
+                mode={ GROUP_FORM_MODE.EDIT }
                 userPlanId={ userInfo.planId }
                 formData={ maxOwnedGroupMemberPlanId }
             />
             <GroupBasicPlanIdRadioButtonForm
-                mode="EDIT"
+                mode={ GROUP_FORM_MODE.EDIT }
                 userPlanId={ userInfo.planId }
                 formData={ maxSubLeaderPlanId }
             />
             <GroupBasicVisibilityRadioButtonForm 
-                mode="EDIT"
+                mode={ GROUP_FORM_MODE.EDIT }
                 formData={ visibilityType }
             />
         </article>
     );
 };
 
-type PlanIdRadioButtonFormData = {
-    selectType: GroupBasicFormSelectPlanIdTypes;
-    selectedPlanId: PlanTypeIds;
-    planBenefits: GroupFormBasicPlanBenefitType[];
+type EditPlanIdRadioButtonFormProps = {
+    userPlanId: PlanTypeIds;
+    formData: GroupFormBasicPlanIdType;
 };
 
-export type GroupBasicPlanIdRadioButtonFormProps = 
-    {
-        mode: "EDIT"
-        userPlanId: PlanTypeIds;
-        formData: GroupFormBasicPlanIdType;
-    } |
-    {
-        mode: "PREVIEW"
-        data: PlanIdRadioButtonFormData;
-    };
+type PreviewPlanIdRadioButtonFormProps = {
+    data: GroupCreateBasicPlanIdFormData;
+};
 
-export const GroupBasicPlanIdRadioButtonForm: FC<GroupBasicPlanIdRadioButtonFormProps> = (props) => {
+export const GroupBasicPlanIdRadioButtonForm: FC<GroupFormModeComponentProps<EditPlanIdRadioButtonFormProps, PreviewPlanIdRadioButtonFormProps>> = (props) => {
     const { locale } = useLocale();
 
-    if (props.mode === "EDIT") {
+    if (props.mode === GROUP_FORM_MODE.EDIT) {
         return (
             <PlanIdRadioButtonBox 
                 locale={ locale }
@@ -79,6 +72,7 @@ export const GroupBasicPlanIdRadioButtonForm: FC<GroupBasicPlanIdRadioButtonForm
             isPreview={ true }
             { ...props.data }
             onSelect={ () => {} }
+            selectedPlanId={ props.data.value }
         />
     );
 };
@@ -163,25 +157,18 @@ const PlanIdRadioButtonBox: FC<{ locale: LocaleType; isPreview?: boolean; userPl
     );
 });
 
-type VisibilityTypeRadioButtonData = {
-    visibilityTypeList: GroupVisibilityTypes[];
-    selectedVisibilityType: GroupVisibilityTypes;
+type EditVisibilityRadioButtonFormProps = {
+    formData: GroupFormBasicVisibilityType;
 };
 
-export type GroupBasicVisibilityRadioButtonFormProps = 
-    {
-        mode: "EDIT"
-        formData: GroupFormBasicVisibilityType;
-    } |
-    {
-        mode: "PREVIEW"
-        data: VisibilityTypeRadioButtonData;
-    };
+type PreviewVisibilityRadioButtonFormProps = {
+    data: GroupCreateBasicVisibilityTypeFormData;
+};
 
-export const GroupBasicVisibilityRadioButtonForm: FC<GroupBasicVisibilityRadioButtonFormProps> = (props) => {
+export const GroupBasicVisibilityRadioButtonForm: FC<GroupFormModeComponentProps<EditVisibilityRadioButtonFormProps, PreviewVisibilityRadioButtonFormProps>> = (props) => {
     const { locale } = useLocale();
 
-    if (props.mode === "EDIT") {
+    if (props.mode === GROUP_FORM_MODE.EDIT) {
         return (
             <VisibilityTypeRadioButtonBox 
                 locale={ locale }
@@ -196,6 +183,7 @@ export const GroupBasicVisibilityRadioButtonForm: FC<GroupBasicVisibilityRadioBu
             isPreview={ true }
             { ...props.data }
             onSelect={ () => {} }
+            selectedVisibilityType={ props.data.value }
         />
     );
 };

@@ -8,7 +8,8 @@ import useLocale from "@/hooks/locale/useLocale";
 
 import styles from "./GroupBasicInputForm.module.css";
 
-import type { GroupBasicFormChangeNameTypes, GroupFormBasicNameType } from "@/domains/group/form";
+import type { GroupCreateBasicNameFormData } from "@/domains/group/create";
+import type { GroupFormBasicNameType } from "@/domains/group/form";
 import type { LocaleType } from "@/domains/locale/locale";
 
 const GroupBasicInputForm = () => {
@@ -40,10 +41,7 @@ type GroupBasicInputBoxProps =
     } |
     {
         mode: "PREVIEW",
-        data : {
-            changeNameType: GroupBasicFormChangeNameTypes;
-            value: string;
-        };
+        data : GroupCreateBasicNameFormData;
     };
 
 export const GroupBasicInputBox: FC<GroupBasicInputBoxProps> = memo((props) => {
