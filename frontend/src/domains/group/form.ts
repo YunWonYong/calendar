@@ -112,8 +112,7 @@ export const GROUP_EMBLEM_TYPE = {
 export type GroupEmblemTypes = typeof GROUP_EMBLEM_TYPE[keyof typeof GROUP_EMBLEM_TYPE];
 
 export type GroupEmblemFormCustomData = {
-    url?: string;
-    file?: File;
+    file: File;
 };
 
 export type GroupEmblemFormNormalData = {
@@ -138,7 +137,7 @@ export type GroupEmblemFormState = {
 } & GroupFormState<GroupEmblemFormData>;
 
 type SaveEmblemParams = 
-    { type: typeof GROUP_EMBLEM_TYPE.CUSTOM; data: GroupEmblemFormCustomData; } |
+    { type: typeof GROUP_EMBLEM_TYPE.CUSTOM; data: { file?: File; }; } |
     { type: typeof GROUP_EMBLEM_TYPE.NORMAL; data: GroupEmblemFormNormalData; };
     
 export type GroupEmblemFormContextType = {
@@ -226,7 +225,7 @@ export type GroupEmblemFormAction =
     } |
     {
         type: typeof GROUP_EMBLEM_FORM_ACTIONS.CHANGE_CUSTOM_EMBLEM;
-        data: GroupEmblemFormCustomData;
+        data: { file?: File; };
     } |
     {
         type: typeof GROUP_EMBLEM_FORM_ACTIONS.CHANGE_NORMAL_EMBLEM;

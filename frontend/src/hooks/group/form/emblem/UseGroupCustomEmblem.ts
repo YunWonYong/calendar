@@ -5,7 +5,6 @@ import { isNullOrUndefined } from "@/lib/validation/validation";
 
 import useGroupEmblemForm from "./UseGroupEmblemForm";
 
-import type { GroupEmblemFormCustomData } from "@/domains/group/form";
 
 const formatFileSize = (file?: File) => {
     if (isNullOrUndefined(file)) {
@@ -29,8 +28,8 @@ const useGroupCustomEmblem = () => {
         return {
             data: data,
             errorCode,
-            saveCustomEmblem: (data: GroupEmblemFormCustomData) => {
-                saveEmblem({ type: GROUP_EMBLEM_TYPE.CUSTOM, data });
+            saveCustomEmblem: (file?: File) => {
+                saveEmblem({ type: GROUP_EMBLEM_TYPE.CUSTOM, data: { file } });
             },
             formatFileSizeText: formatFileSize(data.file),
         };

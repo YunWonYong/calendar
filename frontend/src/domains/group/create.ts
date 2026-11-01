@@ -80,8 +80,19 @@ export type GroupCreateBasicFormData = {
     visibilityType: GroupCreateBasicVisibilityTypeFormData;
 };
 
+export type GroupCreateEmblemFormData = 
+    {
+        type: "normal";
+        id: string;
+    }|
+    {
+        type: "custom";
+        file: File;
+    };
+
 export type GroupCreateFormData = {
     [GROUP_FORM_TYPE.BASIC]: GroupCreateBasicFormData;
+    [GROUP_FORM_TYPE.EMBLEM]: GroupCreateEmblemFormData;
 };
 
 export const DEFAULT_GROUP_CREATE_FORM_DATA: GroupCreateFormData = {
@@ -108,6 +119,10 @@ export const DEFAULT_GROUP_CREATE_FORM_DATA: GroupCreateFormData = {
             value: GROUP_VISIBILITY_TYPE.PUBLIC,
             visibilityTypeList: [],
         },
+    },
+    [GROUP_FORM_TYPE.EMBLEM]: {
+        type: "normal",
+        id: "bg-01@_@icon-16"
     },
 };
 

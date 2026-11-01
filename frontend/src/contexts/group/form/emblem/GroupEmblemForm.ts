@@ -14,12 +14,22 @@ const getDefaultNormalEmblemData = () => {
     return data;
 }
 
+const defaultFile = new File(
+    ["default content"],
+    "default.txt",
+    {
+        type: "text/plain",
+    },
+);
+
+const getDefaultCustomEmblemData = () => {
+    return { file: { ...defaultFile } };
+};
+
 export const getDefaultState = (formData?: GroupEmblemFormData) => {
     const defaultFormData = {
         type: GROUP_EMBLEM_TYPE.NORMAL,
-        custom: {
-            
-        },
+        custom: getDefaultCustomEmblemData(),
         normal: getDefaultNormalEmblemData()
     };
     const state: GroupEmblemFormState = {
@@ -75,10 +85,7 @@ export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, actio
                         ...state.errorCodes,
                         [GROUP_EMBLEM_TYPE.CUSTOM]: EMBLEM_CUSTOM_FILE_ERROR_CODES.EMPTY_FILE
                     },
-                    [GROUP_EMBLEM_TYPE.CUSTOM]: {
-                        url: "",
-                        file: undefined
-                    }
+                    [GROUP_EMBLEM_TYPE.CUSTOM]: getDefaultCustomEmblemData(),
                 };
             }
 
@@ -93,15 +100,11 @@ export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, actio
                     },
                     formData: {
                         ...state.formData,
-                        [GROUP_EMBLEM_TYPE.CUSTOM]: {
-                            url: "",
-                            file: undefined
-                        }
+                        [GROUP_EMBLEM_TYPE.CUSTOM]: getDefaultCustomEmblemData(),
                     }
                 };
             }
 
-            ;
             return {
                 ...state,
                 isDirty: true,
@@ -112,9 +115,8 @@ export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, actio
                 formData: {
                     ...state.formData,
                     [GROUP_EMBLEM_TYPE.CUSTOM]: {
-                        url: "",
                         file
-                    }
+                    },
                 }
             };
         case GROUP_EMBLEM_FORM_ACTIONS.CHANGE_NORMAL_EMBLEM:

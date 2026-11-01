@@ -9,7 +9,7 @@ import { EMBLEM_CUSTOM_FILE_ACCEPTED_TYPES, EMBLEM_CUSTOM_FILE_DROP_ZONE_TEXT, E
 import useDevice from "@/hooks/device/UseDevice";
 import useGroupCustomEmblem from "@/hooks/group/form/emblem/UseGroupCustomEmblem";
 import useLocale from "@/hooks/locale/useLocale";
-import { isEmpty, isNullOrUndefined } from "@/lib/validation/validation";
+import { isNullOrUndefined } from "@/lib/validation/validation";
 
 import styles from "./GroupCustomEmblemForm.module.css";
 
@@ -25,9 +25,7 @@ const GroupCustomEmblemForm = () => {
     const changeFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.currentTarget;
         const file = input.files?.[0];
-        saveCustomEmblem({
-            file
-        });
+        saveCustomEmblem(file);
         
         input.value = "";
     }, [saveCustomEmblem]);
@@ -68,15 +66,10 @@ type PreviewProps = {
 };
 const Preview: FC<PreviewProps> = memo(({ locale, onSelectFile, data }) => {
     const { deviceType } = useDevice();
-    const [previewUrl, setPreviewUrl] = useState(data.url ?? null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
     useEffect(() => {
-        if (data.url) {
-            setPreviewUrl(data.url);
-            return;
-        }
-
-        if (!data.file) {
+        if (!data.file || !data.file.name || data.file.name === "default.txt") {
             setPreviewUrl(null);
             return;
         }
@@ -87,7 +80,7 @@ const Preview: FC<PreviewProps> = memo(({ locale, onSelectFile, data }) => {
         return () => {
             URL.revokeObjectURL(url);
         };
-    }, [data.url, data.file]);
+    }, [data.file]);
 
     const text = EMBLEM_CUSTOM_FILE_PREVIEW_TEXT[locale];
 
@@ -150,12 +143,12 @@ type UploadSectionProps = {
     locale: LocaleType; 
     errorCode?: EmblemCustomFileErrorCodeType; 
     onSelectFile: () => void;
-    saveCustomEmblem: (data: GroupEmblemFormCustomData) => void; 
+    saveCustomEmblem: (file?: File) => void; 
 };
 
 const UploadSection: FC<UploadSectionProps> = ({ locale, data, errorCode, onSelectFile, saveCustomEmblem }) => {
     const { deviceType } = useDevice();
-    const hasSelectedImage = !isNullOrUndefined(data.file) || !isEmpty(data.url);
+    const hasSelectedImage = !isNullOrUndefined(data.file) && data.file.name && data.file.name !== "default.txt";
     const showDropUploadZone = !hasSelectedImage && deviceType === "desktop";
     return (
         <section 
@@ -200,7 +193,7 @@ const UploadSection: FC<UploadSectionProps> = ({ locale, data, errorCode, onSele
 type UploadDropZoneProps = {
     locale: LocaleType;
     onSelectFile: () => void;
-    saveCustomEmblem: (data: GroupEmblemFormCustomData) => void;
+    saveCustomEmblem: (file?: File) => void;
 };
 
 const UploadDropZone: FC<UploadDropZoneProps> = ({ locale, onSelectFile, saveCustomEmblem, }) => {
@@ -236,7 +229,7 @@ const UploadDropZone: FC<UploadDropZoneProps> = ({ locale, onSelectFile, saveCus
             return;
         }
 
-        saveCustomEmblem({ file });
+        saveCustomEmblem(file);
     };
 
     return (
