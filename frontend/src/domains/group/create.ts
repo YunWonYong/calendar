@@ -1,10 +1,14 @@
-import { LOCALE } from "../locale/locale";
+import type { ComponentType } from "react";
 
-import { GROUP_FORM_TYPE } from "./form";
+import { LOCALE } from "../locale/locale";
+import { PLANS } from "../plan/planType";
+
+import { CHANGE_NAME_TYPE, GROUP_FORM_TYPE, GROUP_VISIBILITY_TYPE, SELECT_PLAN_ID_TYPE } from "./form";
 
 import type { LocaleType } from "../locale/locale";
+import type { PlanTypeIds } from "../plan/planType";
 
-import type { GroupFormTypes } from "./form";
+import type { GroupBasicFormChangeNameTypes, GroupBasicFormSelectPlanIdTypes, GroupFormBasicPlanBenefitType, GroupFormTypes, GroupVisibilityTypes } from "./form";
 
 export const GROUP_CREATE_HEADER_TITLES: Record<LocaleType, string> = {
     [LOCALE.KR]: "그룹 생성",
@@ -51,6 +55,66 @@ export const GROUP_CREATE_STEP_BUTTON_TYPE = {
 } as const;
 
 export type GroupCreateStepButtonTypes = keyof typeof GROUP_CREATE_STEP_BUTTON_TYPE;
+
+export type GroupCreateBasicNameFormData = {
+    changeNameType: GroupBasicFormChangeNameTypes;
+    value: string;
+};
+
+export type GroupCreateBasicPlanIdFormData = {
+    selectType: GroupBasicFormSelectPlanIdTypes;
+    value: PlanTypeIds;
+    planBenefits: GroupFormBasicPlanBenefitType[];
+};
+
+export type GroupCreateBasicVisibilityTypeFormData = {
+    value: GroupVisibilityTypes;
+    visibilityTypeList: GroupVisibilityTypes[];
+};
+
+export type GroupCreateBasicFormData = {
+    fullName: GroupCreateBasicNameFormData;
+    shortName: GroupCreateBasicNameFormData;
+    maxOwnedGroupMemberPlanId: GroupCreateBasicPlanIdFormData;
+    maxSubLeaderPlanId: GroupCreateBasicPlanIdFormData;
+    visibilityType: GroupCreateBasicVisibilityTypeFormData;
+};
+
+export type GroupCreateFormData = {
+    [GROUP_FORM_TYPE.BASIC]: GroupCreateBasicFormData;
+};
+
+export const DEFAULT_GROUP_CREATE_FORM_DATA: GroupCreateFormData = {
+    [GROUP_FORM_TYPE.BASIC]: {
+        fullName: {
+            changeNameType: CHANGE_NAME_TYPE.FULL_NAME,
+            value: "",
+        },
+        shortName: {
+            changeNameType: CHANGE_NAME_TYPE.SHORT_NAME,
+            value: "",
+        },
+        maxOwnedGroupMemberPlanId: {
+            selectType: SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER,
+            value: PLANS.FREE,
+            planBenefits: [],
+        },
+        maxSubLeaderPlanId: {
+            selectType: SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER,
+            value: PLANS.FREE,
+            planBenefits: [],
+        },
+        visibilityType: {
+            value: GROUP_VISIBILITY_TYPE.PUBLIC,
+            visibilityTypeList: [],
+        },
+    },
+};
+
+export type GroupCreateFormContextType = {
+    FormComponent: ComponentType | null;
+    formData: GroupCreateFormData;
+};
 
 export const GROUP_CREATE_STEP_BUTTON_TITLE = {
     [LOCALE.KR]: {

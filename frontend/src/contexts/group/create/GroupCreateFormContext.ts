@@ -1,6 +1,7 @@
-import type { ComponentType } from "react";
 import { createContext } from "react";
 
-const GroupCreateFormContext = createContext<({ FormComponent: ComponentType | null; }) | null>(null);
+import type { GroupCreateFormContextType } from "@/domains/group/create";
+
+const GroupCreateFormContext = createContext<GroupCreateFormContextType | null>(null);
 
 export default GroupCreateFormContext;
