@@ -6,15 +6,16 @@ export interface RadioButtonProps {
     value: string;
     checked: boolean;
     disabled?: boolean;
+    readOnly?: boolean;
     label?: React.ReactNode;
 
     containerClassName?: string;
     labelClassName?: string;
 
-    onChange: (value: string) => void;
+    onChange?: (value: string) => void;
 };
 
-export const RadioButton: FC<RadioButtonProps> = ({ id, name, value, checked, disabled = false, label, containerClassName = "", labelClassName = "", onChange, }) => {
+export const RadioButton: FC<RadioButtonProps> = ({ id, name, value, checked, disabled = false, readOnly = false, label, containerClassName = "", labelClassName = "", onChange, }) => {
     return (
         <label
             htmlFor={ id }
@@ -27,7 +28,14 @@ export const RadioButton: FC<RadioButtonProps> = ({ id, name, value, checked, di
                 value={ value }
                 checked={ checked }
                 disabled={ disabled }
-                onChange={ (event) => onChange(event.target.value) }
+                onChange={(event) => {
+                    if ((disabled || readOnly) || !onChange) {
+                        return;
+                    }
+
+                    onChange(event.target.value);
+                }}
+                readOnly={ readOnly }
             />
 
             {

@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 
-import { GROUP_VISIBILITY_TYPE, SELECT_PLAN_ID_TYPE } from "@/domains/group/form";
-import usePlan from "@/hooks/plan/UsePlan";
+import { SELECT_PLAN_ID_TYPE } from "@/domains/group/form";
 
 import useGroupBasicForm from "./UseGroupBasicForm";
 
@@ -9,66 +8,46 @@ import type { GroupFormBasicPlanIdType, GroupFormBasicVisibilityType, GroupVisib
 import type { PlanTypeIds } from "@/domains/plan/planType";
 
 const useGroupBasicRadioForm = () => {
-    const { plans, planMetadataList } = usePlan();
     const ctx = useGroupBasicForm();
-    const { formData, onSelectPlanId, onSelectVisibilityType } = ctx;
-    const maxOwnedGroupMemberPlanId = useMemo<GroupFormBasicPlanIdType>(() => {
+    const { formData: { maxOwnedGroupMemberPlanId, maxSubLeaderPlanId }, onSelectPlanId, maxOwnedMemberPlanBenefits, maxSubLeaderPlanBenefits } = ctx;
+    const { formData: { visibilityType }, onSelectVisibilityType, groupVisibilityTypeList } = ctx;
+    const maxOwnedGroupMemberPlanIdData = useMemo<GroupFormBasicPlanIdType>(() => {
         return {
             selectType: SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER,
-            selectedPlanId: formData.maxOwnedGroupMemberPlanId,
-            planBenefits: planMetadataList.map(({ planId, planType }) => {
-                const { maxOwnedGroupMembers } = plans[planType].benefits;
-                return {
-                    planId,
-                    value: maxOwnedGroupMembers.value,
-                };
-            }),
+            selectedPlanId: maxOwnedGroupMemberPlanId,
+            planBenefits: maxOwnedMemberPlanBenefits,
             onSelect: (value) => 
                 onSelectPlanId(
                     SELECT_PLAN_ID_TYPE.MAX_OWNED_GROUP_MEMBER,
                     parseInt(value) as PlanTypeIds
                 )
         };
-    }, [plans, planMetadataList, formData.maxOwnedGroupMemberPlanId, onSelectPlanId]);
-    const maxSubLeaderPlanId = useMemo<GroupFormBasicPlanIdType>(() => {
+    }, [maxOwnedMemberPlanBenefits, maxOwnedGroupMemberPlanId, onSelectPlanId]);
+    const maxSubLeaderPlanIdData = useMemo<GroupFormBasicPlanIdType>(() => {
         return {
             selectType: SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER,
-            selectedPlanId: formData.maxSubLeaderPlanId,
-            planBenefits: planMetadataList.map(({ planId, planType }) => {
-                const { maxSubLeaders } = plans[planType].benefits;
-                return {
-                    planId,
-                    value: maxSubLeaders.value,
-                };
-            }),
+            selectedPlanId: maxSubLeaderPlanId,
+            planBenefits: maxSubLeaderPlanBenefits,
             onSelect: (value) => 
                 onSelectPlanId(
                     SELECT_PLAN_ID_TYPE.MAX_SUB_LEADER,
                     parseInt(value) as PlanTypeIds
                 )
         };
-    }, [plans, planMetadataList, formData.maxSubLeaderPlanId, onSelectPlanId]);
+    }, [maxSubLeaderPlanBenefits, maxSubLeaderPlanId, onSelectPlanId]);
     
-    const visibilityTypeList = useMemo(() => {
-        return [
-            GROUP_VISIBILITY_TYPE.PUBLIC,
-            GROUP_VISIBILITY_TYPE.PRIVATE,
-            GROUP_VISIBILITY_TYPE.FRIENDS
-        ];
-    }, []);
-    
-    const visibilityType = useMemo<GroupFormBasicVisibilityType>(() => {
+    const visibilityTypeData = useMemo<GroupFormBasicVisibilityType>(() => {
         return {
-            visibilityTypeList,
-            selectedVisibilityType: formData.visibilityType,
+            visibilityTypeList: groupVisibilityTypeList,
+            selectedVisibilityType: visibilityType,
             onSelect: (value) => onSelectVisibilityType(value as GroupVisibilityTypes),
         };
-    }, [formData.visibilityType, onSelectVisibilityType, visibilityTypeList]);
+    }, [visibilityType, onSelectVisibilityType, groupVisibilityTypeList]);
 
     return {
-        maxOwnedGroupMemberPlanId,
-        maxSubLeaderPlanId,
-        visibilityType
+        maxOwnedGroupMemberPlanId: maxOwnedGroupMemberPlanIdData,
+        maxSubLeaderPlanId: maxSubLeaderPlanIdData,
+        visibilityType: visibilityTypeData
     };
 };
 

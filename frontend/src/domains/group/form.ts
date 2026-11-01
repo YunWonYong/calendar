@@ -66,6 +66,11 @@ export const SELECT_PLAN_ID_TYPE = {
 } as const;
 export type GroupBasicFormSelectPlanIdTypes = typeof SELECT_PLAN_ID_TYPE[keyof typeof SELECT_PLAN_ID_TYPE];
 
+export type GroupBasicFormRadioButtonPlanBenefitData = {
+    planId: PlanTypeIds;
+    value: number;
+};
+
 export type GroupBasicFormChangeNameHandleType = (type: GroupBasicFormChangeNameTypes, value: string) => void;
 export type GroupBasicFormSelectPlanIdHandleType = (type: GroupBasicFormSelectPlanIdTypes, selectedPlanId: PlanTypeIds) => void;
 export type GroupBasicFormChangeVisibilityHandleType = (visibilityType: GroupVisibilityTypes) => void;
@@ -74,6 +79,9 @@ export type GroupBasicFormContextType = {
     onChangeName: GroupBasicFormChangeNameHandleType;
     onSelectPlanId: GroupBasicFormSelectPlanIdHandleType;
     onSelectVisibilityType: GroupBasicFormChangeVisibilityHandleType;
+    maxOwnedMemberPlanBenefits: GroupBasicFormRadioButtonPlanBenefitData[];
+    maxSubLeaderPlanBenefits: GroupBasicFormRadioButtonPlanBenefitData[];
+    groupVisibilityTypeList: GroupVisibilityTypes[];
 } & GroupFormContextType<GroupBasicFormData>;
 
 export type GroupBasicFormState = {

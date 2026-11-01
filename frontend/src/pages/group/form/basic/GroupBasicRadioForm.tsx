@@ -15,40 +15,79 @@ import useUserInfo from "@/hooks/user/UseUserInfo";
 
 import styles from "./GroupBasicRadioForm.module.css";
 
-import type { GroupFormBasicPlanIdType, GroupFormBasicVisibilityType } from "@/domains/group/form";
+import type { GroupBasicFormSelectPlanIdTypes, GroupFormBasicPlanBenefitType, GroupFormBasicPlanIdType, GroupFormBasicVisibilityType, GroupVisibilityTypes } from "@/domains/group/form";
 import type { LocaleType } from "@/domains/locale/locale";
 import type { PlanTypeIds } from "@/domains/plan/planType";
 
 const GroupBasicRadioForm = () => {
-    const { locale } = useLocale();
     const userInfo = useUserInfo();
     const { maxOwnedGroupMemberPlanId, maxSubLeaderPlanId, visibilityType } = useGroupBasicRadioForm();
     return (
         <article>
-            <PlanIdRadioButtonBox
-                locale={ locale }
+            <GroupBasicPlanIdRadioButtonForm
+                mode="EDIT"
                 userPlanId={ userInfo.planId }
                 formData={ maxOwnedGroupMemberPlanId }
             />
-            <PlanIdRadioButtonBox
-                locale={ locale }
+            <GroupBasicPlanIdRadioButtonForm
+                mode="EDIT"
                 userPlanId={ userInfo.planId }
                 formData={ maxSubLeaderPlanId }
             />
-            <VisibilityTypeRadioButtonBox 
-                locale={ locale }
+            <GroupBasicVisibilityRadioButtonForm 
+                mode="EDIT"
                 formData={ visibilityType }
             />
         </article>
     );
 };
 
-const PlanIdRadioButtonBox: FC<{ locale: LocaleType; userPlanId: PlanTypeIds; formData: GroupFormBasicPlanIdType; }> = memo(({ locale, userPlanId, formData }) => {
+type PlanIdRadioButtonFormData = {
+    selectType: GroupBasicFormSelectPlanIdTypes;
+    selectedPlanId: PlanTypeIds;
+    planBenefits: GroupFormBasicPlanBenefitType[];
+};
+
+export type GroupBasicPlanIdRadioButtonFormProps = 
+    {
+        mode: "EDIT"
+        userPlanId: PlanTypeIds;
+        formData: GroupFormBasicPlanIdType;
+    } |
+    {
+        mode: "PREVIEW"
+        data: PlanIdRadioButtonFormData;
+    };
+
+export const GroupBasicPlanIdRadioButtonForm: FC<GroupBasicPlanIdRadioButtonFormProps> = (props) => {
+    const { locale } = useLocale();
+
+    if (props.mode === "EDIT") {
+        return (
+            <PlanIdRadioButtonBox 
+                locale={ locale }
+                userPlanId={ props.userPlanId }
+                { ...props.formData }
+            />
+        );
+    }
+
+    return (
+        <PlanIdRadioButtonBox 
+            locale={ locale }
+            userPlanId={ PLANS.ULTIMATE }
+            isPreview={ true }
+            { ...props.data }
+            onSelect={ () => {} }
+        />
+    );
+};
+
+const PlanIdRadioButtonBox: FC<{ locale: LocaleType; isPreview?: boolean; userPlanId: PlanTypeIds; } & GroupFormBasicPlanIdType> = memo(({ locale, isPreview = false, userPlanId, onSelect, planBenefits, selectType, selectedPlanId }) => {
     const nav = useNavigate();
     const props = useMemo(() => {
-        const { selectType, selectedPlanId, planBenefits, onSelect } = formData;
         const text = GROUP_FORM_PLAN_ID_RADIO_BOX_INFO_TEXT[locale];
-        return {
+        const props: RadioButtonBoxProps = {
             title: GROUP_FORM_PLAN_ID_RADIO_BOX_TEXT[locale][selectType].LABEL,
             list: planBenefits.map((benefit) => {
                 const { planId, value } = benefit;
@@ -69,9 +108,13 @@ const PlanIdRadioButtonBox: FC<{ locale: LocaleType; userPlanId: PlanTypeIds; fo
                     label:  `${value}${unitText}`,
                     checked:  selectedPlanId === planId,
                     disabled:  isDisabled,
+                    readOnly: isPreview,
                 }
-            }),
-            informationButton: (
+            })
+        };
+
+        if (!isPreview) {
+            props.informationButton = (
                 <div
                     className={ styles.planIdRadioButtonInfoBox }
                 >
@@ -108,9 +151,11 @@ const PlanIdRadioButtonBox: FC<{ locale: LocaleType; userPlanId: PlanTypeIds; fo
                         />
                     </div>
                 </div>
-            ),
-        };
-    }, [locale, userPlanId, formData]);
+            );
+        }
+
+        return props;
+    }, [locale, userPlanId, onSelect, planBenefits, selectType, selectedPlanId]);
     return (
         <RadioButtonBox 
             { ...props }
@@ -118,12 +163,48 @@ const PlanIdRadioButtonBox: FC<{ locale: LocaleType; userPlanId: PlanTypeIds; fo
     );
 });
 
-const VisibilityTypeRadioButtonBox: FC<{ locale: LocaleType; formData: GroupFormBasicVisibilityType; }> = ({ locale, formData }) => {
+type VisibilityTypeRadioButtonData = {
+    visibilityTypeList: GroupVisibilityTypes[];
+    selectedVisibilityType: GroupVisibilityTypes;
+};
+
+export type GroupBasicVisibilityRadioButtonFormProps = 
+    {
+        mode: "EDIT"
+        formData: GroupFormBasicVisibilityType;
+    } |
+    {
+        mode: "PREVIEW"
+        data: VisibilityTypeRadioButtonData;
+    };
+
+export const GroupBasicVisibilityRadioButtonForm: FC<GroupBasicVisibilityRadioButtonFormProps> = (props) => {
+    const { locale } = useLocale();
+
+    if (props.mode === "EDIT") {
+        return (
+            <VisibilityTypeRadioButtonBox 
+                locale={ locale }
+                { ...props.formData }
+            />
+        );
+    }
+
+    return (
+        <VisibilityTypeRadioButtonBox 
+            locale={ locale }
+            isPreview={ true }
+            { ...props.data }
+            onSelect={ () => {} }
+        />
+    );
+};
+
+const VisibilityTypeRadioButtonBox: FC<{ locale: LocaleType; isPreview?: boolean; } & GroupFormBasicVisibilityType > = ({ locale, isPreview = false, onSelect, selectedVisibilityType, visibilityTypeList }) => {
     const props = useMemo(() => {
-        return {
+        const props: RadioButtonBoxProps = {
             title: GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TITLE[locale],
-            list: formData.visibilityTypeList.map((visibilityType) => {
-                const { selectedVisibilityType, onSelect } = formData;
+            list: visibilityTypeList.map((visibilityType) => {
                 return {
                     key:  visibilityType,
                     id:  visibilityType,
@@ -132,11 +213,14 @@ const VisibilityTypeRadioButtonBox: FC<{ locale: LocaleType; formData: GroupForm
                     onChange:  onSelect,
                     label:  GROUP_FORM_VISIBILITY_TYPE_RADIO_BOX_TEXT[locale][visibilityType],
                     checked:  selectedVisibilityType === visibilityType,
-                    disabled:  false,
+                    readOnly: isPreview,
                 }
             }),
             labelContainerClassName: styles.full,
-            informationButton: (
+        };
+
+        if (!isPreview) {
+            props.informationButton = (
                 <div
                     className={ styles.visibilityInfoBox }
                 >
@@ -144,9 +228,11 @@ const VisibilityTypeRadioButtonBox: FC<{ locale: LocaleType; formData: GroupForm
                         GROUP_FORM_VISIBILITY_TYPE_RADIO_INFO_TEXT[locale]
                     }
                 </div>
-            ),
-        };
-    }, [locale, formData]);
+            );
+        }
+
+        return  props;
+    }, [locale, isPreview, onSelect, selectedVisibilityType, visibilityTypeList]);
     return (
         <RadioButtonBox 
             { ...props }
@@ -159,10 +245,11 @@ type RadioButtonProps = {
     id: string;
     name: string;
     value: string;
-    onChange: (value: string) => void;
+    onChange?: (value: string) => void;
     label: string;
     checked: boolean;
-    disabled: boolean;
+    disabled?: boolean;
+    readOnly?: boolean;
 };
 
 type RadioButtonBoxProps = {
