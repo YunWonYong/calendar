@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 
 import { TextInput } from "@/components/form/TextInput";
 import { GROUP_FORM_NAME_INPUT } from "@/domains/group/form";
@@ -8,7 +8,8 @@ import useLocale from "@/hooks/locale/useLocale";
 
 import styles from "./GroupBasicInputForm.module.css";
 
-import type { GroupBasicFormChangeNameTypes, GroupFormBasicNameType, GroupFormNameInputTextType } from "@/domains/group/form";
+import type { GroupBasicFormChangeNameTypes, GroupFormBasicNameType } from "@/domains/group/form";
+import type { LocaleType } from "@/domains/locale/locale";
 
 const GroupBasicInputForm = () => {
     const { fullName, shortName } = useGroupBasicInputForm();
@@ -19,21 +20,13 @@ const GroupBasicInputForm = () => {
             <div 
                 className={ styles.basicFormWrapInner }
             >
-                <GroupBasicInfoBox 
+                <GroupBasicInputBox 
                     mode="EDIT"
-                    changeNameType={ fullName.changeNameType }
-                    value={ fullName.value }
-                    onChange={ fullName.onChange }
-                    isError={ fullName.isError }
-                    errorMessage={ fullName.errorMessage }
+                    formData={ fullName }
                 />
-                <GroupBasicInfoBox 
+                <GroupBasicInputBox 
                     mode="EDIT"
-                    changeNameType={ shortName.changeNameType }
-                    value={ shortName.value }
-                    onChange={ shortName.onChange }
-                    isError={ shortName.isError }
-                    errorMessage={ shortName.errorMessage }
+                    formData={ shortName }
                 />
             </div>
         </article>
@@ -43,79 +36,66 @@ const GroupBasicInputForm = () => {
 type GroupBasicInputBoxProps = 
     {
         mode: "EDIT",
-        changeNameType: GroupBasicFormChangeNameTypes;
-        value: string;
-        errorMessage: string;
-        isError: boolean;
-        onChange: (event: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void;
+        formData: GroupFormBasicNameType;
     } |
     {
         mode: "PREVIEW",
-        changeNameType: GroupBasicFormChangeNameTypes;
-        value: string;
+        data : {
+            changeNameType: GroupBasicFormChangeNameTypes;
+            value: string;
+        };
     };
 
-export const GroupBasicInfoBox: FC<GroupBasicInputBoxProps> = memo((props) => {
+export const GroupBasicInputBox: FC<GroupBasicInputBoxProps> = memo((props) => {
     const { locale } = useLocale();
-    const localeText = useMemo(() => {
-        return GROUP_FORM_NAME_INPUT[locale][props.changeNameType];
-    }, [props.changeNameType]);
 
     if (props.mode === "EDIT") {
         return (
             <InputBox 
-                formData={ props }
-                localeText={ localeText }
+                locale={ locale }
+                { ...props.formData }
             />
         );
     }
 
     return (
-        <PreviewInput 
-            localeText={ localeText }
-            changeNameType={ props.changeNameType }
-            value={ props.value }
+        <InputBox 
+            locale={ locale }
+            isPreview={ true }
+            errorMessage=""
+            isError={ false }
+            onChange={ () => {} }
+            { ...props.data }
         />
     );
 });
 
-const PreviewInput: FC<{ changeNameType: GroupBasicFormChangeNameTypes; value: string; localeText: GroupFormNameInputTextType; }> = ({ changeNameType, localeText, value }) => {
+const InputBox: FC<{ locale: LocaleType; isPreview?: boolean; } & GroupFormBasicNameType> = memo(({ locale, isPreview = false, changeNameType, errorMessage, isError, onChange, value }) => {
+    const localeText = GROUP_FORM_NAME_INPUT[locale][changeNameType];
     return (
         <TextInput
             id={ changeNameType }
             value={ value }
             label={ localeText.LABEL }
-            containerClassName={ styles.basicFormNameInputContainer }
-            labelClassName={ styles.basicFormNameFieldLabel }
-            className={ styles.input }
-            readOnly={ true }
-        />
-    );
-};
-
-const InputBox: FC<{ formData: GroupFormBasicNameType; localeText: GroupFormNameInputTextType; }> = memo(({ formData, localeText }) => {
-    const { changeNameType, value, onChange, isError, errorMessage  } = formData;
-    return (
-        <TextInput
-            id={ changeNameType }
-            value={ value }
-            label={ localeText.LABEL }
-            placeholder={ localeText.PLACEHOLDER }
+            placeholder={ isPreview? "": localeText.PLACEHOLDER }
             onChange={ onChange }
             containerClassName={ styles.basicFormNameInputContainer }
             labelClassName={ styles.basicFormNameFieldLabel }
             className={ styles.input }
         >
-            <span
-                className={ styles.basicFormNameFieldHelperText }
-                data-is-error={ isError }
-            >
-                {
-                    isError
-                        ?   errorMessage 
-                        :   localeText.DESCRIPTION
-                }
-            </span>
+            {
+                !isPreview &&
+                    <span
+                        className={ styles.basicFormNameFieldHelperText }
+                        data-is-error={ isError }
+                    >
+                        {
+                            isError
+                                ?   errorMessage 
+                                :   localeText.DESCRIPTION
+                        }
+                    </span>
+            }
         </TextInput>
     );
 });
