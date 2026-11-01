@@ -8,7 +8,7 @@ import GroupEmblemBG from "@/components/group/GroupEmblemBG";
 import GroupEmblemIconSVG from "@/components/group/GroupEmblemIconSVG";
 import { BG_IDS, type BGId } from "@/domains/group/emblemBg";
 import { ICON_IDS } from "@/domains/group/emblemIcon";
-import { EMBLEM_NORMAL_PREVIEW_TEXT, type GroupEmblemFormNormalData } from "@/domains/group/form";
+import { EMBLEM_NORMAL_PREVIEW_TEXT, GROUP_EMBLEM_TYPE, type GroupEmblemFormNormalData } from "@/domains/group/form";
 import useGroupNormalEmblem from "@/hooks/group/form/emblem/UseGroupNormalEmblem";
 import useLocale from "@/hooks/locale/useLocale";
 
@@ -75,7 +75,8 @@ const EmblemPreview: FC<{ locale: LocaleType; data: GroupEmblemFormNormalData; }
             <div className={ styles.previewCanvas }>
                 <div className={ styles.emblemFrame }>
                     <GroupEmblem
-                        emblemId={ getGroupEmblemId(data) }
+                        type={ GROUP_EMBLEM_TYPE.NORMAL }
+                        id={ getGroupEmblemId(data) }
                         size={ 100 }
                     />
                 </div>

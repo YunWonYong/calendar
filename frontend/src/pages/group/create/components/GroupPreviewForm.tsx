@@ -1,13 +1,13 @@
 import type { FC } from "react";
 
 import Container from "@/components/Container";
+import { GROUP_FORM_MODE } from "@/domains/group/form";
 import useGroupCreateForm from "@/hooks/group/create/UseGroupCreateForm";
 
 import { GroupBasicInputBox } from "../../form/basic/GroupBasicInputForm";
 import { GroupBasicPlanIdRadioButtonForm, GroupBasicVisibilityRadioButtonForm } from "../../form/basic/GroupBasicRadioForm";
 
 import type { GroupCreateBasicFormData } from "@/domains/group/create";
-import { GROUP_FORM_MODE } from "@/domains/group/form";
 
 const GroupPreviewForm = () => {
     const { formData } = useGroupCreateForm();

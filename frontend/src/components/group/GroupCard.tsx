@@ -1,7 +1,5 @@
 import type { FC, HTMLAttributes } from "react";
 
-import Image from "../Image";
-
 import GroupEmblem from "./GroupEmblem";
 
 import styles from "./GroupCard.module.css";
@@ -14,7 +12,7 @@ export interface GroupCardProps extends HTMLAttributes<HTMLDivElement> {
         defaultImageUrl: string;
         imageUrl: string;
     } | {
-        type: "emblem";
+        type: "normal";
         emblemId: string;
     };
     groupFullName: string;
@@ -44,15 +42,17 @@ const GroupCard: FC<GroupCardProps> = ({
         >
             <div className={styles.emblemBox}>
                 {
-                    emblemIconInfo.type === "emblem"
+                    emblemIconInfo.type === "normal"
                         ?   <GroupEmblem
-                            emblemId={ emblemIconInfo.emblemId }
-                        />
-                        :   <Image
-                            src={ emblemIconInfo.imageUrl }
-                            defaultSrc={ emblemIconInfo.defaultImageUrl }
-                            alt={`${groupFullName} group emblem custom image`}
-                        />      
+                                type={ emblemIconInfo.type }
+                                id={ emblemIconInfo.emblemId }
+                            />
+                        :   <GroupEmblem
+                                type={ emblemIconInfo.type }
+                                url={ emblemIconInfo.imageUrl }
+                                defaultUrl={ emblemIconInfo.defaultImageUrl }
+                                alt={`${groupFullName} group emblem custom image`}
+                            />
                 }
             </div>
             

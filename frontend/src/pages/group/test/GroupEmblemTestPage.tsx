@@ -3,6 +3,7 @@ import { useState } from "react";
 import GroupEmblem from "@/components/group/GroupEmblem";
 import { BG_THEMES } from "@/domains/group/emblemBg";
 import { ICON_PRESETS } from "@/domains/group/emblemIcon";
+import { GROUP_EMBLEM_TYPE } from "@/domains/group/form";
 
 import styles from "./GroupEmblemTestPage.module.css";
 
@@ -35,7 +36,7 @@ const GroupEmblemTestPage = () => {
                 {/* [좌측] 조합 결과 및 컨트롤 영역 */}
                 <div className={styles.leftPanel}>
                     <div className={styles.previewCard}>
-                        <GroupEmblem emblemId={currentEmblemId} size={previewSize} />
+                        <GroupEmblem  type={GROUP_EMBLEM_TYPE.NORMAL} id={currentEmblemId} size={previewSize} />
                     </div>
 
                     <div className={styles.codeBox}>
@@ -93,7 +94,7 @@ const GroupEmblemTestPage = () => {
                                     title={iconId}
                                 >
                                     {/* GroupEmblem을 직접 사용하여 아이콘 렌더링 */}
-                                    <GroupEmblem emblemId={`${selectedBg}@_@${iconId}`} size={28} />
+                                    <GroupEmblem type={ GROUP_EMBLEM_TYPE.NORMAL } id={`${selectedBg}@_@${iconId}`} size={28} />
                                     <span className={styles.tileLabel}>{iconId}</span>
                                 </button>
                             ))}
