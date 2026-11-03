@@ -3,12 +3,14 @@ import type { ComponentType } from "react";
 import { LOCALE } from "../locale/locale";
 import { PLANS } from "../plan/planType";
 
-import { CHANGE_NAME_TYPE, GROUP_FORM_TYPE, GROUP_VISIBILITY_TYPE, SELECT_PLAN_ID_TYPE } from "./form";
+import { CHANGE_NAME_TYPE, GROUP_FORM_TYPE, SELECT_PLAN_ID_TYPE } from "./form";
+import { GROUP_VISIBILITY_TYPE } from "./group";
 
 import type { LocaleType } from "../locale/locale";
 import type { PlanTypeIds } from "../plan/planType";
 
-import type { GroupBasicFormChangeNameTypes, GroupBasicFormSelectPlanIdTypes, GroupFormBasicPlanBenefitType, GroupFormTypes, GroupVisibilityTypes } from "./form";
+import type { GroupBasicFormChangeNameTypes, GroupBasicFormSelectPlanIdTypes, GroupFormBasicPlanBenefitType, GroupFormTypes } from "./form";
+import type { GroupVisibilityTypes } from "./group";
 
 export const GROUP_CREATE_HEADER_TITLES: Record<LocaleType, string> = {
     [LOCALE.KR]: "그룹 생성",

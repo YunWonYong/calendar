@@ -1,4 +1,5 @@
 import { DEFAULT_GROUP_BASIC_FORM_STATE, GROUP_BASIC_FORM_ACTIONS } from "@/domains/group/form";
+import { isValidFullName, isValidShortName } from "@/domains/group/formDataValidate";
 
 import type { GroupBasicFormData, GroupBasicFormState, GroupFormReducerType } from "@/domains/group/form";
 
@@ -19,7 +20,8 @@ export const getDefaultState = (formData?: GroupBasicFormData) => {
 
 export const reducer: GroupFormReducerType<GroupBasicFormState> = (state, action) => {
     switch (action.type) {
-        case GROUP_BASIC_FORM_ACTIONS.CHANGE_FULL_NAME:
+        case GROUP_BASIC_FORM_ACTIONS.CHANGE_FULL_NAME: {
+            const errorMessageType = isValidFullName(action.value);
             return {
                 ...state,
                 isDirty: state.oldFormData
@@ -28,9 +30,19 @@ export const reducer: GroupFormReducerType<GroupBasicFormState> = (state, action
                 formData: {
                     ...state.formData,
                     fullName: action.value,
-                }
+                },
+                errorCodes: {
+                    ...state.errorCodes,
+                    fullName: errorMessageType,
+                },
+                isValid: errorMessageType === null
             };
-        case GROUP_BASIC_FORM_ACTIONS.CHANGE_SHORT_NAME:
+        }
+
+            ;
+
+        case GROUP_BASIC_FORM_ACTIONS.CHANGE_SHORT_NAME: {
+            const errorMessageType = isValidShortName(action.value);
             return {
                 ...state,
                 isDirty: state.oldFormData
@@ -39,8 +51,17 @@ export const reducer: GroupFormReducerType<GroupBasicFormState> = (state, action
                 formData: {
                     ...state.formData,
                     shortName: action.value,
-                }
+                },
+                errorCodes: {
+                    ...state.errorCodes,
+                    shortName: errorMessageType,
+                },
+                isValid: errorMessageType === null
             };
+        }
+
+            ;
+
         case GROUP_BASIC_FORM_ACTIONS.SELECT_MAX_OWNED_GROUP_MEMBER_PLAN_ID:
             return {
                 ...state,

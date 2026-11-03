@@ -4,7 +4,8 @@ import { SELECT_PLAN_ID_TYPE } from "@/domains/group/form";
 
 import useGroupBasicForm from "./UseGroupBasicForm";
 
-import type { GroupFormBasicPlanIdType, GroupFormBasicVisibilityType, GroupVisibilityTypes } from "@/domains/group/form";
+import type { GroupFormBasicPlanIdType, GroupFormBasicVisibilityType } from "@/domains/group/form";
+import type { GroupVisibilityTypes } from "@/domains/group/group";
 import type { PlanTypeIds } from "@/domains/plan/planType";
 
 const useGroupBasicRadioForm = () => {

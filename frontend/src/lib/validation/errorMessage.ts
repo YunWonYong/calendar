@@ -11,6 +11,7 @@ export const INVALID_ERROR_MESSAGE_TYPES = {
     WHITESPACE: "WHITESPACE",
     CONSECUTIVE_SPACE: "CONSECUTIVE_SPACE",
     START_WHITESPACE: "START_WHITESPACE",
+    START_CHARACTER: "START_CHARACTER",
     NULL: "NULL",
     EMPTY: "EMPTY",
     BLANK: "BLANK",
@@ -31,6 +32,7 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
         [INVALID_ERROR_MESSAGE_TYPES.WHITESPACE]: "사용할 수 없는 공백 문자가 포함되어 있습니다.",
         [INVALID_ERROR_MESSAGE_TYPES.CONSECUTIVE_SPACE]: "공백을 연속해서 사용할 수 없습니다.",
         [INVALID_ERROR_MESSAGE_TYPES.START_WHITESPACE]: "문자열의 처음에는 공백을 사용할 수 없습니다.",
+        [INVALID_ERROR_MESSAGE_TYPES.START_CHARACTER]: "문자열의 처음에는 숫자, 공백, 이모지, 특수문자는 사용할 수 없습니다.",
         [INVALID_ERROR_MESSAGE_TYPES.NULL]: "값이 없습니다.",
         [INVALID_ERROR_MESSAGE_TYPES.EMPTY]: "값을 입력해주세요.",
         [INVALID_ERROR_MESSAGE_TYPES.BLANK]: "공백만 입력할 수 없습니다.",
@@ -47,6 +49,7 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
         [INVALID_ERROR_MESSAGE_TYPES.WHITESPACE]: "使用できない空白文字が含まれています。",
         [INVALID_ERROR_MESSAGE_TYPES.CONSECUTIVE_SPACE]: "空白を連続して使用することはできません。",
         [INVALID_ERROR_MESSAGE_TYPES.START_WHITESPACE]: "先頭に空白を使用することはできません。",
+        [INVALID_ERROR_MESSAGE_TYPES.START_CHARACTER]: "先頭に数字、空白、絵文字、特殊文字を使用することはできません。",
         [INVALID_ERROR_MESSAGE_TYPES.NULL]: "値がありません。",
         [INVALID_ERROR_MESSAGE_TYPES.EMPTY]: "値を入力してください。",
         [INVALID_ERROR_MESSAGE_TYPES.BLANK]: "空白のみを入力することはできません。",
@@ -63,6 +66,7 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
         [INVALID_ERROR_MESSAGE_TYPES.WHITESPACE]: "不能使用空白字符。",
         [INVALID_ERROR_MESSAGE_TYPES.CONSECUTIVE_SPACE]: "不能连续使用空格。",
         [INVALID_ERROR_MESSAGE_TYPES.START_WHITESPACE]: "开头不能使用空格。",
+        [INVALID_ERROR_MESSAGE_TYPES.START_CHARACTER]: "开头不能使用数字、空格、表情符号或特殊字符。",
         [INVALID_ERROR_MESSAGE_TYPES.NULL]: "没有输入值。",
         [INVALID_ERROR_MESSAGE_TYPES.EMPTY]: "请输入内容。",
         [INVALID_ERROR_MESSAGE_TYPES.BLANK]: "不能只输入空格。",
@@ -80,6 +84,7 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
         [INVALID_ERROR_MESSAGE_TYPES.WHITESPACE]: "The input contains unsupported whitespace characters.",
         [INVALID_ERROR_MESSAGE_TYPES.CONSECUTIVE_SPACE]: "Consecutive spaces are not allowed.",
         [INVALID_ERROR_MESSAGE_TYPES.START_WHITESPACE]: "The input cannot start with whitespace.",
+        [INVALID_ERROR_MESSAGE_TYPES.START_CHARACTER]: "The input cannot start with a number, whitespace, emoji, or special character.",
         [INVALID_ERROR_MESSAGE_TYPES.NULL]: "No value was provided.",
         [INVALID_ERROR_MESSAGE_TYPES.EMPTY]: "Please enter a value.",
         [INVALID_ERROR_MESSAGE_TYPES.BLANK]: "The input cannot contain only whitespace.",
@@ -91,7 +96,7 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
     }
 };
 
-export const getInvalidErrorMessageByLocale = (errorMessageType: InvalidErrorMessageType, locale?: LocaleType) => {
+export const getInvalidErrorMessageByLocale = (errorMessageType: InvalidErrorMessageType, locale?: LocaleType, opt?: { maxLength: number; minLength: number; }) => {
     if (!locale) {
         return getDefaultInvalidErrorMessage(errorMessageType);
     }
@@ -102,7 +107,21 @@ export const getInvalidErrorMessageByLocale = (errorMessageType: InvalidErrorMes
         return getDefaultInvalidErrorMessage(errorMessageType);
     }
 
-    return errorMessages[errorMessageType];
+    let errorMessage = errorMessages[errorMessageType];
+
+    if (opt) {
+        if (errorMessageType === INVALID_ERROR_MESSAGE_TYPES.SHORTER_THAN) {
+            errorMessage = errorMessage.replace(DIGIT_FORMAT_TEXT, opt.minLength.toString());
+        } else if (errorMessageType === INVALID_ERROR_MESSAGE_TYPES.LONGER_THAN) {
+            errorMessage = errorMessage.replace(DIGIT_FORMAT_TEXT, opt.maxLength.toString());
+        } else if (errorMessage === INVALID_ERROR_MESSAGE_TYPES.OUTSIDE_LENGTH) {
+            errorMessage = errorMessage
+                .replace(DIGIT_FORMAT_TEXT, opt.minLength.toString())
+                .replace(DIGIT_FORMAT_TEXT, opt.maxLength.toString());
+        }
+    }
+
+    return errorMessage;
 };
 
 export const getDefaultInvalidErrorMessage = (errorMessageType: InvalidErrorMessageType) => {

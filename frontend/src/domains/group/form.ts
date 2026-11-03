@@ -4,17 +4,22 @@ import type { ChangeEvent } from "react";
 import { LOCALE } from "../locale/locale";
 import { PLANS } from "../plan/planType";
 
+import { GROUP_VISIBILITY_TYPE } from "./group";
+
 import basicIcon from "@/assets/group/form/basic.webp";
 import emblemIcon from "@/assets/group/form/emblem.webp";
 import membersIcon from "@/assets/group/form/members.webp";
 import resultIcon from "@/assets/group/form/result.webp";
 import reviewIcon from "@/assets/group/form/review.webp";
 
+import type { InvalidErrorMessageType } from "@/lib/validation/errorMessage";
+
 import type { LocaleType } from "../locale/locale";
 import type { PlanTypeIds } from "../plan/planType";
 
 import type { BGId } from "./emblemBg";
 import type { IconId } from "./emblemIcon";
+import type { GroupVisibilityTypes } from "./group";
 import type { GroupMemberType } from "./member";
 
 export const GROUP_FORM_TYPE = {
@@ -47,18 +52,17 @@ export type GroupBasicFormData = {
     visibilityType: GroupVisibilityTypes;
 };
 
-export const GROUP_VISIBILITY_TYPE = {
-    PUBLIC: "PUBLIC",
-    PRIVATE: "PRIVATE",
-    FRIENDS: "FRIENDS",
-} as const;
-export type GroupVisibilityTypes = keyof typeof GROUP_VISIBILITY_TYPE;
-
 export const CHANGE_NAME_TYPE = {
     FULL_NAME: "fullName",
     SHORT_NAME: "shortName",
 } as const;
 export type GroupBasicFormChangeNameTypes = typeof CHANGE_NAME_TYPE[keyof typeof CHANGE_NAME_TYPE];
+
+export const FULL_NAME_MIN_LENGTH = 2;
+export const FULL_NAME_MAX_LENGTH = 18;
+
+export const SHORT_NAME_MIN_LENGTH = 2;
+export const SHORT_NAME_MAX_LENGTH = 6;
 
 export const SELECT_PLAN_ID_TYPE = {
     MAX_SUB_LEADER: "maxSubLeaderPlan",
@@ -75,7 +79,7 @@ export type GroupBasicFormChangeNameHandleType = (type: GroupBasicFormChangeName
 export type GroupBasicFormSelectPlanIdHandleType = (type: GroupBasicFormSelectPlanIdTypes, selectedPlanId: PlanTypeIds) => void;
 export type GroupBasicFormChangeVisibilityHandleType = (visibilityType: GroupVisibilityTypes) => void;
 export type GroupBasicFormContextType = {
-    errorCodes: Record<GroupBasicFormChangeNameTypes, string>;
+    errorCodes: Record<GroupBasicFormChangeNameTypes, InvalidErrorMessageType | null>;
     onChangeName: GroupBasicFormChangeNameHandleType;
     onSelectPlanId: GroupBasicFormSelectPlanIdHandleType;
     onSelectVisibilityType: GroupBasicFormChangeVisibilityHandleType;
@@ -85,7 +89,7 @@ export type GroupBasicFormContextType = {
 } & GroupFormContextType<GroupBasicFormData>;
 
 export type GroupBasicFormState = {
-    errorCodes: Record<GroupBasicFormChangeNameTypes, string>;
+    errorCodes: Record<GroupBasicFormChangeNameTypes, InvalidErrorMessageType | null>;
 } & GroupFormState<GroupBasicFormData>;
 
 export const DEFAULT_GROUP_BASIC_FORM_STATE: GroupBasicFormState = {
@@ -97,8 +101,8 @@ export const DEFAULT_GROUP_BASIC_FORM_STATE: GroupBasicFormState = {
         visibilityType: GROUP_VISIBILITY_TYPE.PUBLIC
     },
     errorCodes: {
-        fullName: "",
-        shortName: ""
+        fullName: null,
+        shortName: null
     },
     isValid: false,
     isDirty: false,
@@ -258,8 +262,9 @@ export type GroupFormReducerType<T extends GroupReducerState> = (state: T, actio
 export type GroupFormBasicNameType = {
     changeNameType: GroupBasicFormChangeNameTypes;
     value: string;
-    errorMessage: string;
-    isError: boolean;
+    errorMessageType: InvalidErrorMessageType | null;
+    min: number;
+    max: number;
     onChange: (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => void
 };
 

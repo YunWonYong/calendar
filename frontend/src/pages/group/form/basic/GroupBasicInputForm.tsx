@@ -5,6 +5,7 @@ import { TextInput } from "@/components/form/TextInput";
 import { GROUP_FORM_NAME_INPUT } from "@/domains/group/form";
 import useGroupBasicInputForm from "@/hooks/group/form/basic/UseGroupBasicInputForm";
 import useLocale from "@/hooks/locale/useLocale";
+import { getInvalidErrorMessageByLocale } from "@/lib/validation/errorMessage";
 
 import styles from "./GroupBasicInputForm.module.css";
 
@@ -60,16 +61,28 @@ export const GroupBasicInputBox: FC<GroupBasicInputBoxProps> = memo((props) => {
         <InputBox 
             locale={ locale }
             isPreview={ true }
-            errorMessage=""
-            isError={ false }
+            errorMessageType={ null }
             onChange={ () => {} }
+            min={ 0 }
+            max={ 0 }
             { ...props.data }
         />
     );
 });
 
-const InputBox: FC<{ locale: LocaleType; isPreview?: boolean; } & GroupFormBasicNameType> = memo(({ locale, isPreview = false, changeNameType, errorMessage, isError, onChange, value }) => {
+const InputBox: FC<{ locale: LocaleType; isPreview?: boolean; } & GroupFormBasicNameType> = memo(({ locale, isPreview = false, changeNameType, errorMessageType, onChange, value, min, max }) => {
     const localeText = GROUP_FORM_NAME_INPUT[locale][changeNameType];
+    const isError = errorMessageType !== null;
+    const errorMessage = isError 
+        ?   getInvalidErrorMessageByLocale(
+            errorMessageType, 
+            locale,
+            {
+                maxLength: max,
+                minLength: min
+            }
+        )
+        :   undefined;
     return (
         <TextInput
             id={ changeNameType }
@@ -80,6 +93,10 @@ const InputBox: FC<{ locale: LocaleType; isPreview?: boolean; } & GroupFormBasic
             containerClassName={ styles.basicFormNameInputContainer }
             labelClassName={ styles.basicFormNameFieldLabel }
             className={ styles.input }
+            min={ min }
+            minLength={ min }
+            max={ max }
+            maxLength={ max }
         >
             {
                 !isPreview &&
@@ -88,9 +105,11 @@ const InputBox: FC<{ locale: LocaleType; isPreview?: boolean; } & GroupFormBasic
                         data-is-error={ isError }
                     >
                         {
-                            isError
-                                ?   errorMessage 
-                                :   localeText.DESCRIPTION
+                            value.length === 0
+                                ?   localeText.DESCRIPTION
+                                :   isError
+                                        ? errorMessage 
+                                        : undefined 
                         }
                     </span>
             }

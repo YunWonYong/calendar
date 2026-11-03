@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { CHANGE_NAME_TYPE } from "@/domains/group/form";
+import { CHANGE_NAME_TYPE, FULL_NAME_MAX_LENGTH, FULL_NAME_MIN_LENGTH, SHORT_NAME_MAX_LENGTH, SHORT_NAME_MIN_LENGTH } from "@/domains/group/form";
 
 import useGroupBasicForm from "./UseGroupBasicForm";
 
@@ -16,8 +16,9 @@ const useGroupBasicInputForm = () => {
         return {
             changeNameType,
             value: formData.fullName,
-            errorMessage: errorMessages.fullName,
-            isError: errorMessages.fullName.length > 0,
+            errorMessageType: errorMessages.fullName,
+            min: FULL_NAME_MIN_LENGTH,
+            max: FULL_NAME_MAX_LENGTH,
             onChange: (event) => 
                 onChangeName(
                     changeNameType, 
@@ -31,8 +32,9 @@ const useGroupBasicInputForm = () => {
         return {
             changeNameType,
             value: formData.shortName,
-            errorMessage: errorMessages.shortName,
-            isError: errorMessages.shortName.length > 0,
+            errorMessageType: errorMessages.shortName,
+            min: SHORT_NAME_MIN_LENGTH,
+            max: SHORT_NAME_MAX_LENGTH,
             onChange: (event) => 
                 onChangeName(
                     changeNameType, 

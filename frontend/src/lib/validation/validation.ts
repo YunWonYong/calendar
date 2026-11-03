@@ -118,6 +118,26 @@ export const getStartsWithWhitespaceErrorMessage = (locale?: LocaleType) =>
     getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.START_WHITESPACE, locale);
 
 /**
+ * 문자열의 첫 번째 문자가 숫자, whitespace, 특수문자 또는 이모지인지 확인합니다.
+ *
+ * 검사 대상:
+ * - 숫자
+ * - whitespace
+ * - Unicode 구두점 및 기호
+ * - Emoji Presentation 문자
+ *
+ * @param value 검사할 문자열
+ * @returns 첫 번째 문자가 허용되지 않는 문자이면 true
+ */
+const INVALID_START_CHARACTER_REGEX =
+    /^(?:\d|\s|[\p{P}\p{S}])/u;
+
+export const hasInvalidStartCharacter = (value: string) => INVALID_START_CHARACTER_REGEX.test(value);
+
+export const getStartCharacterErrorMessage = (locale?: LocaleType) =>
+    getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.START_CHARACTER, locale);
+
+/**
  * 주어진 값이 null인지 확인합니다.
  *
  * @param value 검사할 값
