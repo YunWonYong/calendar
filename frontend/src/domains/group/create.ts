@@ -129,6 +129,7 @@ export const DEFAULT_GROUP_CREATE_FORM_DATA: GroupCreateFormData = {
 export type GroupCreateFormContextType = {
     FormComponent: ComponentType | null;
     formData: GroupCreateFormData;
+    submit: () => Promise<void>;
 };
 
 export const GROUP_CREATE_STEP_BUTTON_TITLE = {

@@ -1,5 +1,5 @@
 import type { ComponentType, ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { getGroupEmblemId } from "@/components/group/GroupEmblem";
 import { DEFAULT_GROUP_CREATE_FORM_DATA, GroupCreateFlowStepByFormType } from "@/domains/group/create";
@@ -11,10 +11,11 @@ import GroupPreviewForm from "@/pages/group/create/components/GroupPreviewForm";
 import GroupBasicForm from "@/pages/group/form/basic/GroupBasicForm";
 import GroupEmblemForm from "@/pages/group/form/emblem/GroupEmblemForm";
 import GroupMembersForm from "@/pages/group/form/members/GroupMembersForm";
+import { createGroup } from "@/server/api";
 
 import GroupCreateFormContext from "./GroupCreateFormContext";
 
-import type { GroupCreateFlowStepTypes, GroupCreateFormData } from "@/domains/group/create";
+import type { GroupCreateBasicFormData, GroupCreateEmblemFormData, GroupCreateFlowStepTypes, GroupCreateFormData } from "@/domains/group/create";
 import type { GroupBasicFormContextType, GroupEmblemFormContextType } from "@/domains/group/form";
 
 const GROUP_CREATE_FORM_COMPONENTS = {
@@ -69,6 +70,50 @@ const createEmblemFormData = (ctx: GroupEmblemFormContextType) => {
     };
 };
 
+const setBasicBodyData = (body: FormData, formData: GroupCreateBasicFormData) => {
+    body.append(
+        "basic",
+        JSON.stringify(
+            {
+                fullName: formData.fullName.value,
+                shortName: formData.shortName.value,
+                maxOwnedGroupMemberPlanId: formData.maxOwnedGroupMemberPlanId.value,
+                maxSubLeaderPlanId: formData.maxSubLeaderPlanId.value,
+                visibilityType: formData.visibilityType.value,
+            }
+        )
+    );
+};
+
+const setEmblemBodyData = (body: FormData, formData: GroupCreateEmblemFormData) => {
+    if (formData.type === "custom") {
+        body.append(
+            "emblem",
+            JSON.stringify(
+                {
+                    type: formData.type,
+                }
+            )
+        );
+
+        body.append(
+            "emblemFile",
+            formData.file,
+        );
+        return;
+    }
+
+    body.append(
+        "emblem",
+        JSON.stringify(
+            {
+                type: formData.type,
+                id: formData.id,
+            }
+        )
+    );
+};
+
 const GroupCreateFormProvider = ({ children }: { children: ReactNode; }) => {
     const basicFormCtx = useGroupBasicForm();
     const emblemFormCtx = useGroupEmblemForm();
@@ -88,9 +133,22 @@ const GroupCreateFormProvider = ({ children }: { children: ReactNode; }) => {
         return GROUP_CREATE_FORM_COMPONENTS[current] || null;
     }, [current]);
 
+    const submit = useCallback(async () => {
+        if (current !== GroupCreateFlowStepByFormType.REVIEW) {
+            return;
+        }
+
+        const body = new FormData();
+        setBasicBodyData(body, formData.BASIC);
+        setEmblemBodyData(body, formData.EMBLEM);
+        await createGroup(body);
+
+        // [TODO] 성공 시 success step으로 이동하고 실패하면 modal로 실패 여부를 출력.
+    }, [current, formData]);
+
     const value = useMemo(() => {
-        return { FormComponent, formData };
-    }, [FormComponent, formData]);
+        return { FormComponent, formData, submit };
+    }, [FormComponent, formData, submit]);
     return (
         <GroupCreateFormContext.Provider
             value={ value }

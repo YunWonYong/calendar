@@ -24,3 +24,11 @@ export const fetchPlans = async () => {
         "/plans"
     );
 };
+
+export const createGroup = async (body: FormData) => {
+    return serverApiClient.authCall(
+        METHODS.POST,
+        "/groups",
+        body,
+    );
+};
