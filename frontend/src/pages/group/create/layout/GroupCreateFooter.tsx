@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import { BUTTON_COLOR, BUTTON_SIZE } from "@/domains/button/buttonType";
 import useGroupCreateFlow from "@/hooks/group/create/UseGroupCreateFlow";
+import useGroupCreateForm from "@/hooks/group/create/UseGroupCreateForm";
 
 import styles from "./GroupCreateFooter.module.css";
 
@@ -34,15 +35,21 @@ const PreviousStepButton = () => {
 };
 
 const NextStepButton = () => {
-    const { nextButtonTitle, nextButtonEventName, moveNext } = useGroupCreateFlow();
-    // [TODO] 추후 form 관련 hook 값과 같이 isDisabled 값 구함.
-    const isDisabled = false; 
+    const { nextButtonTitle, nextButtonEventName, isSubmitStep, moveNext } = useGroupCreateFlow();
+    const { isValidFormData, submit } = useGroupCreateForm(); 
     return (
         <Button
             type="button"
-            aria-disabled={ isDisabled }
-            disabled={ isDisabled }
-            onClick={ moveNext }
+            aria-disabled={ !isValidFormData }
+            disabled={ !isValidFormData }
+            onClick={async () => {
+                if (isSubmitStep && isValidFormData) {
+                    await submit();
+                    return;
+                }
+
+                moveNext();
+            }}
             eventName={ nextButtonEventName }
             title={ nextButtonTitle }
             color={ BUTTON_COLOR.GREEN }

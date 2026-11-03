@@ -85,7 +85,8 @@ const useGroupCreateFlow = () => {
         ),
         nextButtonEventName: `GROUP_CREATE_NEXT_FLOW@${steps.current}=>${steps.next}`,
         moveNext,
-        movePrevious
+        movePrevious,
+        isSubmitStep: steps.current === GroupCreateFlowStepByFormType.REVIEW,
     };
 };
 

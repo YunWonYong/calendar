@@ -133,8 +133,23 @@ const GroupCreateFormProvider = ({ children }: { children: ReactNode; }) => {
         return GROUP_CREATE_FORM_COMPONENTS[current] || null;
     }, [current]);
 
+    const isValidFormData = useMemo(() => {
+        switch (current) {
+            case GroupCreateFlowStepByFormType.BASIC:
+                return basicFormCtx.isValidFormData();
+            case GroupCreateFlowStepByFormType.EMBLEM:
+                return emblemFormCtx.isValidFormData();
+            case GroupCreateFlowStepByFormType.MEMBERS:
+                return true;
+            case GroupCreateFlowStepByFormType.REVIEW:
+                return basicFormCtx.isValidFormData() && emblemFormCtx.isValidFormData();
+            default:
+                throw new Error("NOT SUPPORTED STEP.");
+        }
+    }, [current, basicFormCtx, emblemFormCtx]);
+
     const submit = useCallback(async () => {
-        if (current !== GroupCreateFlowStepByFormType.REVIEW) {
+        if (current !== GroupCreateFlowStepByFormType.REVIEW || !isValidFormData) {
             return;
         }
 
@@ -144,11 +159,11 @@ const GroupCreateFormProvider = ({ children }: { children: ReactNode; }) => {
         await createGroup(body);
 
         // [TODO] 성공 시 success step으로 이동하고 실패하면 modal로 실패 여부를 출력.
-    }, [current, formData]);
+    }, [current, isValidFormData, formData]);
 
     const value = useMemo(() => {
-        return { FormComponent, formData, submit };
-    }, [FormComponent, formData, submit]);
+        return { FormComponent, formData, submit, isValidFormData };
+    }, [FormComponent, formData, submit, isValidFormData]);
     return (
         <GroupCreateFormContext.Provider
             value={ value }

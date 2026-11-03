@@ -130,6 +130,7 @@ export type GroupCreateFormContextType = {
     FormComponent: ComponentType | null;
     formData: GroupCreateFormData;
     submit: () => Promise<void>;
+    isValidFormData: boolean;
 };
 
 export const GROUP_CREATE_STEP_BUTTON_TITLE = {
