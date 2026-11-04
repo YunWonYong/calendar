@@ -2,6 +2,9 @@ package io.github.hswy.calendar.plan;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum PlanType {
     FREE(0),
     BASIC(1),
@@ -28,6 +31,7 @@ public enum PlanType {
         );
     }
 
+    @JsonCreator
     public static PlanType fromPlanId(long planId) {
         for (PlanType value: values()) {
             if (value.planId == planId) {
@@ -42,6 +46,7 @@ public enum PlanType {
         return planId >= MIN_PLAN_ID && planId <= MAX_PLAN_ID;
     }
 
+    @JsonValue
     public Long getPlanId() {
         return this.planId;
     }
