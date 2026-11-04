@@ -23,7 +23,7 @@ const defaultFile = new File(
 );
 
 const getDefaultCustomEmblemData = () => {
-    return { file: { ...defaultFile } };
+    return { file: defaultFile };
 };
 
 export const getDefaultState = (formData?: GroupEmblemFormData) => {
@@ -38,7 +38,7 @@ export const getDefaultState = (formData?: GroupEmblemFormData) => {
         oldFormData: defaultFormData,
         formData: defaultFormData,
         isDirty: false,
-        isValid: false,
+        isValid: true,
     };
 
     if (formData) {
@@ -108,6 +108,7 @@ export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, actio
             return {
                 ...state,
                 isDirty: true,
+                isValid: true,
                 errorCodes: {
                     ...state.errorCodes,
                     [GROUP_EMBLEM_TYPE.CUSTOM]: undefined,
@@ -123,6 +124,7 @@ export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, actio
             return {
                 ...state,
                 isDirty: true,
+                isValid: true,
                 formData: {
                     ...state.formData,
                     [GROUP_EMBLEM_TYPE.NORMAL]: action.data
@@ -141,6 +143,9 @@ export const reducer: GroupFormReducerType<GroupEmblemFormState> = (state, actio
                     type: action.selectedEmblemType,
                 },
                 isDirty: true,
+                isValid: action.selectedEmblemType === GROUP_EMBLEM_TYPE.CUSTOM
+                    ? state.formData[GROUP_EMBLEM_TYPE.CUSTOM].file.name !== "default.txt"
+                    : true
             };
     }
 };
