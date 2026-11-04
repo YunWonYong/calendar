@@ -11,17 +11,23 @@ export const get = async <T, >(url: string, header?: HeadersInit) => {
 }
 
 const request = async <T, >(url: string, method: HttpMethod, body?: object, header?: HeadersInit): Promise<ApiResponse<T>> => {
+    const headers = new Headers(header);
+
     const init: RequestInit  = {
         method,
     };
+    
 
     if (body) {
-        init.body = JSON.stringify(body);
+        if (body instanceof FormData) {
+            init.body = body;
+            headers.delete("Content-Type");
+        } else {
+            init.body = JSON.stringify(body);
+        }
     }
 
-    if (header) {
-        init.headers = header;
-    }
+    init.headers = headers;
 
     try {
         const response = await fetch(
