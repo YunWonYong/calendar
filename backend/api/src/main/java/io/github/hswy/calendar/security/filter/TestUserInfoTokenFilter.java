@@ -25,7 +25,7 @@ public class TestUserInfoTokenFilter extends OncePerRequestFilter {
 
     @Override 
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return !"/test/oauth/userinfo".equals(request.getRequestURI());
+        return !"/test/oauth/userinfo".equals(request.getServletPath());
     }
 
     @Override
