@@ -70,10 +70,21 @@ const createEmblemFormData = (ctx: GroupEmblemFormContextType) => {
     };
 };
 
+const getBlobBodyData = (obj: object) => {
+    return new Blob(
+        [
+            JSON.stringify(obj)
+        ],
+        {
+            type: "application/json"
+        }
+    );
+};
+
 const setBasicBodyData = (body: FormData, formData: GroupCreateBasicFormData) => {
     body.append(
         "basic",
-        JSON.stringify(
+        getBlobBodyData(
             {
                 fullName: formData.fullName.value,
                 shortName: formData.shortName.value,
@@ -89,7 +100,7 @@ const setEmblemBodyData = (body: FormData, formData: GroupCreateEmblemFormData) 
     if (formData.type === "custom") {
         body.append(
             "emblem",
-            JSON.stringify(
+            getBlobBodyData(
                 {
                     type: formData.type,
                 }
@@ -105,7 +116,7 @@ const setEmblemBodyData = (body: FormData, formData: GroupCreateEmblemFormData) 
 
     body.append(
         "emblem",
-        JSON.stringify(
+        getBlobBodyData(
             {
                 type: formData.type,
                 id: formData.id,

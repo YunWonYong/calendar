@@ -165,10 +165,13 @@ class ServerUserApiClient {
             ...header,
         };
 
+        // if (this.authUserInfo) {
+        //     authHeader["USER_ID"] = this.authUserInfo.id;
+        //     authHeader["REFRESH_TOKEN"] = this.authUserInfo.authTokenInfo.refreshToken;
+        //     authHeader["ACCESS_TOKEN"] = this.authUserInfo.authTokenInfo.accessToken;
+        // }
         if (this.authUserInfo) {
-            authHeader["USER_ID"] = this.authUserInfo.id;
-            authHeader["REFRESH_TOKEN"] = this.authUserInfo.authTokenInfo.refreshToken;
-            authHeader["ACCESS_TOKEN"] = this.authUserInfo.authTokenInfo.accessToken;
+            authHeader["Authorization"] = `Bearer ${this.authUserInfo.authTokenInfo.accessToken}`;
         }
 
         return authHeader;
