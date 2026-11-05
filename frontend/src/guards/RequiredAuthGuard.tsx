@@ -9,6 +9,9 @@ const RequiredAuthGuard = () => {
         return <Navigate to="/landing" replace />;
     }
 
+    if (isLoading) {
+        return undefined;
+    }
     return <Outlet />;
 };
 
