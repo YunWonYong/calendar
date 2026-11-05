@@ -51,6 +51,12 @@ front-end:
         jwt-expired-seconds: 900
         refresh-expired-seconds: 864000 # 10일
         refresh-rotation-seconds: 86400 # 1일
+file:
+    storage:
+        type: local
+        local: 
+            base-path: "assets"
+            base-url: "http://localhost:8080"
 logging:
     level:
         org.flywaydb: DEBUG
