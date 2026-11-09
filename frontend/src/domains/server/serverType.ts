@@ -1,5 +1,6 @@
 import type { AuthTokenInfo } from "../auth/authTypes";
 import type { DeviceType } from "../device/deviceTypes";
+import type { ApiResponse } from "../fetch/fetchType";
 import type { UserInfo } from "../user/userType";
 
 export type LoginRequestBody = {
@@ -31,7 +32,7 @@ export type AuthenticateApiParameterType =
 
 export type LoginApiType = 
     (params: AuthenticateApiParameterType, logoutCallback: () => void) => 
-        Promise<LoginResponseBody>;
+        Promise<ApiResponse<LoginResponseBody>>;
 
 export type LogoutRequestBody = {
     id: number;

@@ -1,4 +1,4 @@
-import type { FC, ReactNode} from "react";
+import type { FC, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import useDevice from "@/hooks/device/UseDevice";
@@ -91,17 +91,20 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             setFetchState(true);
 
             try {
-                const result = await authenticate({
+                const response = await authenticate({
                     data: getLoginBodyData(deviceInfo, authCode, refreshToken),
                     logoutCallback,
                 });
 
-                setAuthenticateApiResult(result);
-            } catch (e) {
-                // [TODO] error logging
+                if (response.ok) {
+                    setAuthenticateApiResult(response.data);
+                    return;
+                }
+                
                 removeAuthInfoFromLocalStorage();
                 setUserInfo(null);
-                console.error(e);
+                // [TODO] error modal
+                // response.errorCode
             } finally {
                 lockRef.current = false;
                 setFetchState(false);

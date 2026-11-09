@@ -5,9 +5,9 @@ type SuccessResponse<T> = {
     data: T;
 };
 
-type FailedResponse = {
+export type FailedResponse = {
     ok: false;
-    errorMessage: string;
+    errorCode: string;
     isRefresh?: boolean;
 };
 

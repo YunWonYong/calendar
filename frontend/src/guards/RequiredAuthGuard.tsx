@@ -12,6 +12,7 @@ const RequiredAuthGuard = () => {
     if (isLoading) {
         return undefined;
     }
+
     return <Outlet />;
 };
 

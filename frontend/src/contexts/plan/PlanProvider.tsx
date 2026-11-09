@@ -81,7 +81,9 @@ const PlanProvider: FC<{ children: ReactNode }> = ({ children }) => {
             const { ok } = response;
 
             if (!ok) {
-                throw new Error("[TODO] " + response.errorMessage);
+                // [TODO] error modal
+                
+                return;
             }
 
             const { data } = response;

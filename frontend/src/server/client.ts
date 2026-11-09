@@ -1,14 +1,13 @@
+import { consoleLogger } from "@/analytics/logger/console";
 import config from "@/config";
 import { METHODS } from "@/domains/fetch/fetchConstants";
-import { get, post } from "@/lib/fetch";
+import { request } from "@/lib/fetch";
+import { isNullOrUndefined } from "@/lib/validation/validation";
 
 import type { AuthTokenInfo } from "@/domains/auth/authTypes";
-import type { ApiResponse, HttpMethod } from "@/domains/fetch/fetchType";
+import type { ApiResponse, FailedResponse, HttpMethod } from "@/domains/fetch/fetchType";
 import type { AutoLoginRequestBody, LoginApiType, LoginRequestBody, LoginResponseBody, LogoutRequestBody, RefreshAuthTokenRequestBody, ServerApiClientAuthTokenRefreshFailResult, ServerApiClientAuthUserInfo } from "@/domains/server/serverType";
 
-const DEFAULT_HEADER = {
-    "Content-Type": "application/json",
-};
 
 class ServerApiClient {
     private serverApiUrl: string;
@@ -20,21 +19,27 @@ class ServerApiClient {
         }
     }
     
-    public async call<B extends (object | undefined), R>(method: HttpMethod, path: string, body?: B, header?: Record<string, string>) {
-        if (!header) {
-            header = { ...DEFAULT_HEADER };
-        }
-
+    public async call<B extends (object | undefined), R>(method: HttpMethod, path: string, body?: B, header?: HeadersInit) {
         const url = this.getApiUrl(path);
 
-        switch (method) {
-            case METHODS.POST:
-                return post<R>(url, body, header);
-            case METHODS.GET:
-                return get<R>(url, header);
+        try {
+            const response = await request(url, method, body, header);
+            return await this.makeResponseBodyData<R>(response);
+        } catch (e) {
+            const errorMessage = `failed server api call. url[${url}] method[${method}]`;
+
+            if (e instanceof Error) {
+                consoleLogger.error(errorMessage, `error[${e.message}]`);
+            } else {
+                consoleLogger.error(errorMessage, e);
+            }
+
+            return {
+                ok: false,
+                errorCode: "FAILED_SERVER_API_CALL",
+                isRefresh: false,
+            } as FailedResponse;
         }
-        
-        throw new Error(`not supported method[${method}]`);
     }
 
     public getApiUrl(path: string) {
@@ -42,14 +47,44 @@ class ServerApiClient {
             throw new Error(`invalid parameter path[${path}]`);
         }
 
-        const pathFirstChar = path.charAt(0);
-        const serverApiUrlLastChar = this.serverApiUrl.charAt(this.serverApiUrl.length - 1);
+        return `${this.serverApiUrl.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+    }
 
-        if (pathFirstChar === "/" && serverApiUrlLastChar === "/") {
-            return `${this.serverApiUrl}${path.slice(1)}`;
+    private async makeResponseBodyData<R>(response: Response): Promise<ApiResponse<R>> {
+        const data: unknown = await response.json();
+
+        if (this.isServerResponseBody<R>(data)) {
+            const ok = data.ok;
+
+            if (ok) {
+                return {
+                    ok: true,
+                    data: data.data as R
+                };
+            }
+
+            const errorCode = data.errorCode;
+    
+            return {
+                ok: false,
+                errorCode,
+                isRefresh: response.status === 401 && errorCode === "UNAUTHORIZED"
+            };
+
         }
 
-        return `${this.serverApiUrl}${path}`;
+        throw new Error("invalid server api response data.");
+    }
+
+    private isServerResponseBody<R>(data: unknown): data is ApiResponse<R> {
+        return !isNullOrUndefined(data) &&
+            typeof data === "object" &&
+            !Array.isArray(data) &&
+            "ok" in data &&
+            typeof data.ok === "boolean" &&
+            "data" in data &&
+            "errorCode" in data &&
+            (typeof data.errorCode === "string" || data.errorCode === null)
     }
 }
 
@@ -63,28 +98,24 @@ class ServerUserApiClient {
     }
 
     public async logout() {
+        // [TODO] logout api check.
         if (this.authUserInfo === null) {
             return;
         }
 
-        const response = await serverApiClient.call<LogoutRequestBody, {}>(
+        await serverApiClient.call<LogoutRequestBody, {}>(
             METHODS.DELETE,
             "/logout",
             this.authUserInfo,
             this.getAuthHeader(),
         );
-
-        if (!response.ok) {
-            // [TODO] logout api error logging.
-            console.error("ServerUserApiClient.logout error. message: ", response.errorMessage);
-        }
     }
 
     public hasRefreshTokenApiError() {
         return this.isRefreshTokenApiError;
     }
 
-    public async call<B extends object, R>(method: HttpMethod, path: string, body?: B, header?: Record<string, string>): Promise<R | ServerApiClientAuthTokenRefreshFailResult> {
+    public async call<B extends object | undefined, R>(method: HttpMethod, path: string, body?: B, header?: HeadersInit): Promise<R | ServerApiClientAuthTokenRefreshFailResult> {
         if (this.refreshTokenPromise) {
             await this.refreshTokenPromise;
         }
@@ -111,7 +142,9 @@ class ServerUserApiClient {
                 return this.call<B, R>(method, path, body, header);
             }
 
-            throw new Error(response.errorMessage);
+            return {
+                errorCode: response.errorCode
+            };
         }
 
         return response.data;
@@ -143,36 +176,27 @@ class ServerUserApiClient {
         try {
             const response = await this.refreshTokenPromise;
 
-            if (!response.ok) {
-                throw new Error(response.errorMessage);
+            if (response.ok) {
+                this.authUserInfo = {
+                    ...this.authUserInfo,
+                    authTokenInfo: response.data,
+                };
+                return;
             }
 
-            this.authUserInfo = {
-                ...this.authUserInfo,
-                authTokenInfo: response.data,
-            };
-        } catch (e) {
             this.isRefreshTokenApiError = true;
-            throw e;
         } finally {
             this.refreshTokenPromise = null;
         }
     }
 
-    private getAuthHeader(header: Record<string, string> = {}) {
-        const authHeader: Record<string, any> = {
-            ...DEFAULT_HEADER,
-            ...header,
-        };
+    private getAuthHeader(header?: HeadersInit) {
+        const authHeader = new Headers(header);
 
-        // if (this.authUserInfo) {
-        //     authHeader["USER_ID"] = this.authUserInfo.id;
-        //     authHeader["REFRESH_TOKEN"] = this.authUserInfo.authTokenInfo.refreshToken;
-        //     authHeader["ACCESS_TOKEN"] = this.authUserInfo.authTokenInfo.accessToken;
-        // }
-        if (this.authUserInfo) {
-            authHeader["Authorization"] = `Bearer ${this.authUserInfo.authTokenInfo.accessToken}`;
-        }
+        authHeader.set(
+            "Authorization",
+            `Bearer ${this.authUserInfo.authTokenInfo.accessToken}`,
+        );
 
         return authHeader;
     }
@@ -200,20 +224,18 @@ const serverApiClient = (() => {
             params.body
         );
 
-        if (!response.ok) {
-            throw new Error(response.errorMessage);
+        if (response.ok) {
+            serverUserApiClient = new ServerUserApiClient(
+                {
+                    ...params.body,
+                    authTokenInfo: response.data.authTokenInfo,
+                    id: response.data.userInfo.id,
+                },
+            )
+            logoutEventCallback = callback;
         }
 
-        serverUserApiClient = new ServerUserApiClient(
-            {
-                ...params.body,
-                authTokenInfo: response.data.authTokenInfo,
-                id: response.data.userInfo.id,
-            },
-        )
-
-        logoutEventCallback = callback;
-        return response.data;
+        return response;
     };
 
     const logout = async () => {
@@ -227,7 +249,7 @@ const serverApiClient = (() => {
         }
     };
 
-    const authCall = async <B extends object, R> (method: HttpMethod, path: string, body?: B, header?: Record<string, string>) => {
+    const authCall = async <B extends object | undefined, R> (method: HttpMethod, path: string, body?: B, header?: HeadersInit) => {
         if (serverUserApiClient) {
             try {
                 const response = await serverUserApiClient.call<B, R>(
@@ -256,7 +278,7 @@ const serverApiClient = (() => {
     return {
         login,
         logout,
-        call: <B extends (object | undefined), R>(method: HttpMethod, path: string, body?: B, header?: Record<string, string>) => apiClient.call<B, R>(method, path, body, header),
+        call: <B extends object | undefined, R>(method: HttpMethod, path: string, body?: B, header?: HeadersInit) => apiClient.call<B, R>(method, path, body, header),
         getApiUrl: (path: string) => apiClient.getApiUrl(path),
         authCall,
     };
