@@ -21,6 +21,10 @@ public enum PlanBenefitNames {
         return this.benefitValueType;
     }
 
+    public Class<?> getValueTypeClass() {
+        return this.benefitValueType.getValueTypeClass();
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T parse(String value) {
         try {

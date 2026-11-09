@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.global.utils.CaseFormat;
 import io.github.hswy.calendar.plan.benefit.exception.PlanBenefitNotFoundException;
+import io.github.hswy.calendar.plan.benefit.exception.PlanBenefitsNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -24,10 +25,31 @@ public class PlanBenefitProcessor {
     public Map<String, PlanBenefitDTO<?>> getPlanBenefitDTOs(Long planId) {
         List<PlanBenefitEntity> entities = repo.getLastVersionPlanBenefits(planId);
         if (entities.isEmpty()) {
-            throw new PlanBenefitNotFoundException(planId);
+            throw new PlanBenefitsNotFoundException(planId);
         }
 
         return toPlanBenefitDTOs(entities);
+    }
+
+    @Cacheable(
+        cacheNames = "PLAN:BENEFIT",
+        key = "#planId + ':' + #planBenefitName.name()"
+    )
+    public <T> PlanBenefitDTO<T> getPlanBenefit(Long planId, PlanBenefitNames planBenefitName) {
+
+        Map<String, PlanBenefitDTO<?>> benefits = getPlanBenefitDTOs(planId);
+
+        PlanBenefitDTO<?> benefit = benefits.get(
+            CaseFormat.toLowerCamelCase(planBenefitName.name())
+        );
+
+        if (benefit == null) {
+            throw new PlanBenefitNotFoundException(planId, planBenefitName);
+        }
+
+        @SuppressWarnings("unchecked")
+        PlanBenefitDTO<T> result = (PlanBenefitDTO<T>) benefit;
+        return result;
     }
 
     public List<PlanBenefitMetadataDTO> getPlanBenefitMetadata() {
