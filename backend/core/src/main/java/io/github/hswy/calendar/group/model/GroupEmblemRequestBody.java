@@ -15,4 +15,8 @@ public class GroupEmblemRequestBody {
     private GroupEmblemType type;
 
     private String id;
+
+    public void changeEmblemId(String emblemId) {
+        this.id = emblemId;
+    }
 }

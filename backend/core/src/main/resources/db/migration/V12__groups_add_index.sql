@@ -1,0 +1,1 @@
+CREATE INDEX idx_groups_leader_id_status ON groups(group_leader_id, group_status);

@@ -11,16 +11,25 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity 
 @Table(
-    name = "groups"
+    name = "groups",
+    indexes = {
+        @Index(
+            name = "idx_groups_leader_id_status",
+            columnList = "group_leader_id, group_status"
+        )
+    }
 )
 @AllArgsConstructor
+@NoArgsConstructor 
 @Getter 
 @Builder 
 public class GroupEntity extends CreatedAtUpdatedAtEntity {

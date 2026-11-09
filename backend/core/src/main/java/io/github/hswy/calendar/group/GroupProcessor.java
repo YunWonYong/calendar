@@ -1,5 +1,6 @@
 package io.github.hswy.calendar.group;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.global.annotations.RequireTransaction;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor 
 public class GroupProcessor {
     private final EntityManager em;
+    private final GroupRepository repository;
     private final GroupHistoryEntityMapper historyEntityMapper;
 
     @RequireTransaction 
@@ -61,6 +63,18 @@ public class GroupProcessor {
         entity.changeLeaderId(groupLeaderId);
         insertHistory(entity, GroupStatus.CHANGED_LEADER_ID);
         return entity;
+    }
+
+
+    @Cacheable(
+        cacheNames = "USER:ACTIVE:GROUP:COUNT",
+        key = "#userId"
+    )
+    public long getActiveGroupCountByUserId(Long userId) {
+        return repository.countByGroupLeaderIdAndGroupStatus(
+            userId, 
+            GroupStatus.ACTIVE
+        );
     }
 
     private void insertHistory(GroupEntity entity) {
