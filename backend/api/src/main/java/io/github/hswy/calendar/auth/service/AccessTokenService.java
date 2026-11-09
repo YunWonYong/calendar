@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.hswy.calendar.auth.exception.AccessTokenInvalidException;
 import io.github.hswy.calendar.auth.model.AuthTokenInfoDTO;
+import io.github.hswy.calendar.auth.model.AuthUser;
 import io.github.hswy.calendar.auth.model.AutoLoginAuthDTO;
 import io.github.hswy.calendar.auth.model.LoginRequestBody;
 import io.github.hswy.calendar.auth.model.RefreshAuthRequestBody;
@@ -140,7 +141,7 @@ public class AccessTokenService {
         try {
             Long userId = Long.parseLong(userIdStr);
             return new UsernamePasswordAuthenticationToken(
-                userId,
+                new AuthUser(userId),
                 null,
                 List.of(new SimpleGrantedAuthority("ROLE_USER"))
             );
