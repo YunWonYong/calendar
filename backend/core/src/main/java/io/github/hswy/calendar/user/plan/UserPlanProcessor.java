@@ -1,7 +1,5 @@
 package io.github.hswy.calendar.user.plan;
 
-import java.util.Optional;
-
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -75,12 +73,17 @@ public class UserPlanProcessor {
         key = "#userId"
     )
     public UserPlanEntity getUserPlan(Long userId) {
-        Optional<UserPlanEntity> entityOpt = repo.findById(userId);
-        if (entityOpt.isEmpty()) {
-            throw new UserPlanNotFoundException(userId);
-        }
+        return repo
+            .findById(userId)
+            .orElseThrow(() -> new UserPlanNotFoundException(userId));
+    }
 
-        return entityOpt.get();
+    @RequireTransaction 
+    public Long getUserPlanIdForUpdate(Long userId) {
+        return repo
+            .findUserPlanIdForUpdate(userId)
+            .orElseThrow(() -> new UserPlanNotFoundException(userId))
+            .getPlanId();
     }
 
     private void insertHistory(UserPlanEntity entity,  UserPlanHistoryReason reason) {
