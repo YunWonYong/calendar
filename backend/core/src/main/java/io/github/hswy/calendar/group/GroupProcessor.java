@@ -1,6 +1,5 @@
 package io.github.hswy.calendar.group;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.global.annotations.RequireTransaction;
@@ -65,11 +64,6 @@ public class GroupProcessor {
         return entity;
     }
 
-
-    @Cacheable(
-        cacheNames = "USER:ACTIVE:GROUP:COUNT",
-        key = "#userId"
-    )
     public long getActiveGroupCountByUserId(Long userId) {
         return repository.countByGroupLeaderIdAndGroupStatus(
             userId, 
