@@ -1,15 +1,18 @@
 import { Outlet } from "react-router-dom";
 
+import GlobalOverlayProvider from "@/contexts/global/overlay/GlobalOverlayProvider";
 import LocaleProvider from "@/contexts/locale/LocaleProvider";
 import PlanProvider from "@/contexts/plan/PlanProvider";
 
 const RootLayout = () => {
     return (
-        <LocaleProvider>
-            <PlanProvider>
-                <Outlet />
-            </PlanProvider>
-        </LocaleProvider>
+        <GlobalOverlayProvider>
+            <LocaleProvider>
+                <PlanProvider>
+                    <Outlet />
+                </PlanProvider>
+            </LocaleProvider>
+        </GlobalOverlayProvider>
     );
 };
 
