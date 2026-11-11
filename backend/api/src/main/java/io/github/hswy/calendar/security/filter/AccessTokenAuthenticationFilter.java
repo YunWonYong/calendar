@@ -11,8 +11,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.github.hswy.calendar.auth.exception.AccessTokenInvalidException;
 import io.github.hswy.calendar.auth.service.AccessTokenService;
+import io.github.hswy.calendar.common.model.ApiResponseBody;
 import io.github.hswy.calendar.global.env.Env;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,11 +32,14 @@ public class AccessTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final AntPathMatcher pathMatcher;
 
-    public AccessTokenAuthenticationFilter(Env env, AccessTokenService accessTokenService) {
+    private final ObjectMapper objectMapper;
+
+    public AccessTokenAuthenticationFilter(Env env, AccessTokenService accessTokenService, ObjectMapper objectMapper) {
         this.env = env;
         this.accessTokenService = accessTokenService;
-        publicRequestUrls = getPublicRequestUrlList();
-        pathMatcher = new AntPathMatcher();
+        this.publicRequestUrls = getPublicRequestUrlList();
+        this.pathMatcher = new AntPathMatcher();
+        this.objectMapper = objectMapper;
     }
 
     public String[] getPublicRequestUrls() {
@@ -84,7 +90,13 @@ public class AccessTokenAuthenticationFilter extends OncePerRequestFilter {
                 e.getMessage()
             );
 
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(e.getStatus().value());
+            response.setContentType("application/json;charset=UTF-8");
+
+            objectMapper.writeValue(
+                response.getWriter(),
+                ApiResponseBody.fail(e.getCode())
+            );
         }
     }
 
