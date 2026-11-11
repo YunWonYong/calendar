@@ -5,8 +5,8 @@ import { request } from "@/lib/fetch";
 import { isNullOrUndefined } from "@/lib/validation/validation";
 
 import type { AuthTokenInfo } from "@/domains/auth/authTypes";
-import type { ApiResponse, FailedResponse, HttpMethod } from "@/domains/fetch/fetchType";
-import type { AutoLoginRequestBody, LoginApiType, LoginRequestBody, LoginResponseBody, LogoutRequestBody, RefreshAuthTokenRequestBody, ServerApiClientAuthTokenRefreshFailResult, ServerApiClientAuthUserInfo } from "@/domains/server/serverType";
+import type { ApiResponse, ErrorCodeData, HttpMethod } from "@/domains/fetch/fetchType";
+import type { AutoLoginRequestBody, LoginApiType, LoginRequestBody, LoginResponseBody, LogoutRequestBody, RefreshAuthTokenRequestBody, ServerApiClientAuthUserInfo } from "@/domains/server/serverType";
 
 
 class ServerApiClient {
@@ -19,7 +19,7 @@ class ServerApiClient {
         }
     }
     
-    public async call<B extends (object | undefined), R>(method: HttpMethod, path: string, body?: B, header?: HeadersInit) {
+    public async call<B extends (object | undefined), R>(method: HttpMethod, path: string, body?: B, header?: HeadersInit): Promise<ApiResponse<R>> {
         const url = this.getApiUrl(path);
 
         try {
@@ -38,7 +38,7 @@ class ServerApiClient {
                 ok: false,
                 errorCode: "FAILED_SERVER_API_CALL",
                 isRefresh: false,
-            } as FailedResponse;
+            };
         }
     }
 
@@ -115,12 +115,12 @@ class ServerUserApiClient {
         return this.isRefreshTokenApiError;
     }
 
-    public async call<B extends object | undefined, R>(method: HttpMethod, path: string, body?: B, header?: HeadersInit): Promise<R | ServerApiClientAuthTokenRefreshFailResult> {
+    public async call<B extends object | undefined, R>(method: HttpMethod, path: string, body?: B, header?: HeadersInit): Promise<R | ErrorCodeData> {
         if (this.refreshTokenPromise) {
             await this.refreshTokenPromise;
         }
 
-        if (this.isRefreshTokenApiError) {
+        if (this.hasRefreshTokenApiError()) {
             return {
                 errorCode: "REFRESH_AUTH_TOKEN_API"
             };
@@ -184,6 +184,7 @@ class ServerUserApiClient {
                 return;
             }
 
+            consoleLogger.error(`failed accessToken refresh. errorCode[${response.errorCode}]`);
             this.isRefreshTokenApiError = true;
         } finally {
             this.refreshTokenPromise = null;
@@ -249,25 +250,19 @@ const serverApiClient = (() => {
         }
     };
 
-    const authCall = async <B extends object | undefined, R> (method: HttpMethod, path: string, body?: B, header?: HeadersInit) => {
+    const authCall = async <B extends object | undefined, R> (method: HttpMethod, path: string, body?: B, header?: HeadersInit): Promise<R | ErrorCodeData> => {
         if (serverUserApiClient) {
             try {
-                const response = await serverUserApiClient.call<B, R>(
+                return await serverUserApiClient.call<B, R>(
                     method,
                     path,
                     body,
                     header,
                 );
-
-                if (serverUserApiClient.hasRefreshTokenApiError()) {
-                    throw new Error("refresh token api error.");
-                }
-
-                return response;
             } catch (_e) {
                 await logout();
                 return {
-                    errorCode: "AUTH_API_FAILED",
+                    errorCode: "FAILD_AUTH_API",
                 };
             }
         }

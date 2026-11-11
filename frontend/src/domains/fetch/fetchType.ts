@@ -5,11 +5,13 @@ type SuccessResponse<T> = {
     data: T;
 };
 
+export type ErrorCodeData = {
+    errorCode: string;
+};
 export type FailedResponse = {
     ok: false;
-    errorCode: string;
     isRefresh?: boolean;
-};
+} & ErrorCodeData;
 
 export type ApiResponse<T> = SuccessResponse<T> | FailedResponse;
 

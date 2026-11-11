@@ -6,7 +6,7 @@ import Overlay from "@/components/overlay/Overlay";
 
 import GlobalOverlayContext from "./GlobalOverlayContext";
 
-import type { OpenGlobalOverlayOptions } from "@/domains/global/overlay/overlayType";
+import type { OpenGlobalOverlayOptions } from "@/domains/global/overlay/globalOverlayType";
 
 const GlobalOverlayProvider: FC<{ children: ReactNode; }> = ({ children }) => {
     const globalOverlayRoot = document.getElementById("globalOverlayRoot");
@@ -47,11 +47,7 @@ const GlobalOverlayProvider: FC<{ children: ReactNode; }> = ({ children }) => {
     }, [closeGlobalOverlay]);
 
     const updateGlobalOverlay = useCallback((Component: ComponentType, opt?: OpenGlobalOverlayOptions) => {
-        setOverlay(overlay => {
-            if (!overlay) {
-                return overlay;
-            }
-
+        setOverlay(() => {
             const onClick = () => {
                 if (opt) {
                     if (opt.onClick) {

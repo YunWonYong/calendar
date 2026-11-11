@@ -26,7 +26,7 @@ export const fetchPlans = async () => {
 };
 
 export const createGroup = async (body: FormData) => {
-    return serverApiClient.authCall(
+    return await serverApiClient.authCall(
         METHODS.POST,
         "/groups",
         body,

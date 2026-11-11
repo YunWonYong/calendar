@@ -1,9 +1,12 @@
 import type { ComponentType } from "react";
 
-import type { LocaleType } from "../locale/locale";
+import type { OpenGlobalOverlayOptions } from "../overlay/globalOverlayType";
+
+export type ModalOptions = { 
+    useCloseButton?: boolean; 
+} & OpenGlobalOverlayOptions;
 
 export type ModalContentPropsType<T> = {
-    locale: LocaleType;
     props: T;
 };
 

@@ -4,9 +4,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getGroupEmblemId } from "@/components/group/GroupEmblem";
 import { DEFAULT_GROUP_CREATE_FORM_DATA, GroupCreateFlowStepByFormType } from "@/domains/group/create";
 import { CHANGE_NAME_TYPE, GROUP_EMBLEM_TYPE, GROUP_FORM_TYPE, SELECT_PLAN_ID_TYPE } from "@/domains/group/form";
+import { ERROR_MOTION_TYPE } from "@/domains/server/useServerAPIType";
 import useGroupCreateFlow from "@/hooks/group/create/UseGroupCreateFlow";
 import useGroupBasicForm from "@/hooks/group/form/basic/UseGroupBasicForm";
 import useGroupEmblemForm from "@/hooks/group/form/emblem/UseGroupEmblemForm";
+import useServerApi from "@/hooks/server/UseServerAPI";
+import GroupCreateErrorModalContent from "@/pages/group/create/components/GroupCreateErrorModalContent";
 import GroupPreviewForm from "@/pages/group/create/components/GroupPreviewForm";
 import GroupBasicForm from "@/pages/group/form/basic/GroupBasicForm";
 import GroupEmblemForm from "@/pages/group/form/emblem/GroupEmblemForm";
@@ -159,18 +162,37 @@ const GroupCreateFormProvider = ({ children }: { children: ReactNode; }) => {
         }
     }, [current, basicFormCtx, emblemFormCtx]);
 
+    const submitFormData = useMemo(() => {
+        const body = new FormData();
+        setBasicBodyData(body, formData.BASIC);
+        setEmblemBodyData(body, formData.EMBLEM);
+        return body;
+    }, [formData]);
+
+    
+    const { isFetch, call } = useServerApi({
+        api: async () => {
+            return await createGroup(submitFormData);
+        },
+        errorMotionType: ERROR_MOTION_TYPE.MODAL,
+        Content: GroupCreateErrorModalContent,
+        options: {
+            useCloseButton: true,
+        },
+    });
+    
     const submit = useCallback(async () => {
+        if (isFetch) {
+            return;
+        }
+        
         if (current !== GroupCreateFlowStepByFormType.REVIEW || !isValidFormData) {
             return;
         }
 
-        const body = new FormData();
-        setBasicBodyData(body, formData.BASIC);
-        setEmblemBodyData(body, formData.EMBLEM);
-        await createGroup(body);
+        await call();
 
-        // [TODO] 성공 시 success step으로 이동하고 실패하면 modal로 실패 여부를 출력.
-    }, [current, isValidFormData, formData]);
+    }, [current, isValidFormData, isFetch, call]);
 
     const value = useMemo(() => {
         return { FormComponent, formData, submit, isValidFormData };

@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import GlobalOverlayContext from "@/contexts/global/overlay/GlobalOverlayContext";
 
-import type { GlobalOverlayContextType } from "@/domains/global/overlay/overlayType";
+import type { GlobalOverlayContextType } from "@/domains/global/overlay/globalOverlayType";
 
 const useGlobalOverlay = () => {
     const ctx = useContext<GlobalOverlayContextType>(GlobalOverlayContext);

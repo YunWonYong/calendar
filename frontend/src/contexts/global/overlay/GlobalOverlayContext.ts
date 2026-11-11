@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 import NotInitializedError from "@/lib/context/NotInitializedError";
 
-import type { GlobalOverlayContextType } from "@/domains/global/overlay/overlayType";
+import type { GlobalOverlayContextType } from "@/domains/global/overlay/globalOverlayType";
 
 const errorFn = () => { throw new NotInitializedError("GlobalOverlayContext"); };
 
