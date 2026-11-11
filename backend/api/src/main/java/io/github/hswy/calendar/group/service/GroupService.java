@@ -16,6 +16,7 @@ import io.github.hswy.calendar.group.model.GroupEmblemRequestBody;
 import io.github.hswy.calendar.plan.benefit.PlanBenefitDTO;
 import io.github.hswy.calendar.plan.benefit.PlanBenefitNames;
 import io.github.hswy.calendar.plan.benefit.PlanBenefitProcessor;
+import io.github.hswy.calendar.user.plan.UserPlanEntity;
 import io.github.hswy.calendar.user.plan.UserPlanProcessor;
 import lombok.RequiredArgsConstructor;
 
@@ -61,6 +62,15 @@ public class GroupService {
         );
 
         return new GroupCreateResponseBody(entity.getGroupId());
+    }
+
+    @Transactional(readOnly = true)
+    public GroupCreationAvailabilityDTO getGroupCreationAvailability(Long userId) {
+        UserPlanEntity userPlanEntity = userPlanProcessor.getUserPlan(userId);
+        return getGroupCreationAvailability(
+            userId,
+            userPlanEntity.getPlanId()
+        );
     }
 
     private GroupCreationAvailabilityDTO  getGroupCreationAvailability(Long userId, Long userPlanId) {

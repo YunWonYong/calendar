@@ -2,6 +2,7 @@ package io.github.hswy.calendar.group.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -16,6 +17,7 @@ import io.github.hswy.calendar.group.GroupEmblemType;
 import io.github.hswy.calendar.group.exception.GroupNotFoundCustomEmblemFileException;
 import io.github.hswy.calendar.group.model.GroupBasicRequestBody;
 import io.github.hswy.calendar.group.model.GroupCreateResponseBody;
+import io.github.hswy.calendar.group.model.GroupCreationAvailabilityDTO;
 import io.github.hswy.calendar.group.model.GroupEmblemRequestBody;
 import io.github.hswy.calendar.group.service.GroupService;
 import jakarta.validation.Valid;
@@ -58,5 +60,15 @@ public class GroupController {
             }
             throw e;
         }
+    }
+
+
+    @GetMapping("/creation-availability")
+    public ApiResponseBody<GroupCreationAvailabilityDTO> getGroupCreationAvailability(@AuthenticationPrincipal AuthUser authUser) {
+        return ApiResponseBody.success(
+            groupService.getGroupCreationAvailability(
+                authUser.userId()
+            )
+        );
     }
 }
