@@ -296,3 +296,20 @@ export const getOutsideLengthErrorMessage = (minLength: number, maxLength: numbe
     getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.OUTSIDE_LENGTH, locale)
         .replace(DIGIT_FORMAT_TEXT, minLength.toString())
         .replace(DIGIT_FORMAT_TEXT, maxLength.toString());
+
+const KOREAN_REGEX = /[ㄱ-힣]/;
+
+export const hasKorean = (value: string): boolean => {
+    return KOREAN_REGEX.test(value);
+};
+
+// 자음과 모음 검증 패턴 (Consonant & Vowel Pattern)
+const INCOMPLETE_KOREAN_REGEX  = /[ㄱ-ㅎㅏ-ㅣ]/;
+
+export const hasIncompleteKorean = (value: string): boolean => {
+    if (!hasKorean(value)) {
+        return false;
+    }
+
+    return INCOMPLETE_KOREAN_REGEX.test(value);
+}

@@ -20,6 +20,8 @@ export const INVALID_ERROR_MESSAGE_TYPES = {
     SHORTER_THAN: "SHORTER_THAN",
     LONGER_THAN: "LONGER_THAN",
     OUTSIDE_LENGTH: "OUTSIDE_LENGTH",
+    KOREAN: "KOREAN",
+    INCOMPLETE_KOREAN: "INCOMPLETE_KOREAN"
 } as const;
 
 export type InvalidErrorMessageType = typeof INVALID_ERROR_MESSAGE_TYPES[keyof typeof INVALID_ERROR_MESSAGE_TYPES];
@@ -41,6 +43,8 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
         [INVALID_ERROR_MESSAGE_TYPES.SHORTER_THAN]: "최소 $d자 이상 입력해주세요.",
         [INVALID_ERROR_MESSAGE_TYPES.LONGER_THAN]: "최대 $d자까지 입력할 수 있습니다.",
         [INVALID_ERROR_MESSAGE_TYPES.OUTSIDE_LENGTH]: "$d자에서 $d자 사이로 입력해주세요.",
+        [INVALID_ERROR_MESSAGE_TYPES.KOREAN]: "한글은 사용할 수 없습니다.",
+        [INVALID_ERROR_MESSAGE_TYPES.INCOMPLETE_KOREAN]: "완성되지 않은 한글은 사용할 수 없습니다.",
     },
     [LOCALE.JP]: {
         [INVALID_ERROR_MESSAGE_TYPES.EMOJI]: "絵文字は使用できません。",
@@ -58,6 +62,8 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
         [INVALID_ERROR_MESSAGE_TYPES.SHORTER_THAN]: "最低 $d文字以上入力してください。",
         [INVALID_ERROR_MESSAGE_TYPES.LONGER_THAN]: "最大 $d文字まで入力できます。",
         [INVALID_ERROR_MESSAGE_TYPES.OUTSIDE_LENGTH]: "$d文字から$d文字の間で入力してください。",
+        [INVALID_ERROR_MESSAGE_TYPES.KOREAN]: "ハングルは使用できません。",
+        [INVALID_ERROR_MESSAGE_TYPES.INCOMPLETE_KOREAN]: "未完成のハングルは使用できません。",
     },
     [LOCALE.ZH]: {
         [INVALID_ERROR_MESSAGE_TYPES.EMOJI]: "不能使用表情符号。",
@@ -75,6 +81,8 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
         [INVALID_ERROR_MESSAGE_TYPES.SHORTER_THAN]: "请输入至少 $d 个字符。",
         [INVALID_ERROR_MESSAGE_TYPES.LONGER_THAN]: "最多可以输入 $d 个字符。",
         [INVALID_ERROR_MESSAGE_TYPES.OUTSIDE_LENGTH]: "请输入 $d 到 $d 个字符。",
+        [INVALID_ERROR_MESSAGE_TYPES.KOREAN]: "不能使用韩文。",
+        [INVALID_ERROR_MESSAGE_TYPES.INCOMPLETE_KOREAN]: "不能使用未完成的韩文字符。",
     },
     
     [LOCALE.EN]: {
@@ -93,6 +101,8 @@ export const LOCALE_INVALID_ERROR_MESSAGES = {
         [INVALID_ERROR_MESSAGE_TYPES.SHORTER_THAN]: `Please enter at least ${DIGIT_FORMAT_TEXT} characters.`,
         [INVALID_ERROR_MESSAGE_TYPES.LONGER_THAN]: `Please enter no more than ${DIGIT_FORMAT_TEXT} characters.`,
         [INVALID_ERROR_MESSAGE_TYPES.OUTSIDE_LENGTH]: `Please enter between ${DIGIT_FORMAT_TEXT} and ${DIGIT_FORMAT_TEXT} characters.`,
+        [INVALID_ERROR_MESSAGE_TYPES.KOREAN]: "Korean characters are not allowed.",
+        [INVALID_ERROR_MESSAGE_TYPES.INCOMPLETE_KOREAN]: "Incomplete Korean characters are not allowed.",
     }
 };
 
