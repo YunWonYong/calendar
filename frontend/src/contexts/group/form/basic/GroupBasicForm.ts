@@ -1,5 +1,6 @@
 import { DEFAULT_GROUP_BASIC_FORM_STATE, GROUP_BASIC_FORM_ACTIONS } from "@/domains/group/form";
 import { isValidFullName, isValidShortName } from "@/domains/group/formDataValidate";
+import { isNull } from "@/lib/validation/validation";
 
 import type { GroupBasicFormData, GroupBasicFormState, GroupFormReducerType } from "@/domains/group/form";
 
@@ -93,6 +94,20 @@ export const reducer: GroupFormReducerType<GroupBasicFormState> = (state, action
                 formData: {
                     ...state.formData,
                     visibilityType: action.visibilityType
+                },
+            };
+        case GROUP_BASIC_FORM_ACTIONS.CHANGE_NAME_VALUES_DEBOUNCE:
+            const inputValueErrorCode = state.errorCodes[action.inputValueType];
+
+            if (!isNull(inputValueErrorCode)) {
+                return state;
+            }
+
+            return {
+                ...state,
+                errorCodes: {
+                    ...state.errorCodes,
+                    [action.inputValueType]: action.errorCode,
                 },
             };
     }
