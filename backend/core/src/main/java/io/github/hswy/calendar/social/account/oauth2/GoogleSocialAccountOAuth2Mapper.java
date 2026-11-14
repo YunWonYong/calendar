@@ -7,7 +7,6 @@ import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
 import io.github.hswy.calendar.social.model.SocialType;
-import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 
 @Component 
 class GoogleSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
@@ -25,7 +24,6 @@ class GoogleSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
 
         userInfo.socialIdentity = sub;
         userInfo.email = email;
-        userInfo.nickname = UserProfileNicknameGenerator.getRandomNickname();
     }
 
     @Override

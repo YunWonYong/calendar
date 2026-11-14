@@ -7,7 +7,6 @@ import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.global.utils.MapCaster;
 import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
 import io.github.hswy.calendar.social.model.SocialType;
-import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 
 import java.util.Map;
@@ -35,26 +34,25 @@ class KakaoSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
             "kakao_account"
         );
 
-        Object email = userAccount.get("email");
-        if (!(email instanceof String value && !value.isBlank())) {
+        Object emailObj = userAccount.get("email");
+        if (!(emailObj instanceof String email)) {
             throw new SocialRequiredAttributeNotFoundException(userInfo.socialType, "kakao_account->email");
         }
 
+        if (email.isBlank()) {
+            throw new SocialRequiredAttributeNotFoundException(userInfo.socialType, "kakao_account->email");
+        }
 
         userInfo.socialIdentity = socialIdentity;
-        userInfo.email = (String) email;
-        userInfo.nickname = getNickname(userAccount);
-    }
-
-    private String getNickname(Map<String, Object> userAccount) {
+        userInfo.email = email;
+        
         Map<String, Object> profile = MapCaster.castToMap(userAccount.get("profile"));
-        if (profile != null && profile.get("nickname") != null) {
+        if (profile != null) {
             Object nicknameObj = profile.get("nickname");
-            if (nicknameObj instanceof String value && !value.isBlank()) {
-                return value;
+            if (nicknameObj instanceof String nickname && !nickname.isBlank()) {
+                userInfo.nickname = nickname;
             }
         }
-        return UserProfileNicknameGenerator.getRandomNickname();
     }
 
     @Override

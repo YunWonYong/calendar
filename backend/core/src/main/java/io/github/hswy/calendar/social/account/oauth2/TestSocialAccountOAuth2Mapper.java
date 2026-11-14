@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
-import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 import io.github.hswy.calendar.global.exception.ApplicationException;
 import io.github.hswy.calendar.social.account.exception.SocialIdentityNotFoundException;
 import io.github.hswy.calendar.social.account.exception.SocialRequiredAttributeNotFoundException;
@@ -43,7 +42,6 @@ class TestSocialAccountOAuth2Mapper implements SocialAccountOAuth2Mapper {
 
         userInfo.socialIdentity = socialIdentity;
         userInfo.email = value;
-        userInfo.nickname = UserProfileNicknameGenerator.getRandomNickname();
     }
 
     @Override

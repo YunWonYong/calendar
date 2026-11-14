@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import io.github.hswy.calendar.global.annotations.RequireTransaction;
 import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
 import io.github.hswy.calendar.user.profile.exception.UserProfileNotFoundException;
+import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 import lombok.RequiredArgsConstructor;
 
 @Component 
@@ -25,7 +26,11 @@ public class UserProfileProcessor {
                 .email(info.getEmail())
             .build();
         
-        newEntity.setNickname(info.getNickname());
+        String nickname = info.getNickname();
+        if (nickname == null || nickname.isBlank()) {
+            nickname = UserProfileNicknameGenerator.getRandomNickname();
+        }
+        newEntity.setNickname(nickname);
         newEntity.setProfileImage(info.getProfileImage());
 
         return repo.save(newEntity);
