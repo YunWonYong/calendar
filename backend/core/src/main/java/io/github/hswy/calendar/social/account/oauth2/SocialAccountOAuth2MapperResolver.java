@@ -10,13 +10,15 @@ import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.social.account.exception.SocialAccountNotSupportedException;
 import io.github.hswy.calendar.social.model.SocialType;
+import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 
 @Component 
 public class SocialAccountOAuth2MapperResolver {
     private final Map<SocialType, SocialAccountOAuth2Mapper> socialMappers;
-    
-    public SocialAccountOAuth2MapperResolver(SocialAccountOAuth2Mapper[] mappers) {
-        socialMappers = Arrays
+    private final UserProfileNicknameGenerator nicknameGenerator;
+
+    public SocialAccountOAuth2MapperResolver(SocialAccountOAuth2Mapper[] mappers, UserProfileNicknameGenerator nicknameGenerator) {
+        this.socialMappers = Arrays
             .stream(mappers)
             .collect(
                 Collectors.toUnmodifiableMap(
@@ -24,6 +26,8 @@ public class SocialAccountOAuth2MapperResolver {
                     Function.identity()    
                 )
             );
+        
+            this.nicknameGenerator = nicknameGenerator;
     }
 
     public void map(SocialOAuth2UserInfo userInfo, OAuth2User oAuth2User) {
@@ -36,5 +40,9 @@ public class SocialAccountOAuth2MapperResolver {
         }
 
         socialMapper.map(userInfo, oAuth2User);
+
+        if (userInfo.nickname == null || userInfo.nickname.isBlank()) {
+            userInfo.setNickname(nicknameGenerator.getRandomNickname());
+        }
     }
 }
