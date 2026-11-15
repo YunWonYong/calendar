@@ -6,9 +6,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import io.github.hswy.calendar.global.annotations.RequireTransaction;
+import io.github.hswy.calendar.global.exception.ApplicationException;
+import io.github.hswy.calendar.global.tag.TagGenerator;
 import io.github.hswy.calendar.social.account.oauth2.SocialOAuth2UserInfo;
 import io.github.hswy.calendar.user.profile.exception.UserProfileNotFoundException;
-import io.github.hswy.calendar.user.profile.provider.UserProfileNicknameGenerator;
 import lombok.RequiredArgsConstructor;
 
 @Component 
@@ -16,24 +17,28 @@ import lombok.RequiredArgsConstructor;
 public class UserProfileProcessor {
     
     private final UserProfileRepository repo;
+    private final TagGenerator tagGenerator;
 
     @RequireTransaction 
-    public UserProfileEntity createNewUserProfile(Long userId, SocialOAuth2UserInfo info) {
+    public UserProfileEntity createNewUserProfile(Long userId, SocialOAuth2UserInfo info) throws ApplicationException {
+        String nickname = info.getNickname();
         UserProfileEntity newEntity = UserProfileEntity
             .builder()
                 .userId(userId)
+                .nickname(nickname)
                 .tel(info.getTel())
                 .email(info.getEmail())
+                .profileImage(info.getProfileImage())
             .build();
-        
-        String nickname = info.getNickname();
-        if (nickname == null || nickname.isBlank()) {
-            nickname = UserProfileNicknameGenerator.getRandomNickname();
-        }
-        newEntity.setNickname(nickname);
-        newEntity.setProfileImage(info.getProfileImage());
 
-        return repo.save(newEntity);
+        while(true) {
+            // [TODO] lock
+            String tag = tagGenerator.generate();
+            if (!repo.existsByNicknameAndTag(nickname, tag)) {
+                newEntity.setTag(tag);
+                return repo.save(newEntity);
+            }
+        }
     }
 
     @Cacheable(
@@ -66,5 +71,6 @@ public class UserProfileProcessor {
         // String oldTel = profileEntity.changeTel(tel);
         return profileEntity;
     }
+
 }
  

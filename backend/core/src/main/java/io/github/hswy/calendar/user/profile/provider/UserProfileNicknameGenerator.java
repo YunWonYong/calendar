@@ -2,6 +2,9 @@ package io.github.hswy.calendar.user.profile.provider;
 
 import java.security.SecureRandom;
 
+import org.springframework.stereotype.Component;
+
+@Component 
 public class UserProfileNicknameGenerator {
     private static final String[] PREFIX_WORDS = new String[]{
         "Blue",
@@ -51,7 +54,7 @@ public class UserProfileNicknameGenerator {
 
     private static final SecureRandom random = new SecureRandom();
 
-    public static String getRandomNickname() {
+    public String getRandomNickname() {
         String first = PREFIX_WORDS[random.nextInt(PREFIX_WORDS.length)];
         String second = SUFFIX_WORDS[random.nextInt(SUFFIX_WORDS.length)];
         return first + " " + second;

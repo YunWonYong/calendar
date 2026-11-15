@@ -7,6 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-    name = "user_profile"
+    name = "user_profile",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "uq_user_profile_nick_tag",
+            columnNames = { "nickname", "tag" }
+        )
+    }
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -67,14 +74,20 @@ public class UserProfileEntity extends CreatedAtUpdatedAtEntity {
     )
     private String profileImage;
 
+    @Column(
+        name = "tag",
+        nullable = false,
+        insertable = true,
+        updatable = true
+    )
+    private String tag;
+    
     void setNickname(String nickname) {
-        if (nickname != null && !nickname.isBlank()) {
-            this.nickname = nickname;
-            return;
-        }
+        this.nickname = nickname;
+    }
 
-        // [TODO] 임의의 닉네임 값구하기.
-        this.nickname = "qadws12d12d";
+    void setTag(String tag) {
+        this.tag = tag;
     }
 
     void setProfileImage(String profileImage) {
