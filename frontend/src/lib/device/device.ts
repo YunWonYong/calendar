@@ -16,11 +16,25 @@ export const createDeviceInfo = (): DeviceInfo => {
     };
 };
 
+function generateUUID(): string {
+    // 브라우저가 crypto.randomUUID를 지원하는 Secure Context인 경우
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    
+    // IP 접속 등 HTTP 환경(비보안 컨텍스트)을 위한 대체(Fallback) 로직
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 const getOrCreateDeviceId = (): string => {
     let deviceId = getDeviceIdFromLocalStorage();
 
     if (!deviceId) {
-        deviceId = crypto.randomUUID();
+        deviceId = generateUUID();
         setDeviceIdFromLocalStorage(deviceId);
     }
 

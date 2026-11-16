@@ -123,6 +123,7 @@ if (envConfig.webpackBuildMode === "development" && !isProduction) {
         port: envConfig.devServerPort,
         hot: true,
         historyApiFallback: true,
+        host: "0.0.0.0"
         // open: true,
     };
 
