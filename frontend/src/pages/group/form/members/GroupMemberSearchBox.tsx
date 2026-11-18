@@ -5,7 +5,18 @@ import { BUTTON_SIZE } from "@/domains/button/buttonType";
 import styles from "./GroupMemberSearchBox.module.css";
 
 const GroupMembersSearchBox = () => {
-    const search = () => {};
+    // const { call, isFetch } = useServerApi({
+    //     api: async () => {
+    //         await searchUsers(
+    //             "Bl",
+    //             "nickname",
+    //             1,
+    //             20
+    //         );
+    //         return "";
+    //     },
+    //     errorMotionType: ERROR_MOTION_TYPE.CUSTOM,
+    // });
 
     return (
         <div
@@ -24,7 +35,13 @@ const GroupMembersSearchBox = () => {
                 <Button
                     eventName="GROUP_MEMBERS_SEARCH"
                     size={ BUTTON_SIZE.MEDIUM }
-                    onClick={ search }
+                    onClick={async () => {
+                        // if (isFetch) {
+                        //     return;
+                        // }
+
+                        // await call();
+                    }}
                 >
                     검색
                 </Button>

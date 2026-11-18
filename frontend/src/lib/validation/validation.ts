@@ -33,23 +33,25 @@ export const getSpecialCharacterErrorMessage = (locale?: LocaleType) =>
 const ALLOWED_SPECIAL_CHARACTERS = new Set([
     "@",
     "#",
-    "$",
-    "%",
+    // "$",
+    // "%",
     "~",
     "_",
     "-",
-    ".",
+    // ".",
     "+",
     "&",
-    "'",
+    // "'",
 ]);
 
 /**
  * 허용하지 않는 특수문자가 포함되어 있는지 확인합니다.
  *
  * 허용하는 특수문자:
- * @ # $ % ~ _ - . + & '
+ * @ # ~ _ -  + &  
  *
+ * 금지로 변경된 특수문자:
+ * $ % . '
  * @param value 검사할 문자열
  * @returns 허용되지 않은 Unicode 특수문자가 포함되어 있으면 true
  */
@@ -184,13 +186,6 @@ export const isEmpty = (value: unknown): boolean => {
 export const getEmptyErrorMessage = (locale?: LocaleType) => 
     getInvalidErrorMessageByLocale(INVALID_ERROR_MESSAGE_TYPES.EMPTY, locale);
 
-/**
- * 문자열의 길이가 지정한 최소 길이보다 짧은지 확인합니다.
- *
- * @param value 검사할 문자열
- * @param minLength 허용할 최소 길이
- * @returns 문자열의 길이가 최소 길이보다 짧으면 true
-*/
 export const isBlank = (value: string) => value.trim().length === 0;
 
 export const getBlankErrorMessage = (locale?: LocaleType) => 
