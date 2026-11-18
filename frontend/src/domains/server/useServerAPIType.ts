@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import type { ErrorCodeData } from "../fetch/fetchType";
 import type { ModalContentType, ModalOptions } from "../global/modal/globalModalType";
 
+import type { ServerApiClientOptions } from "./serverType";
+
 export const ERROR_MOTION_TYPE = {
     MODAL: "modal",
     CUSTOM: "custom",
@@ -28,8 +30,9 @@ type UseServerApiLoadingOption =
     };
 
 export type UseServerApiParamType<R> = {
-    api: () => Promise<R | ErrorCodeData>;
+    api: (opts: ServerApiClientOptions) => Promise<R | ErrorCodeData>;
     loadingOption?: UseServerApiLoadingOption;
+    timeoutMs?: number;
 } & ErrorMotionData;
 
 export const isErrorCodeData = (data: unknown): data is ErrorCodeData => {
@@ -43,20 +46,22 @@ export const isErrorCodeData = (data: unknown): data is ErrorCodeData => {
 
 export type ServerApiResult<R> =
     | {
+        isSuccess: false;
         isDuplicated: true;
         isError: false;
         isModalOpen: false;
         data: null;
     }
     | {
+        isSuccess: false;
         isDuplicated: false;
         isError: true;
         isModalOpen: boolean;
         data: ErrorCodeData;
     }
     | {
-        isDuplicated: false;
+        isSuccess: true;
         isError: false;
-        isModalOpen: false;
+        isModalOpen: boolean;
         data: R;
     };

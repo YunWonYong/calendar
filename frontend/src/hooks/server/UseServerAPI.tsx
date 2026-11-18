@@ -1,23 +1,23 @@
 import { useCallback, useRef, useState } from "react";
 
 import { ERROR_MOTION_TYPE, isErrorCodeData } from "@/domains/server/useServerAPIType";
+import { getAbortController } from "@/lib/fetch";
+import { isNullOrUndefined } from "@/lib/validation/validation";
 
 import useGlobalLoading from "../global/loading/useGlobalLoading";
 import useGlobalModal from "../global/modal/useGlobalModal";
 
 import type { ServerApiResult, UseServerApiParamType } from "@/domains/server/useServerAPIType";
 
-
-
-
 const useServerApi = <R, > (params: UseServerApiParamType<R>) => {
     const [isFetch, setIsFetch] = useState<boolean>(false);
     const fetchRef = useRef<boolean>(false);
     const { createLoading, destroyLoading } = useGlobalLoading();
-    const { openModal, closeModal } = useGlobalModal();
+    const { openModal } = useGlobalModal();
     const call = useCallback<() => Promise<ServerApiResult<R>>>(async () => {
         if (fetchRef.current === true) {
             return {
+                isSuccess: false,
                 isDuplicated: true,
                 isError: false,
                 isModalOpen: false,
@@ -25,7 +25,10 @@ const useServerApi = <R, > (params: UseServerApiParamType<R>) => {
             };
         }
 
+        fetchRef.current = true;
         let isLoading = false;
+
+        const timeoutMs = params.timeoutMs ?? 30_000;
 
         if (params.loadingOption && params.loadingOption.isLoading) {
             isLoading = true;
@@ -34,11 +37,15 @@ const useServerApi = <R, > (params: UseServerApiParamType<R>) => {
 
         let isModalOpen = false;
 
+        let timeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
+
         try {
             setIsFetch(true);
-            fetchRef.current = true;
             const { api, errorMotionType } = params;
-            const data = await api();
+            const { timeoutId: tid, signal } = getAbortController(timeoutMs);
+            timeoutId = tid;
+
+            const data = await api({ signal });
 
             if (isErrorCodeData(data)) {
                 if (errorMotionType === ERROR_MOTION_TYPE.MODAL) {
@@ -47,6 +54,7 @@ const useServerApi = <R, > (params: UseServerApiParamType<R>) => {
                 }
 
                 return {
+                    isSuccess: false,
                     isDuplicated: false,
                     isError: true,
                     isModalOpen,
@@ -55,9 +63,9 @@ const useServerApi = <R, > (params: UseServerApiParamType<R>) => {
             }
 
             return {
-                isDuplicated: false,
+                isSuccess: true,
                 isError: false,
-                isModalOpen: false,
+                isModalOpen,
                 data,
             };
         } finally {
@@ -67,8 +75,12 @@ const useServerApi = <R, > (params: UseServerApiParamType<R>) => {
             if (isLoading && !isModalOpen) {
                 destroyLoading();
             }
+
+            if (!isNullOrUndefined(timeoutId)) {
+                clearTimeout(timeoutId);
+            }
         }
-    }, [params, createLoading, destroyLoading, openModal, closeModal]);
+    }, [params, createLoading, destroyLoading, openModal]);
     return {
         isFetch,
         call

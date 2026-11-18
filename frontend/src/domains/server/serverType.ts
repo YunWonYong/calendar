@@ -31,13 +31,14 @@ export type AuthenticateApiParameterType =
     };
 
 export type LoginApiType = 
-    (params: AuthenticateApiParameterType, logoutCallback: () => void) => 
+    (params: AuthenticateApiParameterType, logoutCallback: () => void, opts?: ServerApiClientOptions) => 
         Promise<ApiResponse<LoginResponseBody>>;
 
 export type LogoutRequestBody = {
     id: number;
     deviceId: string;
     deviceType: DeviceType;
+    errorMessage?: string;
 };
 
 export type RefreshAuthTokenRequestBody = {
@@ -53,4 +54,10 @@ export type ServerApiClientAuthUserInfo = {
 
 export type ServerApiClientAuthTokenRefreshFailResult = {
     errorCode: string;
+};
+
+export const API_TIMEOUT_ERROR_CODE = "TIMEOUT_SERVER_API";
+export const REFRESH_TOKEN_API_TIMEOUT_ERROR_CODE = "TIMEOUT_REFRESH_ACCESS_TOKEN_API";
+export type ServerApiClientOptions = {
+    signal: AbortSignal;
 };
