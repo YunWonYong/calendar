@@ -4,10 +4,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getGroupEmblemId } from "@/components/group/GroupEmblem";
 import { DEFAULT_GROUP_CREATE_FORM_DATA, GroupCreateFlowStepByFormType } from "@/domains/group/create";
 import { CHANGE_NAME_TYPE, GROUP_EMBLEM_TYPE, GROUP_FORM_TYPE, SELECT_PLAN_ID_TYPE } from "@/domains/group/form";
+import { GROUP_MEMBER_MANIPULATION_TYPES } from "@/domains/group/member";
 import { ERROR_MOTION_TYPE } from "@/domains/server/useServerAPIType";
 import useGroupCreateFlow from "@/hooks/group/create/UseGroupCreateFlow";
 import useGroupBasicForm from "@/hooks/group/form/basic/UseGroupBasicForm";
 import useGroupEmblemForm from "@/hooks/group/form/emblem/UseGroupEmblemForm";
+import useGroupMembersForm from "@/hooks/group/form/member/UseGroupMembersForm";
 import useServerApi from "@/hooks/server/UseServerAPI";
 import GroupCreateErrorModalContent from "@/pages/group/create/components/GroupCreateErrorModalContent";
 import GroupPreviewForm from "@/pages/group/create/components/GroupPreviewForm";
@@ -18,8 +20,8 @@ import { createGroup } from "@/server/api";
 
 import GroupCreateFormContext from "./GroupCreateFormContext";
 
-import type { GroupCreateBasicFormData, GroupCreateEmblemFormData, GroupCreateFlowStepTypes, GroupCreateFormData } from "@/domains/group/create";
-import type { GroupBasicFormContextType, GroupEmblemFormContextType } from "@/domains/group/form";
+import type { GroupCreateBasicFormData, GroupCreateEmblemFormData, GroupCreateFlowStepTypes, GroupCreateFormData, GroupCreateMembersFormData } from "@/domains/group/create";
+import type { GroupBasicFormContextType, GroupEmblemFormContextType, GroupMembersContextType } from "@/domains/group/form";
 
 const GROUP_CREATE_FORM_COMPONENTS = {
     [GroupCreateFlowStepByFormType.BASIC]: GroupBasicForm,
@@ -71,6 +73,12 @@ const createEmblemFormData = (ctx: GroupEmblemFormContextType) => {
         type: GROUP_EMBLEM_TYPE.NORMAL,
         id: getGroupEmblemId({ bgId: normal.bgId, iconId: normal.iconId }),
     };
+};
+
+const createMembersFormData = (ctx: GroupMembersContextType): GroupCreateMembersFormData => {
+    const { formData } = ctx;
+    return formData.members
+        .filter(member => member.manipulationType === GROUP_MEMBER_MANIPULATION_TYPES.NEW);
 };
 
 const getBlobBodyData = (obj: object) => {
@@ -128,9 +136,17 @@ const setEmblemBodyData = (body: FormData, formData: GroupCreateEmblemFormData) 
     );
 };
 
+const setMembersBodyData = (body: FormData, formData: GroupCreateMembersFormData) => {
+    body.append(
+        "members",
+        getBlobBodyData(formData.map((member) => ({ userId: member.id, type: member.type }))),
+    );
+};
+
 const GroupCreateFormProvider = ({ children }: { children: ReactNode; }) => {
     const basicFormCtx = useGroupBasicForm();
     const emblemFormCtx = useGroupEmblemForm();
+    const membersFormCtx = useGroupMembersForm();
     const [formData, setFormData] = useState<GroupCreateFormData>(DEFAULT_GROUP_CREATE_FORM_DATA);
     const { steps: { current } } = useGroupCreateFlow();
     useEffect(() => {
@@ -141,8 +157,9 @@ const GroupCreateFormProvider = ({ children }: { children: ReactNode; }) => {
         setFormData({
             [GROUP_FORM_TYPE.BASIC]: createBasicFormData(basicFormCtx),
             [GROUP_FORM_TYPE.EMBLEM]: createEmblemFormData(emblemFormCtx),
+            [GROUP_FORM_TYPE.MEMBERS]: createMembersFormData(membersFormCtx)
         });
-    }, [current, basicFormCtx, emblemFormCtx]);
+    }, [current, basicFormCtx, emblemFormCtx, membersFormCtx]);
     const FormComponent = useMemo<ComponentType | null>(() => {
         return GROUP_CREATE_FORM_COMPONENTS[current] || null;
     }, [current]);
@@ -154,18 +171,21 @@ const GroupCreateFormProvider = ({ children }: { children: ReactNode; }) => {
             case GroupCreateFlowStepByFormType.EMBLEM:
                 return emblemFormCtx.isValidFormData();
             case GroupCreateFlowStepByFormType.MEMBERS:
-                return true;
+                return membersFormCtx.isValidFormData();
             case GroupCreateFlowStepByFormType.REVIEW:
-                return basicFormCtx.isValidFormData() && emblemFormCtx.isValidFormData();
+                return basicFormCtx.isValidFormData() 
+                    && emblemFormCtx.isValidFormData() 
+                    && membersFormCtx.isValidFormData();
             default:
                 throw new Error("NOT SUPPORTED STEP.");
         }
-    }, [current, basicFormCtx, emblemFormCtx]);
+    }, [current, basicFormCtx, emblemFormCtx, membersFormCtx]);
 
     const submitFormData = useMemo(() => {
         const body = new FormData();
         setBasicBodyData(body, formData.BASIC);
         setEmblemBodyData(body, formData.EMBLEM);
+        setMembersBodyData(body, formData.MEMBERS);
         return body;
     }, [formData]);
 

@@ -20,7 +20,7 @@ import type { PlanTypeIds } from "../plan/planType";
 import type { BGId } from "./emblemBg";
 import type { IconId } from "./emblemIcon";
 import type { GroupVisibilityTypes } from "./group";
-import type { GroupMemberType } from "./member";
+import type { GROUP_MEMBER_MANIPULATION_TYPES, GroupMemberManipulationType, GroupMemberType } from "./member";
 
 export const GROUP_FORM_TYPE = {
     BASIC: "BASIC",
@@ -37,8 +37,8 @@ export type GroupFormContextType<T> = {
     isValidFormData: () => boolean;
 };
 
-export type GroupFormState<T> = {
-    oldFormData?: T;
+export type GroupFormState<T, O> = {
+    oldFormData?: O;
     formData: T;
     isValid: boolean;
     isDirty: boolean;
@@ -90,7 +90,7 @@ export type GroupBasicFormContextType = {
 
 export type GroupBasicFormState = {
     errorCodes: Record<GroupBasicFormChangeNameTypes, InvalidErrorMessageType | null>;
-} & GroupFormState<GroupBasicFormData>;
+} & GroupFormState<GroupBasicFormData, GroupBasicFormData>;
 
 export const DEFAULT_GROUP_BASIC_FORM_STATE: GroupBasicFormState = {
     formData: {
@@ -138,7 +138,7 @@ export type GroupEmblemErrorCodeType = {
 export type GroupEmblemFormState = {
     errorCodes: GroupEmblemErrorCodeType;
     currentEmblemType: GroupEmblemTypes;
-} & GroupFormState<GroupEmblemFormData>;
+} & GroupFormState<GroupEmblemFormData, GroupEmblemFormData>;
 
 type SaveEmblemParams = 
     { type: typeof GROUP_EMBLEM_TYPE.CUSTOM; data: { file?: File; }; } |
@@ -151,22 +151,48 @@ export type GroupEmblemFormContextType = {
     saveEmblem: (param: SaveEmblemParams) => void;
 } & GroupFormContextType<GroupEmblemFormData>;
 
-export type GroupMemberFormData = {
-    members: GroupMemberType[];
+export type GroupMemberFormDataType = {
+    manipulationType: GroupMemberManipulationType;
+} & GroupMemberType;
+
+export type GroupMembersFormData = {
+    members: GroupMemberFormDataType[];
 };
 
 export type GroupMemberSearchOptions = {
     input: string;
-    errorMessage?: string;
+    errorCode?: InvalidErrorMessageType;
 };
 
-export type GroupMembersFormState = {
-    changeMembers: GroupMemberType[];
-    searchOptions: GroupMemberSearchOptions;
-    isFetch: boolean;
-} & GroupFormState<GroupMemberFormData>;
+export type GroupChangeMemberType = 
+    {
+        type: typeof GROUP_MEMBER_MANIPULATION_TYPES.NEW;
+        data: GroupMemberType;
+    } |
+    {
+        type: typeof GROUP_MEMBER_MANIPULATION_TYPES.MODIFY;
+        oldData: GroupMemberType;
+        data: GroupMemberType;
+    } |
+    {
+        type: typeof GROUP_MEMBER_MANIPULATION_TYPES.REMOVE;
+        oldData: GroupMemberType;
+    };
 
-export type GroupFormDataTypes = GroupBasicFormData | GroupEmblemFormData | GroupMemberFormData;
+export type GroupChangeMembersType = Record<number, GroupChangeMemberType>;
+
+export type GroupMembersFormState = {
+    changeMembers: GroupChangeMembersType;
+    searchOptions: GroupMemberSearchOptions;
+} & GroupFormState<GroupMembersFormData, GroupMemberType[]>;
+
+export type GroupMembersContextType = {
+    addMember: (member: GroupMemberType) => void;
+    removeMember: (userId: number) => void;
+    modifyMember: (member: GroupMemberType) => void;
+} & GroupFormContextType<GroupMembersFormData>;
+
+export type GroupFormDataTypes = GroupBasicFormData | GroupEmblemFormData | GroupMembersFormData;
 export type GroupReducerState = GroupBasicFormState | GroupEmblemFormState | GroupMembersFormState;
 
 export const GROUP_BASIC_FORM_ACTIONS = {
@@ -197,9 +223,10 @@ export const GROUP_EMBLEM_FORM_ACTIONS = {
 export type GroupEmblemFormActionType = typeof GROUP_EMBLEM_FORM_ACTIONS[keyof typeof GROUP_EMBLEM_FORM_ACTIONS];
 
 export const GROUP_MEMBERS_FORM_ACTIONS = {
-    CHANGE_SEARCH_INPUT: "CHANGE_SEARCH_INPUT",
+    CHANGE_SEARCH_VALUE: "CHANGE_SEARCH_VALUE",
     ADD_MEMBER: "ADD_MEMBER",
-    REMOVE_MEMBER: "REMOVE_MEMBER"
+    REMOVE_MEMBER: "REMOVE_MEMBER",
+    MODIFY_MEMBER: "MODIFY_MEMBER"
 } as const;
 export type GroupMembersFormActionType = typeof GROUP_MEMBERS_FORM_ACTIONS[keyof typeof GROUP_MEMBERS_FORM_ACTIONS];
 
@@ -246,16 +273,16 @@ export type GroupEmblemFormAction =
 
 export type GroupMembersFormAction = 
     {
-        type: typeof GROUP_MEMBERS_FORM_ACTIONS.CHANGE_SEARCH_INPUT;
-        changeSearchInput: string;
-    } |
-    {
         type: typeof GROUP_MEMBERS_FORM_ACTIONS.ADD_MEMBER;
         data: GroupMemberType;
     } |
     {
         type: typeof GROUP_MEMBERS_FORM_ACTIONS.REMOVE_MEMBER;
         userId: number;
+    } |
+    {
+        type: typeof GROUP_MEMBERS_FORM_ACTIONS.MODIFY_MEMBER;
+        data: GroupMemberType;
     };
 
 export type GroupActionForState<T extends GroupReducerState> =

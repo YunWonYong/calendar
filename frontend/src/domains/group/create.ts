@@ -11,6 +11,7 @@ import type { PlanTypeIds } from "../plan/planType";
 
 import type { GroupBasicFormChangeNameTypes, GroupBasicFormSelectPlanIdTypes, GroupFormBasicPlanBenefitType, GroupFormTypes } from "./form";
 import type { GroupVisibilityTypes } from "./group";
+import type { GroupMemberType } from "./member";
 
 export const GROUP_CREATE_HEADER_TITLES: Record<LocaleType, string> = {
     [LOCALE.KR]: "그룹 생성",
@@ -82,6 +83,8 @@ export type GroupCreateBasicFormData = {
     visibilityType: GroupCreateBasicVisibilityTypeFormData;
 };
 
+export type GroupCreateMembersFormData = GroupMemberType[];
+
 export type GroupCreateEmblemFormData = 
     {
         type: "normal";
@@ -95,6 +98,7 @@ export type GroupCreateEmblemFormData =
 export type GroupCreateFormData = {
     [GROUP_FORM_TYPE.BASIC]: GroupCreateBasicFormData;
     [GROUP_FORM_TYPE.EMBLEM]: GroupCreateEmblemFormData;
+    [GROUP_FORM_TYPE.MEMBERS]: GroupCreateMembersFormData;
 };
 
 export const DEFAULT_GROUP_CREATE_FORM_DATA: GroupCreateFormData = {
@@ -126,6 +130,7 @@ export const DEFAULT_GROUP_CREATE_FORM_DATA: GroupCreateFormData = {
         type: "normal",
         id: "bg-01@_@icon-16"
     },
+    [GROUP_FORM_TYPE.MEMBERS]: [],
 };
 
 export type GroupCreateFormContextType = {

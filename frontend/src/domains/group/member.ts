@@ -16,9 +16,19 @@ export const GROUP_MEMBER_TYPE = {
 } as const;
 export type GroupMemberTypes = typeof GROUP_MEMBER_TYPE[keyof typeof GROUP_MEMBER_TYPE];
 
+export const GROUP_MEMBER_MANIPULATION_TYPES = {
+    NEW: "NEW",
+    MODIFY: "MODIFY",
+    REMOVE: "REMOVE",
+    NONE: "NONE",
+} as const;
+
+export type GroupMemberManipulationType = typeof GROUP_MEMBER_MANIPULATION_TYPES[keyof typeof GROUP_MEMBER_MANIPULATION_TYPES];
+
 export type GroupMemberType = {
     id: number;
     type: GroupMemberTypes;
+    tag: string;
     nickname: string;
     profileImage: string;
     profileImageType: "URL" | "ID";

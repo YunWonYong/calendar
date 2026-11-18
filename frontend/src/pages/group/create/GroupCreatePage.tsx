@@ -2,6 +2,7 @@ import GroupCreateFlowProvider from "@/contexts/group/create/GroupCreateFlowProv
 import GroupCreateFormProvider from "@/contexts/group/create/GroupCreateFormProvider";
 import GroupBasicFormProvider from "@/contexts/group/form/basic/GroupBasicFormProvider";
 import GroupEmblemFormProvider from "@/contexts/group/form/emblem/GroupEmblemFormProvider";
+import GroupMembersFormProvider from "@/contexts/group/form/members/GroupMembersFormProvider";
 
 import GroupCreateForm from "./layout/GroupCreateForm";
 
@@ -11,9 +12,11 @@ const CreateGroupPage = () => {
         <GroupCreateFlowProvider>
             <GroupBasicFormProvider>
                 <GroupEmblemFormProvider>
-                    <GroupCreateFormProvider>
-                        <GroupCreateForm />
-                    </GroupCreateFormProvider>
+                    <GroupMembersFormProvider>
+                        <GroupCreateFormProvider>
+                            <GroupCreateForm />
+                        </GroupCreateFormProvider>
+                    </GroupMembersFormProvider>
                 </GroupEmblemFormProvider>
             </GroupBasicFormProvider>
         </GroupCreateFlowProvider>

@@ -16,7 +16,6 @@ type ErrorMotionData =
     } |
     {
         errorMotionType: typeof ERROR_MOTION_TYPE.CUSTOM;
-        data: ErrorCodeData;
     };
 
 type UseServerApiLoadingOption = 
